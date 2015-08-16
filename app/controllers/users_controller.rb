@@ -30,8 +30,8 @@ class UsersController < ApplicationController
   end
 
   def make_admin
-    user = User.find(email:'sundus@zinu.com')
-    user.role = :make_admin
+    user = User.where(email:'sundus@zinu.com').first
+    user.role = :admin
     user.save!
     redirect_to root_path, :notice => "Sundus is now Admin"
   end
