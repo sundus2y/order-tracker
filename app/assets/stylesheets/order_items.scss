@@ -1,0 +1,19 @@
+// Place all the styles related to the order_items controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.qty-input{
+  width: 60px !important;
+}
+.price-input{
+  width: 100px !important;
+}
+.full-input{
+ width: 100% !important;
+}
+hr.order{
+  height: 1px !important;
+  background-color: #222222 !important;
+}
+input.x-large{
+  width: 100% !important;
+}

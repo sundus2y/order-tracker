@@ -1,0 +1,38 @@
+<h1>Listing Orders</h1>
+
+<%= link_to('Create New Order', new_order_path, class: "btn btn-primary btn-block", role: "button") if current_user.admin? %>
+
+<br><br>
+
+<table id="orders" class="table-responsive display table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Order Type</th>
+      <th>Created at</th>
+      <th>Notes</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.title %></td>
+        <td><%= order.status %></td>
+        <td><%= order.created_at %></td>
+        <td><%= order.notes %></td>
+        <td>
+          <%= link_to('Open Order', edit_order_path(order), class: "btn btn-success") if order.draft? %><br><br>
+          <%= link_to('Submit Order', '#', class: "btn btn-success") if order.draft? %>
+          <%= link_to('Process Order', '#', class: "btn btn-success") if order.ready? %>
+        </td>
+        <td><%= link_to 'Destroy', order, class: "btn btn-warning", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to('Create New Order', new_order_path, class: "btn btn-primary btn-block", role: "button") if current_user.admin? %>

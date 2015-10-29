@@ -1,0 +1,22 @@
+<p>
+  <strong>Title:</strong>
+  <%= @order.title %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @order.notes %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @order.created_by %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @order.order_type %>
+</p>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>

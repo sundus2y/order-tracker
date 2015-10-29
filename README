@@ -8,6 +8,14 @@ http://railsapps.github.io/
 
 ________________________
 
+Database setup:
+
+* Make sure psql is installed
+* Make sure psql is running
+* run export DATABASE_URL=postgres:///$(whoami)
+* run rake db:migrate
+
+________________________
 Recipes:
 
 * apps4
