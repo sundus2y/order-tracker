@@ -1,0 +1,25 @@
+<table id="items" class="table-responsive display table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Item number</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% items.each do |item| %>
+      <tr>
+        <td><%= item.id %></td>
+        <td><%= item.name %></td>
+        <td><%= item.description %></td>
+        <td><%= item.item_number %></td>
+        <td>
+          <%= send(actions,item) %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
