@@ -24,13 +24,18 @@ class Item < ActiveRecord::Base
     workbook = Roo::Spreadsheet.open(file.path)
     header = {name: "Name", description: "Description", item_number: "Item Number"}
     duplicate = []
+    new_imported = []
     workbook.sheet(0).each_with_index(header) do |hash,index|
       if index>1
         item = new(hash)
-        duplicate << item unless item.save
+        if item.save
+          new_imported << item
+        else
+          duplicate << item
+        end
       end
     end
-    duplicate
+    return duplicate, new_imported
   end
 
   def to_s

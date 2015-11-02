@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    flash[:notice] = 'Item was successfully created.' if @item.save
+    flash[:notice] = 'Item was successfully created.' if @item.save!
     respond_with(@item,location: items_path)
   end
 
@@ -46,15 +46,15 @@ class ItemsController < ApplicationController
 
   def import
     return redirect_to request.referrer, notice: "Please Select File First" unless params[:file]
-    duplicate = Item.import(params[:file])
-    redirect_to request.referrer, notice: "All Items Imported Successfully" if duplicate.empty?
-    notice += " - Found #{duplicate.count} Duplicate Items" unless duplicate.empty?
-    flash[:notice] = notice
-    redirect_to request.referrer
+    @duplicate_items, @items = Item.import(params[:file])
+    return redirect_to request.referrer, notice: "All Items Imported Successfully" if @duplicate_items.empty?
+    flash[:warning] = "Found #{@duplicate_items.count} Duplicate Items"
   end
 
-  def export
-
+  def download
+    respond_to do |format|
+      format.xlsx { send_file Item.excel_template}
+    end
   end
 
   def template

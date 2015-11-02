@@ -17,5 +17,6 @@ Rails.application.routes.draw do
     get :autocomplete_item_name, on: :collection
     post :import, on: :collection
     get :template, on: :collection
+    get :download, on: :collection
   end
 end
