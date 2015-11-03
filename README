@@ -11,6 +11,7 @@ ________________________
 Database setup:
 
 * Make sure psql is installed
+* Make it run `postgres -D /usr/local/var/postgres`
 * Make sure psql is running
 * run export DATABASE_URL=postgres:///$(whoami)
 * run rake db:migrate
