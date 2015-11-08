@@ -1,1 +1,2 @@
-web: bundle exec rails s -p 5000
+web: bundle exec ruby config.ru
+worker: bundle exec rake jobs:work
