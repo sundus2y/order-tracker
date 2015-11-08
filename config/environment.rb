@@ -3,6 +3,6 @@ require File.expand_path('../application', __FILE__)
 
 # Initialize the Rails application.
 Rails.application.initialize!
-Rails.application.configure do
-  config.middleware.use Rails::Rack::LogTailer
-end
+# Rails.application.configure do
+#   config.middleware.use Rails::Rack::LogTailer
+# end
