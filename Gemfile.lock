@@ -81,10 +81,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    em-proxy (0.1.8)
-      eventmachine
     erubis (2.7.0)
-    eventmachine (1.0.8)
     execjs (2.2.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -96,11 +93,6 @@ GEM
     ffi (1.9.6)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
-    heroku-forward (0.4.0)
-      em-proxy (>= 0.1.8)
-      ffi
-      i18n (~> 0.6)
-      spoon (~> 0.0.1)
     hike (1.2.3)
     i18n (0.7.0)
     jbuilder (2.2.6)
@@ -207,8 +199,6 @@ GEM
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     slop (3.6.0)
-    spoon (0.0.4)
-      ffi
     spring (1.2.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
@@ -262,7 +252,6 @@ DEPENDENCIES
   devise
   factory_girl_rails
   faker
-  heroku-forward
   jbuilder (~> 2.0)
   jquery-datatables-rails
   jquery-rails
