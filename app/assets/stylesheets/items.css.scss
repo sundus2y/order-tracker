@@ -5,3 +5,14 @@ a.actions {
   margin-left: 5px;
   margin-right: 5px;
 }
+.pagination > li > a:visited{
+  color: #337ab7!important;
+}
+td.actions{
+  width: 28%;
+}
+
+.modal .modal-body {
+  max-height: 520px;
+  overflow-y: auto;
+}

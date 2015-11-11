@@ -77,6 +77,8 @@ var render_new_item = function render_new_item(elem, item_name, item_id) {
     var t = new Date().getTime();
     var regexp = new RegExp($(elem).data('id'), 'g');
     $(elem).closest('tbody').find('tr.search-box').after($(elem).data('fields').replace(regexp, t));
+    $('#order_order_items_attributes_' + t + '_item').attr('value',item_name);
     $('#order_order_items_attributes_' + t + '_item').val(item_name);
+    $('#order_order_items_attributes_' + t + '_item_id').attr('value',item_id);
     $('#order_order_items_attributes_' + t + '_item_id').val(item_id);
 }

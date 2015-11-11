@@ -25,13 +25,7 @@ class Order < ActiveRecord::Base
   has_many :order_items
   accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda{|item_param| item_param[:quantity].blank? }
 
-  after_initialize :set_default_type, :if => :new_record?
-
   validates :title, presence: true
-
-  def set_default_type
-    self.order_type ||= :ordinary
-  end
 
   def grand_total
     order_items.map(&:total_price).compact.sum

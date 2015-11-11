@@ -1,28 +1,22 @@
 <h1>Listing Items</h1>
+<%= link_to('Create New Item', new_item_path, class: "btn btn-primary btn-lg", role: "button") %>
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#import_export_modal">
   Import / Export
 </button>
-<br><br>
-<%= link_to('Create New Item', new_item_path, class: "btn btn-primary btn-block", role: "button") %>
+<br>
+<%= will_paginate @items, renderer: BootstrapPagination::Rails %>
 
 <%= render 'listing', {items: @items, actions: "listing_actions"} %>
 
-<br>
+<%= will_paginate @items, renderer: BootstrapPagination::Rails %>
 
-<%= link_to('Create New Item', new_item_path, class: "btn btn-primary btn-block", role: "button") %>
+<br>
 
 <div class="modal fade" id="import_export_modal" tabindex="-1" role="dialog" aria-labelledby="Duplicate">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Export Items</h4>
-      </div>
-      <div class="modal-body">
-        <%= link_to "Download All Items (Excel)", download_items_path(format: "xlsx"),class: "btn btn-primary", role: "button" %>
-        <%= link_to "Download All Items (PDF)", download_items_path(format: "pdf"),class: "btn btn-primary", role: "button" %>
-      </div>
-      <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">Import Items</h4>
       </div>
       <div class="modal-body">
@@ -31,6 +25,13 @@
         <%= form_tag import_items_path, multipart: true do %>
             <%= file_field_tag :file %>
         <% end %>
+      </div>
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Export Items</h4>
+      </div>
+      <div class="modal-body">
+        <%= link_to "Download All Items (Excel)", download_items_path(format: "xlsx"),class: "btn btn-primary", role: "button" %>
+        <%= link_to "Download All Items (PDF)", download_items_path(format: "pdf"),class: "btn btn-primary", role: "button" %>
       </div>
     </div>
   </div>

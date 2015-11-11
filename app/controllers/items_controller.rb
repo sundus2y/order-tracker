@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
   respond_to :html
 
   def index
-    @items = Item.all[1..50]
+    @items = Item.all.page(params[:page]).per_page(10)
     respond_with(@items)
     authorize  Item
   end
@@ -30,8 +30,12 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    flash[:notice] = 'Item was successfully created.' if @item.save!
-    respond_with(@item,location: items_path)
+    flash[:notice] = 'Item was successfully created.' if @item.save
+    respond_to do |format|
+      format.html {}
+      format.js
+    end
+    # respond_with(@item,location: items_path)
   end
 
   def update
@@ -53,7 +57,7 @@ class ItemsController < ApplicationController
 
   def download
     respond_to do |format|
-      format.xlsx { send_file Item.excel_template}
+      format.xlsx { send_file Item.download}
     end
   end
 

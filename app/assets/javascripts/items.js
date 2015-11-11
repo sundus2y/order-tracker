@@ -4,4 +4,12 @@
 
 $(document).ready(function (){
     $('#file').fileinput({'showPreview':false});
+
+
 });
+
+var remove_dup_item = function remove_dup_item(){
+
+}
+
+
