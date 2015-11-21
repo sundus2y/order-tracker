@@ -51,8 +51,8 @@ class ItemsController < ApplicationController
   def import
     return redirect_to request.referrer, notice: "Please Select File First" unless params[:file]
     @duplicate_items, @items = Item.import(params[:file])
-    return redirect_to request.referrer, notice: "All Items Imported Successfully" if @duplicate_items.empty?
-    flash[:warning] = "Found #{@duplicate_items.count} Duplicate Items"
+    flash[:notice] = "All Items Imported Successfully" if @duplicate_items.empty?
+    flash[:warning] = "Found #{@duplicate_items.count} Duplicate Items" unless @duplicate_items.empty?
   end
 
   def download

@@ -1,4 +1,4 @@
-<table id="items" class="table-responsive display table table-striped table-bordered">
+<table id="dup-items" class="table-responsive display table table-striped table-bordered">
   <thead>
   <tr>
     <th>No</th>
@@ -8,10 +8,8 @@
     <th>Actions</th>
   </tr>
   </thead>
-
   <tbody>
   <% items.each_with_index do |item,index| %>
-  <% if index>1500 %>
     <%= form_for(item,remote: true) do |f| %>
       <tr id="dup_<%=index+1%>">
         <td>
@@ -38,12 +36,12 @@
         <td class="actions">
           <div class="actions">
             <%= button_tag("Add", type: 'submit', class: "btn btn-primary add-import") %>
-            <%= button_tag("Ignore", type: 'submit', class: "btn btn-warning ignore-import") %>
+            <%= button_tag("Ignore", class: "btn btn-warning ignore-import") %>
           </div>
         </td>
       </tr>
     <% end %>
   <% end %>
-  <% end %>
   </tbody>
 </table>
+

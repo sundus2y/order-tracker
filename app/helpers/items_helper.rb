@@ -10,4 +10,9 @@ module ItemsHelper
     actions = link_to "Create",
     actions
   end
+
+  def line_number(index,current_page=nil)
+    return index+1 if current_page.nil?
+    (10*current_page.to_i) + index - 9
+  end
 end

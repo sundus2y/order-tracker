@@ -1,5 +1,5 @@
 <% if @item.errors.count == 0 %>
-    $('tr#dup_<%= params['dup_id'] %>').find('td').fadeOut('slow', function(here){
+    $('tr#dup_<%= params['dup_id'] %>').fadeOut(1000, function(here){
         $(here).parents('tr:first').remove();
     });
 <% else %>

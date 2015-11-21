@@ -12,7 +12,7 @@
   <tbody>
   <% items.each_with_index do |item,index| %>
     <tr>
-      <td><%= item.id %></td>
+      <td><%= line_number(index,@items.current_page) %></td>
       <td><%= item.name %></td>
       <td><%= item.description %></td>
       <td><%= item.item_number %></td>
