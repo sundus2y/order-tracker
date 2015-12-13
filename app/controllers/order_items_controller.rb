@@ -34,7 +34,7 @@ class OrderItemsController < ApplicationController
   def destroy
     @order_item.destroy
     respond_to do |format|
-      format.js {render 'remove.js.erb'}
+      format.js
     end
   end
 

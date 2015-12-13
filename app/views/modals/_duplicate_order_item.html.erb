@@ -1,0 +1,13 @@
+<% content_for :modal_header, flush: true do %>
+    Duplicate Warrning
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    The Item you are trying to add is already in this order
+<% end %>
+
+<% content_for :modal_footer, flush: true do %>
+    <button type="button" class="btn btn-info" data-dismiss="modal">Ok</button>
+<% end %>
+
+<%= render '/modals/base', id: 'duplicate_order_item' %>

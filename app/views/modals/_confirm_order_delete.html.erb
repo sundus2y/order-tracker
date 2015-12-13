@@ -1,0 +1,15 @@
+<% content_for :modal_header, flush: true do %>
+    Warning
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    This order conatins <b><%=obj.order_items.count%></b> order items.<br>
+    Are you sure you want to delete <b>Order #<%=obj.id%></b>?
+<% end %>
+
+<% content_for :modal_footer, flush: true do %>
+    <%= link_to 'Yes', obj, class: "btn btn-info", method: :delete, remote: true, data: {dismiss: 'modal'} %>
+    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+<% end %>
+
+<%= render "/modals/base", id: id %>

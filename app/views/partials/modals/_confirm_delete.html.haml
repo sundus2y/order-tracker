@@ -1,0 +1,14 @@
+- id = 'confirm_delete'
+
+- content_for :modal_header, flush: true do
+  Warning
+
+- content_for :modal_body, flush: true do
+  Are you sure you want to delete the selected item ?
+
+- content_for :modal_footer, flush: true do
+  %button.btn{ type: 'button', data: { dismiss: 'modal'} } No
+  %button.btn{ type: 'button', data: { dismiss: 'modal'} } Yes
+  -#= link_to 'Yes', '#', class: "btn btn-primary", data: { disable_with: "<i class='icon-cog icon-large icon-spin'></i> Please wait..." }
+
+= render "/modals/base", id: id

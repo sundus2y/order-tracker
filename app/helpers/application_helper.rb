@@ -1,7 +1,11 @@
 module ApplicationHelper
   def link_to_add_fields(name, f, association)
     fields, id = empty_fields(f, association)
-    link_to(name, '#', class: "add_fields btn btn-info", data: {id: id, fields: fields.gsub("\n", "")}, role: "button", disabled: true)
+    link_to(name, '#', class: "add_fields btn btn-info btn-block",
+            data: {id: id,
+                   fields: fields.gsub("\n", "")},
+            role: "button",
+            disabled: true)
   end
 
   def empty_fields(f, association)

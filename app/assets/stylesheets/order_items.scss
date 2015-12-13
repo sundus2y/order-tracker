@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .qty-input{
-  width: 60px !important;
+  width: 66px !important;
 }
 .price-input{
   width: 100px !important;
@@ -16,4 +16,9 @@ hr.order{
 }
 input.x-large{
   width: 100% !important;
+}
+a.modal-link{
+  a:visited{color: #337ab7 !important;}
+  color: #337ab7 !important;
+  a:hover{background-color: transparent !important;}
 }

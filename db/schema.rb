@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(version: 20151108051140) do
     t.integer  "order_id"
     t.integer  "item_id"
     t.integer  "quantity"
-    t.float    "unit_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float    "unit_price"
     t.string   "brand"
     t.string   "status"
   end

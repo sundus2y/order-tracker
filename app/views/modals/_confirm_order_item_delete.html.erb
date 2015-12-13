@@ -1,0 +1,14 @@
+<% content_for :modal_header, flush: true do %>
+    Warning
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    Are you sure you want to delete <b><%= f.object.quantity %> <%= f.object.item_name %>'s </b>?
+<% end %>
+
+<% content_for :modal_footer, flush: true do %>
+    <%= link_to 'Yes', f.object, class: "btn btn-info", method: :delete, remote: true, type: :button, data: {dismiss: 'modal'} %>
+    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+<% end %>
+
+<%= render "/modals/base", id: id %>

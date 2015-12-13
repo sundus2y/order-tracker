@@ -34,8 +34,10 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    @order.destroy
-    respond_with(@order,location:orders_path)
+    # @order.destroy
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

@@ -1,0 +1,12 @@
+.modal{role: "dialog", tabindex: "-1" ,"aria-labelledby" => "modal_title", id: id}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{:type=> 'button', :data => {:dismiss => 'modal'}}
+          &times;
+        %h3.modal-title
+          = yield :modal_header
+      .modal-body
+        = yield :modal_body
+      .modal-footer
+        = yield :modal_footer
