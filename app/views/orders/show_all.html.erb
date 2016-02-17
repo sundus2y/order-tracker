@@ -1,23 +1,9 @@
-<h1>Order #<%= @order.id %></h1>
+<h1>Order #<%= @orders.map(&:id).join(',#') %></h1>
+<% @orders.each do |order| %>
+    <% @order = order %>
 
 <%= form_for(@order, html:{class:'form-inline'}) do |f| %>
-    <div class="form-group">
-      <%= f.label :title %>:
-      <%= f.text_field :title, class:'form-control', readonly: :true  %>
-    </div>
-    <div class="form-group hidden">
-      <%= f.label :created_by %><br>
-      <%= f.text_field :created_by, value:current_user.id, class:'form-control'  %>
-    </div>
-    <div class="form-group">
-      <%= f.label :status%>:
-      <%= f.text_field :status_upcase , class:'form-control', disabled: true%>
-    </div>
-    <div class="form-group">
-      <%= f.label :brand%>:
-      <%= f.text_field :brand , class:'form-control', disabled: true%>
-    </div>
-    <hr class="order">
+
     <table id="orders" class="table-responsive display table table-striped table-bordered table-condensed">
       <thead>
       <tr>
@@ -63,12 +49,8 @@
       </tbody>
     </table>
 
-    <div class="form-group">
-      <%= f.label :notes %><br>
-      <%= f.text_area :notes, class:'form-control', rows: 5, cols:100, readonly: :true  %>
-    </div>
-
 <% end %>
 
 <%= render 'modals/duplicate_order_item', id: "duplicate_order_item"%>
 
+<% end %>

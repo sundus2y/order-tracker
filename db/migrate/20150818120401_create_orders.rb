@@ -5,7 +5,6 @@ class CreateOrders < ActiveRecord::Migration
       t.text :notes
       t.integer :created_by
       t.string :order_type
-
       t.timestamps null: false
     end
   end

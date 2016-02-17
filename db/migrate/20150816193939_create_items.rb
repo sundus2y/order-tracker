@@ -4,7 +4,6 @@ class CreateItems < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.string :item_number
-
       t.timestamps null: false
     end
   end

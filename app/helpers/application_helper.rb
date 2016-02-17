@@ -16,4 +16,8 @@ module ApplicationHelper
     end
     return fields, id
   end
+
+  def link_span(name)
+    content_tag(:span,name,class:"link-btn")
+  end
 end

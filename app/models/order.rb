@@ -1,23 +1,35 @@
 class Order < ActiveRecord::Base
+
+  BRANDS = ['Mobis','GM','NG']
+
   include AASM
+
+  default_scope {includes(:order_items).reorder(created_at: :desc)}
+  scope :draft, lambda { where(status: 'draft') }
+  scope :ordered, lambda { where(status: 'ordered') }
+  scope :ready, lambda { where(status: 'ready') }
+  scope :accepted, lambda { where(status: 'accepted') }
+  scope :rejected, lambda { where(status: 'rejected') }
+  scope :no_order, lambda { where(id:-1) }
+  scope :non_empty, lambda { where('order_items_count >= 1') }
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
+    state :ordered
     state :ready
     state :accepted
     state :rejected
 
-    event :submit do
-      transitions :from => :draft, :to => :ordered
-      transitions :from => :ordered, :to => :ready
-      transitions :from => :ready, :to => :ready
-      transitions :from => :ready, :to => :ship
-      transitions :from => :ship, :to => :shipped
-      transitions :from => :shipped, :to => :received
+    event :submit, after: :submit_order_items do
+      transitions :from => :draft, :to => :ordered #ADMIN
+      transitions :from => :ordered, :to => :ready #VENDOR
+      transitions :from => :ready, :to => :ship #ADMIN
+      transitions :from => :ship, :to => :shipped #VENDOR
+      transitions :from => :shipped, :to => :received #ADMIN
     end
 
-    event :reject do
-      transitions :from => :ship, :to => :draft
+    event :reject, after: :reject_order_items do
+      transitions :from => [:ordered,:ready,:ship,:shipped,:received], :to => :draft
     end
   end
 
@@ -35,4 +47,20 @@ class Order < ActiveRecord::Base
     order_items.map(&:quantity).compact.sum
   end
 
+  def status_upcase
+    status.upcase
+  end
+
+  def status_class
+
+  end
+
+  private
+    def submit_order_items
+      order_items.map(&:submit!)
+    end
+
+    def reject_order_items
+      order_items.map(&:reject!)
+    end
 end

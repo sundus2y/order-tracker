@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
 
-  get 'check_duplicate/:item_id', to:'order_items#check_duplicate'
+  get 'check_duplicate/:item_ids/:brand/:order_id', to:'order_items#check_duplicate'
 
   resources :order_items
 
-  resources :orders
+  resources :orders do
+    get :submit_to_ordered, as: :submit_to_ordered
+    get :show_all, as: :show_all, on: :collection
+    get :show_selected, as: :show_selected, on: :collection
+  end
 
   root to: 'visitors#index'
 

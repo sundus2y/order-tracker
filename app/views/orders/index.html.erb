@@ -1,42 +1,14 @@
 <h1>Listing Orders</h1>
 
-<%= link_to('Create New Order', new_order_path, class: "btn btn-primary btn-block", role: "button") if current_user.admin? %>
-
-<br><br>
-
-<table id="orders" class="table-responsive display table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Order Type</th>
-      <th>Created at</th>
-      <th>Notes</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @orders.each do |order| %>
-      <tr data-id="<%=order.id%>">
-        <td><%= order.title %></td>
-        <td><%= order.status %></td>
-        <td><%= order.created_at %></td>
-        <td><%= order.notes %></td>
-        <td>
-          <% if order.draft? %>
-            <%= link_to(' Edit', edit_order_path(order), class: "btn btn-primary glyphicon glyphicon-edit")%>
-            <%= link_to(' Submit', '#', class: "btn btn-info glyphicon glyphicon-send") %>
-            <%= render 'modals/confirm_order_delete', id: "confirm_order_delete_#{order.id}", obj: order%>
-            <button type="button" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirm_order_delete_<%= order.id %>"> Delete</button>
-          <% elsif order.ready? %>
-            <%= link_to('Process Order', '#', class: "btn btn-success") %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<div class="order-actions">
+    <%= link_to(link_span('Create New Order'), new_order_path, class: "btn btn-sm btn-primary glyphicon glyphicon-new-window") if current_user.admin? %>
+    <%= link_to(link_span('Open All'), show_all_orders_path, class: "btn btn-sm btn-primary glyphicon glyphicon-folder-open")%>
+    <%= link_to(link_span('Open Selected'), show_selected_orders_path, class: "btn btn-sm btn-primary glyphicon glyphicon-check open-selected", disabled: true)%>
+</div>
 <br>
 
-<%= link_to('Create New Order', new_order_path, class: "btn btn-primary btn-block", role: "button") if current_user.admin? %>
+<% grouped_orders = @orders.group_by{|order| order.brand} %>
+<% grouped_orders.each_pair do |brand,orders| %>
+    <h2><%=brand%></h2>
+    <%= render 'order_table', orders: orders%>
+<% end %>

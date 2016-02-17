@@ -16,4 +16,5 @@
 //= require autocomplete-rails
 //= require dataTables/jquery.dataTables
 //= require bootstrap-sprockets
+//= require velocity
 //= require_tree .

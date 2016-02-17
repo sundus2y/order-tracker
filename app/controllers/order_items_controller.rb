@@ -39,13 +39,19 @@ class OrderItemsController < ApplicationController
   end
 
   def check_duplicate
-    found_order_item = OrderItem.find_duplicate(params[:item_id].to_i)
-    if found_order_item.nil?
-      data = {}
+    item_ids = params[:item_ids].split(',').map(&:to_i)
+    order_id = params[:order_id].to_i
+    found_order_items = OrderItem.find_duplicates(item_ids,params[:brand],order_id)
+    if found_order_items.nil?
+      data = []
     else
-      item_id = found_order_item.item_id
-      url = edit_order_path(found_order_item.order)
-      data = {:"#{item_id}"=>{id:found_order_item.order.id,url:url}}
+      data = found_order_items.map do |order_item|
+        {
+            order_id: order_item.order_id,
+            item_name: order_item.item_name,
+            url: edit_order_path(order_item.order)
+        }
+      end
     end
     respond_to do |format|
       format.json { render json: data}

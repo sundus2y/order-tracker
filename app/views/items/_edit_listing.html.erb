@@ -3,44 +3,50 @@
   <tr>
     <th>No</th>
     <th>Name</th>
-    <th>Description</th>
     <th>Item number</th>
+    <th>Original number</th>
+    <th>Description</th>
     <th>Actions</th>
   </tr>
   </thead>
   <tbody>
   <% items.each_with_index do |item,index| %>
-    <%= form_for(item,remote: true) do |f| %>
-      <tr id="dup_<%=index+1%>">
-        <td>
-          <%= index+1 %>
-          <div class="field form-group hidden">
-            <%= text_field_tag 'dup_id', index+1 %>
-          </div>
-        </td>
-        <td>
-          <div class="field form-group">
-            <%= f.text_field :name, class:"form-control" %>
-          </div>
-        </td>
-        <td>
-          <div class="field form-group">
-            <%= f.text_field :description, class:"form-control" %>
-          </div>
-        </td>
-        <td>
-          <div class="field form-group">
-            <%= f.text_field :item_number, class:"form-control" %>
-          </div>
-        </td>
-        <td class="actions">
-          <div class="actions">
-            <%= button_tag("Add", type: 'submit', class: "btn btn-primary add-import") %>
-            <%= button_tag("Ignore", class: "btn btn-warning ignore-import") %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
+      <%= form_for(item,remote: true) do |f| %>
+          <tr id="dup_<%=index+1%>">
+            <td>
+              <%= index+1 %>
+              <div class="field form-group hidden">
+                <%= text_field_tag 'dup_id', index+1 %>
+              </div>
+            </td>
+            <td>
+              <div class="field form-group">
+                <%= f.text_field :name, class:"form-control" %>
+              </div>
+            </td>
+            <td>
+              <div class="field form-group">
+                <%= f.text_field :item_number, class:"form-control" %>
+              </div>
+            </td>
+            <td>
+              <div class="field form-group">
+                <%= f.text_field :original_number, class:"form-control" %>
+              </div>
+            </td>
+            <td>
+              <div class="field form-group">
+                <%= f.text_field :description, class:"form-control" %>
+              </div>
+            </td>
+            <td class="actions">
+              <div class="actions">
+                <%= button_tag("Add", type: 'submit', class: "btn btn-primary add-import") %>
+                <%= button_tag("Ignore", class: "btn btn-warning ignore-import") %>
+              </div>
+            </td>
+          </tr>
+      <% end %>
   <% end %>
   </tbody>
 </table>

@@ -1,2 +1,3 @@
-$("input[value='<%= @order_item.id %>']").prev().remove();
-$("input[value='<%= @order_item.id %>']").remove();
+$("input.item-id[value='<%= @order_item.item.id %>']").parent().parent().next().remove();
+$("input.item-id[value='<%= @order_item.item.id %>']").parent().parent().velocity(
+    "fadeOut", { duration: 700, complete: function(element) { element.remove() } });

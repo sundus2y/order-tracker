@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :modal_body, flush: true do %>
-    This order conatins <b><%=obj.order_items.count%></b> order items.<br>
+    This order conatins <b><%=obj.order_items_count%></b> order items.<br>
     Are you sure you want to delete <b>Order #<%=obj.id%></b>?
 <% end %>
 

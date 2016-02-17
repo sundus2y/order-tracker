@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151108051140) do
+ActiveRecord::Schema.define(version: 20160213200510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(version: 20151108051140) do
     t.string   "name"
     t.text     "description"
     t.string   "item_number"
-    t.datetime "created_at",  default: "now()", null: false
-    t.datetime "updated_at",  default: "now()", null: false
+    t.datetime "created_at",      default: "now()", null: false
+    t.datetime "updated_at",      default: "now()", null: false
+    t.string   "original_number"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -40,8 +41,10 @@ ActiveRecord::Schema.define(version: 20151108051140) do
     t.text     "notes"
     t.integer  "created_by"
     t.string   "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "brand"
+    t.integer  "order_items_count", default: 0
   end
 
   create_table "users", force: :cascade do |t|

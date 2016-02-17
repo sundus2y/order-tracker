@@ -24,25 +24,39 @@
       <%= f.text_field :created_by, value:current_user.id, class:'form-control'  %>
     </div>
     <div class="form-group">
-      <%= f.label :status %>:
-      <%= f.text_field :status, class:'form-control', disabled: true%>
+      <%= f.label :status%>:
+      <%= f.text_field :status_upcase , class:'form-control', disabled: true%>
+    </div>
+    <div class="form-group">
+      <%= f.label :brand%>:
+      <%= f.select :brand, Order::BRANDS,{}, class:'form-control'%></td>
     </div>
     <hr class="order">
     <table id="orders" class="table-responsive display table table-striped table-bordered table-condensed">
       <thead>
       <tr>
         <th width="11%" class="right-align">Quantity</th>
-        <th>Item</th>
-        <th width="10%" class="right-align">Brand</th>
+        <th width="25%">Item Name</th>
+        <th>Item number</th>
+        <th>Original number</th>
+        <th>Description</th>
+        <th width="10%">Brand</th>
       </tr>
       </thead>
 
       <tbody>
       <tr class="search-box">
-        <td colspan="4">
-          <input id="search_item_field" type="text" class="form-control x-large" data-autocomplete="/items/autocomplete_item_name" data-id-element="#search_item_id" placeholder="Search Item to Add. . .">
+        <td colspan="6">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-search" id="basic-addon1"></span>
+            <input id="search_item_field" type="text" class="form-control glyphicon glyphicon-search" data-autocomplete="/items/autocomplete_item_name" data-name-element="#search_item_id" placeholder="Enter item to search. . .">
+          </div>
           <div class="form-group hidden">
             <input type="text" id="search_item_id">
+            <input type="text" id="search_item_name">
+            <input type="text" id="search_item_number">
+            <input type="text" id="search_original_number">
+            <input type="text" id="search_description">
           </div>
           <span class="hidden">
             <%= link_to_add_fields "+ Add Item", f, :order_items%>
@@ -58,10 +72,19 @@
               <%= order_item_f.number_field :quantity, class:'form-control qty-input' %>
             </td>
             <td>
-              <%= order_item_f.text_field :item, class:'form-control x-large', disabled:true %>
-              <%= order_item_f.text_field :item_id, class:'form-control hidden', disabled:true %>
+              <%= order_item_f.text_field :item_name, class:'form-control', readonly: :true %>
+              <%= order_item_f.text_field :item_id, class:'form-control hidden item-id', readonly: :true %>
             </td>
-            <td class="right-align"><%= order_item_f.select :brand, OrderItem::BRANDS,{}, class:'form-control'%></td>
+            <td>
+              <%= order_item_f.text_field :item_number, class:'form-control', readonly: :true %>
+            </td>
+            <td>
+              <%= order_item_f.text_field :original_number, class:'form-control', readonly: :true %>
+            </td>
+            <td>
+              <%= order_item_f.text_field :description, class:'form-control', readonly: :true %>
+            </td>
+            <td><%= order_item_f.select :brand, OrderItem::BRANDS,{}, class:'form-control'%></td>
           </tr>
       <% end %>
       </tbody>

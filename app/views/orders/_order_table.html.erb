@@ -1,0 +1,37 @@
+<table id="orders" class="table-responsive display table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th></th>
+    <th width="5%">Order#</th>
+    <th>Title</th>
+    <th>Created at</th>
+    <th>Notes</th>
+    <th width="5%">Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% orders.each do |order| %>
+      <tr data-id="<%=order.id%>">
+        <td><input id="select_<%= order.id%>" class="select" type="checkbox"/></td>
+        <td><%= order.id %></td>
+        <td><%= order.title %></td>
+        <td><%= order.created_at %></td>
+        <td><%= order.notes %></td>
+        <td><span class="badge"><%= order.status_upcase %></span></td>
+        <td>
+          <%= link_to(link_span('Open'), order, class: "btn btn-sm btn-primary glyphicon glyphicon-folder-open")%>
+          <% if order.draft? %>
+              <%= link_to(link_span('Edit'), edit_order_path(order), class: "btn btn-sm btn-primary glyphicon glyphicon-edit")%>
+              <%= link_to(link_span('Submit'), order_submit_to_ordered_path(order), class: "btn btn-sm btn-primary glyphicon glyphicon-send", remote: true) %>
+              <%= render 'modals/confirm_order_delete', id: "confirm_order_delete_#{order.id}", obj: order%>
+              <button type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirm_order_delete_<%= order.id %>"><%=link_span('Delete')%></button>
+          <% elsif order.ready? %>
+              <%= link_to(link_span('Process Order'), '#', class: "btn btn-success") %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

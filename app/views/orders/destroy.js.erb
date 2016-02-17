@@ -1,1 +1,2 @@
-$("tr[data-id='<%= @order.id %>']").remove();
+$("tr[data-id='<%= @order.id %>']").velocity(
+    "fadeOut", { duration: 700, complete: function(element) { element.remove() } });

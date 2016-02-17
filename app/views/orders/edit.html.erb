@@ -1,4 +1,5 @@
 <h1>Editing Order #<%= @order.id %></h1>
+<input type="hidden" id="order-id" value="<%=@order.id%>"/>
 
 <%= render 'form', action: "Update Order"%>
 

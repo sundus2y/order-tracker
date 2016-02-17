@@ -54,8 +54,13 @@ class Item < ActiveRecord::Base
       inserts << "(#{sanitize(item.name.to_s)},#{sanitize(item.description.to_s)},#{sanitize(item.item_number.to_s)})"
     end
     sql = "INSERT INTO Items (name, description, item_number) VALUES #{inserts.join(", ")}"
-    connection.execute sql unless to_import.empty?
-    new_records = to_import.empty? ? [] : where(item_number: to_import.map(&:item_number))
+    inserts.in_groups_of(10000).each do |group|
+      unless group.compact.empty?
+        sql = "INSERT INTO Items (name, description, item_number) VALUES #{group.compact.join(", ")}"
+        connection.execute sql unless to_import.empty?
+      end
+    end
+    new_records = to_import.empty? ? [] : where(item_number: to_import.map(&:item_number)[1..100])
     return duplicate_records, new_records
   end
 

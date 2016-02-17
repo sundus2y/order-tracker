@@ -20,6 +20,18 @@ class ItemPolicy
     @current_user.admin?
   end
 
+  def create?
+    new?
+  end
+
+  def import?
+    @current_user.admin?
+  end
+
+  def autocomplete_item_name?
+    true
+  end
+
   def update?
     @current_user.admin?
   end
