@@ -28,6 +28,10 @@ class ItemPolicy
     @current_user.admin?
   end
 
+  def template?
+    @current_user.admin?
+  end
+
   def autocomplete_item_name?
     true
   end

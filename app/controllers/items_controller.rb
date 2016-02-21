@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
 
   before_filter :authenticate_user!
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :check_authorization, except: [:index, :new, :create, :import]
+  before_action :check_authorization, except: [:index, :new, :create]
   after_action :verify_authorized
 
   respond_to :html
