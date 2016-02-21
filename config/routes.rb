@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :orders do
     get :submit_to_ordered, as: :submit_to_ordered
     get :show_all, as: :show_all, on: :collection
-    get :show_selected, as: :show_selected, on: :collection
+    get :show_selected, as: :show_selected
   end
 
   root to: 'visitors#index'

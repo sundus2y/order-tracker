@@ -3,7 +3,7 @@
 <div class="order-actions">
     <%= link_to(link_span('Create New Order'), new_order_path, class: "btn btn-sm btn-primary glyphicon glyphicon-new-window") if current_user.admin? %>
     <%= link_to(link_span('Open All'), show_all_orders_path, class: "btn btn-sm btn-primary glyphicon glyphicon-folder-open")%>
-    <%= link_to(link_span('Open Selected'), show_selected_orders_path, class: "btn btn-sm btn-primary glyphicon glyphicon-check open-selected", disabled: true)%>
+    <%= link_to(link_span('Open Selected'), "#", class: "btn btn-sm btn-primary glyphicon glyphicon-check open-selected", disabled: true)%>
 </div>
 <br>
 

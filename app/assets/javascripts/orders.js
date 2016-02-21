@@ -40,7 +40,10 @@ $(document).ready(function () {
 
     $('.open-selected').on('click', function(event){
         var selected = $('.select:checked');
-        event.preventDefault();
+        var ids = $.map(selected,function(elem){
+            return $(elem).parent().parent().data('id');
+        });
+        this.href = "orders/"+ids.join(',')+"/show_selected";
     });
 
     var previous_brand;

@@ -20,7 +20,8 @@ class OrdersController < ApplicationController
   end
 
   def show_selected
-    @orders = Order.all
+    order_ids = params[:order_id].split(',').map(&:to_i)
+    @orders = Order.where(id: order_ids)
     authorize @orders
     render "show_all" and return
   end
