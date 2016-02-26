@@ -17,7 +17,7 @@
       <td><%= item.name %></td>
       <td><%= item.item_number %></td>
       <td><%= item.original_number %></td>
-      <td><%= item.description %></td>
+      <td><%= description_formatter(item.description) %></td>
       <td>
         <%= send(actions,item) %>
       </td>

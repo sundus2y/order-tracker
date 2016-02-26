@@ -9,7 +9,7 @@ class ItemsController < ApplicationController
   respond_to :html
 
   def index
-    @items = Item.all.page(params[:page]).per_page(10)
+    @items = Item.all.order(:name).page(params[:page]).per_page(10)
     authorize @items
     respond_with(@items)
   end
