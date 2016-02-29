@@ -3,9 +3,12 @@
   <tr>
     <th>ID</th>
     <th>Name</th>
-    <th>Item number</th>
     <th>Original number</th>
+    <th>Item number</th>
     <th>Description</th>
+    <th>Car</th>
+    <th>Model</th>
+    <th>Part Class</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -15,8 +18,11 @@
     <tr>
       <td><%= line_number(index,@items.try(:current_page)) %></td>
       <td><%= item.name %></td>
-      <td><%= item.item_number %></td>
       <td><%= item.original_number %></td>
+      <td><%= item.item_number %></td>
+      <td><%= item.car %></td>
+      <td><%= item.model %></td>
+      <td><%= item.part_class %></td>
       <td><%= description_formatter(item.description) %></td>
       <td>
         <%= send(actions,item) %>
