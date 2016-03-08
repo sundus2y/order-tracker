@@ -3,7 +3,7 @@ class Item < ActiveRecord::Base
   validates :name, presence: true
   validates :original_number, presence: true
   validates :original_number, uniqueness: true
-  validate :original_number_or_item_numbder_cannot_include_special_characters
+  validate :original_number_or_item_number_cannot_include_special_characters
 
   INVALID_CHARS = %w(, . - _ : | \\ /)
   INVALID_CHARS_REGEX = Regexp.new('\W')
@@ -14,7 +14,7 @@ class Item < ActiveRecord::Base
     false
   end
 
-  def original_number_or_item_numbder_cannot_include_special_characters
+  def original_number_or_item_number_cannot_include_special_characters
     if INVALID_CHARS_REGEX.match(original_number)
       errors.add :original_number, "can't include the following characters: (#{INVALID_CHARS.join(' ')} or space)"
     elsif INVALID_CHARS_REGEX.match(item_number)
