@@ -2,7 +2,7 @@ class Item < ActiveRecord::Base
   before_destroy :should_have_no_order_items
   validates :name, presence: true
   validates :original_number, presence: true
-  validates :original_number, uniqueness: true
+  validates :original_number, uniqueness: {scope: :item_number}
   validate :original_number_or_item_number_cannot_include_special_characters
 
   INVALID_CHARS = %w(, . - _ : | \\ /)
