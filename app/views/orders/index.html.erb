@@ -1,5 +1,6 @@
-<h1>Listing Orders</h1>
-
+<% content_for :header do %>
+  Orders
+<% end %>
 <div class="order-actions">
     <%= link_to(link_span('Create New Order'), new_order_path, class: "btn btn-sm btn-primary glyphicon glyphicon-new-window") if current_user.admin? %>
     <%= link_to(link_span('Open All'), show_all_orders_path, class: "btn btn-sm btn-primary glyphicon glyphicon-folder-open")%>

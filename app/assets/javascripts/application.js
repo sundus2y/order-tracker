@@ -17,4 +17,10 @@
 //= require dataTables/jquery.dataTables
 //= require bootstrap-sprockets
 //= require velocity
+//= require fileinput/fileinput
+//= require kadmin/main
+//= require kadmin/jquery.menu
+//= require kadmin/jquery.metisMenu
+//= require kadmin/jquery.slimscroll
+//= require kadmin/responsive-tabs
 //= require_tree .

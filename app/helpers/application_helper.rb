@@ -20,4 +20,16 @@ module ApplicationHelper
   def link_span(name)
     content_tag(:span,name,class:"link-btn")
   end
+
+  def navigation_li(link,label,options={})
+    nav = "<li class='#{options[:klass]}' id='#{options[:id]}' data-parent='#{options[:parent]}'>"
+    nav << "<a href='#{link}' data-method='#{options[:method]}' class='#{options[:klass]}'>"
+    nav << "<i class='#{options[:icon]}'>"
+    nav << "<div class='icon-bg bg-pink'></div>"
+    nav << "</i>"
+    nav << "<span class='menu-title'>#{label}</span>"
+    nav << "</a>"
+    nav << "</li>"
+    nav.html_safe
+  end
 end

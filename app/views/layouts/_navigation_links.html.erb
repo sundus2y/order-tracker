@@ -1,15 +1,80 @@
-<%# add navigation links to this file %>
 <% if user_signed_in? %>
-    <% if current_user.admin? || current_user.vendor? %>
-        <li><%= link_to 'Orders', orders_path %></li>
-    <% end %>
-    <% if current_user.admin? %>
-        <li><%= link_to 'Items', items_path %></li>
-        <li><%= link_to 'Users', users_path %></li>
-    <% end %>
-    <li><%= link_to 'Edit account', edit_user_registration_path %></li>
-    <li><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %></li>
+  <%= navigation_li('#',
+                    'Finder . . .',
+                    {icon:"glyphicon glyphicon-search",
+                     klass:'parent-menu',
+                    id:'finder'}) %>
+  <%= navigation_li('#',
+                    'Search Items',
+                    {id:'search_items',
+                     klass:'sub-menu',
+                     parent:'finder'}) %>
+  <%= navigation_li('#',
+                    'Search Orders',
+                    {id:'search_orders',
+                     klass:'sub-menu',
+                     parent:'finder'}) if current_user.admin? %>
+  <%= navigation_li('#',
+                    'Items',
+                    {icon:"glyphicon glyphicon-list",
+                     klass:'parent-menu',
+                    id:'items'}) if current_user.admin? %>
+  <%= navigation_li(new_item_path,
+                    'Create New Item',
+                    {id:'create_new_item',
+                     klass:'sub-menu',
+                    parent:'items'}) if policy(Item).new? %>
+  <%= navigation_li(items_path,
+                    'View All Items',
+                    {id:'view_all_items',
+                     klass:'sub-menu',
+                     parent:'items'}) if policy(Item).show? %>
+  <%= navigation_li(import_export_items_path,
+                    'Import / Export',
+                    {id:'import_export',
+                     klass:'sub-menu',
+                     parent:'items'}) if policy(Item).import_export? %>
+  <%= navigation_li('#',
+                    'Orders',
+                    {icon:"glyphicon glyphicon-shopping-cart",
+                     klass:'parent-menu',
+                    id:'orders'}) if policy(Order).show? %>
+  <%= navigation_li(new_order_path,
+                    'Create New Order',
+                    {id:'create_new_order',
+                     klass:'sub-menu',
+                     parent:'orders'}) if policy(Order).new? %>
+  <%= navigation_li(orders_path,
+                    'View All Orders',
+                    {id:'view_all_orders',
+                     klass:'sub-menu',
+                     parent:'orders'}) if policy(Order).show? %>
+  <%= navigation_li('#',
+                    'Shipments',
+                    {icon:"glyphicon glyphicon-send",
+                    id:'shipments'}) if policy(Order).show? %>
+  <%= navigation_li(edit_user_registration_path,
+                    'My Profile',
+                    {icon:"glyphicon glyphicon-user",
+                    id:'my_profile'}) %>
+  <%= navigation_li(users_path,
+                    'Users',
+                    {icon:"glyphicon glyphicon-user",
+                    id:'users'}) if current_user.admin? %>
+  <%= navigation_li('#',
+                    'Configuration',
+                    {icon:"glyphicon glyphicon-wrench",
+                    id:'config',}) if current_user.admin? %>
+  <%= navigation_li(destroy_user_session_path,
+                    'Sign Out',
+                    {icon:"glyphicon glyphicon-log-out",
+                    id:'sign_out',
+                    method: 'delete'}) %>
 <% else %>
-    <li><%= link_to 'Sign in', new_user_session_path %></li>
-    <li><%= link_to 'Sign up', new_user_registration_path %></li>
+  <%= navigation_li(new_user_session_path,
+                    'Sign In',
+                    {icon:"glyphicon glyphicon-log-in"}) %>
+  <%= navigation_li(new_user_registration_path,
+                    'Sign Up',
+                    {icon:"glyphicon glyphicon-pencil"}) %>
 <% end %>
