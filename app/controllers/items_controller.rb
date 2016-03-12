@@ -54,6 +54,9 @@ class ItemsController < ApplicationController
     flash[:warning] = "Found #{@duplicate_items.count} Duplicate Items" unless @duplicate_items.empty?
   end
 
+  def import_export
+  end
+
   def download
     respond_to do |format|
       format.xlsx { send_file Item.download}

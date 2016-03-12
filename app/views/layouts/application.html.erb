@@ -1,21 +1,94 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "OTS - Order Tracking System" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "OTS - Order Tracking System" %>">
-    <%= stylesheet_link_tag 'application', media: 'all'%>
-    <%= javascript_include_tag 'application'%>
-    <%= csrf_meta_tags %>
-  </head>
-  <body>
-    Logged in as:
-    <header>
-      <%= render 'layouts/navigation' %>
-    </header>
-    <main role="main">
-       <%= render 'layouts/messages' %>
-       <%= yield %>
-    </main>
-  </body>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= content_for?(:title) ? yield(:title) : "OTS - Order Tracking System" %></title>
+  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "OTS - Order Tracking System" %>">
+  <%= stylesheet_link_tag 'application', media: 'all'%>
+  <%= javascript_include_tag 'application'%>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div>
+
+  <!--BEGIN TOPBAR-->
+  <div id="header-topbar-option-demo" class="page-header-topbar">
+    <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
+      <div class="navbar-header">
+        <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a id="logo" href="/" class="navbar-brand">
+          <span class="logo-text">OTS</span>
+        </a>
+      </div>
+      <div class="topbar-main">
+        <a id="menu-toggle" href="#" class="hidden-xs">
+          <i class="fa fa-bars"></i>
+        </a>
+
+        <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+          <div class="input-icon right text-white">
+            <a href="#"><i class="fa fa-search"></i></a>
+            <input type="text" placeholder="Search here..." class="form-control text-white"/>
+          </div>
+        </form>
+
+        <ul class="nav navbar navbar-top-links navbar-right mbn">
+          <li class="topbar-user">
+            <a data-hover="dropdown" href="#" class="dropdown-toggle">
+              <span class="hidden-xs">
+                <% if user_signed_in? %>
+                  Welcome <%= current_user.name %>
+                <% else %>
+                  Welcome
+                <% end %>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+  <!--END TOPBAR-->
+
+  <!--BEGIN MAIN CONTAINER-->
+  <div id="wrapper">
+    <!--BEGIN SIDEBAR MENU-->
+    <nav id="sidebar" role="navigation" data-step="2" data-intro="Template has &lt;b&gt;many navigation styles&lt;/b&gt;"
+         data-position="right" class="navbar-default navbar-static-side">
+      <div class="sidebar-collapse menu-scroll">
+        <ul id="side-menu" class="nav">
+          <div class="clearfix"></div>
+          <%= render 'layouts/navigation_links' %>
+        </ul>
+      </div>
+    </nav>
+    <!--END SIDEBAR MENU-->
+
+    <!--BEGIN PAGE WRAPPER-->
+    <div id="page-wrapper">
+      <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+        <div class="page-header pull-left">
+          <div class="page-title">
+            <%= yield :header %>
+          </div>
+        </div>
+        <div class="clearfix">
+        </div>
+      </div>
+      <div class="page-content">
+        <%= yield %>
+      </div>
+    </div>
+    <!--END PAGE WRAPPER-->
+  </div>
+  <!--END MAIN CONTAINER-->
+
+</div>
+</body>
 </html>

@@ -33,7 +33,7 @@ img {
   }
 // apply styles to HTML elements
 // to make views framework-neutral
-main {
+div#page-content-wrapper {
   @extend .container;
   background-color: #eee;
   padding-bottom: 80px;
@@ -89,4 +89,35 @@ a:visited{
 span.link-btn{
   font-family: sans-serif !important;
   margin-left: 5px !important;
+}
+div#main-wrapper{
+  padding-top: 68px;
+}
+
+div#sidebar-wrapper{
+  z-index: 1000;
+  position: fixed;
+  left: 250px;
+  width: 0;
+  height: 100%;
+  margin-left: -250px;
+  overflow-y: auto;
+  background: #000;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+span.logo-text{
+  display: block;
+  font-weight: lighter;
+  font-family: 'Lato', sans-serif;
+  font-size: 30px;
+}
+li.sub-menu{
+  display: none;
+  background: #544949 !important;
+}
+a.sub-menu{
+  padding-top: 7px !important;
 }

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get :show_selected, as: :show_selected
   end
 
-  root to: 'visitors#index'
+  root to: 'dashboard#index'
 
   get 'make_admin' => 'users#make_admin'
 
@@ -22,5 +22,10 @@ Rails.application.routes.draw do
     post :import, on: :collection
     get :template, on: :collection
     get :download, on: :collection
+    get :import_export, as: :import_export, on: :collection
+  end
+
+  resource :dashboard do
+
   end
 end

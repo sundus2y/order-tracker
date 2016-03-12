@@ -1,0 +1,20 @@
+<% content_for :header do %>
+    Import / Export
+<% end %>
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel">Import Items</h4>
+</div>
+<div class="modal-body">
+  <%= link_to "Download Import Template (Excel)", template_items_path(format: "xlsx"),class: "btn btn-primary", role: "button" %>
+  <br><br>
+  <%= form_tag import_items_path, multipart: true do %>
+      <%= file_field_tag :file %>
+  <% end %>
+</div>
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel">Export Items</h4>
+</div>
+<div class="modal-body">
+  <%= link_to "Download All Items (Excel)", download_items_path(format: "xlsx"),class: "btn btn-primary", role: "button" %>
+  <%= link_to "Download All Items (PDF)", download_items_path(format: "pdf"),class: "btn btn-primary", role: "button" %>
+</div>
