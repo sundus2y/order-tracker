@@ -1,23 +1,4 @@
-<p>
-  <strong>Name:</strong>
-  <%= @item.name %>
-</p>
-
-<p>
-  <strong>Item number:</strong>
-  <%= @item.item_number %>
-</p>
-
-<p>
-  <strong>Original number:</strong>
-  <%= @item.original_number %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @item.description %>
-</p>
-
-
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+<% content_for :header do %>
+    View Item
+<% end %>
+<%= render 'form', action: "View" %>
