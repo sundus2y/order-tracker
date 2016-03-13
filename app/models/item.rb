@@ -3,7 +3,7 @@ class Item < ActiveRecord::Base
   validates :name, presence: true
   validates :original_number, presence: true
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
-  validate :original_number_or_item_number_cannot_include_special_characters
+  validate :item_numbers_cannot_include_special_characters
 
   INVALID_CHARS = %w(, . - _ : | \\ /)
   INVALID_CHARS_REGEX = Regexp.new('\W')
@@ -14,12 +14,12 @@ class Item < ActiveRecord::Base
     false
   end
 
-  def original_number_or_item_number_cannot_include_special_characters
-    if INVALID_CHARS_REGEX.match(original_number)
-      errors.add :original_number, "can't include the following characters: (#{INVALID_CHARS.join(' ')} or space)"
-    elsif INVALID_CHARS_REGEX.match(item_number)
-      errors.add :item_number, "can't include the following characters: (#{INVALID_CHARS.join(' ')} or space)"
-    end
+  def item_numbers_cannot_include_special_characters
+    error_msg = "can't include the following characters: (#{INVALID_CHARS.join(' ')} or space)"
+    errors.add :original_number, error_msg if INVALID_CHARS_REGEX.match(original_number)
+    errors.add :item_number, error_msg if INVALID_CHARS_REGEX.match(item_number)
+    errors.add :prev_number, error_msg if INVALID_CHARS_REGEX.match(prev_number)
+    errors.add :next_number, error_msg if INVALID_CHARS_REGEX.match(next_number)
   end
 
   def self.excel_template

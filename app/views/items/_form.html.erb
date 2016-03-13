@@ -1,7 +1,4 @@
 <%= form_for(@item) do |f| %>
-    <div class="actions">
-      <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
-    </div>
     <% if @item.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
@@ -13,21 +10,116 @@
           </ul>
         </div>
     <% end %>
-    <div class="field form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, class:"form-control" %>
+    <div class="actions">
+      <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
     </div>
-    <div class="field form-group">
-      <%= f.label :item_number %>
-      <%= f.text_field :item_number, class:"form-control" %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="field form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, class:"form-control" %>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="field form-group">
+          <%= f.label :car %>
+          <%= f.text_field :car, class:"form-control" %>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="field form-group">
+          <%= f.label :model %>
+          <%= f.text_field :model, class:"form-control" %>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="field form-group">
+          <%= f.label :part_class %>
+          <%= f.text_field :part_class, class:"form-control" %>
+        </div>
+      </div>
     </div>
-    <div class="field form-group">
-      <%= f.label :original_number %>
-      <%= f.text_field :original_number, class:"form-control" %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="field form-group">
+          <%= f.label :original_number %>
+          <%= f.text_field :original_number, class:"form-control" %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="field form-group">
+          <%= f.label :prev_number %>
+          <%= f.text_field :prev_number, class:"form-control" %>
+        </div>
+      </div>
     </div>
-    <div class="field form-group">
-      <%= f.label :description %>
-      <%= f.text_area :description, class:"form-control" %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="field form-group">
+          <%= f.label :item_number %>
+          <%= f.text_field :item_number, class:"form-control" %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="field form-group">
+          <%= f.label :next_number %>
+          <%= f.text_field :next_number, class:"form-control" %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="field form-group">
+          <%= f.label :description %>
+          <%= f.text_area :description, class:"form-control", rows: 4 %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label>Inventory</label>
+        <table>
+          <tbody>
+            <tr>
+              <td>T-Shop: </td>
+              <td><%= f.number_field :t_shop, class:"form-control" %></td>
+            </tr>
+            <tr>
+              <td>L-Shop: </td>
+              <td><%= f.number_field :l_shop, class:"form-control" %></td>
+            </tr>
+            <tr>
+              <td>L-Store: </td>
+              <td><%= f.number_field :l_store, class:"form-control" %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-3">
+        <label>Order History</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="field form-group">
+          <%= f.label :make_from %>
+          <%= f.text_field :make_from, class:"form-control", type:'date' %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <%= f.label :make_to %>
+        <%= f.text_field :make_to, class:"form-control", type:'date' %>
+      </div>
+      <div class="col-md-3">
+        <div class="field form-group">
+          <%= f.label :brand %>
+          <%= f.text_field :brand, class:"form-control" %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="field form-group">
+          <%= f.label :made %>
+          <%= f.text_field :made, class:"form-control" %>
+        </div>
+      </div>
     </div>
     <div class="actions">
       <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>

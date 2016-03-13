@@ -5,10 +5,16 @@
     <th>Name</th>
     <th>Original number</th>
     <th>Item number</th>
+    <th>Prev Number</th>
+    <th>Next Number</th>
     <th>Description</th>
     <th>Car</th>
     <th>Model</th>
+    <th>Make Year</th>
     <th>Part Class</th>
+    <th>Stock</th>
+    <th>Brand</th>
+    <th>Made</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -18,12 +24,22 @@
     <tr>
       <td><%= line_number(index,@items.try(:current_page)) %></td>
       <td><%= item.name %></td>
-      <td><%= item.original_number %></td>
-      <td><%= item.item_number %></td>
+      <td nowrap><%= item.original_number %></td>
+      <td nowrap><%= item.item_number %></td>
+      <td nowrap><%= item.prev_number %></td>
+      <td nowrap><%= item.next_number %></td>
+      <td><%= description_formatter(item.description) %></td>
       <td><%= item.car %></td>
       <td><%= item.model %></td>
+      <td nowrap><%= item.make_from %> <br/> <%= item.make_to %></td>
       <td><%= item.part_class %></td>
-      <td><%= description_formatter(item.description) %></td>
+      <td nowrap>
+        T-Shop: <%= item.t_shop %><br/>
+        L-Shop: <%= item.l_shop %><br/>
+        L-Store: <%= item.l_store %><br/>
+      </td>
+      <td><%= item.brand %></td>
+      <td><%= item.made %></td>
       <td>
         <%= send(actions,item) %>
       </td>

@@ -27,6 +27,7 @@ module ApplicationHelper
     nav << "<i class='#{options[:icon]}'>"
     nav << "<div class='icon-bg bg-pink'></div>"
     nav << "</i>"
+    nav << "<i class='glyphicon glyphicon-plus parent-plus'></i>" if options[:klass].try(:include?,'parent-menu')
     nav << "<span class='menu-title'>#{label}</span>"
     nav << "</a>"
     nav << "</li>"

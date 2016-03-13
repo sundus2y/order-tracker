@@ -75,7 +75,22 @@ class ItemsController < ApplicationController
     end
 
     def item_params
-      params.require(:item).permit(:name, :description, :item_number, :original_number)
+      params.require(:item).permit(:name,
+                                   :original_number,
+                                   :item_number,
+                                   :prev_number,
+                                   :next_number,
+                                   :description,
+                                   :car,
+                                   :model,
+                                   :make_from,
+                                   :make_to,
+                                   :part_class,
+                                   :brand,
+                                   :made,
+                                   :l_store,
+                                   :t_shop,
+                                   :l_shop)
     end
 
     def get_autocomplete_items(parameters)
