@@ -28,4 +28,11 @@ Rails.application.routes.draw do
   resource :dashboard do
 
   end
+
+  resource :search do
+    get :all, on: :collection, as: :all
+    get :items, on: :collection, as: :items
+    get :orders, on: :collection, as: :orders
+    get :sales, on: :collection, as: :sales
+  end
 end
