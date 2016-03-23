@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160313031940) do
+ActiveRecord::Schema.define(version: 20160317021138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
@@ -41,9 +42,9 @@ ActiveRecord::Schema.define(version: 20160313031940) do
     t.integer  "order_id"
     t.integer  "item_id"
     t.integer  "quantity"
-    t.float    "unit_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float    "unit_price"
     t.string   "brand"
     t.string   "status"
   end

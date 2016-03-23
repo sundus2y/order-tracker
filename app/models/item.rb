@@ -1,4 +1,18 @@
 class Item < ActiveRecord::Base
+  include PgSearch
+  pg_search_scope :search_item,
+                  :against => {
+                      original_number: 'A',
+                      item_number: 'B',
+                      name: 'C',
+                      brand: 'D',
+                      made: 'D'
+                  },
+                  :using => {
+                      :trigram => {
+                          threshold: 0.07
+                      }
+                  }
   before_destroy :should_have_no_order_items
   validates :name, presence: true
   validates :original_number, presence: true
@@ -79,6 +93,10 @@ class Item < ActiveRecord::Base
 
   def to_s
     "#{original_number} |  #{name}"
+  end
+
+  def self.search_item2(term)
+    where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%")
   end
 
 private

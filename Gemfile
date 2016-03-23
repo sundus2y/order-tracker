@@ -13,6 +13,7 @@ gem 'aasm'
 gem 'rails4-autocomplete'
 gem 'will_paginate', '~> 3.0.5'
 gem 'will_paginate-bootstrap'
+gem 'pg_search'
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'

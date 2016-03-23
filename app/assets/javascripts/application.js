@@ -13,8 +13,9 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
-//= require autocomplete-rails
 //= require dataTables/jquery.dataTables
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require autocomplete-rails
 //= require bootstrap-sprockets
 //= require velocity
 //= require fileinput/fileinput
