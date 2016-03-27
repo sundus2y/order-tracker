@@ -9,9 +9,8 @@
     <th>Next Number</th>
     <th>Description</th>
     <th>Car</th>
-    <th>Model</th>
-    <th>Make Year</th>
     <th>Part Class</th>
+    <th>Price</th>
     <th>Stock</th>
     <th>Brand</th>
     <th>Made</th>
@@ -30,13 +29,16 @@
       <td nowrap><%= item.next_number %></td>
       <td><%= description_formatter(item.description) %></td>
       <td><%= item.car %></td>
-      <td><%= item.model %></td>
-      <td nowrap><%= item.make_from %> <br/> <%= item.make_to %></td>
       <td><%= item.part_class %></td>
+      <td nowrap>
+        S-Price: <%= item.sale_price %><br/>
+        D-Price: <%= item.dubai_price %><br/>
+        K-Price: <%= item.korea_price %><br/>
+      </td>
       <td nowrap>
         T-Shop: <%= item.t_shop %><br/>
         L-Shop: <%= item.l_shop %><br/>
-        L-Store: <%= item.l_store %><br/>
+        L-Store: <%= item.l_store %>
       </td>
       <td><%= item.brand %></td>
       <td><%= item.made %></td>

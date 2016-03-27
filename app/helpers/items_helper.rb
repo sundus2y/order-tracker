@@ -1,8 +1,10 @@
 module ItemsHelper
   def listing_actions item
-    actions = link_to 'Details', item, class: "btn btn-info actions", role:"button"
-    actions << (link_to 'Edit', edit_item_path(item), class: "btn btn-success actions", role:"button")
-    actions << (link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning actions", role:"button")
+    actions = link_to '', item, class: "btn btn-info btn-sm glyphicon glyphicon-eye-open action", role:"button"
+    actions << '<br>'.html_safe
+    actions << (link_to '', edit_item_path(item), class: "btn btn-success btn-sm glyphicon glyphicon-pencil", role:"button")
+    actions << '<br>'.html_safe
+    actions << (link_to '', item, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning btn-sm glyphicon glyphicon-trash", role:"button")
     actions
   end
 

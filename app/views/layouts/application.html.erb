@@ -6,6 +6,7 @@
   <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "OTS - Order Tracking System" %>">
   <%= stylesheet_link_tag 'application', media: 'all'%>
   <%= javascript_include_tag 'application'%>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -82,6 +83,7 @@
         </div>
       </div>
       <div class="page-content">
+        <%= render 'layouts/messages' %>
         <div class="main-content">
           <%= yield %>
         </div>
@@ -99,15 +101,15 @@
                 <th rowspan="2">Description</th>
                 <th rowspan="2">Car</th>
                 <th rowspan="2">Model</th>
-                <th colspan="2">Make Year</th>
-                <th rowspan="2">Part Class</th>
+                <th colspan="3">Price</th>
                 <th colspan="3">Stock</th>
                 <th rowspan="2">Brand</th>
                 <th rowspan="2">Made</th>
               </tr>
               <tr>
-                <th>From</th>
-                <th>To</th>
+                <th>S-Price</th>
+                <th>D-Price</th>
+                <th>K-Price</th>
                 <th>T-Shop</th>
                 <th>L-Shop</th>
                 <th>T-Store</th>
@@ -124,7 +126,6 @@
     <!--END PAGE WRAPPER-->
   </div>
   <!--END MAIN CONTAINER-->
-
 </div>
 </body>
 </html>

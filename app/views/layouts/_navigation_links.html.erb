@@ -8,17 +8,17 @@
                     'Search Items',
                     {id:'search_items',
                      klass:'sub-menu',
-                     parent:'finder'}) %>
+                     parent:'finder'}) if policy(Item).search?%>
   <%= navigation_li('#',
                     'Search Orders',
                     {id:'search_orders',
                      klass:'sub-menu',
-                     parent:'finder'}) if current_user.admin? %>
+                     parent:'finder'}) if policy(Order).search? %>
   <%= navigation_li('#',
                     'Items',
                     {icon:"glyphicon glyphicon-list",
                      klass:'parent-menu',
-                    id:'items'}) if current_user.admin? %>
+                    id:'items'}) if policy(Item).show? %>
   <%= navigation_li(new_item_path,
                     'Create New Item',
                     {id:'create_new_item',
@@ -60,11 +60,11 @@
   <%= navigation_li(users_path,
                     'Users',
                     {icon:"glyphicon glyphicon-user",
-                    id:'users'}) if current_user.admin? %>
+                    id:'users'}) if policy(User).manage? %>
   <%= navigation_li('#',
                     'Configuration',
                     {icon:"glyphicon glyphicon-wrench",
-                    id:'config',}) if current_user.admin? %>
+                    id:'config',}) if policy(User).manage? %>
   <%= navigation_li(destroy_user_session_path,
                     'Sign Out',
                     {icon:"glyphicon glyphicon-log-out",

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  enum role: [:user, :admin, :vendor, :supplier]
+  enum role: [:user, :admin, :vendor, :supplier, :sales]
   after_initialize :set_default_role, :if => :new_record?
   has_many :orders, dependent: :destroy
 

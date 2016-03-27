@@ -12,7 +12,7 @@ class ItemPolicy
   end
 
   def show?
-    true
+    !@current_user.user?
     # @current_user.admin? or @current_user == @user
   end
 
@@ -54,6 +54,10 @@ class ItemPolicy
 
   def destroy?
     @current_user.admin?
+  end
+
+  def search?
+    !@current_user.user?
   end
 
 end

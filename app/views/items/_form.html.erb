@@ -96,7 +96,38 @@
         </table>
       </div>
       <div class="col-md-3">
-        <label>Order History</label>
+        <label>Pricing</label>
+        <table>
+          <tbody>
+          <tr>
+            <td>S-Price: </td>
+            <td>
+              <div class="input-group">
+                <div class="input-group-addon">AED</div>
+                <%= f.number_field :sale_price, class:"form-control price", step:'0.01' %>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>D-Price: </td>
+            <td>
+              <div class="input-group">
+                <div class="input-group-addon">AED</div>
+                <%= f.number_field :dubai_price, class:"form-control price", step:'0.01' %>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>K-Price: </td>
+            <td>
+              <div class="input-group">
+                <div class="input-group-addon">AED</div>
+                <%= f.number_field :korea_price, class:"form-control price", step:'0.01' %>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="row">
@@ -121,6 +152,16 @@
           <%= f.label :made %>
           <%= f.text_field :made, class:"form-control" %>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Order History</label>
+        <div id="item_orders_history"></div>
+      </div>
+      <div class="col-md-6">
+        <label>Last Month Sales</label>
+        <div id="item_sales_history"></div>
       </div>
     </div>
     <% unless action=="View"%>
