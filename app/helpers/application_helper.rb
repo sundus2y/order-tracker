@@ -27,7 +27,7 @@ module ApplicationHelper
     nav << "<i class='#{options[:icon]}'>"
     nav << "<div class='icon-bg bg-pink'></div>"
     nav << "</i>"
-    nav << "<i class='glyphicon glyphicon-plus parent-plus'></i>" if options[:klass].try(:include?,'parent-menu')
+    nav << "<i class='fa fa-plus parent-plus'></i>" if options[:klass].try(:include?,'parent-menu')
     nav << "<span class='menu-title'>#{label}</span>"
     nav << "</a>"
     nav << "</li>"
@@ -37,11 +37,11 @@ module ApplicationHelper
   def actions object, options={}
     actions = []
     options[:separator] ||= '<br>'.html_safe
-    actions << (link_to '', object, class: "btn btn-info btn-sm glyphicon glyphicon-eye-open action", role:"button")
+    actions << (link_to '', object, class: "btn btn-info btn-sm fa fa-eye action", role:"button")
     # actions << '<br>'.html_safe
-    actions << (link_to '', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-success btn-sm glyphicon glyphicon-pencil", role:"button")
+    actions << (link_to '', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-success btn-sm fa fa-pencil", role:"button")
     # actions << '<br>'.html_safe
-    actions << (link_to '', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning btn-sm glyphicon glyphicon-trash", role:"button")
+    actions << (link_to '', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning btn-sm fa fa-trash", role:"button")
     actions.join(options[:separator]).html_safe
   end
 end
