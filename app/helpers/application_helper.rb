@@ -33,4 +33,15 @@ module ApplicationHelper
     nav << "</li>"
     nav.html_safe
   end
+
+  def actions object, options={}
+    actions = []
+    options[:separator] ||= '<br>'.html_safe
+    actions << (link_to '', object, class: "btn btn-info btn-sm glyphicon glyphicon-eye-open action", role:"button")
+    # actions << '<br>'.html_safe
+    actions << (link_to '', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-success btn-sm glyphicon glyphicon-pencil", role:"button")
+    # actions << '<br>'.html_safe
+    actions << (link_to '', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning btn-sm glyphicon glyphicon-trash", role:"button")
+    actions.join(options[:separator]).html_safe
+  end
 end

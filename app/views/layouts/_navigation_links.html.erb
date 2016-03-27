@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
   <%= navigation_li('#',
                     'Finder . . .',
-                    {icon:"glyphicon glyphicon-search",
+                    {icon:"fa fa-search",
                      klass:'parent-menu',
                     id:'finder'}) %>
   <%= navigation_li('#',
@@ -16,7 +16,7 @@
                      parent:'finder'}) if policy(Order).search? %>
   <%= navigation_li('#',
                     'Items',
-                    {icon:"glyphicon glyphicon-list",
+                    {icon:"fa fa-cube",
                      klass:'parent-menu',
                     id:'items'}) if policy(Item).show? %>
   <%= navigation_li(new_item_path,
@@ -36,7 +36,7 @@
                      parent:'items'}) if policy(Item).import_export? %>
   <%= navigation_li('#',
                     'Orders',
-                    {icon:"glyphicon glyphicon-shopping-cart",
+                    {icon:"fa fa-truck",
                      klass:'parent-menu',
                     id:'orders'}) if policy(Order).show? %>
   <%= navigation_li(new_order_path,
@@ -50,31 +50,46 @@
                      klass:'sub-menu',
                      parent:'orders'}) if policy(Order).show? %>
   <%= navigation_li('#',
+                    'Customers',
+                    {icon:"fa fa-users",
+                     klass:'parent-menu',
+                     id:'customers'}) if policy(Customer).show? %>
+  <%= navigation_li(new_customer_path,
+                    'Create Customer',
+                    {id:'create_new_customer',
+                     klass:'sub-menu',
+                     parent:'customers'}) if policy(Customer).new? %>
+  <%= navigation_li(customers_path,
+                    'View All Customers',
+                    {id:'view_all_customers',
+                     klass:'sub-menu',
+                     parent:'customers'}) if policy(Customer).show? %>
+    <%= navigation_li('#',
                     'Shipments',
-                    {icon:"glyphicon glyphicon-send",
+                    {icon:"fa fa-ship",
                     id:'shipments'}) if policy(Order).show? %>
   <%= navigation_li(edit_user_registration_path,
                     'My Profile',
-                    {icon:"glyphicon glyphicon-user",
+                    {icon:"fa fa-user",
                     id:'my_profile'}) %>
   <%= navigation_li(users_path,
                     'Users',
-                    {icon:"glyphicon glyphicon-user",
+                    {icon:"fa fa-users",
                     id:'users'}) if policy(User).manage? %>
   <%= navigation_li('#',
                     'Configuration',
-                    {icon:"glyphicon glyphicon-wrench",
+                    {icon:"fa fa-cogs",
                     id:'config',}) if policy(User).manage? %>
   <%= navigation_li(destroy_user_session_path,
                     'Sign Out',
-                    {icon:"glyphicon glyphicon-log-out",
+                    {icon:"fa fa-sign-out",
                     id:'sign_out',
                     method: 'delete'}) %>
 <% else %>
   <%= navigation_li(new_user_session_path,
                     'Sign In',
-                    {icon:"glyphicon glyphicon-log-in"}) %>
+                    {icon:"fa fa-sign-in"}) %>
   <%= navigation_li(new_user_registration_path,
                     'Sign Up',
-                    {icon:"glyphicon glyphicon-pencil"}) %>
+                    {icon:"fa fa-pencil-square-o"}) %>
 <% end %>

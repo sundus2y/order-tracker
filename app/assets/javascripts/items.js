@@ -4,6 +4,4 @@
 
 $(document).ready(function (){
     $('#file').fileinput({'showPreview':false});
-    $("form[data-readOnly='true']").find('input').attr('readOnly',true);
-    $("form[data-readOnly='true']").find('textarea').attr('readOnly',true);
 });

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :customers
+
   get 'check_duplicate/:item_ids/:brand/:order_id', to:'order_items#check_duplicate'
 
   resources :order_items

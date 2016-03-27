@@ -3,7 +3,7 @@
 <% end %>
 <%= will_paginate @items, renderer: BootstrapPagination::Rails %>
 
-<%= render 'listing', {items: @items, actions: "listing_actions"} %>
+<%= render 'listing', {items: @items} %>
 
 <%= will_paginate @items, renderer: BootstrapPagination::Rails %>
 
