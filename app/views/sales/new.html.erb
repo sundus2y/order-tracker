@@ -1,0 +1,7 @@
+<% content_for :header do %>
+    New Sale
+<% end %>
+
+<%= render 'form', action:"Save New Sale", show_sale_items: false %>
+
+<%= link_to 'Back', sales_path %>

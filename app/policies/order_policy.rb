@@ -3,7 +3,7 @@ class OrderPolicy
 
   def initialize(current_user, model)
     @current_user = current_user
-    @item = model
+    @order = model
   end
 
   def index?
@@ -56,7 +56,7 @@ class OrderPolicy
     elsif @current_user.admin?
       Order.all
     else
-      Order.no_order
+      []
     end
   end
 

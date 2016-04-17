@@ -1,16 +1,17 @@
 class ItemsController < ApplicationController
   autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:original_number,:description], :limit => 20
+  autocomplete :item, :sale_price, :display_value => :to_s, :extra_data => [:name,:item_number,:original_number,:description,:sale_price], :limit => 20
+
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   before_filter :authenticate_user!
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :check_authorization, except: [:index, :new, :create]
+  before_action :check_authorization
   after_action :verify_authorized
 
   respond_to :html
 
   def index
     @items = Item.all.order(:name).page(params[:page]).per_page(10)
-    authorize @items
     respond_with(@items)
   end
 
@@ -20,7 +21,6 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
-    authorize @item
     respond_with(@item)
   end
 
@@ -29,7 +29,6 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    authorize @item
     flash[:notice] = 'Item was successfully created.' if @item.save
     respond_to do |format|
       format.html {respond_with(@item,location: items_path)}

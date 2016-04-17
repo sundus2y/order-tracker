@@ -1,8 +1,8 @@
 class Order < ActiveRecord::Base
-
-  BRANDS = ['Mobis','GM','NG']
-
   include AASM
+
+  enum brand: [:mobis,:gm, :ng]
+
 
   default_scope {includes(:order_items).reorder(created_at: :desc)}
   scope :draft, lambda { where(status: 'draft') }
@@ -10,7 +10,6 @@ class Order < ActiveRecord::Base
   scope :ready, lambda { where(status: 'ready') }
   scope :accepted, lambda { where(status: 'accepted') }
   scope :rejected, lambda { where(status: 'rejected') }
-  scope :no_order, lambda { where(id:-1) }
   scope :non_empty, lambda { where('order_items_count >= 1') }
 
   aasm :column => :status, :no_direct_assignment => true do

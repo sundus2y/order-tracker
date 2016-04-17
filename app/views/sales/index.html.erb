@@ -1,0 +1,64 @@
+<% content_for :header do %>
+    Sales
+<% end %>
+<table id="sales" class="table-responsive display table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th width="5%">Sale#</th>
+    <th>Customer</th>
+    <th>Created at</th>
+    <th>Remark</th>
+    <th width="5%">Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @sales.each do |sale| %>
+      <tr data-id="<%=sale.id%>">
+        <td><%= sale.id %></td>
+        <td><%= sale.customer.name %></td>
+        <td><%= sale.created_at %></td>
+        <td><%= sale.remark %></td>
+        <td><span class="badge"><%= sale.status_upcase %></span></td>
+        <td>
+          <%= link_to(link_span('Open'), sale, class: "btn btn-sm btn-primary glyphicon glyphicon-folder-open")%>
+          <% if sale.draft? %>
+              <%= link_to(link_span('Edit'), edit_sale_path(sale), class: "btn btn-sm btn-primary glyphicon glyphicon-edit")%>
+              <%= link_to(link_span('Submit'), sale_submit_to_sold_path(sale), class: "btn btn-sm btn-primary glyphicon glyphicon-send", remote: true) %>
+              <%= render 'modals/confirm_sale_delete', id: "confirm_sale_delete_#{sale.id}", obj: sale%>
+              <button type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirm_sale_delete_<%= sale.id %>"><%=link_span('Delete')%></button>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Store</th>
+      <th>Remark</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <td><%= sale.customer_id %></td>
+        <td><%= sale.store.titleize %></td>
+        <td><%= sale.remark %></td>
+        <td><%= link_to 'Show', sale %></td>
+        <td><%= link_to 'Edit', edit_sale_path(sale) %></td>
+        <td><%= link_to 'Destroy', sale, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sale', new_sale_path %>

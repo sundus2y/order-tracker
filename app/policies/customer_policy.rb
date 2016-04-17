@@ -3,7 +3,7 @@ class CustomerPolicy
 
   def initialize(current_user, model)
     @current_user = current_user
-    @item = model
+    @customer = model
   end
 
   def index?
@@ -35,6 +35,10 @@ class CustomerPolicy
   end
 
   def search?
+    !@current_user.user? && !@current_user.vendor?
+  end
+
+  def autocomplete_customer_name?
     !@current_user.user? && !@current_user.vendor?
   end
 

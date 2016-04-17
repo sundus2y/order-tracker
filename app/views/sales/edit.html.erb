@@ -1,0 +1,8 @@
+<% content_for :header do %>
+    Edit Sale
+<% end %>
+
+<%= render 'form', action: "Update Sale", show_sale_items: true  %>
+
+<%= link_to 'Show', @sale %> |
+<%= link_to 'Back', sales_path %>

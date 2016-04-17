@@ -14,8 +14,11 @@ gem 'rails4-autocomplete'
 gem 'will_paginate', '~> 3.0.5'
 gem 'will_paginate-bootstrap'
 gem 'pg_search'
+gem 'react-rails'
+gem 'showdown-rails'
 group :development, :test do
   gem 'byebug'
+  gem 'awesome_print'
   gem 'web-console', '~> 2.0'
   gem 'spring'
 end

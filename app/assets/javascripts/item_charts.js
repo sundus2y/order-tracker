@@ -1,6 +1,6 @@
 $('#item_sales_history').ready(function(){
-    google.charts.load('current', {packages: ['corechart', 'line', 'bar']});
-    google.charts.setOnLoadCallback(drawCharts);
+    //google.charts.load('current', {packages: ['corechart', 'line', 'bar']});
+    //google.charts.setOnLoadCallback(drawCharts);
 });
 
 

@@ -1,0 +1,95 @@
+<%= form_for(@sale) do |f| %>
+  <% if @sale.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+
+      <ul>
+      <% @sale.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.hidden_field :id %>
+  <% unless action=="Show"%>
+    <div class="actions">
+      <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="input-group">
+        <%= f.label :customer, value:'Select Customer' %>
+        <%= f.autocomplete_field :customer, autocomplete_customer_name_customers_path,
+                                 value: '',
+                                 name: '',
+                                 class: 'form-control',
+                                 placeholder: 'Enter customer to search. . .',
+                                 :update_elements => {
+                                     :id => '#sale_customer_id',
+                                     :name => '#sale_customer_name',
+                                     :company => '#sale_customer_company',
+                                     :phone => '#sale_customer_phone',
+                                 } %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Customer Info</h4>
+    </div>
+  </div>
+  <%= f.fields_for (f.object.customer||Customer.new) do |c| %>
+    <%= c.number_field :id, name:'sale[customer_id]', class:'hidden' %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="field form-group">
+          <%= c.label :name %>
+          <%= c.text_field :name, readOnly: true, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="field form-group">
+          <%= c.label :company %>
+          <%= c.text_field :company, readOnly: true, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="field form-group">
+          <%= c.label :phone %>
+          <%= c.text_field :phone, readOnly: true, class: 'form-control' %>
+        </div>
+      </div>
+    </div>
+    <hr class="hr-dark">
+  <% end %>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="field form-group">
+        <%= f.label :store %><br>
+        <%= f.select(:store, Sale.stores.keys.map {|store| [store.titleize,store]},{}, class: 'form-control') %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="field form-group">
+        <%= f.label :created_at, value:'Sales Date:' %><br>
+        <%= f.date_field :created_at, class: 'form-control'  %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="field form-group">
+        <%= f.label :remark %><br>
+        <%= f.text_area :remark, class: 'form-control'  %>
+      </div>
+    </div>
+  </div>
+  <% if show_sale_items %>
+    <hr class="hr-dark">
+    <%= render 'sale_items'%>
+  <% end %>
+  <% unless action=="Show"%>
+    <div class="actions">
+      <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
+    </div>
+  <% end %>
+<% end %>

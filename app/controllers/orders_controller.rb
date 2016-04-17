@@ -1,8 +1,9 @@
 class OrdersController < ApplicationController
-  before_filter :authenticate_user!
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :set_orders, only:[:index, :show_all]
-  before_action :check_authorization, except: [:new, :create, :submit_to_ordered, :show_selected]
+
+  before_filter :authenticate_user!
+  before_action :check_authorization
   after_action :verify_authorized
 
   respond_to :html
@@ -22,13 +23,11 @@ class OrdersController < ApplicationController
   def show_selected
     order_ids = params[:order_id].split(',').map(&:to_i)
     @orders = Order.where(id: order_ids)
-    authorize @orders
     render "show_all" and return
   end
 
   def new
     @order = Order.new
-    authorize @order
     respond_with(@order)
   end
 
@@ -37,7 +36,6 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
-    authorize @order
     flash[:notice] = 'Order was successfully created.' if @order.save
     respond_with(@order,location:orders_path)
   end
@@ -56,7 +54,6 @@ class OrdersController < ApplicationController
 
   def submit_to_ordered
     @order = Order.find(params[:order_id])
-    authorize @order
     @order.submit!
     respond_to do |format|
       format.js
@@ -78,6 +75,6 @@ class OrdersController < ApplicationController
     end
 
     def check_authorization
-      authorize (@order || @orders)
+      authorize (@order || @orders || Order)
     end
 end

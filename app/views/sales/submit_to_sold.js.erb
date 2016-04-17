@@ -1,0 +1,10 @@
+var row = $("tr[data-id='<%= @sale.id %>']");
+row.find('.glyphicon-edit').velocity({translateX: "500px" }, { duration: 700}).velocity(
+    "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
+row.find('.glyphicon-send').velocity({translateX: "500px" }, { duration: 700}).velocity(
+    "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
+row.find('.glyphicon-trash').velocity({translateX: "500px" }, { duration: 700}).velocity(
+    "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
+row.find('#confirm_sale_delete_<%=@sale.id%>').velocity({translateX: "500px" }, { duration: 700}).velocity(
+    "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
+row.find('span.badge').html("<%=@sale.status_upcase%>");

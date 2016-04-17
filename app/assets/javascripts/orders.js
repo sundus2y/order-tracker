@@ -57,22 +57,24 @@ $(document).ready(function () {
         });
         var elem = this;
         item_ids = item_ids.join(',');
-        $.ajax({
-            url: "/check_duplicate/"+item_ids+"/"+elem.value+"/"+order_id+".json",
-            elem: elem
-        }).done(function(data){
-            if(!$.isEmptyObject(data)) {
-                var warning_msg = "The following Item/s where found on other orders, so you can't change the brand.<br>";
-                warning_msg += "<ul>";
-                $.each(data,function(index,item){
-                    warning_msg += "<li>";
-                    warning_msg += item['item_name']+" is already in <a class='btn btn-xs btn-warning' href='"+item['url']+"' >order #"+item['order_id']+"</a>";
-                    warning_msg += "</li>";
-                });
-                show_duplicate_warning(warning_msg);
-                $(elem).val(previous_brand);
-            }
-        })
+        if (order_id){
+            $.ajax({
+                url: "/check_duplicate/"+item_ids+"/"+elem.value+"/"+order_id+".json",
+                elem: elem
+            }).done(function(data){
+                if(!$.isEmptyObject(data)) {
+                    var warning_msg = "The following Item/s where found on other orders, so you can't change the brand.<br>";
+                    warning_msg += "<ul>";
+                    $.each(data,function(index,item){
+                        warning_msg += "<li>";
+                        warning_msg += item['item_name']+" is already in <a class='btn btn-xs btn-warning' href='"+item['url']+"' >order #"+item['order_id']+"</a>";
+                        warning_msg += "</li>";
+                    });
+                    show_duplicate_warning(warning_msg);
+                    $(elem).val(previous_brand);
+                }
+            })
+        }
     });
 });
 
@@ -90,16 +92,19 @@ var check_duplicate = function check_duplicate(elem,item_name,item_id){
         item_id: item_id
     };
     var order_id = $('#order-id').val();
-    $.ajax({
-        url: "/check_duplicate/"+item_id+"/"+brand+"/"+order_id+".json",
-        from_dom: dom_data
-    }).done(function(data) {
-        if($.isEmptyObject(data)) {
-            render_new_item(dom_data['elem'], dom_data['item_name'], dom_data['item_id']);
-        }else{
-            show_duplicate_warning("The Item <b>("+data[0]['item_name']+")</b> you are trying to add is already in <a class='btn btn-xs btn-warning' href='"+data[0]['url']+"' >order #"+data[0]['order_id']+"</a>");
-        }
-    });
+    if (order_id){
+        $.ajax({
+            url: "/check_duplicate/"+item_id+"/"+brand+"/"+order_id+".json",
+            from_dom: dom_data
+        }).done(function(data) {
+            if($.isEmptyObject(data)) {
+                render_new_item(dom_data['elem'], dom_data['item_name'], dom_data['item_id']);
+            }else{
+                show_duplicate_warning("The Item <b>("+data[0]['item_name']+")</b> you are trying to add is already in <a class='btn btn-xs btn-warning' href='"+data[0]['url']+"' >order #"+data[0]['order_id']+"</a>");
+            }
+        });
+    }
+
 };
 
 var render_new_item = function render_new_item(elem, item_name, item_id) {

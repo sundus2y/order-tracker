@@ -1,6 +1,10 @@
 class OrderItemsController < ApplicationController
   before_action :set_order_item, only: [:show, :edit, :update, :destroy]
+
   before_filter :authenticate_user!
+  before_action :check_authorization
+  after_action :verify_authorized
+
   respond_to :html
 
   def index
@@ -65,5 +69,9 @@ class OrderItemsController < ApplicationController
 
     def order_item_params
       params.require(:order_item).permit(:order_id, :item_name, :quantity)
+    end
+
+    def check_authorization
+      authorize (@order_item || OrderItem)
     end
 end

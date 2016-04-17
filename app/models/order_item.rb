@@ -1,10 +1,12 @@
 class OrderItem < ActiveRecord::Base
+  include AASM
+
+  enum brand: [:mobis,:gm, :ng]
+
   belongs_to :order
   belongs_to :item
 
-  BRANDS = ['Mobis','GM','NG']
 
-  include AASM
 
   default_scope {includes(:item)}
   scope :draft, lambda { where(status: 'draft')}
@@ -73,7 +75,7 @@ order_items.status != :status and item_id in (:item_id) and orders.brand = :bran
     found_order_items = OrderItem.joins(:order).where(query,
                                   status:'received',
                                   item_id:item_ids,
-                                  brand: brand,
+                                  brand: Order.brands[brand],
                                   order_id: order_id)
   end
 end

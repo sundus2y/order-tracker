@@ -10,6 +10,6 @@
 
 <% grouped_orders = @orders.group_by{|order| order.brand} %>
 <% grouped_orders.each_pair do |brand,orders| %>
-    <h2><%=brand%></h2>
+    <h2><%=brand.upcase%></h2>
     <%= render 'order_table', orders: orders%>
 <% end %>

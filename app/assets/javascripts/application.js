@@ -24,4 +24,6 @@
 //= require kadmin/jquery.metisMenu
 //= require kadmin/jquery.slimscroll
 //= require kadmin/responsive-tabs
+//= require showdown
+//= require react
 //= require_tree .

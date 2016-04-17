@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
 
-  resources :customers
+  resources :sale_items
+
+  resources :sales do
+    get 'sale_items/:id', to:'sales#sale_items', as: :sale_items, on: :collection
+    get :submit_to_sold, as: :submit_to_sold
+  end
+
+  resources :customers do
+    get :autocomplete_customer_name, on: :collection
+  end
 
   get 'check_duplicate/:item_ids/:brand/:order_id', to:'order_items#check_duplicate'
 
@@ -21,6 +30,7 @@ Rails.application.routes.draw do
   resources :users
   resources :items do
     get :autocomplete_item_name, on: :collection
+    get :autocomplete_item_sale_price, on: :collection
     post :import, on: :collection
     get :template, on: :collection
     get :download, on: :collection

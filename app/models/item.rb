@@ -1,5 +1,9 @@
 class Item < ActiveRecord::Base
   include PgSearch
+
+  has_many :order_items
+  has_many :sale_items
+
   pg_search_scope :search_item,
                   :against => {
                       original_number: 'A',

@@ -35,10 +35,25 @@
                      klass:'sub-menu',
                      parent:'items'}) if policy(Item).import_export? %>
   <%= navigation_li('#',
-                    'Orders',
-                    {icon:"fa fa-truck",
+                    'Sales',
+                    {icon:"fa fa-shopping-cart",
                      klass:'parent-menu',
-                    id:'orders'}) if policy(Order).show? %>
+                     id:'sales'}) if policy(Sale).show? %>
+  <%= navigation_li(new_sale_path,
+                    'Create New Sale',
+                    {id:'create_new_sale',
+                     klass:'sub-menu',
+                     parent:'sales'}) if policy(Sale).new? %>
+  <%= navigation_li(sales_path,
+                    'View All Sales',
+                    {id:'view_all_sales',
+                     klass:'sub-menu',
+                     parent:'sales'}) if policy(Sale).show? %>
+  <%= navigation_li('#',
+                  'Orders',
+                  {icon:"fa fa-truck",
+                   klass:'parent-menu',
+                  id:'orders'}) if policy(Order).show? %>
   <%= navigation_li(new_order_path,
                     'Create New Order',
                     {id:'create_new_order',

@@ -44,6 +44,10 @@ class ItemPolicy
     true
   end
 
+  def autocomplete_item_sale_price?
+    @current_user.admin? || @current_user.sales?
+  end
+
   def update?
     @current_user.admin?
   end
