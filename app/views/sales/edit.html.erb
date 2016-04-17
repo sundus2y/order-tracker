@@ -2,7 +2,7 @@
     Edit Sale
 <% end %>
 
-<%= render 'form', action: "Update Sale", show_sale_items: true  %>
+<%= render 'form', action: "Update Sale", show_sale_items: true, viewOnlyMode: false %>
 
 <%= link_to 'Show', @sale %> |
 <%= link_to 'Back', sales_path %>

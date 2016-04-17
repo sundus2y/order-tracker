@@ -181,6 +181,7 @@ var app = app || {};
                         saleItemData={saleItem}
                         onItemUpdate={this.handleSaleItemUpdate}
                         onSaleItemRemove={this.handleSaleItemRemove}
+                        viewOnly={this.props.viewOnly}
                     />
                 );
             }, this);
@@ -260,21 +261,21 @@ var app = app || {};
 
             return (
                 <div>
-                    {search}
-                    <hr className="hr-dark"/>
+                    {this.props.viewOnly ? '' : search}
                     {main}
                 </div>
             );
         }
     });
 
-    function render() {
+    function render(viewMode,container) {
         React.render(
-            <App />,
-            document.getElementsByClassName('sales_item_app')[0]
+            <App viewOnly={viewMode}/>,
+            container[0]
         );
     }
     $(document).ready(function(){
-        if ($('.sales_item_app').length != 0){render();}
+        if ($('.sales_item_app').length != 0){render(false,$('.sales_item_app'));}
+        if ($('.sales_item_show_app').length != 0){render(true,$('.sales_item_show_app'));}
     });
 })();

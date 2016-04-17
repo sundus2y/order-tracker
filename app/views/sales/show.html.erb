@@ -1,19 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Customer:</strong>
-  <%= @sale.customer_id %>
-</p>
-
-<p>
-  <strong>Store:</strong>
-  <%= @sale.store.titleize %>
-</p>
-
-<p>
-  <strong>Remark:</strong>
-  <%= @sale.remark %>
-</p>
-
-<%= link_to 'Edit', edit_sale_path(@sale) %> |
-<%= link_to 'Back', sales_path %>
+<% content_for :header do %>
+    View Sale
+<% end %>
+<%= render 'form', viewOnlyMode: true, show_sale_items: true %>

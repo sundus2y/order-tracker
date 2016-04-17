@@ -29,12 +29,13 @@ var app = app || {};
             var price = (isNaN(this.props.saleItemData.unit_price))? 0 : this.props.saleItemData.unit_price;
             var totalPrice = (qty * price);
 
+            var deleteButton = (<span className="fa fa-trash btn btn-danger"
+                                     onClick={this.handleSaleItemRemove}/>)
             return(
                 <tr>
                     <td>
                         <div className="field form-group">
-                            <span className="fa fa-trash btn btn-danger"
-                                  onClick={this.handleSaleItemRemove}/>
+                            {this.props.viewOnly ? '' : deleteButton}
                             <span className="line_number">{this.props.lineNumber}</span>
                         </div>
                     </td>
@@ -66,7 +67,8 @@ var app = app || {};
                                    required
                                    type="number"
                                    step="any"
-                                   min="1"/>
+                                   min="1"
+                                   disabled={this.props.viewOnly}/>
                         </div>
                     </td>
                     <td>
@@ -77,7 +79,8 @@ var app = app || {};
                                    required
                                    type="number"
                                    step="any"
-                                   min="1"/>
+                                   min="1"
+                                   disabled={this.props.viewOnly}/>
                         </div>
                     </td>
                     <td>
