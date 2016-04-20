@@ -1,6 +1,9 @@
 <% content_for :header do %>
     Sales
 <% end %>
+
+<%= will_paginate @sales, renderer: BootstrapPagination::Rails %>
+
 <table id="sales" class="table-responsive display table table-striped table-bordered">
   <thead>
   <tr>
@@ -25,7 +28,7 @@
           <%= link_to(link_span('Open'), sale, class: "btn btn-sm btn-primary glyphicon glyphicon-folder-open")%>
           <% if sale.draft? %>
               <%= link_to(link_span('Edit'), edit_sale_path(sale), class: "btn btn-sm btn-primary glyphicon glyphicon-edit")%>
-              <%= link_to(link_span('Submit'), sale_submit_to_sold_path(sale), class: "btn btn-sm btn-primary glyphicon glyphicon-send", remote: true) %>
+              <%= link_to(link_span('Submit'), sale_submit_to_sold_path(sale), class: "btn btn-sm btn-primary glyphicon glyphicon-send", remote: true) if sale.sale_items_count > 0 %>
               <%= render 'modals/confirm_sale_delete', id: "confirm_sale_delete_#{sale.id}", obj: sale%>
               <button type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirm_sale_delete_<%= sale.id %>"><%=link_span('Delete')%></button>
           <% end %>

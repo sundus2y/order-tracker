@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
-  autocomplete :customer, :name, :full => true, :display_value => :display_text, :extra_data => [:name, :company, :phone], :limit => 20
+  autocomplete :customer, :name, :full => true, :display_value => :display_text,
+               :extra_data => [:name, :company, :phone, :tin_no], :limit => 20
 
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
 
@@ -59,14 +60,18 @@ class CustomersController < ApplicationController
     end
 
     def customer_params
-      params.require(:customer).permit(:name, :company, :phone)
+      params.require(:customer).permit(:name, :company, :phone, :tin_no)
     end
 
-    def get_autocomplete_customers(parameters)
+    def get_autocomplete_items(parameters)
       model = Customer
       limit = parameters[:options][:limit]
       data = parameters[:options][:extra_data]
       data << parameters[:method]
-      model.where("LOWER(name) like LOWER(:term) or LOWER(company) like LOWER(:term) or LOWER(phone) like LOWER(:term)", term: "%#{parameters[:term]}%").limit(limit)
+      model.where("LOWER(name) like LOWER(:term) or
+                    LOWER(company) like LOWER(:term) or
+                    LOWER(phone) like LOWER(:term) or
+                    LOWER(tin_no) like LOWER(:term)",
+                  term: "%#{parameters[:term]}%").limit(limit)
     end
 end

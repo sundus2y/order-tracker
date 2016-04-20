@@ -29,6 +29,7 @@
                                        :name => '#sale_customer_name',
                                        :company => '#sale_customer_company',
                                        :phone => '#sale_customer_phone',
+                                       :tin_no => '#sale_customer_tin_no'
                                    } %>
         </div>
       </div>
@@ -54,10 +55,16 @@
           <%= c.text_field :company, readOnly: true, class: 'form-control' %>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2">
         <div class="field form-group">
           <%= c.label :phone %>
           <%= c.text_field :phone, readOnly: true, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="field form-group">
+          <%= c.label :tin_no, 'TIN No' %>
+          <%= c.text_field :tin_no, readOnly: true, class: 'form-control' %>
         </div>
       </div>
     </div>

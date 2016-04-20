@@ -5,6 +5,8 @@ class Customer < ActiveRecord::Base
   def display_text
     retval = name
     retval += " (#{company})" unless company.blank?
+    retval += " (#{phone})" unless phone.blank?
+    retval += " (#{tin_no})" unless tin_no.blank?
     retval
   end
 
