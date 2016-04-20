@@ -63,7 +63,7 @@ class SalesController < ApplicationController
     end
 
     def set_sales
-      sale_policy = SalePolicy.new(current_user,SalePolicy)
+      sale_policy = SalePolicy.new(current_user,SalePolicy,params)
       @sales = sale_policy.resolve
     end
 

@@ -1,9 +1,10 @@
 class SalePolicy
   attr_reader :current_user, :model
 
-  def initialize(current_user, model)
+  def initialize(current_user, model,params=nil)
     @current_user = current_user
     @sale = model
+    @params = params
   end
 
   def index?
@@ -48,9 +49,9 @@ class SalePolicy
 
   def resolve
     if @current_user.sales?
-      Sale.draft
+      Sale.draft.page(@params[:page]).per_page(10)
     elsif @current_user.admin?
-      Sale.all
+      Sale.all.page(@params[:page]).per_page(10)
     else
       []
     end
