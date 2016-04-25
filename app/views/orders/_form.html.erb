@@ -48,8 +48,8 @@
       <tr class="search-box">
         <td colspan="6">
           <div class="input-group">
-            <span class="input-group-addon glyphicon glyphicon-search" id="basic-addon1"></span>
-            <input id="search_item_field" type="text" class="form-control glyphicon glyphicon-search" data-autocomplete="/items/autocomplete_item_name" data-name-element="#search_item_id" placeholder="Enter item to search. . .">
+            <span class="input-group-addon fa fa-search" id="basic-addon1"></span>
+            <input id="search_item_field" type="text" class="form-control fa fa-search" data-autocomplete="/items/autocomplete_item_name" data-name-element="#search_item_id" placeholder="Enter item to search. . .">
           </div>
           <span class="hidden">
             <%= link_to_add_fields "+ Add Item", f, :order_items%>
@@ -61,7 +61,7 @@
           <%= render 'modals/confirm_order_item_delete', id: "confirm_order_item_delete_#{order_item_id}", f: order_item_f%>
           <tr>
             <td class="right-align">
-              <button type="button" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirm_order_item_delete_<%= order_item_id %>"></button>
+              <button type="button" class="btn btn-danger fa fa-trash" data-toggle="modal" data-target="#confirm_order_item_delete_<%= order_item_id %>"></button>
               <%= order_item_f.number_field :quantity, class:'form-control qty-input' %>
             </td>
             <td>

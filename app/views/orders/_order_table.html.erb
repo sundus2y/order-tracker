@@ -21,12 +21,12 @@
         <td><%= order.notes %></td>
         <td><span class="badge"><%= order.status_upcase %></span></td>
         <td>
-          <%= link_to(link_span('Open'), order, class: "btn btn-sm btn-primary glyphicon glyphicon-folder-open")%>
+          <%= link_to(link_span('Open'), order, class: "btn btn-sm btn-primary fa fa-folder-open")%>
           <% if order.draft? %>
-              <%= link_to(link_span('Edit'), edit_order_path(order), class: "btn btn-sm btn-primary glyphicon glyphicon-edit")%>
-              <%= link_to(link_span('Submit'), order_submit_to_ordered_path(order), class: "btn btn-sm btn-primary glyphicon glyphicon-send", remote: true) %>
+              <%= link_to(link_span('Edit'), edit_order_path(order), class: "btn btn-sm btn-primary fa fa-edit")%>
+              <%= link_to(link_span('Submit'), order_submit_to_ordered_path(order), class: "btn btn-sm btn-primary fa fa-send", remote: true) %>
               <%= render 'modals/confirm_order_delete', id: "confirm_order_delete_#{order.id}", obj: order%>
-              <button type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirm_order_delete_<%= order.id %>"><%=link_span('Delete')%></button>
+              <button type="button" class="btn btn-sm btn-danger fa fa-trash" data-toggle="modal" data-target="#confirm_order_delete_<%= order.id %>"><%=link_span('Delete')%></button>
           <% elsif order.ready? %>
               <%= link_to(link_span('Process Order'), '#', class: "btn btn-success") %>
           <% end %>

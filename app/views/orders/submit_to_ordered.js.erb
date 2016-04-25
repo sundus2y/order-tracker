@@ -1,9 +1,9 @@
 var row = $("tr[data-id='<%= @order.id %>']");
-row.find('.glyphicon-edit').velocity({translateX: "500px" }, { duration: 700}).velocity(
+row.find('.fa-edit').velocity({translateX: "500px" }, { duration: 700}).velocity(
     "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
-row.find('.glyphicon-send').velocity({translateX: "500px" }, { duration: 700}).velocity(
+row.find('.fa-send').velocity({translateX: "500px" }, { duration: 700}).velocity(
     "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
-row.find('.glyphicon-trash').velocity({translateX: "500px" }, { duration: 700}).velocity(
+row.find('.fa-trash').velocity({translateX: "500px" }, { duration: 700}).velocity(
     "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
 row.find('#confirm_order_delete_<%=@order.id%>').velocity({translateX: "500px" }, { duration: 700}).velocity(
     "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });

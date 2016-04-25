@@ -44,6 +44,11 @@
                     {id:'create_new_sale',
                      klass:'sub-menu',
                      parent:'sales'}) if policy(Sale).new? %>
+  <%= navigation_li(return_sales_path,
+                    'Return Sale',
+                    {id:'return',
+                     klass:'sub-menu',
+                     parent:'sales'}) if policy(Sale).new? %>
   <%= navigation_li(sales_path,
                     'View All Sales',
                     {id:'view_all_sales',

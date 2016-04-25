@@ -11,6 +11,7 @@ class Sale < ActiveRecord::Base
   scope :draft, lambda { where(status: 'draft') }
   scope :sold, lambda { where(status: 'sold') }
   scope :accepted, lambda { where(status: 'accepted') }
+  default_scope { includes(:sale_items).reorder(created_at: :asc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -36,8 +37,18 @@ class Sale < ActiveRecord::Base
             })
   end
 
+  def self.all_grouped_by_store
+    result = all.group_by(&:store)
+    result.default = []
+    result
+  end
+
   def status_upcase
     status.upcase
+  end
+
+  def grand_total
+    sale_items.inject(0){|n,sale_item| n + (sale_item.qty*sale_item.unit_price)}
   end
 
   private

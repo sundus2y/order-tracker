@@ -3,7 +3,7 @@ class OrderItem < ActiveRecord::Base
 
   enum brand: [:mobis,:gm, :ng]
 
-  belongs_to :order
+  belongs_to :order, :counter_cache => true
   belongs_to :item
 
 

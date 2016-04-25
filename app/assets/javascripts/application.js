@@ -26,4 +26,5 @@
 //= require kadmin/responsive-tabs
 //= require showdown
 //= require react
+//= require react_bootstrap/react-bootstrap
 //= require_tree .

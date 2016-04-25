@@ -9,6 +9,8 @@ class SalesController < ApplicationController
   respond_to :html
 
   def index
+    @grouped_sales = Sale.all_grouped_by_store
+    @stores = Sale.stores.keys
     respond_with(@sales)
   end
 
@@ -54,6 +56,12 @@ class SalesController < ApplicationController
     @sale.submit!
     respond_to do |format|
       format.js
+    end
+  end
+
+  def stores
+    respond_to do |format|
+      format.json {render json: Sale.stores.to_a }
     end
   end
 

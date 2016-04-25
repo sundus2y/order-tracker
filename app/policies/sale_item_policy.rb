@@ -38,14 +38,8 @@ class SaleItemPolicy
     !@current_user.user? && !@current_user.vendor?
   end
 
-  # def resolve
-  #   if @current_user.sales?
-  #     SaleItem.draft
-  #   elsif @current_user.admin?
-  #     SaleItem.all
-  #   else
-  #     []
-  #   end
-  # end
+  def by_store_and_item?
+    new?
+  end
 
 end

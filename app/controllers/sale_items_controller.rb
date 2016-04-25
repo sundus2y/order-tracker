@@ -50,9 +50,15 @@ class SaleItemsController < ApplicationController
     end
   end
 
+  def by_store_and_item
+    respond_to do |format|
+      format.json {render json: SaleItem.sold_by_store_and_item(params[:store_id],params[:item_id]).as_json(SaleItem.sale_return_json_options)}
+    end
+  end
+
   private
     def set_sale_item
-      @sale_item = SaleItem.find(params[:id])
+      @sale_item = SaleItem.includes(:item).find(params[:id])
     end
 
     def sale_item_params

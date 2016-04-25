@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
 
   resources :sale_items
+  get 'sale_items/store/:store_id/item/:item_id', to: 'sale_items#by_store_and_item', as: :by_store_and_item
 
   resources :sales do
     get 'sale_items/:id', to:'sales#sale_items', as: :sale_items, on: :collection
     get :submit_to_sold, as: :submit_to_sold
+    get :stores, on: :collection
+    get :return, on: :collection
   end
 
   resources :customers do
