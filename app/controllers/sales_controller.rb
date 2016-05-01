@@ -21,7 +21,7 @@ class SalesController < ApplicationController
   def sale_items
     @sale = Sale.includes([{sale_items: [:item]}]).where(id: params[:id]).first
     respond_to do |format|
-      format.json {render json: @sale.sale_items_json }
+      format.json {render json: @sale.as_json(type: :sale_items) }
     end
   end
 

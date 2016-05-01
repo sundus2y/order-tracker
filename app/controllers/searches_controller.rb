@@ -13,7 +13,8 @@ class SearchesController < ApplicationController
   end
 
   def sales
-
+    result = Sale.search(params[:query])
+    render json: result.as_json({type: :search})
   end
 
   def _

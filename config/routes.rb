@@ -48,6 +48,6 @@ Rails.application.routes.draw do
     get :all, on: :collection, as: :all
     get :items, on: :collection, as: :items
     get :orders, on: :collection, as: :orders
-    get :sales, on: :collection, as: :sales
+    post :sales, on: :collection, as: :sales
   end
 end

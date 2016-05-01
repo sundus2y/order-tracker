@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require moment/moment
 //= require jquery-ui
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables

@@ -7,4 +7,26 @@ $(document).ready(function (){
     $("form[data-readOnly='true']").find('input').attr('readOnly',true);
     $("form[data-readOnly='true']").find('select').attr('disabled',true);
     $("form[data-readOnly='true']").find('textarea').attr('readOnly',true);
+    $( "#date_from" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        onClose: function( selectedDate ) {
+            $( "#date_to" ).datepicker( {
+                minDate: selectedDate,
+                dateFormat: 'yy-mm-dd'
+            });
+        }
+    });
+    $( "#date_to" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        onClose: function( selectedDate ) {
+            $( "#date_from" ).datepicker({
+                maxDate: selectedDate,
+                dateFormat: 'yy-mm-dd'
+            });
+        }
+    });
 });

@@ -3,16 +3,24 @@
 <% end %>
 
 <ul class="nav nav-tabs">
-  <% @stores.each_with_index do |store,index| %>
-    <%= content_tag :li, '', {class: index == 0 ? 'active' : ''} do %>
+  <li class="active">
+    <a href="#search_sales_tab" data-toggle="tab"> Search </a>
+  </li>
+  <% @stores.each do |store| %>
+    <%= content_tag :li, '' do %>
       <%= content_tag :a, store.titleize, {'data-toggle': 'tab', href: "##{store}_sales_tab"} %>
     <% end %>
   <% end %>
 </ul>
 
 <div class="tab-content">
-  <% @stores.each_with_index do |store,index| %>
-    <%= content_tag :div, {id: "#{store}_sales_tab", class:"tab-pane fade in #{index==0?'active':''}"} do %>
+  <div id="search_sales_tab" class="tab-pane fade in active">
+    <div>
+      <%= render 'search'%>
+    </div>
+  </div>
+  <% @stores.each do |store| %>
+    <%= content_tag :div, {id: "#{store}_sales_tab", class:"tab-pane fade in"} do %>
       <%= content_tag :div do %>
         <table id="<%= store %>_sales_table" class="table-responsive display table table-striped table-bordered">
           <thead>
