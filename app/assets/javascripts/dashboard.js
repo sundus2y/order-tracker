@@ -6,6 +6,7 @@ var itemDataTable = null;
         itemDataTable = $('#item-results-table').DataTable({
             data: [],
             columns: [
+                { data: "actions" },
                 { data: "name" },
                 { data: "original_number" },
                 { data: "item_number" },
@@ -45,6 +46,7 @@ var itemDataTable = null;
         $.get('/search/items',{search_term:term})
             .done(function(result){
                 itemDataTable.clear().draw();
+                debugger;
                 itemDataTable.rows.add(result).draw();
             })
     };

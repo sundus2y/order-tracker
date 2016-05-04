@@ -32,6 +32,31 @@ class Item < ActiveRecord::Base
     false
   end
 
+  def as_json(options={})
+    type = options.delete(:type) || :default
+    case type
+      when :search
+        super({
+                  only: [:name,:original_number,:item_number,:prev_number,:next_number,
+                        :description,:car,:model,:sale_price,:dubai_price,:korea_price,
+                        :t_shop,:l_shop,:l_store,:brand,:made],
+                  methods: [:actions]
+              }.merge(options))
+      when :default
+        super options
+    end
+  end
+
+  def actions
+    url_helpers = Rails.application.routes.url_helpers
+    actions = []
+    separator = '<br>'.html_safe
+    actions <<  "<a class='btn btn-info btn-sm fa fa-eye action' role='button' href='#{url_helpers.item_path self}'></a>"
+    actions <<  "<a class='btn btn-success btn-sm fa fa-pencil' role='button' href='#{url_helpers.edit_item_path self}'></a>"
+    actions <<  "<a class='btn btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'></a>"
+    actions.join(separator).html_safe
+  end
+
   def item_numbers_cannot_include_special_characters
     error_msg = "can't include the following characters: (#{INVALID_CHARS.join(' ')} or space)"
     errors.add :original_number, error_msg if INVALID_CHARS_REGEX.match(original_number)
