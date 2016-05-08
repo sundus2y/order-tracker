@@ -11,6 +11,26 @@ var app = app || {};
             $('#search_item_id').val(object.item.id);
             $(this).val('');
         });
+        $('#search_item_field').on('autocompleteopen', function (event, object) {
+            var results = $('ul.ui-autocomplete').find('li');
+            $('ul.ui-autocomplete').prepend("" +
+                "<li class='autocomplete-header'>" +
+                    "<div class='row'>" +
+                    "<div class='col-md-2'>Origninal Number</div>" +
+                    "<div class='col-md-5'>Name</div>" +
+                    "<div class='col-md-1'>L<br>Shop</div>" +
+                    "<div class='col-md-1'>T<br>Shop</div>" +
+                    "<div class='col-md-1'>T<br>Store</div>" +
+                    "<div class='col-md-1'>Brand</div>" +
+                    "<div class='col-md-1'>Origin</div>" +
+                    "</div>" +
+                "</li>");
+            results.each(function(index,elem){
+                var node = elem.childNodes[0].nodeValue;
+                elem.innerHTML = "";
+                $(elem).append(node);
+            });
+        });
     }
 
     function clearSearchFields(){

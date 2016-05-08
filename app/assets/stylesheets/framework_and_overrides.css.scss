@@ -144,3 +144,16 @@ input[type="number"] {
 .center-aligned {
   text-align: center;
 }
+
+ul.ui-autocomplete {
+  width: 75% !important;
+}
+ul.ui-autocomplete li.ui-menu-item {
+  list-style-image: none !important;
+}
+
+ul.ui-autocomplete li.autocomplete-header {
+  background-color: #3C3C3C !important;
+  color: white !important;
+  padding: 3px 1em 3px .4em !important;
+}

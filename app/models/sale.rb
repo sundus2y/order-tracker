@@ -19,7 +19,7 @@ class Sale < ActiveRecord::Base
     state :accepted
 
     event :submit, after: :submit_sale_items do
-      transitions :from => :draft, :to => :sold #SALE
+      transitions :from => :draft, :to => :sold, unless: :empty_sale_item? #SALE
       transitions :from => :sold, :to => :accepted #ADMIN
     end
 
@@ -91,5 +91,9 @@ class Sale < ActiveRecord::Base
       sale_items.map(&:reject!)
     end
 
+    def empty_sale_item?
+      return true if sale_items_count == 0
+      sale_items.find{|sale_item| (sale_item.qty == 0 || sale_item.unit_price == 0)}
+    end
 
 end

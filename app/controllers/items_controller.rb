@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:original_number,:description], :limit => 20
-  autocomplete :item, :sale_price, :display_value => :to_s, :extra_data => [:name,:item_number,:original_number,:description,:sale_price], :limit => 20
+  autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:original_number,:description,:sale_price], :limit => 20
 
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 

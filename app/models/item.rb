@@ -124,6 +124,19 @@ class Item < ActiveRecord::Base
     "#{original_number} |  #{name}"
   end
 
+  def sale_item_autocomplete_display
+    str = "".html_safe
+    str << "<div class='row'>".html_safe
+    str << "<div class='col-md-2'>#{original_number}</div>".html_safe
+    str << "<div class='col-md-5'>#{name}</div>".html_safe
+    str << "<div class='col-md-1'>#{l_shop}</div>".html_safe
+    str << "<div class='col-md-1'>#{t_shop}</div>".html_safe
+    str << "<div class='col-md-1'>#{l_store}</div>".html_safe
+    str << "<div class='col-md-1'>#{brand.present? ? brand : 'Unknown'}</div>".html_safe
+    str << "<div class='col-md-1'>#{made.present? ? made : 'Unknown'}</div>".html_safe
+    str << "</div>".html_safe
+  end
+
   def self.search_item2(term)
     where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%")
   end
