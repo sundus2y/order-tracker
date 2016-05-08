@@ -12,6 +12,7 @@
       <th>Company</th>
       <th>Phone</th>
       <th>TIN No.</th>
+      <th>Category</th>
       <th class="actions" >Actions</th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
         <td><%= customer.company %></td>
         <td><%= customer.phone %></td>
         <td><%= customer.tin_no %></td>
+        <td><%= customer.category.titleize %></td>
         <td>
           <%= actions customer, {separator: ' '.html_safe} %>
         </td>

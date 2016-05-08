@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
-  autocomplete :customer, :name, :full => true, :display_value => :display_text,
-               :extra_data => [:name, :company, :phone, :tin_no], :limit => 20
+  autocomplete :customer, :name, :full => true, :display_value => :autocomplete_display,
+               :extra_data => [:name, :company, :phone, :tin_no, :category], :limit => 20
 
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
 
@@ -42,7 +42,7 @@ class CustomersController < ApplicationController
 
   def update
     flash[:notice] = 'Customer was successfully updated.' if @customer.update(customer_params)
-    respond_with(@customer,location: customer_path)
+    respond_with(@customer,location: customers_path)
   end
 
   def destroy
@@ -60,7 +60,7 @@ class CustomersController < ApplicationController
     end
 
     def customer_params
-      params.require(:customer).permit(:name, :company, :phone, :tin_no)
+      params.require(:customer).permit(:name, :company, :phone, :tin_no, :category)
     end
 
     def get_autocomplete_items(parameters)

@@ -26,7 +26,8 @@
                                        :name => '#sale_customer_name',
                                        :company => '#sale_customer_company',
                                        :phone => '#sale_customer_phone',
-                                       :tin_no => '#sale_customer_tin_no'
+                                       :tin_no => '#sale_customer_tin_no',
+                                       :category => '#sale_customer_category'
                                    } %>
         </div>
       </div>
@@ -40,16 +41,22 @@
   <%= f.fields_for (f.object.customer||Customer.new) do |c| %>
     <%= c.number_field :id, name:'sale[customer_id]', class:'hidden' %>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="field form-group">
           <%= c.label :name %>
           <%= c.text_field :name, readOnly: true, class: 'form-control' %>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="field form-group">
           <%= c.label :company %>
           <%= c.text_field :company, readOnly: true, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="field form-group">
+          <%= c.label :category %>
+          <%= c.text_field :category, readOnly: true, class: 'form-control' %>
         </div>
       </div>
       <div class="col-md-2">

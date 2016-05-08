@@ -36,10 +36,16 @@
         <%= f.text_field :phone, class:"form-control" %>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
       <div class="field form-group">
         <%= f.label :tin_no %><br>
         <%= f.text_field :tin_no, class:"form-control" %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="field form-group">
+        <%= f.label :category%><br>
+        <%= f.select(:category, Customer.categories.keys.map {|category| [category.titleize,category]},{}, class: 'form-control') %>
       </div>
     </div>
   </div>
