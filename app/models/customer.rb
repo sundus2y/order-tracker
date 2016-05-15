@@ -22,5 +22,8 @@ class Customer < ActiveRecord::Base
     str << "</div>".html_safe
   end
 
+  def label
+    name
+  end
 
 end

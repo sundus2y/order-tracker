@@ -8,22 +8,31 @@ class SaleItem < ActiveRecord::Base
   include AASM
 
   scope :draft, lambda { where(status: 'draft') }
-  scope :ready, lambda { where(status: 'sold') }
-  scope :accepted, lambda { where(status: 'accepted') }
+  scope :sold, lambda { where(status: 'sold') }
+  scope :credited, lambda { where(status: 'credited') }
+  scope :sampled, lambda { where(status: 'sampled') }
   scope :sold_by_store_and_item, -> (store_id,item_id) {includes(:sale,:item,{sale:[:customer]}).where(sales:{store:store_id},item_id:item_id,status:'sold')}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
     state :sold
-    state :accepted
+    state :credited
+    state :sampled
 
     event :submit do
       transitions :from => :draft, :to => :sold, after: :update_inventory #SALE
-      transitions :from => :ready, :to => :accepted #ADMIN
+    end
+
+    event :credit do
+      transitions :from => :draft, :to => :credited, after: :update_inventory #SALE
+    end
+
+    event :sample do
+      transitions :from => :draft, :to => :sampled, after: :update_inventory #SALE
     end
 
     event :reject do
-      transitions :from => [:sold,:accepted], :to => :draft #ADMIN
+      transitions :from => [:sold,:credited,:sampled], :to => :draft #ADMIN
     end
   end
 

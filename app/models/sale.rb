@@ -10,21 +10,30 @@ class Sale < ActiveRecord::Base
 
   scope :draft, lambda { where(status: 'draft') }
   scope :sold, lambda { where(status: 'sold') }
-  scope :accepted, lambda { where(status: 'accepted') }
+  scope :credited, lambda { where(status: 'credited') }
+  scope :sampled, lambda { where(status: 'sampled') }
   default_scope { includes(:sale_items).reorder(created_at: :asc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
     state :sold
-    state :accepted
+    state :credited
+    state :sampled
 
     event :submit, after: :submit_sale_items do
       transitions :from => :draft, :to => :sold, unless: :empty_sale_item? #SALE
-      transitions :from => :sold, :to => :accepted #ADMIN
+    end
+
+    event :credit, after: :credit_sale_items do
+      transitions :from => :draft, :to => :credited, unless: :empty_sale_item? #SALE
+    end
+
+    event :sample, after: :sample_sale_items do
+      transitions :from => :draft, :to => :sampled, unless: :empty_sale_item? #SALE
     end
 
     event :reject, after: :reject_sale_items do
-      transitions :from => [:sold,:accepted], :to => :draft #ADMIN
+      transitions :from => [:sold,:credited,:sampled], :to => :draft #ADMIN
     end
   end
 
@@ -89,6 +98,14 @@ class Sale < ActiveRecord::Base
 
     def reject_sale_items
       sale_items.map(&:reject!)
+    end
+
+    def credit_sale_items
+      sale_items.map(&:credit!)
+    end
+
+    def sample_sale_items
+      sale_items.map(&:sample!)
     end
 
     def empty_sale_item?

@@ -46,7 +46,6 @@ var itemDataTable = null;
         $.get('/search/items',{search_term:term})
             .done(function(result){
                 itemDataTable.clear().draw();
-                debugger;
                 itemDataTable.rows.add(result).draw();
             })
     };

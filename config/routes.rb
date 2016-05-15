@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :sales do
     get 'sale_items/:id', to:'sales#sale_items', as: :sale_items, on: :collection
     get :submit_to_sold, as: :submit_to_sold
+    get :submit_to_credited, as: :submit_to_credited
+    get :submit_to_sampled, as: :submit_to_sampled
     get :stores, on: :collection
     get :return, on: :collection
   end

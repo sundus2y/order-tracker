@@ -1,7 +1,5 @@
 <% content_for :header do %>
-    New Sale
+    New Sale Attachment
 <% end %>
 
-<%= render 'form', action:"Save New Sale", show_sale_items: false, viewOnlyMode: false %>
-
-<%= link_to 'Back', sales_path %>
+<%= render 'form', show_sale_items: false, viewOnlyMode: false %>

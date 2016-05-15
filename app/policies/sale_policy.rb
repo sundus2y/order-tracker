@@ -47,6 +47,14 @@ class SalePolicy
     new?
   end
 
+  def submit_to_credited?
+    new?
+  end
+
+  def submit_to_sampled?
+    new?
+  end
+
   def return?
     new?
   end

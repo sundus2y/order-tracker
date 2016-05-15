@@ -100,11 +100,19 @@
       <div class="sales_item_show_app"></div>
     <% else %>
       <div class="sales_item_app"></div>
+      <div class="btn-group float_right">
+        <%= button_tag('Save Draft', name:'save', type: 'submit', class: "btn btn-primary") %>
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+        </a>
+        <ul class="dropdown-menu save-dropdown-menu">
+          <li><%= button_tag('Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block") %></li>
+          <li><%= button_tag('Credit', name:'credit', type: 'submit', class: "btn btn-primary btn-block") %></li>
+          <li><%= button_tag('Sample', name:'sample', type: 'submit', class: "btn btn-primary btn-block") %></li>
+        </ul>
+      </div>
     <% end %>
-  <% end %>
-  <% if !viewOnlyMode %>
-    <div class="actions">
-      <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
-    </div>
+  <% else %>
+  <%= button_tag('Create Sales Attachment', name:'save', type: 'submit', class: "btn btn-primary btn-block") %>
   <% end %>
 <% end %>

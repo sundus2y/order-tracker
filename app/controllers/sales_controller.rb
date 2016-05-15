@@ -41,6 +41,13 @@ class SalesController < ApplicationController
 
   def update
     @sale.update(sale_params)
+    if params[:submit]
+      @sale.submit!
+    elsif params[:credit]
+      @sale.credit!
+    elsif params[:sample]
+      @sale.sample!
+    end
     respond_with(@sale,location: sales_path)
   end
 
@@ -54,9 +61,19 @@ class SalesController < ApplicationController
   def submit_to_sold
     @sale = Sale.find(params[:sale_id])
     @sale.submit!
-    respond_to do |format|
-      format.js
-    end
+    render 'remove_draft_actions' and return
+  end
+
+  def submit_to_credited
+    @sale = Sale.find(params[:sale_id])
+    @sale.credit!
+    render 'remove_draft_actions' and return
+  end
+
+  def submit_to_sampled
+    @sale = Sale.find(params[:sale_id])
+    @sale.sample!
+    render 'remove_draft_actions' and return
   end
 
   def stores

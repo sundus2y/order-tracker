@@ -1,0 +1,4 @@
+var row = $("tr[data-id='<%= @sale.id %>']");
+row.find('.draft_actions').velocity({translateX: "500px" }, { duration: 700}).velocity(
+    "fadeOut", { queue: false, duration: 700, complete: function(element) { element.remove() } });
+row.find('span.badge').html("<%=@sale.status_upcase%>");

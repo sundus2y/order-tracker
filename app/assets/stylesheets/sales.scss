@@ -10,3 +10,8 @@ td.grand_total{
   text-align: right;
   font-size: 16px;
 }
+
+span#selected-customer-close {
+  cursor: pointer;
+  background-color: #3C3C3C;
+}

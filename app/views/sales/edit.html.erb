@@ -1,8 +1,6 @@
 <% content_for :header do %>
-    Edit Sale
+    Edit Sale Attachment #<%= @sale.id %>
 <% end %>
 
-<%= render 'form', action: "Update Sale", show_sale_items: true, viewOnlyMode: false %>
+<%= render 'form', show_sale_items: true, viewOnlyMode: false %>
 
-<%= link_to 'Show', @sale %> |
-<%= link_to 'Back', sales_path %>

@@ -74,4 +74,15 @@ class CustomersController < ApplicationController
                     LOWER(tin_no) like LOWER(:term)",
                   term: "%#{parameters[:term]}%").limit(limit)
     end
+
+    def json_for_autocomplete(items, method, extra_data=[])
+      items.collect do |item|
+        hash = {"id" => item.id.to_s, "label" => item.label, "value" => item.send(method)}
+        extra_data.each do |datum|
+          hash[datum] = item.send(datum)
+        end if extra_data
+        # TODO: Come back to remove this if clause when test suite is better
+        hash
+      end
+    end
 end

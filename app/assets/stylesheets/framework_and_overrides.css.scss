@@ -157,3 +157,22 @@ ul.ui-autocomplete li.autocomplete-header {
   color: white !important;
   padding: 3px 1em 3px .4em !important;
 }
+
+div.float_right {
+  float: right;
+}
+
+ul.save-dropdown-menu {
+  left: 15% !important;
+  min-width: 100px;
+}
+
+ul.dd-menu{
+  list-style: none;
+  position: absolute;
+  top: 100%;
+}
+
+ul.dd-menu li a {
+  text-align: left;
+}
