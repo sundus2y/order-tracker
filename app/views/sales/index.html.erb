@@ -46,14 +46,16 @@
                 <%= link_to(link_span('Open'), sale, class: "btn btn-sm btn-primary fa fa-folder-open")%>
                 <% if sale.draft? %>
                   <%= link_to(link_span('Edit'), edit_sale_path(sale), class: "btn btn-sm btn-primary fa fa-edit draft_actions")%>
-                  <div class="btn-group draft_actions">
-                    <%= link_to(link_span('Submit'), sale_submit_to_sold_path(sale), class: "btn btn-sm btn-primary fa fa-send", remote: true) if sale.may_submit? %>
-                    <a class="btn btn-sm btn-primary fa fa-caret-down btn-group-toggle" href="#"></a>
-                    <ul class="dd-menu hidden">
-                      <li><%= link_to(link_span('Credit'), sale_submit_to_credited_path(sale), class: "btn btn-sm btn-primary btn-block", remote: true) if sale.may_credit? %></li>
-                      <li><%= link_to(link_span('Sample'), sale_submit_to_sampled_path(sale), class: "btn btn-sm btn-primary btn-block", remote: true) if sale.may_sample? %></li>
-                    </ul>
-                  </div>
+                  <% if sale.may_submit? %>
+                    <div class="btn-group draft_actions">
+                      <%= link_to(link_span('Submit'), sale_submit_to_sold_path(sale), class: "btn btn-sm btn-primary fa fa-send", remote: true)%>
+                      <a class="btn btn-sm btn-primary fa fa-caret-down btn-group-toggle" href="#"></a>
+                      <ul class="dd-menu hidden">
+                        <li><%= link_to(link_span('Credit'), sale_submit_to_credited_path(sale), class: "btn btn-sm btn-primary btn-block", remote: true)%></li>
+                        <li><%= link_to(link_span('Sample'), sale_submit_to_sampled_path(sale), class: "btn btn-sm btn-primary btn-block", remote: true)%></li>
+                      </ul>
+                    </div>
+                  <% end %>
                   <%= render 'modals/confirm_sale_delete', id: "confirm_sale_delete_#{sale.id}", obj: sale%>
                   <button type="button" class="btn btn-sm btn-danger fa fa-trash draft_actions" data-toggle="modal" data-target="#confirm_sale_delete_<%= sale.id %>"><%=link_span('Delete')%></button>
                 <% end %>
