@@ -12,6 +12,8 @@ class Sale < ActiveRecord::Base
   scope :sold, lambda { where(status: 'sold') }
   scope :credited, lambda { where(status: 'credited') }
   scope :sampled, lambda { where(status: 'sampled') }
+  scope :returned, lambda { where(status: 'returned') }
+
   default_scope { includes(:sale_items).reorder(created_at: :asc)}
 
   aasm :column => :status, :no_direct_assignment => true do
@@ -19,6 +21,7 @@ class Sale < ActiveRecord::Base
     state :sold
     state :credited
     state :sampled
+    state :returned
 
     event :submit, after: :submit_sale_items do
       transitions :from => :draft, :to => :sold, unless: :empty_sale_item? #SALE
@@ -34,6 +37,10 @@ class Sale < ActiveRecord::Base
 
     event :reject, after: :reject_sale_items do
       transitions :from => [:sold,:credited,:sampled], :to => :draft #ADMIN
+    end
+
+    event :return_sale do
+      transitions :from => [:sold,:accepted], :to => :returned, if: :empty_sold_item?
     end
   end
 
@@ -110,7 +117,13 @@ class Sale < ActiveRecord::Base
 
     def empty_sale_item?
       return true if sale_items_count == 0
-      sale_items.find{|sale_item| (sale_item.qty == 0 || sale_item.unit_price == 0)}
+      sale_items.where('qty = 0 OR unit_price = 0').count == 0 ? false : true
+    end
+
+    def empty_sold_item?
+      sold_count = sale_items.where(status: 'sold').sum(:qty)
+      returned_count = sale_items.where(status: 'returned').sum(:qty)
+      sold_count + returned_count == 0 ? true : false
     end
 
 end

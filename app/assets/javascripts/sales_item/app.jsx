@@ -24,12 +24,10 @@ var app = app || {};
                     "<div class='col-md-1'>Brand</div>" +
                     "<div class='col-md-1'>Origin</div>" +
                     "</div>" +
-                "</li>");
-            results.each(function(index,elem){
-                var node = elem.childNodes[0].nodeValue;
-                elem.innerHTML = "";
-                $(elem).append(node);
-            });
+                "</li>").css('width','75%');
+            var indices = [0,1,2,3,4,5,6];
+            var widths = ['col-md-2','col-md-5','col-md-1','col-md-1','col-md-1','col-md-1','col-md-1'];
+            renderAutocompleteResults(results, indices, widths);
         });
     }
 

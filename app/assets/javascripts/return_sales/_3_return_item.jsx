@@ -6,15 +6,15 @@ var returnSalesApp = returnSalesApp || {};
 
     returnSalesApp.ReturnItem = React.createClass({
 
-        handleReturnItem: function(){
-            this.setState({showReturnDialog: true});
+        handleReturnSaleItem: function(returnItem){
+            this.props.onReturn(returnItem);
         },
 
         render: function(){
             return (
                 <tr>
                     <td>
-                        {0}
+                        {this.props.key}
                     </td>
                     <td>
                         <b>Name:</b> {this.props.saleItem.sale.customer.name} <br/>
@@ -32,16 +32,20 @@ var returnSalesApp = returnSalesApp || {};
                     </td>
                     <td>
                         <b>Qty:</b> {this.props.saleItem.qty} <br/>
+                        <b>Returned Qty:</b> {this.props.saleItem.total_returned_qty} <br/>
                         <b>Unit Price:</b> {this.props.saleItem.unit_price}
                     </td>
                     <td>
-                        <ReturnDialog data={
+                        <ReturnDialog onReturn={this.handleReturnSaleItem} data={
                             {
-                                sale_id:this.props.saleItem.sale.id,
-                                item_name:this.props.saleItem.item.name,
-                                customer_name:this.props.saleItem.sale.customer.name,
+                                saleItemId:this.props.saleItem.id,
+                                saleId:this.props.saleItem.sale.id,
+                                itemName:this.props.saleItem.item.name,
+                                customerName:this.props.saleItem.sale.customer.name,
                                 qty:this.props.saleItem.qty,
-                                unit_price:this.props.saleItem.unit_price
+                                totalReturnedQty:this.props.saleItem.total_returned_qty,
+                                unitPrice:this.props.saleItem.unit_price,
+                                returnedItems:this.props.saleItem.return_items
                             }
                         }/>
                     </td>

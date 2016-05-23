@@ -37,11 +37,11 @@
           <tbody>
           <% @grouped_sales[store].each do |sale| %>
             <tr data-id="<%=sale.id%>">
-              <td><%= sale.id %></td>
-              <td><%= sale.customer.name %></td>
-              <td><%= sale.created_at %></td>
-              <td><span class="badge"><%= sale.status_upcase %></span></td>
-              <td class="right-align"><%= sale.grand_total %></td>
+              <td class="<%= sale.status%>_sale"><%= sale.id %></td>
+              <td class="<%= sale.status%>_sale"><%= sale.customer.name %></td>
+              <td class="<%= sale.status%>_sale"><%= sale.created_at %></td>
+              <td><span class="badge <%= sale.status%>_sale"><%= sale.status_upcase %></span></td>
+              <td class="right-align <%= sale.status%>_sale"><%= sale.grand_total %></td>
               <td>
                 <%= link_to(link_span('Open'), sale, class: "btn btn-sm btn-primary fa fa-folder-open")%>
                 <% if sale.draft? %>

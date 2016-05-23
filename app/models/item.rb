@@ -127,13 +127,13 @@ class Item < ActiveRecord::Base
   def sale_item_autocomplete_display
     str = "".html_safe
     str << "<div class='row'>".html_safe
-    str << "<div class='col-md-2'>#{original_number}</div>".html_safe
-    str << "<div class='col-md-5'>#{name}</div>".html_safe
-    str << "<div class='col-md-1'>#{l_shop}</div>".html_safe
-    str << "<div class='col-md-1'>#{t_shop}</div>".html_safe
-    str << "<div class='col-md-1'>#{l_store}</div>".html_safe
-    str << "<div class='col-md-1'>#{brand.present? ? brand : 'Unknown'}</div>".html_safe
-    str << "<div class='col-md-1'>#{made.present? ? made : 'Unknown'}</div>".html_safe
+    str << "<div data-index='0'>#{original_number}</div>".html_safe
+    str << "<div data-index='1'>#{name}</div>".html_safe
+    str << "<div data-index='2'>#{l_shop}</div>".html_safe
+    str << "<div data-index='3'>#{t_shop}</div>".html_safe
+    str << "<div data-index='4'>#{l_store}</div>".html_safe
+    str << "<div data-index='5'>#{brand.present? ? brand : 'Unknown'}</div>".html_safe
+    str << "<div data-index='6'>#{made.present? ? made : 'Unknown'}</div>".html_safe
     str << "</div>".html_safe
   end
 

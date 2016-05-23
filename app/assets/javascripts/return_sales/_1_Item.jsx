@@ -16,11 +16,25 @@ var returnSalesApp = returnSalesApp || {};
                 $('#search_item_id').val(object.item.id);
                 $(this).val('');
             });
+
+            $('#search_item_field').on('autocompleteopen', function (event, object) {
+                var results = $('ul.ui-autocomplete').find('li');
+                $('ul.ui-autocomplete').prepend("" +
+                    "<li class='autocomplete-header'>" +
+                    "<div class='row'>" +
+                    "<div class='col-md-4' data-index='0'>Origninal Number</div>" +
+                    "<div class='col-md-8' data-index='1'>Name</div>" +
+                    "</div>" +
+                    "</li>").css('width','40%');
+                var indices = [0,1];
+                var widths = ['col-md-4','col-md-8'];
+                renderAutocompleteResults(results, indices, widths);
+            });
         },
 
         render: function() {
             return (
-                <div className="col-md-6">
+                <div className="col-md-9">
                     <div className="field form-group">
                         <label>Item</label>
                         <input className="form-control" id="search_item_field"

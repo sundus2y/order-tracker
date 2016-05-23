@@ -36,32 +36,32 @@ var app = app || {};
                     <td>
                         <div className="field form-group">
                             {this.props.viewOnly ? '' : deleteButton}
-                            <span className="line_number">{this.props.lineNumber}</span>
+                            <span className={"line_number  "+this.props.saleItemData.status+"_item"}>{this.props.lineNumber}</span>
                         </div>
                     </td>
                     <td>
-                        <div className="field form-group">
+                        <div className={"field form-group "+this.props.saleItemData.status+"_item"}>
                             {this.props.saleItemData.item.name}
                         </div>
                     </td>
                     <td>
-                        <div className="field form-group">
+                        <div className={"field form-group "+this.props.saleItemData.status+"_item"}>
                             {this.props.saleItemData.item.item_number}
                         </div>
                     </td>
                     <td>
-                        <div className="field form-group">
+                        <div className={"field form-group "+this.props.saleItemData.status+"_item"}>
                             {this.props.saleItemData.item.original_number}
                         </div>
                     </td>
                     <td>
-                        <div className="field form-group">
+                        <div className={"field form-group "+this.props.saleItemData.status+"_item"}>
                             {this.props.saleItemData.item.description}
                         </div>
                     </td>
                     <td>
                         <div className="field form-group">
-                            <input className="form-control right-align"
+                            <input className={"form-control right-align "+this.props.saleItemData.status+"_item"}
                                    defaultValue={this.props.saleItemData.qty}
                                    onBlur={this.handleQtyChange}
                                    required
@@ -73,7 +73,7 @@ var app = app || {};
                     </td>
                     <td>
                         <div className="field form-group">
-                            <input className="form-control right-align"
+                            <input className={"form-control right-align "+this.props.saleItemData.status+"_item"}
                                    defaultValue={this.props.saleItemData.unit_price}
                                    onBlur={this.handleUnitPriceChange}
                                    required
@@ -84,7 +84,7 @@ var app = app || {};
                         </div>
                     </td>
                     <td>
-                        <div className="field form-group right-align">
+                        <div className={"field form-group right-align "+this.props.saleItemData.status+"_item"}>
                             {totalPrice.toFixed(2)}
                         </div>
                     </td>

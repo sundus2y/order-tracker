@@ -12,14 +12,14 @@ var returnSalesApp = returnSalesApp || {};
             var stores = this.props.data;
             var selectOptions = stores.map(function(store,index){
                 return(
-                  <option value={store[1]}>{titilize(store[0])}</option>
+                  <option key={index} value={store[1]}>{titilize(store[0])}</option>
                 );
             },this);
 
             return (
-                <div className="col-md-6">
+                <div className="col-md-3">
                     <div className="field form-group">
-                        <label for="store" >Store</label>
+                        <label htmlFor="store" >Store</label>
                         <select id="store" className="form-control" onChange={this.handleStoreSelect}>
                             {selectOptions}
                         </select>

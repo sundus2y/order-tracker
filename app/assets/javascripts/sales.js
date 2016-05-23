@@ -13,6 +13,9 @@ $(document).ready(function () {
 
     $('#sale_customer,#query_customer').on('autocompleteopen', function (event, object) {
         var results = $('ul.ui-autocomplete').find('li');
+        var indices = [0,1,2,3,4];
+        var widths = ['col-md-3','col-md-3','col-md-2','col-md-2','col-md-2'];
+        renderAutocompleteResults(results, indices, widths);
         $('ul.ui-autocomplete').prepend("" +
             "<li class='autocomplete-header'>" +
             "<div class='row'>" +
@@ -22,12 +25,7 @@ $(document).ready(function () {
             "<div class='col-md-2'>Tin No</div>" +
             "<div class='col-md-2'>Category</div>" +
             "</div>" +
-            "</li>");
-        results.each(function(index,elem){
-            var node = elem.childNodes[0].nodeValue;
-            elem.innerHTML = "";
-            $(elem).append(node);
-        });
+            "</li>").css('width','60%');
     });
 
     $('#sales_search_form').on('ajax:success', function(e, data, status, xhr){

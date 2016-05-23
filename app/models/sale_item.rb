@@ -2,6 +2,7 @@ class SaleItem < ActiveRecord::Base
 
   belongs_to :sale, :counter_cache => true
   belongs_to :item
+  has_many :return_items
 
   before_create :set_unit_price
 
@@ -11,13 +12,14 @@ class SaleItem < ActiveRecord::Base
   scope :sold, lambda { where(status: 'sold') }
   scope :credited, lambda { where(status: 'credited') }
   scope :sampled, lambda { where(status: 'sampled') }
-  scope :sold_by_store_and_item, -> (store_id,item_id) {includes(:sale,:item,{sale:[:customer]}).where(sales:{store:store_id},item_id:item_id,status:'sold')}
+  scope :returned, lambda { where(status: 'returned') }
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
     state :sold
     state :credited
     state :sampled
+    state :returned
 
     event :submit do
       transitions :from => :draft, :to => :sold, after: :update_inventory #SALE
@@ -32,8 +34,18 @@ class SaleItem < ActiveRecord::Base
     end
 
     event :reject do
-      transitions :from => [:sold,:credited,:sampled], :to => :draft #ADMIN
+      transitions :from => [:sold,:credited,:sampled], :to => :draft, after: :update_inventory #ADMIN
     end
+
+    event :return_item do
+      transitions :from => [:sold,:accepted], :to => :returned, after: [:minus_qty, :update_inventory]
+    end
+  end
+
+
+  def self.sold_by_store_and_item(store_id,item_id)
+    includes(:sale,:item,{sale:[:customer]},:return_items).
+        where(sales:{store:store_id},item_id:item_id,status: 'sold')
   end
 
   def self.json_options
@@ -43,7 +55,7 @@ class SaleItem < ActiveRecord::Base
                 only: [:id,:name,:description,:original_number,:item_number]
             }
         },
-        only:[:id,:qty,:unit_price]
+        only:[:id,:qty,:unit_price,:status]
     }
   end
 
@@ -60,15 +72,27 @@ class SaleItem < ActiveRecord::Base
                     }
                 },
                 only: [:id, :created_at]
+            },
+            return_items: {
+                only: [:id,:qty,:created_at,:note]
             }
         },
+        methods: [:total_returned_qty],
         only: [:id,:qty,:unit_price]
     }
   end
 
+  def total_returned_qty
+    return_items.sum(:qty)
+  end
+
   private
     def set_unit_price
-      self.unit_price = item.sale_price
+      self.unit_price = item.sale_price if self.unit_price.nil? || self.unit_price == 0
+    end
+
+    def minus_qty
+      self.qty = self.qty * -1
     end
 
     def update_inventory

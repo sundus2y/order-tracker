@@ -6,6 +6,10 @@ var returnSalesApp = returnSalesApp || {};
 
     returnSalesApp.Sale = React.createClass({
 
+        handleReturnSaleItem: function(returnItem){
+            this.props.onReturn(returnItem);
+        },
+
         render: function() {
             var loadingRow = (
                 <tr>
@@ -25,7 +29,7 @@ var returnSalesApp = returnSalesApp || {};
 
             var resultsRow = this.props.data.map(function(sale_item,index){
                 return (
-                    <ReturnItem saleItem={sale_item} index={index+1}/>
+                    <ReturnItem onReturn={this.handleReturnSaleItem} key={sale_item.id} saleItem={sale_item} index={index+1}/>
                 );
             },this);
 
@@ -47,17 +51,17 @@ var returnSalesApp = returnSalesApp || {};
                         </td>
                         <td>
                             <div className="field form-group">
-                                Sale Number
+                                Sale Attachment Number
                             </div>
                         </td>
                         <td>
                             <div className="field form-group">
-                                Sale Date
+                                Sale Attachment Date
                             </div>
                         </td>
                         <td>
                             <div className="field form-group">
-                                Sale Detail
+                                Details
                             </div>
                         </td>
                         <td>

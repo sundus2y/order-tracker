@@ -52,22 +52,56 @@ var returnSalesApp = returnSalesApp || {};
             return deferred.promise();
         },
 
+        loadSales: function(){
+            this.getSales().done(function(response){
+                var self = response.context;
+                self.setState({loadingSales: false});
+                self.setState({sales: response.data});
+            }).fail(function(response){
+                alert("Error While Trying to Load Sales");
+                console.log(response);
+            });
+        },
+
+        handleReturnSaleItem: function(returnItem){
+            var newReturnItem = {
+                return_item: returnItem
+            }
+            var deferred = $.Deferred();
+            $.ajax({
+                type: "POST",
+                url: "/return_items/",
+                data: newReturnItem,
+                dataType: 'json',
+                success: function (data,response) {
+                    deferred.resolve({context:this,data:data,message:response});
+                    this.setState({loadingSales: true});
+                    this.loadSales();
+                }.bind(this),
+                error: function(err) {
+                    deferred.reject({context:this,err:err,message:'Error'});
+                }
+            });
+            return deferred.promise();
+        },
+
         handleStoreSelect: function(storeId){
-            this.setState({selectedStore: storeId});
+            this.setState({selectedStore: storeId}, function(){
+                if (this.state.selectedStore !== "" && this.state.selectedItem !== "") {
+                    this.setState({loadingSales: true});
+                    this.loadSales();
+                }
+            });
         },
 
         handleItemSelect: function(itemId){
             if (this.state.selectedItem != itemId){
                 this.setState({loadingSales: true});
                 this.setState({selectedItem: itemId},function(){
-                    this.getSales().done(function(response){
-                        var self = response.context;
-                        self.setState({loadingSales: false});
-                        self.setState({sales: response.data});
-                    }).fail(function(response){
-                        alert("Error While Trying to Load Sales");
-                        console.log(response);
-                    });
+                    if (this.state.selectedStore !== "" && this.state.selectedItem !== "") {
+                        this.setState({loadingSales: true});
+                        this.loadSales();
+                    }
                 });
             }
         },
@@ -91,7 +125,7 @@ var returnSalesApp = returnSalesApp || {};
                         <Store data={this.state.stores} onStoreSelect={this.handleStoreSelect}/>
                         <Item disabled={this.state.selectedStore == '-1' ? true : false} onItemSelect={this.handleItemSelect} />
                     </div>
-                    <Sale data={this.state.sales} loading={this.state.loadingSales}/>
+                    <Sale onReturn={this.handleReturnSaleItem} data={this.state.sales}/>
                 </div>
             );
         }

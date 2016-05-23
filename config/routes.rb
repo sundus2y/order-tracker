@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :return_items
+
   resources :sale_items
   get 'sale_items/store/:store_id/item/:item_id', to: 'sale_items#by_store_and_item', as: :by_store_and_item
 

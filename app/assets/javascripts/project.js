@@ -3,6 +3,25 @@ var titilize = function(str){
         return m.toUpperCase();
     });
 }
+
+var renderAutocompleteResults = function(results, indices, widths) {
+    results.each(function (index, elem) {
+        var node = elem.childNodes[0].nodeValue;
+        var node_element = $.parseHTML(node);
+        $(node_element).find('div').each(function (index, col) {
+            if (indices.includes($(col).data('index'))) {
+                var i = $(col).data('index');
+                var widthClass = widths[indices.indexOf(i)];
+                $(col).addClass(widthClass);
+            } else {
+                $(col).remove();
+            }
+        });
+        elem.innerHTML = "";
+        $(elem).append(node_element);
+    });
+}
+
 $(document).ready(function (){
     $("form[data-readOnly='true']").find('input').attr('readOnly',true);
     $("form[data-readOnly='true']").find('select').attr('disabled',true);
