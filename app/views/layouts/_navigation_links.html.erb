@@ -70,6 +70,21 @@
                      klass:'sub-menu',
                      parent:'orders'}) if policy(Order).show? %>
   <%= navigation_li('#',
+                    'Transfers',
+                    {icon:"fa fa-exchange",
+                     klass:'parent-menu',
+                     id:'transfers'}) if policy(Transfer).show? %>
+  <%= navigation_li(new_transfer_path,
+                    'Add Transfer',
+                    {id:'add_sale',
+                     klass:'sub-menu',
+                     parent:'transfers'}) if policy(Transfer).new? %>
+  <%= navigation_li(transfers_path,
+                    'View All Transfers',
+                    {id:'view_all_transfers',
+                     klass:'sub-menu',
+                     parent:'transfers'}) if policy(Transfer).show? %>
+  <%= navigation_li('#',
                     'Customers',
                     {icon:"fa fa-users",
                      klass:'parent-menu',

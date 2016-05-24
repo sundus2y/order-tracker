@@ -1,12 +1,11 @@
 class Transfer < ActiveRecord::Base
-  enum from_store: [:t_shop, :l_shop, :l_store]
-  enum to_store: [:t_shop, :l_shop, :l_store]
+  enum store: [:t_shop, :l_shop, :l_store]
 
   has_many :transfer_items
   belongs_to :sender, :class_name => 'User', :foreign_key => :sender_id
   belongs_to :receiver, :class_name => 'User', :foreign_key => :receiver_id
 
-  validates_presence_of :sender_id, :from_store, :to_store
+  validates_presence_of :sender_id, :from_store_id, :to_store_id
 
   include AASM
 
@@ -59,6 +58,14 @@ class Transfer < ActiveRecord::Base
 
   def status_upcase
     status.upcase
+  end
+
+  def from_store
+    Transfer.stores.key(from_store_id)
+  end
+
+  def to_store
+    Transfer.stores.key(to_store_id)
   end
 
   private
