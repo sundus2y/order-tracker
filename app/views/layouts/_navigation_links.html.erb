@@ -20,8 +20,8 @@
                      klass:'parent-menu',
                     id:'items'}) if policy(Item).show? %>
   <%= navigation_li(new_item_path,
-                    'Create New Item',
-                    {id:'create_new_item',
+                    'Add Item',
+                    {id:'add_item',
                      klass:'sub-menu',
                     parent:'items'}) if policy(Item).new? %>
   <%= navigation_li(items_path,
@@ -40,8 +40,8 @@
                      klass:'parent-menu',
                      id:'sales'}) if policy(Sale).show? %>
   <%= navigation_li(new_sale_path,
-                    'Create New Sale Attachment',
-                    {id:'create_new_sale',
+                    'Add Sale Attachment',
+                    {id:'add_sale',
                      klass:'sub-menu',
                      parent:'sales'}) if policy(Sale).new? %>
   <%= navigation_li(return_sales_path,
@@ -60,8 +60,8 @@
                    klass:'parent-menu',
                   id:'orders'}) if policy(Order).show? %>
   <%= navigation_li(new_order_path,
-                    'Create New Order',
-                    {id:'create_new_order',
+                    'Add Order',
+                    {id:'add_order',
                      klass:'sub-menu',
                      parent:'orders'}) if policy(Order).new? %>
   <%= navigation_li(orders_path,
@@ -75,8 +75,8 @@
                      klass:'parent-menu',
                      id:'customers'}) if policy(Customer).show? %>
   <%= navigation_li(new_customer_path,
-                    'Create Customer',
-                    {id:'create_new_customer',
+                    'Add Customer',
+                    {id:'add_customer',
                      klass:'sub-menu',
                      parent:'customers'}) if policy(Customer).new? %>
   <%= navigation_li(customers_path,

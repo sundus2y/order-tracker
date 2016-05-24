@@ -57,4 +57,9 @@ $(document).ready(function (){
     $('ul.dd-menu li a').click(function(e){
         $(this).parent().parent().find('.dd-menu').toggleClass('hidden');
     });
+
+    // Open the parent menu for current page.
+    setTimeout(function(){
+        $('#'+$("a[href='"+window.location.pathname+"']").parent().data('parent')).click();
+    },0.5);
 });
