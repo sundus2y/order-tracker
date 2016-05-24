@@ -1,6 +1,10 @@
 class TransferItemsController < ApplicationController
   before_action :set_transfer_item, only: [:show, :edit, :update, :destroy]
 
+  before_filter :authenticate_user!
+  before_action :check_authorization
+  after_action :verify_authorized
+
   respond_to :html
 
   def index
@@ -43,5 +47,9 @@ class TransferItemsController < ApplicationController
 
     def transfer_item_params
       params.require(:transfer_item).permit(:transfer_id, :item_id, :qty, :status)
+    end
+
+    def check_authorization
+      authorize (@transfer_item || TransferItem)
     end
 end
