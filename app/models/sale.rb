@@ -14,7 +14,7 @@ class Sale < ActiveRecord::Base
   scope :sampled, lambda { where(status: 'sampled') }
   scope :returned, lambda { where(status: 'returned') }
 
-  default_scope { includes(:sale_items).reorder(created_at: :asc)}
+  default_scope { includes(:sale_items).reorder(created_at: :desc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
