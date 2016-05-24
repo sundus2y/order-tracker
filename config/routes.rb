@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :transfer_items
+
+  resources :transfers
+
   resources :return_items
 
   resources :sale_items

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>From store:</strong>
+  <%= @transfer.from_store %>
+</p>
+
+<p>
+  <strong>To store:</strong>
+  <%= @transfer.to_store %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @transfer.note %>
+</p>
+
+<%= link_to 'Edit', edit_transfer_path(@transfer) %> |
+<%= link_to 'Back', transfers_path %>
