@@ -7,6 +7,7 @@ class CreateTransfers < ActiveRecord::Migration
       t.integer :to_store
       t.text :note
       t.string :status
+      t.integer :sale_items_count, default: 0
 
       t.timestamps null: false
     end
