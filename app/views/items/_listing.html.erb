@@ -36,9 +36,9 @@
         K-Price: <%= item.korea_price %><br/>
       </td>
       <td nowrap>
-        T-Shop: <%= item.t_shop %><br/>
-        L-Shop: <%= item.l_shop %><br/>
-        L-Store: <%= item.l_store %>
+        <% item.inventories.each do |item_inventory| %>
+          <%= "#{item_inventory.store.short_name}: #{item_inventory.qty}" %> <br/>
+        <% end %>
       </td>
       <td><%= item.brand %></td>
       <td><%= item.made %></td>

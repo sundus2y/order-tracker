@@ -18,9 +18,7 @@ var itemDataTable = null;
                 { data: "sale_price" },
                 { data: "dubai_price" },
                 { data: "korea_price" },
-                { data: "t_shop" },
-                { data: "l_shop" },
-                { data: "l_store" },
+                { data: "inventories_display" },
                 { data: "brand" },
                 { data: "made" }
             ]

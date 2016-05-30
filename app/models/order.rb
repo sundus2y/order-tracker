@@ -33,7 +33,7 @@ class Order < ActiveRecord::Base
   end
 
   belongs_to :user
-  has_many :order_items
+  has_many :order_items, dependent: :destroy
   accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda{|item_param| item_param[:quantity].blank? }
 
   validates :title, presence: true

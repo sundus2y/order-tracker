@@ -11,11 +11,15 @@ td.grand_total{
   font-size: 16px;
 }
 
-span#selected-customer-close {
+span.selected-ac-close {
   cursor: pointer;
   background-color: #3C3C3C;
 }
 
 .returned_sale{
   color: #ff4f5a;
+}
+
+.inventory {
+  display: inline-block;
 }

@@ -28,11 +28,11 @@ class SalePolicy
   end
 
   def edit?
-    new?
+    new? && @sale.draft?
   end
 
   def destroy?
-    new?
+    edit?
   end
 
   def search?
@@ -44,15 +44,19 @@ class SalePolicy
   end
 
   def submit_to_sold?
-    new?
+    new? && @sale.may_submit?
+  end
+
+  def mark_as_sold?
+    new? && @sale.may_mark_as_sold?
   end
 
   def submit_to_credited?
-    new?
+    new? && @sale.may_credit?
   end
 
   def submit_to_sampled?
-    new?
+    new? && @sale.may_sample?
   end
 
   def return?

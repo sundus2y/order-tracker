@@ -16,6 +16,8 @@ gem 'will_paginate-bootstrap'
 gem 'pg_search'
 gem 'react-rails'
 gem 'showdown-rails'
+gem 'rabl'
+gem 'oj'
 group :development, :test do
   gem 'byebug'
   gem 'awesome_print'

@@ -37,17 +37,23 @@ var returnSalesApp = returnSalesApp || {};
                 <div className="col-md-9">
                     <div className="field form-group">
                         <label>Item</label>
-                        <input className="form-control" id="search_item_field"
-                               type="text"
-                               className="form-control"
-                               data-autocomplete="/items/autocomplete_item_sale_price"
-                               data-name-element="#search_item_id"
-                               placeholder="Enter item to return. . ."
-                               disabled={this.props.disabled}
-                               onSelect={this.handleItemSelect}/>
-                        <div className="form-group hidden">
-                            <input type="text" id="search_item_id" />
-                        </div>
+                        <span id="item-autocomplete">
+                            <input className="form-control" id="search_item_field"
+                                   type="text"
+                                   className="form-control"
+                                   data-autocomplete="/items/autocomplete_item_sale_price"
+                                   data-name-element="#search_item_id"
+                                   placeholder="Enter item to return. . ."
+                                   disabled={this.props.disabled}
+                                   onSelect={this.handleItemSelect}/>
+                            <div className="form-group hidden">
+                                <input type="text" id="search_item_id" />
+                            </div>
+                        </span>
+                        <span className="input-group" id="selected-item">
+                            <input className="form-control" readOnly="true"/>
+                        <span id="selected-item-close" className="selected-ac-close input-group-addon">X</span>
+                    </span>
                     </div>
                 </div>
             );

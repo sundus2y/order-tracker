@@ -60,7 +60,6 @@ var returnSalesApp = returnSalesApp || {};
 
         render() {
             var qtyOptions = [];
-            debugger
             for (var i=1; i <= this.state.returnableQty; i++) {
                 qtyOptions.push(<option key={i-1} value={i}>{i}</option>);
             }

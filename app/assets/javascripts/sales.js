@@ -1,10 +1,18 @@
 window.globalSearchSaleApp = window.globalSearchSaleApp || {};
+window.globalSalesIndexApp = window.globalSalesIndexApp || {};
 $(document).ready(function () {
     $('#query_customer').on('railsAutocomplete.select', function (event, object) {
         $(this).trigger('submit.rails');
-        $('span#selected-customer input').val(object.item.label);
+        $('span#selected-customer input').val(object.item.value);
         $('span#selected-customer').show();
         $('span#customer-autocomplete').hide();
+    });
+
+    $('#search_item_field').on('railsAutocomplete.select', function (event, object) {
+        $(this).trigger('submit.rails');
+        $('span#selected-item input').val(object.item.value);
+        $('span#selected-item').show();
+        $('span#item-autocomplete').hide();
     });
 
     $('#sale_customer').on('railsAutocomplete.select', function (event, object) {
@@ -34,6 +42,18 @@ $(document).ready(function () {
         alert('Sales Search Failed'+error)
     });
 
+    $('#sales_index_form').on('ajax:success', function(e, data, status, xhr){
+        window.globalSalesIndexApp.callback(data);
+    }).on('ajax:error',function(e, xhr, status, error){
+        alert('Sales Search Failed'+error)
+    });
+
+    $('select#store_id').change(function(event){
+        $.get( "stores/"+$(this).val()+"/sales.json", function(data) {
+            window.globalSalesIndexApp.callback(data);
+        });
+    }).trigger('change');
+
     $('span#selected-customer-close').click(function(){
         $('span#selected-customer').hide();
         $('span#customer-autocomplete').show();
@@ -41,5 +61,12 @@ $(document).ready(function () {
         $('span#customer-autocomplete input').val('').trigger('submit.rails');
     });
 
-    $('span#selected-customer').hide();
+    $('span#selected-item-close').click(function(){
+        $('span#selected-item').hide();
+        $('span#item-autocomplete').show();
+        $('input#item_id').val('');
+        $('span#item-autocomplete input').val('').trigger('submit.rails');
+    });
+
+    $('span#selected-customer, span#selected-item').hide();
 });

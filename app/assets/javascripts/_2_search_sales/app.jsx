@@ -22,13 +22,13 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
 
             var salesResultRow = this.state.sales.map(function (sale,index) {
                 return (
-                    <Sale data={sale} />
+                    <Sale key={sale.id} data={sale} />
                 );
             }, this);
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="5" className="center-aligned">
+                    <td colSpan="6" className="center-aligned">
                         No Sales Found for the given criteria.
                     </td>
                 </tr>
@@ -43,6 +43,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                         <th>Created at</th>
                         <th width="5%">Status</th>
                         <th>Grand Total</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>

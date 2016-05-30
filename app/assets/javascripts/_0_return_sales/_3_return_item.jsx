@@ -14,7 +14,7 @@ var returnSalesApp = returnSalesApp || {};
             return (
                 <tr>
                     <td>
-                        {this.props.key}
+                        {this.props.index}
                     </td>
                     <td>
                         <b>Name:</b> {this.props.saleItem.sale.customer.name} <br/>

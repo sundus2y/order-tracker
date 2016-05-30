@@ -1,15 +1,7 @@
 class Customer < ActiveRecord::Base
   enum category: [:retail, :wholesale, :company]
 
-  has_many :sales
-
-  def display_text
-    retval = name
-    retval += " (#{company})" unless company.blank?
-    retval += " (#{phone})" unless phone.blank?
-    retval += " (#{tin_no})" unless tin_no.blank?
-    retval
-  end
+  has_many :sales, dependent: :destroy
 
   def autocomplete_display
     str = "".html_safe
@@ -24,6 +16,10 @@ class Customer < ActiveRecord::Base
 
   def label
     name
+  end
+
+  def can_be_deleted?
+    sales.empty?
   end
 
 end
