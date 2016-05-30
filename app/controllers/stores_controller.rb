@@ -5,7 +5,7 @@ class StoresController < ApplicationController
   end
 
   def sales
-    @sales = Store.find(params[:store_id]).sales.reorder(updated_at: :asc)
+    @sales = Store.find(params[:store_id]).sales.includes(:customer).reorder(updated_at: :asc)
   end
 
 end

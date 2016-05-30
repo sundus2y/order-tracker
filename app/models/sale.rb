@@ -55,7 +55,7 @@ class Sale < ActiveRecord::Base
   end
 
   def self.search(query)
-    search_query = all
+    search_query = all.includes(:customer).reorder(updated_at: :asc)
     search_query = search_query.where(customer_id: query[:customer_id]) if query[:customer_id].present?
     search_query = search_query.where(status: query[:status].downcase) if query[:status].present?
     if query[:date_from].present?

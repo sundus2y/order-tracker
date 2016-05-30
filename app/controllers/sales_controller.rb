@@ -19,7 +19,7 @@ class SalesController < ApplicationController
   end
 
   def sale_items
-    @sale_items = Sale.includes([{sale_items: [:item]}]).where(id: params[:sale_id]).first.sale_items
+    @sale_items = Sale.includes(:sale_items).where(id: params[:sale_id]).first.sale_items
   end
 
   def new
