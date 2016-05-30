@@ -28,6 +28,7 @@ class ItemsController < ApplicationController
   end
 
   def create
+    debugger
     @item = Item.new(item_params)
     flash[:notice] = 'Item was successfully created.' if @item.save
     respond_to do |format|
@@ -90,9 +91,7 @@ class ItemsController < ApplicationController
                                    :part_class,
                                    :brand,
                                    :made,
-                                   :l_store,
-                                   :t_shop,
-                                   :l_shop)
+                                   inventories_attributes: [:id, :qty, :store_id])
     end
 
     def get_autocomplete_items(parameters)

@@ -1,10 +1,10 @@
 class Sale < ActiveRecord::Base
-  enum store: [:t_shop, :l_shop, :l_store]
 
-  has_many :sale_items
+  has_many :sale_items, dependent: :destroy
   belongs_to :customer
+  belongs_to :store
 
-  validates_presence_of :customer_id, :store, :created_at
+  validates_presence_of :customer_id, :store_id, :created_at
 
   include AASM
 
@@ -13,8 +13,9 @@ class Sale < ActiveRecord::Base
   scope :credited, lambda { where(status: 'credited') }
   scope :sampled, lambda { where(status: 'sampled') }
   scope :returned, lambda { where(status: 'returned') }
+  scope :void, lambda { where(status: 'void') }
 
-  default_scope { includes(:sale_items).reorder(created_at: :desc)}
+  default_scope { includes(:sale_items).reorder(updated_at: :asc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -22,9 +23,14 @@ class Sale < ActiveRecord::Base
     state :credited
     state :sampled
     state :returned
+    state :void
 
     event :submit, after: :submit_sale_items do
       transitions :from => :draft, :to => :sold, unless: :empty_sale_item? #SALE
+    end
+
+    event :mark_as_sold, after: :mark_as_sold_items do
+      transitions :from => [:sampled,:credited], :to => :sold, unless: :empty_sale_item? #SALE
     end
 
     event :credit, after: :credit_sale_items do
@@ -36,7 +42,7 @@ class Sale < ActiveRecord::Base
     end
 
     event :reject, after: :reject_sale_items do
-      transitions :from => [:sold,:credited,:sampled], :to => :draft #ADMIN
+      transitions :from => [:sold,:credited,:sampled], :to => :void #ADMIN
     end
 
     event :return_sale do
@@ -46,12 +52,6 @@ class Sale < ActiveRecord::Base
 
   def self.get_all_states
     aasm.states.map(&:name).map(&:to_s).map(&:upcase)
-  end
-
-  def self.all_grouped_by_store
-    result = all.group_by(&:store)
-    result.default = []
-    result
   end
 
   def self.search(query)
@@ -65,31 +65,6 @@ class Sale < ActiveRecord::Base
     search_query
   end
 
-  def as_json(options={})
-    type = options.delete(:type) || :default
-    case type
-      when :search
-        super({
-                  only: [:id,:created_at],
-                  methods: [:grand_total,:status_upcase],
-                  include: {
-                      customer: {
-                          only: [:name]
-                      }
-                  }
-              }.merge(options))
-      when :sale_items
-        super({
-                  include: {
-                      sale_items: SaleItem.json_options
-                  },
-                  only: [:id]
-              }.merge(options))
-      when :default
-        super options
-    end
-  end
-
   def status_upcase
     status.upcase
   end
@@ -101,6 +76,10 @@ class Sale < ActiveRecord::Base
   private
     def submit_sale_items
       sale_items.map(&:submit!)
+      end
+
+    def mark_as_sold_items
+      sale_items.where.not(status: 'returned').map(&:mark_as_sold!)
     end
 
     def reject_sale_items

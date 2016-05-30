@@ -2,7 +2,7 @@ class SaleItem < ActiveRecord::Base
 
   belongs_to :sale, :counter_cache => true
   belongs_to :item
-  has_many :return_items
+  has_many :return_items, dependent: :destroy
 
   before_create :set_unit_price
 
@@ -13,6 +13,9 @@ class SaleItem < ActiveRecord::Base
   scope :credited, lambda { where(status: 'credited') }
   scope :sampled, lambda { where(status: 'sampled') }
   scope :returned, lambda { where(status: 'returned') }
+  scope :void, lambda { where(status: 'void') }
+
+  default_scope { reorder(updated_at: :asc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -20,9 +23,14 @@ class SaleItem < ActiveRecord::Base
     state :credited
     state :sampled
     state :returned
+    state :void
 
     event :submit do
       transitions :from => :draft, :to => :sold, after: :update_inventory #SALE
+    end
+
+    event :mark_as_sold do
+      transitions :from => [:sampled,:credited], :to => :sold #SALE
     end
 
     event :credit do
@@ -34,52 +42,18 @@ class SaleItem < ActiveRecord::Base
     end
 
     event :reject do
-      transitions :from => [:sold,:credited,:sampled], :to => :draft, after: :update_inventory #ADMIN
+      transitions :from => [:sold,:credited,:sampled], :to => :void, after: [:minus_qty, :update_inventory] #ADMIN
     end
 
     event :return_item do
-      transitions :from => [:sold,:accepted], :to => :returned, after: [:minus_qty, :update_inventory]
+      transitions :from => [:sold,:credited,:sampled], :to => :returned, after: [:minus_qty, :update_inventory]
     end
   end
 
 
-  def self.sold_by_store_and_item(store_id,item_id)
+  def self.by_store_and_item(store_id,item_id)
     includes(:sale,:item,{sale:[:customer]},:return_items).
-        where(sales:{store:store_id},item_id:item_id,status: 'sold')
-  end
-
-  def self.json_options
-    {
-        include: {
-            item: {
-                only: [:id,:name,:description,:original_number,:item_number]
-            }
-        },
-        only:[:id,:qty,:unit_price,:status]
-    }
-  end
-
-  def self.sale_return_json_options
-    {
-        include: {
-            item: {
-                only: [:id,:name,:original_number]
-            },
-            sale: {
-                include: {
-                    customer: {
-                        only: [:name, :phone]
-                    }
-                },
-                only: [:id, :created_at]
-            },
-            return_items: {
-                only: [:id,:qty,:created_at,:note]
-            }
-        },
-        methods: [:total_returned_qty],
-        only: [:id,:qty,:unit_price]
-    }
+        where(sales:{store_id:store_id},item_id:item_id,status: %w(sold credited sampled))
   end
 
   def total_returned_qty
@@ -88,15 +62,15 @@ class SaleItem < ActiveRecord::Base
 
   private
     def set_unit_price
-      self.unit_price = item.sale_price if self.unit_price.nil? || self.unit_price == 0
+      unit_price = item.sale_price if unit_price.nil? || unit_price == 0
     end
 
     def minus_qty
-      self.qty = self.qty * -1
+      update_attribute(:qty, qty*-1)
     end
 
     def update_inventory
-      item.decrement!(self.sale.store.to_sym,qty)
+      item.update_inventory(sale.store, qty)
     end
 
 end

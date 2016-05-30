@@ -77,8 +77,8 @@
   <div class="row">
     <div class="col-md-4">
       <div class="field form-group">
-        <%= f.label :store %><br>
-        <%= f.select(:store, Sale.stores.keys.map {|store| [store.titleize,store]},{}, class: 'form-control') %>
+        <%= f.label :store_id %><br>
+        <%= f.select(:store_id, Store.all.map {|store| [store.name,store.id]},{}, class: 'form-control') %>
       </div>
     </div>
     <div class="col-md-4">

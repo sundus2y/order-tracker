@@ -38,10 +38,8 @@ module ApplicationHelper
     actions = []
     options[:separator] ||= '<br>'.html_safe
     actions << (link_to '', object, class: "btn btn-info btn-sm fa fa-eye action", role:"button")
-    # actions << '<br>'.html_safe
     actions << (link_to '', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-success btn-sm fa fa-pencil", role:"button")
-    # actions << '<br>'.html_safe
-    actions << (link_to '', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning btn-sm fa fa-trash", role:"button")
+    actions << (link_to '', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning btn-sm fa fa-trash", role:"button") if object.can_be_deleted?
     actions.join(options[:separator]).html_safe
   end
 end

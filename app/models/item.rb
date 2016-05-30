@@ -1,8 +1,11 @@
 class Item < ActiveRecord::Base
   include PgSearch
 
-  has_many :order_items
-  has_many :sale_items
+  has_many :order_items, dependent: :destroy
+  has_many :sale_items, dependent: :destroy
+  has_many :inventories, dependent: :destroy
+
+  accepts_nested_attributes_for :inventories, reject_if: proc {|attrib| attrib['qty'].blank? }
 
   pg_search_scope :search_item,
                   :against => {
@@ -23,6 +26,8 @@ class Item < ActiveRecord::Base
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
   validate :item_numbers_cannot_include_special_characters
 
+  default_scope { includes(:inventories,{inventories:[:store]}).reorder(updated_at: :desc)}
+
   INVALID_CHARS = %w(, . - _ : | \\ /)
   INVALID_CHARS_REGEX = Regexp.new('\W')
 
@@ -39,8 +44,8 @@ class Item < ActiveRecord::Base
         super({
                   only: [:name,:original_number,:item_number,:prev_number,:next_number,
                         :description,:car,:model,:sale_price,:dubai_price,:korea_price,
-                        :t_shop,:l_shop,:l_store,:brand,:made],
-                  methods: [:actions]
+                        :brand,:made],
+                  methods: [:actions,:inventories_display]
               }.merge(options))
       when :default
         super options
@@ -53,8 +58,21 @@ class Item < ActiveRecord::Base
     separator = '<br>'.html_safe
     actions <<  "<a class='btn btn-info btn-sm fa fa-eye action' role='button' href='#{url_helpers.item_path self}'></a>"
     actions <<  "<a class='btn btn-success btn-sm fa fa-pencil' role='button' href='#{url_helpers.edit_item_path self}'></a>"
-    actions <<  "<a class='btn btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'></a>"
+    actions <<  "<a class='btn btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'></a>" if self.can_be_deleted?
     actions.join(separator).html_safe
+  end
+
+  def inventories_display
+    response = []
+    sep = '<br>'.html_safe
+    inventories.each do |inventory|
+      response << "#{inventory.store.short_name}: #{inventory.qty}"
+    end
+    response.join(sep).html_safe
+  end
+
+  def can_be_deleted?
+    order_items.empty? && sale_items.empty? && inventories.empty?
   end
 
   def item_numbers_cannot_include_special_characters
@@ -129,12 +147,26 @@ class Item < ActiveRecord::Base
     str << "<div class='row'>".html_safe
     str << "<div data-index='0'>#{original_number}</div>".html_safe
     str << "<div data-index='1'>#{name}</div>".html_safe
-    str << "<div data-index='2'>#{l_shop}</div>".html_safe
-    str << "<div data-index='3'>#{t_shop}</div>".html_safe
-    str << "<div data-index='4'>#{l_store}</div>".html_safe
-    str << "<div data-index='5'>#{brand.present? ? brand : 'Unknown'}</div>".html_safe
-    str << "<div data-index='6'>#{made.present? ? made : 'Unknown'}</div>".html_safe
+    str << "<div data-index='2'>".html_safe
+    inventories.each do |inv|
+      str << "<span class='inventory'>#{inv.store.short_name}: #{inv.qty}</span>".html_safe
+    end
     str << "</div>".html_safe
+    str << "<div data-index='3'>#{brand.present? ? brand : 'Unknown'}</div>".html_safe
+    str << "<div data-index='4'>#{made.present? ? made : 'Unknown'}</div>".html_safe
+    str << "</div>".html_safe
+  end
+
+  def update_inventory(store, qty)
+    inv = inventories.where(store: store)
+    if inv.empty?
+      inv.create(qty: 0,store: store)
+    end
+    inv.reload.last.decrement!(:qty,qty)
+  end
+
+  def label
+    "#{name} - (#{original_number})"
   end
 
   def self.search_item2(term)

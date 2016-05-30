@@ -6,11 +6,9 @@
   <li class="active">
     <a href="#search_sales_tab" data-toggle="tab"> Search </a>
   </li>
-  <% @stores.each do |store| %>
-    <%= content_tag :li, '' do %>
-      <%= content_tag :a, store.titleize, {'data-toggle': 'tab', href: "##{store}_sales_tab"} %>
-    <% end %>
-  <% end %>
+  <li>
+    <a href="#sales_tab" data-toggle="tab">View All</a>
+  </li>
 </ul>
 
 <div class="tab-content">
@@ -19,52 +17,11 @@
       <%= render 'search'%>
     </div>
   </div>
-  <% @stores.each do |store| %>
-    <%= content_tag :div, {id: "#{store}_sales_tab", class:"tab-pane fade in"} do %>
-      <%= content_tag :div do %>
-        <table id="<%= store %>_sales_table" class="table-responsive display table table-striped table-bordered">
-          <thead>
-          <tr>
-            <th width="5%">Att #</th>
-            <th>Customer</th>
-            <th>Created at</th>
-            <th width="5%">Status</th>
-            <th>Grand Total</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody>
-          <% @grouped_sales[store].each do |sale| %>
-            <tr data-id="<%=sale.id%>">
-              <td class="<%= sale.status%>_sale"><%= sale.id %></td>
-              <td class="<%= sale.status%>_sale"><%= sale.customer.name %></td>
-              <td class="<%= sale.status%>_sale"><%= sale.created_at %></td>
-              <td><span class="badge <%= sale.status%>_sale"><%= sale.status_upcase %></span></td>
-              <td class="right-align <%= sale.status%>_sale"><%= sale.grand_total %></td>
-              <td>
-                <%= link_to(link_span('Open'), sale, class: "btn btn-sm btn-primary fa fa-folder-open")%>
-                <% if sale.draft? %>
-                  <%= link_to(link_span('Edit'), edit_sale_path(sale), class: "btn btn-sm btn-primary fa fa-edit draft_actions")%>
-                  <% if sale.may_submit? %>
-                    <div class="btn-group draft_actions">
-                      <%= link_to(link_span('Submit'), sale_submit_to_sold_path(sale), class: "btn btn-sm btn-primary fa fa-send", remote: true)%>
-                      <a class="btn btn-sm btn-primary fa fa-caret-down btn-group-toggle" href="#"></a>
-                      <ul class="dd-menu hidden">
-                        <li><%= link_to(link_span('Credit'), sale_submit_to_credited_path(sale), class: "btn btn-sm btn-primary btn-block", remote: true)%></li>
-                        <li><%= link_to(link_span('Sample'), sale_submit_to_sampled_path(sale), class: "btn btn-sm btn-primary btn-block", remote: true)%></li>
-                      </ul>
-                    </div>
-                  <% end %>
-                  <%= render 'modals/confirm_sale_delete', id: "confirm_sale_delete_#{sale.id}", obj: sale%>
-                  <button type="button" class="btn btn-sm btn-danger fa fa-trash draft_actions" data-toggle="modal" data-target="#confirm_sale_delete_<%= sale.id %>"><%=link_span('Delete')%></button>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      <% end %>
-    <% end %>
-  <% end %>
+  <div id="sales_tab", class="tab-pane fade in">
+    <div class="field form-group float_right">
+      <%= select_tag :store_id, options_from_collection_for_select(Store.all, "id", "name"), class: 'form-control' %>
+    </div>
+    <div id="store_sales">
+    </div>
+  </div>
 </div>

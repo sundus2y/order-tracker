@@ -22,7 +22,7 @@ var returnSalesApp = returnSalesApp || {};
             var deferred = $.Deferred();
             $.ajax({
                 type: "GET",
-                url: "/sales/stores/",
+                url: "/stores",
                 dataType: 'json',
                 success: function(data,response){
                     deferred.resolve({context:this,data:data,message:response});
@@ -109,7 +109,7 @@ var returnSalesApp = returnSalesApp || {};
         componentDidMount: function(){
             this.getStores().done(function(response) {
                 var self = response.context;
-                self.setState({stores: [["--Select Store--",-1]].concat(response.data)});
+                self.setState({stores: [{id:-1,name:"--Select Store--",short_name:'Select'}].concat(response.data)});
             }).fail(function(response){
                 alert("Error While Trying to Load Stores");
                 console.log(response);

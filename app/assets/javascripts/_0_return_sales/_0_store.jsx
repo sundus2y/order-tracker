@@ -12,7 +12,7 @@ var returnSalesApp = returnSalesApp || {};
             var stores = this.props.data;
             var selectOptions = stores.map(function(store,index){
                 return(
-                  <option key={index} value={store[1]}>{titilize(store[0])}</option>
+                  <option key={store.id} value={store.id}>{store.name}</option>
                 );
             },this);
 

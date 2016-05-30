@@ -49,7 +49,7 @@ $(document).ready(function (){
         }
     });
 
-    $('a.btn-group-toggle').click(function(e){
+    $('body').on('click', 'a.btn-group-toggle', function(e){
         $(this).parent().find('.dd-menu').toggleClass('hidden');
         e.preventDefault();
     });

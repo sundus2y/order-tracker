@@ -16,17 +16,15 @@ var app = app || {};
             $('ul.ui-autocomplete').prepend("" +
                 "<li class='autocomplete-header'>" +
                     "<div class='row'>" +
-                    "<div class='col-md-2'>Origninal Number</div>" +
+                    "<div class='col-md-3'>Origninal Number</div>" +
                     "<div class='col-md-5'>Name</div>" +
-                    "<div class='col-md-1'>L<br>Shop</div>" +
-                    "<div class='col-md-1'>T<br>Shop</div>" +
-                    "<div class='col-md-1'>T<br>Store</div>" +
+                    "<div class='col-md-2'>Inventory</div>" +
                     "<div class='col-md-1'>Brand</div>" +
                     "<div class='col-md-1'>Origin</div>" +
                     "</div>" +
-                "</li>").css('width','75%');
-            var indices = [0,1,2,3,4,5,6];
-            var widths = ['col-md-2','col-md-5','col-md-1','col-md-1','col-md-1','col-md-1','col-md-1'];
+                "</li>").css('width','70%');
+            var indices = [0,1,2,3,4];
+            var widths = ['col-md-3','col-md-5','col-md-2','col-md-1','col-md-1'];
             renderAutocompleteResults(results, indices, widths);
         });
     }
@@ -111,7 +109,7 @@ var app = app || {};
             var deferred = $.Deferred();
             $.ajax({
                 type: "GET",
-                url: "/sales/sale_items/"+saleId,
+                url: "/sales/"+saleId+"/sale_items/",
                 dataType: 'json',
                 success: function(data,response){
                     deferred.resolve({context:this,data:data,message:response});
@@ -173,7 +171,7 @@ var app = app || {};
             bindSearchSelectEvent();
             this.getSaleItems(saleId).done(function(response) {
                 var self = response.context;
-                self.setState({data: response.data.sale_items});
+                self.setState({data: response.data});
             }).fail(function(response){
                 alert("Error While Trying to Save Sale Item" + response);
             });

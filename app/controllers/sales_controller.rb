@@ -3,14 +3,14 @@ class SalesController < ApplicationController
   before_action :set_sales, only:[:index, :show_all]
 
   before_filter :authenticate_user!
-  before_action :check_authorization
+  before_action :check_authorization, except: [:index, :new, :create, :submit_to_sold, :submit_to_credited, :submit_to_sampled, :mark_as_sold]
   after_action :verify_authorized
 
   respond_to :html
 
   def index
-    @grouped_sales = Sale.all_grouped_by_store
-    @stores = Sale.stores.keys
+    @sales = Sale.where(store: Store.first)
+    authorize @sales
     respond_with(@sales)
   end
 
@@ -19,14 +19,12 @@ class SalesController < ApplicationController
   end
 
   def sale_items
-    @sale = Sale.includes([{sale_items: [:item]}]).where(id: params[:id]).first
-    respond_to do |format|
-      format.json {render json: @sale.as_json(type: :sale_items) }
-    end
+    @sale_items = Sale.includes([{sale_items: [:item]}]).where(id: params[:sale_id]).first.sale_items
   end
 
   def new
     @sale = Sale.new(created_at:DateTime.now)
+    authorize @sale
     respond_with(@sale)
   end
 
@@ -35,8 +33,11 @@ class SalesController < ApplicationController
 
   def create
     @sale = Sale.new(sale_params)
-    @sale.save
-    respond_with(@sale,location: edit_sale_path(@sale))
+    authorize @sale
+    saved = @sale.save
+    flash[:notice] = 'Sale Attachment was successfully created.' if saved
+    respond_with(@sale,location: edit_sale_path(@sale)) if saved
+    respond_with(@sale) unless saved
   end
 
   def update
@@ -60,26 +61,30 @@ class SalesController < ApplicationController
 
   def submit_to_sold
     @sale = Sale.find(params[:sale_id])
+    authorize @sale
     @sale.submit!
+    render 'remove_draft_actions' and return
+  end
+
+  def mark_as_sold
+    @sale = Sale.find(params[:sale_id])
+    authorize @sale
+    @sale.mark_as_sold!
     render 'remove_draft_actions' and return
   end
 
   def submit_to_credited
     @sale = Sale.find(params[:sale_id])
+    authorize @sale
     @sale.credit!
     render 'remove_draft_actions' and return
   end
 
   def submit_to_sampled
     @sale = Sale.find(params[:sale_id])
+    authorize @sale
     @sale.sample!
     render 'remove_draft_actions' and return
-  end
-
-  def stores
-    respond_to do |format|
-      format.json {render json: Sale.stores.to_a }
-    end
   end
 
   private
@@ -93,9 +98,8 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:customer_id, :store, :remark, :created_at)
+      params.require(:sale).permit(:customer_id, :store_id, :remark, :created_at)
     end
-
 
     def check_authorization
       authorize (@sale || @sales || Sale)

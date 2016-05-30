@@ -80,18 +80,21 @@
         <label>Inventory</label>
         <table>
           <tbody>
-            <tr>
-              <td>T-Shop: </td>
-              <td><%= f.number_field :t_shop, class:"form-control" %></td>
-            </tr>
-            <tr>
-              <td>L-Shop: </td>
-              <td><%= f.number_field :l_shop, class:"form-control" %></td>
-            </tr>
-            <tr>
-              <td>L-Store: </td>
-              <td><%= f.number_field :l_store, class:"form-control" %></td>
-            </tr>
+            <%= f.fields_for :inventories do |inv_f| %>
+              <tr>
+                <td><%= inv_f.label :qty, "#{inv_f.object.store.short_name}:" %></td>
+                <td><%= inv_f.number_field :qty, class: 'form-control'%></td>
+              </tr>
+            <% end %>
+            <% no_stock_store = Store.all.select{|store| !f.object.inventories.map(&:store_id).include?(store.id)} %>
+            <% no_stock_store.each_with_index do |store,index| %>
+              <tr>
+                <td><label for="item_inventories_attributes_123_qty"> <%= "#{store.short_name }:"%> </label></td>
+                <td><input type="number" name="item[inventories_attributes][<%="99#{index}"%>][qty]" id="<%="item_inventories_attributes_99#{index}_qty"%>" value="" class="form-control">
+                  <input type="hidden" name="item[inventories_attributes][<%="99#{index}"%>][store_id]" id="<%="item_inventories_attributes_99#{index}_store_id"%>" value="<%= store.id %>">
+                  <input type="hidden" name="item[inventories_attributes][<%="99#{index}"%>][id]" id="<%="item_inventories_attributes_99#{index}_id"%>" value=""></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>
