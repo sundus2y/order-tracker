@@ -15,7 +15,7 @@ class SaleItem < ActiveRecord::Base
   scope :returned, lambda { where(status: 'returned') }
   scope :void, lambda { where(status: 'void') }
 
-  default_scope { reorder(updated_at: :asc)}
+  default_scope { reorder(updated_at: :desc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
