@@ -15,7 +15,7 @@ class Sale < ActiveRecord::Base
   scope :returned, lambda { where(status: 'returned') }
   scope :void, lambda { where(status: 'void') }
 
-  default_scope { includes(:sale_items).reorder(updated_at: :asc)}
+  default_scope { includes(:sale_items).reorder(updated_at: :desc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -55,7 +55,7 @@ class Sale < ActiveRecord::Base
   end
 
   def self.search(query)
-    search_query = all.includes(:customer).reorder(updated_at: :asc)
+    search_query = all.includes(:customer).reorder(updated_at: :desc)
     search_query = search_query.where(customer_id: query[:customer_id]) if query[:customer_id].present?
     search_query = search_query.where(status: query[:status].downcase) if query[:status].present?
     if query[:date_from].present?
