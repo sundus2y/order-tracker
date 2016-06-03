@@ -22,10 +22,14 @@ var renderAutocompleteResults = function(results, indices, widths) {
     });
 }
 
+var makeFormReadOnly = function makeFormReadOnly() {
+    $("form[data-readOnly='true']").find('input').attr('readOnly', true);
+    $("form[data-readOnly='true']").find('select').attr('disabled', true);
+    $("form[data-readOnly='true']").find('textarea').attr('readOnly', true);
+}
+
 $(document).ready(function (){
-    $("form[data-readOnly='true']").find('input').attr('readOnly',true);
-    $("form[data-readOnly='true']").find('select').attr('disabled',true);
-    $("form[data-readOnly='true']").find('textarea').attr('readOnly',true);
+    makeFormReadOnly();
     $( "#date_from" ).datepicker({
         defaultDate: "+1w",
         changeMonth: true,
@@ -51,6 +55,16 @@ $(document).ready(function (){
 
     $('body').on('click', 'a.btn-group-toggle', function(e){
         $(this).parent().find('.dd-menu').toggleClass('hidden');
+        e.preventDefault();
+    });
+
+    $('body').on('click','a.pop_up',function(e){
+        $.get($(this).attr('href'), function(data) {
+            $('div#pop_up').remove();
+            $('body').append(data);
+            $('div#pop_up').modal('show');
+            makeFormReadOnly();
+        });
         e.preventDefault();
     });
 

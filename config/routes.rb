@@ -46,6 +46,8 @@ Rails.application.routes.draw do
     get :template, on: :collection
     get :download, on: :collection
     get :import_export, as: :import_export, on: :collection
+    get :pop_up_show
+    get :pop_up_edit
   end
 
   resource :dashboard do

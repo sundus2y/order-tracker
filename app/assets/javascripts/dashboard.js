@@ -10,8 +10,6 @@ var itemDataTable = null;
                 { data: "name" },
                 { data: "original_number" },
                 { data: "item_number" },
-                { data: "prev_number" },
-                { data: "next_number" },
                 { data: "description" },
                 { data: "car" },
                 { data: "model" },

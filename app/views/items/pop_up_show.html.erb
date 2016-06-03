@@ -1,0 +1,9 @@
+<% content_for :modal_header, flush: true do %>
+    View Item
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    <%= render 'form', action: "Show" %>
+<% end %>
+
+<%= render "/modals/base", id: 'pop_up' %>

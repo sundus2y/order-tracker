@@ -56,8 +56,8 @@ class Item < ActiveRecord::Base
     url_helpers = Rails.application.routes.url_helpers
     actions = []
     separator = '<br>'.html_safe
-    actions <<  "<a class='btn btn-info btn-sm fa fa-eye action' role='button' href='#{url_helpers.item_path self}'></a>"
-    actions <<  "<a class='btn btn-success btn-sm fa fa-pencil' role='button' href='#{url_helpers.edit_item_path self}'></a>"
+    actions <<  "<a class='btn btn-info btn-sm fa fa-eye action pop_up' role='button' href='#{url_helpers.item_pop_up_show_path self}'></a>"
+    actions <<  "<a class='btn btn-success btn-sm fa fa-pencil pop_up' role='button' href='#{url_helpers.item_pop_up_edit_path self}'></a>"
     actions <<  "<a class='btn btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'></a>" if self.can_be_deleted?
     actions.join(separator).html_safe
   end
@@ -170,7 +170,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.search_item2(term)
-    where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%")
+    includes(:sale_items,:order_items).where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%")
   end
 
 private
