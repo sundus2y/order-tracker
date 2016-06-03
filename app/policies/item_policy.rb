@@ -24,6 +24,14 @@ class ItemPolicy
     new?
   end
 
+  def pop_up_show?
+    show?
+  end
+
+  def pop_up_edit?
+    edit?
+  end
+
   def import?
     @current_user.admin?
   end

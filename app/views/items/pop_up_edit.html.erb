@@ -1,0 +1,9 @@
+<% content_for :modal_header, flush: true do %>
+    Update Item
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    <%= render 'form', action: "Update Item" %>
+<% end %>
+
+<%= render "/modals/base", id: 'pop_up' %>

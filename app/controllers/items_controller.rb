@@ -11,12 +11,17 @@ class ItemsController < ApplicationController
   respond_to :html
 
   def index
-    @items = Item.all.order(:name).page(params[:page]).per_page(10)
+    @items = Item.all.includes(:sale_items,:order_items).order(:name).page(params[:page]).per_page(10)
     respond_with(@items)
   end
 
   def show
     respond_with(@item)
+  end
+
+  def pop_up_show
+    @item = Item.find(params[:item_id])
+    render 'pop_up_show', layout: false
   end
 
   def new
@@ -27,8 +32,12 @@ class ItemsController < ApplicationController
   def edit
   end
 
+  def pop_up_edit
+    @item = Item.find(params[:item_id])
+    render 'pop_up_edit', layout: false
+  end
+
   def create
-    debugger
     @item = Item.new(item_params)
     flash[:notice] = 'Item was successfully created.' if @item.save
     respond_to do |format|
