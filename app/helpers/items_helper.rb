@@ -11,6 +11,6 @@ module ItemsHelper
   end
 
   def description_formatter(desc)
-    desc.gsub("\n",'<br />').html_safe
+    desc.to_s.gsub("\n",'<br />').html_safe
   end
 end
