@@ -20,23 +20,12 @@ class TransferItem < ActiveRecord::Base
     end
 
   end
-  #
-  # def self.json_options
-  #   {
-  #       include: {
-  #           item: {
-  #               only: [:id,:name,:description,:original_number,:item_number]
-  #           }
-  #       },
-  #       only:[:id,:qty,:unit_price,:status]
-  #   }
-  # end
 
   private
 
   def update_inventory
-    item.decrement!(self.transfer.from_store.to_sym,qty)
-    item.increment!(self.transfer.to_store.to_sym,qty)
+    item.update_inventory(transfer.from_store,qty)
+    item.update_inventory(transfer.to_store,qty,:up)
   end
 
 end

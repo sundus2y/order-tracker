@@ -28,7 +28,7 @@ var returnSalesApp = returnSalesApp || {};
                     "</li>").css('width','40%');
                 var indices = [0,1];
                 var widths = ['col-md-4','col-md-8'];
-                renderAutocompleteResults(results, indices, widths);
+                renderAutoCompleteResults(results, indices, widths);
             });
         },
 

@@ -16,6 +16,10 @@ class SearchesController < ApplicationController
     @sales = Sale.search(params[:query])
   end
 
+  def transfers
+    @transfers = Transfer.search(params[:query])
+  end
+
   def _
 
   end

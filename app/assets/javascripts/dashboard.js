@@ -14,8 +14,6 @@ var itemDataTable = null;
                 { data: "car" },
                 { data: "model" },
                 { data: "sale_price" },
-                { data: "dubai_price" },
-                { data: "korea_price" },
                 { data: "inventories_display" },
                 { data: "brand" },
                 { data: "made" }
@@ -41,6 +39,7 @@ var itemDataTable = null;
     var search = function search(term){
         $.get('/search/items',{search_term:term})
             .done(function(result){
+                //React.render(React.createElement(SearchTransferApp, null), $('#search-items-result')[0]);
                 itemDataTable.clear().draw();
                 itemDataTable.rows.add(result).draw();
             })

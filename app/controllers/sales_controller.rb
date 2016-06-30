@@ -34,36 +34,31 @@ class SalesController < ApplicationController
   def create
     @sale = Sale.new(sale_params)
     authorize @sale
-    saved = @sale.save
-    flash[:notice] = 'Sale Attachment was successfully created.' if saved
-    respond_with(@sale,location: edit_sale_path(@sale)) if saved
-    respond_with(@sale) unless saved
+    if @sale.save
+      flash[:notice] = 'Sale Attachment was successfully created.'
+      respond_with(@sale,location: edit_sale_path(@sale))
+    else
+      respond_with(@sale)
+    end
   end
 
   def update
     @sale.update(sale_params)
-    if params[:submit]
-      @sale.submit!
-    elsif params[:credit]
-      @sale.credit!
-    elsif params[:sample]
-      @sale.sample!
-    end
     respond_with(@sale,location: sales_path)
   end
 
   def destroy
     @sale.destroy
-    respond_to do |format|
-      format.js
-    end
   end
 
   def submit_to_sold
     @sale = Sale.find(params[:sale_id])
     authorize @sale
     @sale.submit!
-    render 'remove_draft_actions' and return
+    respond_to do |format|
+      format.html {redirect_to(sales_path)}
+      format.js {render 'remove_draft_actions' and return}
+    end
   end
 
   def mark_as_sold
@@ -77,14 +72,20 @@ class SalesController < ApplicationController
     @sale = Sale.find(params[:sale_id])
     authorize @sale
     @sale.credit!
-    render 'remove_draft_actions' and return
+    respond_to do |format|
+      format.html {redirect_to(sales_path)}
+      format.js {render 'remove_draft_actions' and return}
+    end
   end
 
   def submit_to_sampled
     @sale = Sale.find(params[:sale_id])
     authorize @sale
     @sale.sample!
-    render 'remove_draft_actions' and return
+    respond_to do |format|
+      format.html {redirect_to(sales_path)}
+      format.js {render 'remove_draft_actions' and return}
+    end
   end
 
   private

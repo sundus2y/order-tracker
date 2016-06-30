@@ -1,0 +1,46 @@
+<div>
+  <div class="row">
+    <%= form_tag transfers_search_path, remote: true, id: :transfers_search_form do %>
+        <div class="col-md-2">
+          <div class="input-group">
+            <label for="from_store_id">From Store</label>
+            <%= select_tag 'query[from_store_id]',
+                           content_tag(:option,'select one...',:value=>"") + options_from_collection_for_select(Store.all, "id", "name"),
+                           class: 'form-control', onchange: "$(this).trigger('submit.rails')" %>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="input-group">
+            <label for="to_store_id">To Store</label>
+            <%= select_tag 'query[to_store_id]',
+                           content_tag(:option,'select one...',:value=>"") + options_from_collection_for_select(Store.all, "id", "name"),
+                           class: 'form-control', onchange: "$(this).trigger('submit.rails')" %>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group">
+            <label for="date_from">Date From</label>
+            <input name="query[date_from]" id="date_from" class="form-control datepicker" onchange="$(this).trigger('submit.rails')"/>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group">
+            <label for="date_to">Date To</label>
+            <input name="query[date_to]" id="date_to" class="form-control datepicker" onchange="$(this).trigger('submit.rails')"/>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="input-group">
+            <label for="status">Status</label>
+            <%= select_tag 'status', options_for_select(['']+Transfer.get_all_states,''), {class:'form-control',name:'query[status]',onchange: "$(this).trigger('submit.rails')"} %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+  <br>
+  <div class="row">
+    <div id="transfers_search_results" class="col-md-12">
+      No Results
+    </div>
+  </div>
+</div>

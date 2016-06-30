@@ -2,7 +2,10 @@ Rails.application.routes.draw do
 
   resources :transfer_items
 
-  resources :transfers
+  resources :transfers do
+    get :transfer_items
+    match :submit, as: :submit, via: [:patch,:get]
+  end
 
   resources :return_items
 
@@ -11,10 +14,10 @@ Rails.application.routes.draw do
 
   resources :sales do
     get :sale_items
-    get :submit_to_sold, as: :submit_to_sold
-    get :mark_as_sold, as: :mark_as_sold
-    get :submit_to_credited, as: :submit_to_credited
-    get :submit_to_sampled, as: :submit_to_sampled
+    match :submit_to_sold, as: :submit_to_sold, via: [:patch,:get]
+    match :mark_as_sold, as: :mark_as_sold, via: [:patch,:get]
+    match :submit_to_credited, as: :submit_to_credited, via: [:patch,:get]
+    match :submit_to_sampled, as: :submit_to_sampled, via: [:patch,:get]
     get :return, on: :collection
   end
 
@@ -63,5 +66,6 @@ Rails.application.routes.draw do
     get :items, on: :collection, as: :items
     get :orders, on: :collection, as: :orders
     post :sales, on: :collection, as: :sales
+    post :transfers, on: :collection, as: :transfers
   end
 end

@@ -106,9 +106,9 @@
           <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
         </a>
         <ul class="dropdown-menu save-dropdown-menu">
-          <li><%= button_tag('Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block") %></li>
-          <li><%= button_tag('Credit', name:'credit', type: 'submit', class: "btn btn-primary btn-block") %></li>
-          <li><%= button_tag('Sample', name:'sample', type: 'submit', class: "btn btn-primary btn-block") %></li>
+          <li><%= button_tag('Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sold_path(@sale)}) %></li>
+          <li><%= button_tag('Credit', name:'credit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_credited_path(@sale)}) %></li>
+          <li><%= button_tag('Sample', name:'sample', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sampled_path(@sale)}) %></li>
         </ul>
       </div>
     <% end %>

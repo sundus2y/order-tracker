@@ -1,10 +1,4 @@
-var titilize = function(str){
-    return str.toLowerCase().replace(/(?:^|\s|-|_)\S/g, function (m) {
-        return m.toUpperCase();
-    });
-}
-
-var renderAutocompleteResults = function(results, indices, widths) {
+var renderAutoCompleteResults = function(results, indices, widths) {
     results.each(function (index, elem) {
         var node = elem.childNodes[0].nodeValue;
         var node_element = $.parseHTML(node);
@@ -22,14 +16,24 @@ var renderAutocompleteResults = function(results, indices, widths) {
     });
 }
 
-var makeFormReadOnly = function makeFormReadOnly() {
+var makeFormReadOnly = function() {
     $("form[data-readOnly='true']").find('input').attr('readOnly', true);
     $("form[data-readOnly='true']").find('select').attr('disabled', true);
     $("form[data-readOnly='true']").find('textarea').attr('readOnly', true);
 }
 
+var updateFormAction = function() {
+    $('body').on('click',"button[type='submit']", function(){
+        var action = $(this).data('action');
+       if (typeof(action) !== "undefined") {
+           $(this).closest('form').attr('action',action);
+       }
+    });
+}
+
 $(document).ready(function (){
     makeFormReadOnly();
+    updateFormAction();
     $( "#date_from" ).datepicker({
         defaultDate: "+1w",
         changeMonth: true,
@@ -74,6 +78,13 @@ $(document).ready(function (){
 
     // Open the parent menu for current page.
     setTimeout(function(){
-        $('#'+$("a[href='"+window.location.pathname+"']").parent().data('parent')).click();
+        var link = ''
+        if (window.location.pathname.match(/\/.*\//)) {
+            link = window.location.pathname.match(/\/.*\//)[0]
+        } else {
+            link = window.location.pathname.match(/\/.*$/)[0]
+        }
+
+        $('#'+$("a[href*='"+link+"']").parent().data('parent')).click();
     },0.5);
 });

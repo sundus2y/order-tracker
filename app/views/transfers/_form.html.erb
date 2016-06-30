@@ -1,29 +1,58 @@
-<%= form_for(@transfer) do |f| %>
-  <% if @transfer.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@transfer.errors.count, "error") %> prohibited this transfer from being saved:</h2>
+<%= form_for(@transfer, data: {readOnly: viewOnlyMode}) do |f| %>
+    <% if @transfer.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@transfer.errors.count, "error") %> prohibited this transfer from being saved:</h2>
 
-      <ul>
-      <% @transfer.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% @transfer.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <%= f.hidden_field :id %>
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Transfer Info</h4>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :from_store %><br>
-    <%= f.number_field :from_store %>
-  </div>
-  <div class="field">
-    <%= f.label :to_store %><br>
-    <%= f.number_field :to_store %>
-  </div>
-  <div class="field">
-    <%= f.label :note %><br>
-    <%= f.text_area :note %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="field form-group">
+          <%= f.label :from_store_id, 'From Store' %><br>
+          <%= f.select(:from_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="field form-group">
+          <%= f.label :to_store_id, 'To Store' %><br>
+          <%= f.select(:to_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="field form-group">
+          <%= f.label :sent_date, value:'Transfer Sent Date:' %><br>
+          <%= f.date_field :sent_date, class: 'form-control'  %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="field form-group">
+          <%= f.label :note %><br>
+          <%= f.text_area :note, class: 'form-control'  %>
+        </div>
+      </div>
+    </div>
+    <hr class="hr-dark">
+    <% if show_transfer_items %>
+        <% if viewOnlyMode %>
+            <div class="transfer_items_show_app"></div>
+        <% else %>
+            <div class="transfer_items_app"></div>
+            <div class="btn-group float_right">
+              <%= render 'actions'%>
+            </div>
+        <% end %>
+    <% else %>
+        <%= button_tag('Create Transfer', name:'save', type: 'submit', class: "btn btn-primary btn-block") %>
+    <% end %>
 <% end %>

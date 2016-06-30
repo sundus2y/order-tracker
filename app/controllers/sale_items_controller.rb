@@ -30,7 +30,7 @@ class SaleItemsController < ApplicationController
     @sale_item.save
     respond_to do |format|
       format.html {respond_with(@sale_item,location: sale_items_path)}
-      format.json {render 'sale_items/show'}
+      format.json {render 'show'}
     end
   end
 
@@ -38,7 +38,7 @@ class SaleItemsController < ApplicationController
     @sale_item.update(sale_item_params)
     respond_to do |format|
       format.html {response_with(@sale_item,location: sale_items_path)}
-      format.json {render 'sale_items/show'}
+      format.json {render 'show'}
     end
   end
 
@@ -46,7 +46,7 @@ class SaleItemsController < ApplicationController
     @sale_item.destroy
     respond_to do |format|
       format.html {response_with(@sale_item,location: sale_items_path)}
-      format.json {render 'sale_items/show'}
+      format.json {render 'show'}
     end
   end
 

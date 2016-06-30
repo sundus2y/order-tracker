@@ -1,6 +1,6 @@
-<h1>Editing Transfer</h1>
+<% content_for :header do %>
+    Edit Transfer #<%= @transfer.id %>
+<% end %>
 
-<%= render 'form' %>
+<%= render 'form', show_transfer_items: true, viewOnlyMode: false, new_transfer: false %>
 
-<%= link_to 'Show', @transfer %> |
-<%= link_to 'Back', transfers_path %>

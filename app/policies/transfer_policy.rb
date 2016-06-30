@@ -28,14 +28,30 @@ class TransferPolicy
   end
 
   def edit?
-    new?
+    new? && @transfer.draft?
   end
 
   def destroy?
     new?
   end
 
+  def submit?
+    new? && @transfer.may_submit?
+  end
+
+  def transfer?
+    submit? && edit?
+  end
+
+  def receive?
+    submit? && @transfer.sent?
+  end
+
   def search?
+    show?
+  end
+
+  def transfer_items?
     show?
   end
 

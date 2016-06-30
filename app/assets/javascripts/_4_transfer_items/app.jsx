@@ -3,8 +3,8 @@ var app = app || {};
 (function () {
 
 
-    var SaleItemFooter = app.SaleItemFooter;
-    var SaleItem = app.SaleItem;
+    var TransferItemFooter = app.TransferItemFooter;
+    var TransferItem = app.TransferItem;
 
     function bindSearchSelectEvent() {
         $('#search_item_field').on('railsAutocomplete.select', function (event, object) {
@@ -22,7 +22,7 @@ var app = app || {};
                     "<div class='col-md-1'>Brand</div>" +
                     "<div class='col-md-1'>Origin</div>" +
                     "</div>" +
-                "</li>").css('width','80%');
+                "</li>").css('width','75%');
             var indices = [0,1,2,3,4];
             var widths = ['col-md-3','col-md-5','col-md-2','col-md-1','col-md-1'];
             renderAutoCompleteResults(results, indices, widths);
@@ -40,20 +40,19 @@ var app = app || {};
             };
         },
 
-        saveSaleItem: function(saleId,itemId){
+        saveTransferItem: function(transferId,itemId){
             var deferred = $.Deferred();
-            var newSaleItem = {
-                sale_item: {
-                    sale_id: saleId,
+            var newTransferItem = {
+                transfer_item: {
+                    transfer_id: transferId,
                     item_id: itemId,
-                    qty: 1,
-                    unit_price: 0
+                    qty: 1
                 }
             }
             $.ajax({
                 type: "POST",
-                url: "/sale_items/",
-                data: newSaleItem,
+                url: "/transfer_items/",
+                data: newTransferItem,
                 dataType: 'json',
                 success: function (data,response) {
                     deferred.resolve({context:this,data:data,message:response});
@@ -65,19 +64,18 @@ var app = app || {};
             return deferred.promise();
         },
 
-        updateSaleItem: function(saleItem){
+        updateTransferItem: function(transferItem){
             var deferred = $.Deferred();
-            var newQtyAndUnitPrice = {
+            var newQty = {
                 _method: 'PATCH',
-                sale_item: {
-                    qty: saleItem.qty,
-                    unit_price: saleItem.unit_price
+                transfer_item: {
+                    qty: transferItem.qty
                 }
             }
             $.ajax({
                 type: "POST",
-                url: "/sale_items/"+saleItem.id,
-                data: newQtyAndUnitPrice,
+                url: "/transfer_items/"+transferItem.id,
+                data: newQty,
                 dataType: 'json',
                 success: function (data,response) {
                     deferred.resolve({context:this,data:data,message:response});
@@ -89,11 +87,11 @@ var app = app || {};
             return deferred.promise();
         },
 
-        destroySaleItem: function(saleItem){
+        destroyTransferItem: function(transferItem){
             var deferred = $.Deferred();
             $.ajax({
                 type: "DELETE",
-                url: "/sale_items/"+saleItem.id,
+                url: "/transfer_items/"+transferItem.id,
                 dataType: 'json',
                 success: function (data,response) {
                     deferred.resolve({context:this,data:data,message:response});
@@ -105,11 +103,11 @@ var app = app || {};
             return deferred.promise();
         },
 
-        getSaleItems: function(saleId){
+        getTransferItems: function(transferId){
             var deferred = $.Deferred();
             $.ajax({
                 type: "GET",
-                url: "/sales/"+saleId+"/sale_items/",
+                url: "/transfers/"+transferId+"/transfer_items/",
                 dataType: 'json',
                 success: function(data,response){
                     deferred.resolve({context:this,data:data,message:response});
@@ -121,82 +119,77 @@ var app = app || {};
             return deferred.promise();
         },
 
-        handleSaleItemCreate: function(){
+        handleTransferItemCreate: function(){
             var itemId = $('#search_item_id').val();
-            var saleId = parseInt($('#sale_id').val());
+            var transferId = parseInt($('#transfer_id').val());
             if (itemId != '') {
                 itemId = parseInt(itemId)
-                var foundSaleItem = this.state.data.find(function(saleItem){return saleItem.item.id === itemId});
-                if (foundSaleItem) {
+                var foundTransferItem = this.state.data.find(function(transferItem){return transferItem.item.id === itemId});
+                if (foundTransferItem) {
                     clearSearchFields();
                     alert('Item Already Exists');
                 } else {
-                    this.saveSaleItem(saleId, itemId).done(function (response) {
+                    this.saveTransferItem(transferId, itemId).done(function (response) {
                         var self = response.context;
                         var updatedData = [response.data].concat(self.state.data);
                         self.setState({data: updatedData});
                     }).fail(function (response){
-                        alert("Error While Trying to Save Sale Item" + response);
+                        alert("Error While Trying to Save Transfer Item" + response);
                     }).always(clearSearchFields);
                 }
             }
         },
 
-        handleSaleItemRemove: function(saleItemToRemove){
-            this.destroySaleItem(saleItemToRemove).done(function(response){
+        handleTransferItemRemove: function(transferItemToRemove){
+            this.destroyTransferItem(transferItemToRemove).done(function(response){
                 var self = response.context;
-                var updatedData = self.state.data.filter(function(saleItem){
-                    return saleItem.id != response.data.id;
+                var updatedData = self.state.data.filter(function(transferItem){
+                    return transferItem.id != response.data.id;
                 });
                 self.setState({data: updatedData});
             })
         },
 
-        handleSaleItemUpdate: function(updatedSaleItem){
-            this.updateSaleItem(updatedSaleItem).done(function(response){
+        handleTransferItemUpdate: function(updatedTransferItem){
+            this.updateTransferItem(updatedTransferItem).done(function(response){
                 var self = response.context;
-                var updatedData = self.state.data.map(function(saleItem){
-                    if (saleItem.id === response.data.id) {
-                        saleItem.qty = response.data.qty;
-                        saleItem.unit_price = response.data.unit_price;
+                var updatedData = self.state.data.map(function(transferItem){
+                    if (transferItem.id === response.data.id) {
+                        transferItem.qty = response.data.qty;
                     }
-                    return saleItem;
+                    return transferItem;
                 });
                 self.setState({data: updatedData});
             });
         },
 
         componentDidMount: function(){
-            var saleId = $('#sale_id').val();
+            var transferId = $('#transfer_id').val();
             bindSearchSelectEvent();
-            this.getSaleItems(saleId).done(function(response) {
+            this.getTransferItems(transferId).done(function(response) {
                 var self = response.context;
                 self.setState({data: response.data});
             }).fail(function(response){
-                alert("Error While Trying to Save Sale Item" + response);
+                alert("Error While Trying to Save Transfer Item" + response);
             });
         },
 
         render: function(){
             var main;
-            var saleItemList = this.state.data;
-            var grandTotalQty = saleItemList.reduce(function(accum,saleItem){
-                var qty = (isNaN(saleItem.qty))? 0 : saleItem.qty;
+            var transferItemList = this.state.data;
+            var grandTotalQty = transferItemList.reduce(function(accum,transferItem){
+                var qty = (isNaN(transferItem.qty))? 0 : transferItem.qty;
                 return accum + qty;
             },0);
-            var grandTotalPrice = saleItemList.reduce(function(accum,saleItem){
-                var qty = (isNaN(saleItem.qty))? 0 : saleItem.qty;
-                var price = (isNaN(saleItem.unit_price))? 0 : saleItem.unit_price;
-                return accum + (qty * price);
-            },0);
-            var saleItems = saleItemList.map(function (saleItem,index) {
+
+            var transferItems = transferItemList.map(function (transferItem,index) {
                 return (
-                    <SaleItem
+                    <TransferItem
                         lineNumber={index+1}
-                        key={saleItem.id}
-                        saleItemData={saleItem}
-                        onItemUpdate={this.handleSaleItemUpdate}
-                        onSaleItemRemove={this.handleSaleItemRemove}
+                        key={transferItem.id}
+                        transferItemData={transferItem}
+                        onItemUpdate={this.handleTransferItemUpdate}
+                        onTransferItemRemove={this.handleTransferItemRemove}
                         viewOnly={this.props.viewOnly}
                     />
                 );
@@ -212,7 +205,7 @@ var app = app || {};
                                    data-autocomplete="/items/autocomplete_item_sale_price"
                                    data-name-element="#search_item_id"
                                    placeholder="Enter item to search. . ."
-                                   onSelect={this.handleSaleItemCreate}/>
+                                   onSelect={this.handleTransferItemCreate}/>
                             <div className="form-group hidden">
                                 <input type="text" id="search_item_id" />
                             </div>
@@ -266,10 +259,10 @@ var app = app || {};
                         </tr>
                     </thead>
                     <tbody>
-                        {saleItems}
-                        <SaleItemFooter
+                        {transferItems}
+                        <TransferItemFooter
                             grandTotalQty={grandTotalQty}
-                            grandTotalPrice={grandTotalPrice}
+                            grandTotalPrice={0}
                         />
                     </tbody>
                 </table>
@@ -291,7 +284,7 @@ var app = app || {};
         );
     }
     $(document).ready(function(){
-        if ($('.sales_item_app').length != 0){render(false,$('.sales_item_app'));}
-        if ($('.sales_item_show_app').length != 0){render(true,$('.sales_item_show_app'));}
+        if ($('.transfer_items_app').length != 0){render(false,$('.transfer_items_app'));}
+        if ($('.transfer_items_show_app').length != 0){render(true,$('.transfer_items_show_app'));}
     });
 })();

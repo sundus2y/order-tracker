@@ -27,17 +27,26 @@ class TransferItemsController < ApplicationController
   def create
     @transfer_item = TransferItem.new(transfer_item_params)
     @transfer_item.save
-    respond_with(@transfer_item)
+    respond_to do |format|
+      format.html {respond_with(@transfer_item,location: transfer_items_path)}
+      format.json {render 'show'}
+    end
   end
 
   def update
     @transfer_item.update(transfer_item_params)
-    respond_with(@transfer_item)
+    respond_to do |format|
+      format.html {response_with(@transfer_item,location: transfer_items_path)}
+      format.json {render 'show'}
+    end
   end
 
   def destroy
     @transfer_item.destroy
-    respond_with(@transfer_item)
+    respond_to do |format|
+      format.html {response_with(@transfer_item,location: transfer_items_path)}
+      format.json {render 'show'}
+    end
   end
 
   private

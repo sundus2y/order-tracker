@@ -43,8 +43,7 @@ class Item < ActiveRecord::Base
       when :search
         super({
                   only: [:name,:original_number,:item_number,:prev_number,:next_number,
-                        :description,:car,:model,:sale_price,:dubai_price,:korea_price,
-                        :brand,:made],
+                        :description,:car,:model,:sale_price,:brand,:made],
                   methods: [:actions,:inventories_display]
               }.merge(options))
       when :default
@@ -115,27 +114,58 @@ class Item < ActiveRecord::Base
 
   def self.import(file)
     workbook = Roo::Spreadsheet.open(file.path)
-    header = {name: "Name",
-              description: "Description",
-              item_number: "Item Number",
-              original_number: "Original Number",
-              model: 'Model',
-              car: 'Car',
-              part_class: 'Part Class'}
+    header = %w(model item_number original_number prev_number next_number name description car part_class korea_price brand make_from make_to)
+    header_hash = {} #"Model", "Item Number", "Original Number", "Prev Number", "Next Number", "Name", "Description", "Car", "Part Class", "Korea Price", "Brand", "Make From", "Make To"
+    header.each{|k|header_hash[k] = k.titleize}
+    sheets_count = workbook.sheets.count
+    sheets = (1..sheets_count-1).to_a
+    sheets.each do |index|
+      puts "Sheet Number #{index} has #{workbook.sheet(index).count} items"
+      to_import, to_update, error_data = write_to_db(header_hash, workbook, index)
+      puts "Done importing #{to_import.count} items"
+    end
+    updated = update_existing(to_update)
+    new_records = to_import.empty? ? [] : where(original_number: to_import.map{|item| item['original_number']}[1..100])
+    return updated, new_records
+  end
+
+  def self.write_to_db(header_hash, workbook, sheet)
     raw_data = []
-    workbook.sheet(0).each_with_index(header) do |hash,index|
-      if index>=1
-        raw_data << new(hash)
-        raw_data.last.item_number = hash[:item_number].to_s.gsub!(INVALID_CHARS_REGEX,'')
-        raw_data.last.original_number = hash[:original_number].to_s.gsub!(INVALID_CHARS_REGEX,'')
+    error_data = []
+    workbook.sheet(sheet).each_with_index(header_hash) do |hash, index|
+      begin
+        if index>=1
+          hash['original_number'] = hash['original_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          # TODO Add this back once initial import is done.
+          # hash['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          hash['item_number'] = hash['original_number']
+          hash['prev_number'] = hash['prev_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          hash['next_number'] = hash['next_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          hash['name'] = hash['name'].to_s.upcase
+          hash['korea_price'] = (hash['korea_price'] || 0).to_f * KRW_XE_USD
+          hash['sale_price'] = ((hash['korea_price'] || 0).to_f * KRW_XE_ETB * 2)
+          hash['make_from'] = Date.parse(hash['make_from']) unless hash['make_from'].nil?
+          hash['make_to'] = Date.parse(hash['make_to']) unless hash['make_to'].nil?
+          hash['car'] = hash['car'].to_s.upcase
+          hash['model'] = hash['model'].to_s.upcase
+          hash['brand'] = case hash['brand'].to_s
+                            when 'K', 'k', 'Kia'
+                              'KIA'
+                            when 'H', 'h', 'Hyundai'
+                              'HYUNDAI'
+                            else
+                              hash['brand'].to_s.upcase
+                          end
+          raw_data << hash
+        end
+      rescue Exception => e
+        error_data << hash
       end
     end
-    duplicate_numbers = where(original_number: raw_data.map(&:original_number)).pluck(:original_number)
-    to_update, to_import = raw_data.partition{|item| duplicate_numbers.include? item.original_number}
+    duplicate_numbers = where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
+    to_update, to_import = raw_data.partition { |item| duplicate_numbers.include? item['original_number'] }
     create_new(to_import)
-    updated = update_existing(to_update)
-    new_records = to_import.empty? ? [] : where(original_number: to_import.map(&:original_number)[1..100])
-    return updated, new_records
+    return to_import, to_update, error_data
   end
 
   def to_s
@@ -157,12 +187,13 @@ class Item < ActiveRecord::Base
     str << "</div>".html_safe
   end
 
-  def update_inventory(store, qty)
+  def update_inventory(store, qty, direction = :down)
     inv = inventories.where(store: store)
     if inv.empty?
       inv.create(qty: 0,store: store)
     end
-    inv.reload.last.decrement!(:qty,qty)
+    inv.reload.last.decrement!(:qty,qty) if direction == :down
+    inv.reload.last.increment!(:qty,qty) if direction == :up
   end
 
   def label
@@ -170,24 +201,25 @@ class Item < ActiveRecord::Base
   end
 
   def self.search_item2(term)
-    includes(:sale_items,:order_items).where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%").limit(20)
+    includes(:sale_items,:order_items).where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%")
   end
 
 private
   def self.create_new(new_records)
     inserts = []
     new_records.each do |item|
-      inserts << "(#{sanitize(item.name.to_s)},
-#{sanitize(item.description.to_s)},
-#{sanitize(item.item_number.to_s)},
-#{sanitize(item.original_number.to_s)},
-#{sanitize(item.model.to_s)},
-#{sanitize(item.car.to_s)},
-#{sanitize(item.part_class.to_s)})"
+      inserts << "(#{item.values.map do |v|
+        new_val = sanitize(v.to_s)
+        if new_val == "''"
+          "NULL"
+        else
+          new_val
+        end
+      end.join(',')})"
     end
-    inserts.in_groups_of(10000).each do |group|
+    inserts.in_groups_of(5000).each do |group|
       unless group.compact.empty?
-        sql = "INSERT INTO Items (name, description, item_number, original_number, model, car, part_class) VALUES #{group.compact.join(", ")}"
+        sql = "INSERT INTO Items (model,item_number,original_number,prev_number,next_number,name,description,car,part_class,korea_price,brand,make_from,make_to,sale_price) VALUES #{group.compact.join(", ")}"
         connection.execute sql unless new_records.empty?
       end
     end

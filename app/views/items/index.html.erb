@@ -3,7 +3,14 @@
 <% end %>
 <%= will_paginate @items, renderer: BootstrapPagination::Rails %>
 
-<%= render 'listing', {items: @items} %>
+<div class="tab-content">
+  <div id="search_transfers_tab" class="tab-pane fade in active">
+    <div>
+      <%= render 'listing', {items: @items} %>
+    </div>
+  </div>
+</div>
+
 
 <%= will_paginate @items, renderer: BootstrapPagination::Rails %>
 

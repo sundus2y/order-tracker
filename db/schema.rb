@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527053144) do
+ActiveRecord::Schema.define(version: 20160630223100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,9 +46,6 @@ ActiveRecord::Schema.define(version: 20160527053144) do
     t.string   "model"
     t.string   "car"
     t.string   "part_class"
-    t.integer  "t_shop",          default: 0
-    t.integer  "l_shop",          default: 0
-    t.integer  "l_store",         default: 0
     t.date     "make_from"
     t.date     "make_to"
     t.string   "prev_number"
@@ -119,6 +116,29 @@ ActiveRecord::Schema.define(version: 20160527053144) do
     t.string   "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "transfer_items", force: :cascade do |t|
+    t.integer  "transfer_id"
+    t.integer  "item_id"
+    t.integer  "qty"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "transfers", force: :cascade do |t|
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.integer  "from_store_id"
+    t.integer  "to_store_id"
+    t.text     "note"
+    t.string   "status"
+    t.integer  "transfer_items_count", default: 0
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.date     "sent_date"
+    t.date     "received_date"
   end
 
   create_table "users", force: :cascade do |t|

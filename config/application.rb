@@ -36,3 +36,7 @@ module RailsDevisePundit
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
+
+KRW_XE_USD = 0.00087
+KRW_XE_ETB = 0.019
+ETB_XE_USD = 0.046

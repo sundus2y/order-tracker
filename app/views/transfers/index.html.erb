@@ -1,31 +1,11 @@
-<p id="notice"><%= notice %></p>
+<% content_for :header do %>
+    Transfers
+<% end %>
 
-<h1>Listing Transfers</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>From store</th>
-      <th>To store</th>
-      <th>Note</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @transfers.each do |transfer| %>
-      <tr>
-        <td><%= transfer.from_store %></td>
-        <td><%= transfer.to_store %></td>
-        <td><%= transfer.note %></td>
-        <td><%= link_to 'Show', transfer %></td>
-        <td><%= link_to 'Edit', edit_transfer_path(transfer) %></td>
-        <td><%= link_to 'Destroy', transfer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Transfer', new_transfer_path %>
+<div class="tab-content">
+  <div id="search_transfers_tab" class="tab-pane fade in active">
+    <div>
+      <%= render 'search'%>
+    </div>
+  </div>
+</div>

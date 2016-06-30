@@ -1,0 +1,8 @@
+<div class="dropdown">
+  <button type="button" class="dropbtn">Actions <i class="fa fa-chevron-down"></i></button>
+  <div id="myDropdown" class="dropdown-content">
+    <%= button_tag('Save', type: 'submit') if policy(@transfer).edit? %>
+    <%= button_tag('Transfer', type: 'submit', data:{action: transfer_submit_path(@transfer)}) if policy(@transfer).transfer? %>
+    <%= button_tag('Receive', type: 'submit', data:{action: transfer_submit_path(@transfer)}) if policy(@transfer).receive? %>
+  </div>
+</div>

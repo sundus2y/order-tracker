@@ -23,7 +23,7 @@ $(document).ready(function () {
         var results = $('ul.ui-autocomplete').find('li');
         var indices = [0,1,2,3,4];
         var widths = ['col-md-3','col-md-3','col-md-2','col-md-2','col-md-2'];
-        renderAutocompleteResults(results, indices, widths);
+        renderAutoCompleteResults(results, indices, widths);
         $('ul.ui-autocomplete').prepend("" +
             "<li class='autocomplete-header'>" +
             "<div class='row'>" +
