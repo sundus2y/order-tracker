@@ -201,7 +201,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.search_item2(term)
-    includes(:sale_items,:order_items).where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%")
+    includes(:sale_items,:order_items).where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{term}%").limit(20)
   end
 
 private
