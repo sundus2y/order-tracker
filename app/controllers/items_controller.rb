@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:original_number,:description], :limit => 20
-  autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:original_number,:description,:sale_price], :limit => 20
+  autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:item_number,:description], :limit => 20
+  autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
 
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
@@ -108,7 +108,7 @@ class ItemsController < ApplicationController
       limit = parameters[:options][:limit]
       data = parameters[:options][:extra_data]
       data << parameters[:method]
-      model.where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term) or LOWER(original_number) like LOWER(:term)", term: "%#{parameters[:term]}%").limit(limit)
+      model.where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term)", term: "%#{parameters[:term]}%").limit(limit)
     end
 
     def check_authorization

@@ -2,7 +2,7 @@
  toggle between hiding and showing the dropdown content */
 $(document).ready(function () {
     $('.dropbtn').on('click', function (e){
-        $("#myDropdown").toggle("show");
+        $(".myDropdown").toggle("show");
     });
     $('body').on('click', function(e){
         if (!e.target.matches('.dropbtn')) {

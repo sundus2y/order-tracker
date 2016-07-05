@@ -20,7 +20,7 @@ class Item < ActiveRecord::Base
                           threshold: 0.07
                       }
                   }
-  before_destroy :should_have_no_order_items
+  before_destroy :can_be_deleted?
   validates :name, presence: true
   validates :original_number, presence: true
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
@@ -30,12 +30,6 @@ class Item < ActiveRecord::Base
 
   INVALID_CHARS = %w(, . - _ : | \\ /)
   INVALID_CHARS_REGEX = Regexp.new('\W')
-
-  def should_have_no_order_items
-    return true if OrderItem.where(item:self).count == 0
-    errors.add :item, "And Order exists with selected Item."
-    false
-  end
 
   def as_json(options={})
     type = options.delete(:type) || :default
@@ -142,8 +136,8 @@ class Item < ActiveRecord::Base
           hash['prev_number'] = hash['prev_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
           hash['next_number'] = hash['next_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
           hash['name'] = hash['name'].to_s.upcase
-          hash['korea_price'] = (hash['korea_price'] || 0).to_f * KRW_XE_USD
-          hash['sale_price'] = ((hash['korea_price'] || 0).to_f * KRW_XE_ETB * 2)
+          hash['korea_price'] = ((hash['korea_price'] || 0).to_f * KRW_XE_USD).to_i
+          hash['sale_price'] = (((hash['korea_price'] || 0).to_f * USD_XE_ETB * 4)).to_i
           hash['make_from'] = Date.parse(hash['make_from']) unless hash['make_from'].nil?
           hash['make_to'] = Date.parse(hash['make_to']) unless hash['make_to'].nil?
           hash['car'] = hash['car'].to_s.upcase

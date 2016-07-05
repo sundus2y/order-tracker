@@ -18,6 +18,10 @@ class Customer < ActiveRecord::Base
     name
   end
 
+  def category_label
+    category.upcase
+  end
+
   def can_be_deleted?
     sales.empty?
   end

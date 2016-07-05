@@ -62,7 +62,7 @@ class SaleItem < ActiveRecord::Base
 
   private
     def set_unit_price
-      unit_price = item.sale_price if unit_price.nil? || unit_price == 0
+      self.unit_price = item.sale_price if unit_price.nil? || unit_price == 0
     end
 
     def minus_qty
