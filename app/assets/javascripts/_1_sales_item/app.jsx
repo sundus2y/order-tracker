@@ -203,7 +203,7 @@ var app = app || {};
             }, this);
 
             var search = (
-                <div className="row">
+                <div id="item_search_row" className="row">
                     <div className="col-md-4">
                         <div className="field form-group">
                             <input id="search_item_field"

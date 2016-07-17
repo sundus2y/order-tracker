@@ -23,3 +23,8 @@ span.selected-ac-close {
 .inventory {
   display: inline-block;
 }
+
+@media all {
+  .no-print { display:none !important; }
+  .printable { font-size: 10px !important;}
+}
