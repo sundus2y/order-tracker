@@ -4,6 +4,8 @@ class Sale < ActiveRecord::Base
   belongs_to :customer
   belongs_to :store
 
+  before_create :set_transaction_num
+
   validates_presence_of :customer_id, :store_id, :created_at
 
   include AASM
@@ -103,6 +105,11 @@ class Sale < ActiveRecord::Base
       sold_count = sale_items.where(status: 'sold').sum(:qty)
       returned_count = sale_items.where(status: 'returned').sum(:qty)
       sold_count + returned_count == 0 ? true : false
+    end
+
+    def set_transaction_num
+      counter = TransactionNumCounter.get_transaction_next_num_for(store.id)
+      self.transaction_num = "INV-#{created_at.strftime('%Y%m%d')}-#{store.id}-#{counter}"
     end
 
 end

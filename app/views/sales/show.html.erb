@@ -1,4 +1,4 @@
 <% content_for :header do %>
-    View Sale
+    View Sale Attachment #<%= @sale.transaction_num %>
 <% end %>
 <%= render 'form', viewOnlyMode: true, show_sale_items: true %>
