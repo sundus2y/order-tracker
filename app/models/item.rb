@@ -112,8 +112,7 @@ class Item < ActiveRecord::Base
     header_hash = {} #"Model", "Item Number", "Original Number", "Prev Number", "Next Number", "Name", "Description", "Car", "Part Class", "Korea Price", "Brand", "Make From", "Make To"
     header.each{|k|header_hash[k] = k.titleize}
     sheets_count = workbook.sheets.count
-    sheets = (1..sheets_count-1).to_a
-    sheets.each do |index|
+    sheets_count.times do |index|
       puts "Sheet Number #{index} has #{workbook.sheet(index).count} items"
       to_import, to_update, error_data = write_to_db(header_hash, workbook, index)
       puts "Done importing #{to_import.count} items"
@@ -128,30 +127,28 @@ class Item < ActiveRecord::Base
     error_data = []
     workbook.sheet(sheet).each_with_index(header_hash) do |hash, index|
       begin
-        if index>=1
-          hash['original_number'] = hash['original_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
-          # TODO Add this back once initial import is done.
-          # hash['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
-          hash['item_number'] = hash['original_number']
-          hash['prev_number'] = hash['prev_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
-          hash['next_number'] = hash['next_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
-          hash['name'] = hash['name'].to_s.upcase
-          hash['korea_price'] = ((hash['korea_price'] || 0).to_f * KRW_XE_USD).to_i
-          hash['sale_price'] = (((hash['korea_price'] || 0).to_f * USD_XE_ETB * 4)).to_i
-          hash['make_from'] = Date.parse(hash['make_from']) unless hash['make_from'].nil?
-          hash['make_to'] = Date.parse(hash['make_to']) unless hash['make_to'].nil?
-          hash['car'] = hash['car'].to_s.upcase
-          hash['model'] = hash['model'].to_s.upcase
-          hash['brand'] = case hash['brand'].to_s
-                            when 'K', 'k', 'Kia'
-                              'KIA'
-                            when 'H', 'h', 'Hyundai'
-                              'HYUNDAI'
-                            else
-                              hash['brand'].to_s.upcase
-                          end
-          raw_data << hash
-        end
+        hash['original_number'] = hash['original_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+        # TODO Add this back once initial import is done.
+        # hash['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+        hash['item_number'] = hash['original_number']
+        hash['prev_number'] = hash['prev_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+        hash['next_number'] = hash['next_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+        hash['name'] = hash['name'].to_s.upcase
+        hash['korea_price'] = ((hash['korea_price'] || 0).to_f * KRW_XE_USD).to_i
+        hash['sale_price'] = (((hash['korea_price'] || 0).to_f * USD_XE_ETB * 4)).to_i
+        hash['make_from'] = Date.parse(hash['make_from']) unless hash['make_from'].nil?
+        hash['make_to'] = Date.parse(hash['make_to']) unless hash['make_to'].nil?
+        hash['car'] = hash['car'].to_s.upcase
+        hash['model'] = hash['model'].to_s.upcase
+        hash['brand'] = case hash['brand'].to_s
+                          when 'K', 'k', 'Kia'
+                            'KIA'
+                          when 'H', 'h', 'Hyundai'
+                            'HYUNDAI'
+                          else
+                            hash['brand'].to_s.upcase
+                        end
+        raw_data << hash
       rescue Exception => e
         error_data << hash
       end
@@ -159,6 +156,8 @@ class Item < ActiveRecord::Base
     duplicate_numbers = where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
     to_update, to_import = raw_data.partition { |item| duplicate_numbers.include? item['original_number'] }
     create_new(to_import)
+    Rails.logger.info "Errors Found" unless error_data.empty?
+    Rails.logger.debug error_data.to_yaml unless error_data.empty?
     return to_import, to_update, error_data
   end
 
@@ -196,13 +195,13 @@ class Item < ActiveRecord::Base
 
   def self.search_item2(term)
     if (term.count('1234567890').to_f/term.length) > 0.7
-      includes(:sale_items,:order_items).where('LOWER(prev_number) like LOWER(:term) or ' +
-                                               'LOWER(next_number) like LOWER(:term) or ' +
-                                               'LOWER(item_number) like LOWER(:term) or ' +
-                                               'LOWER(original_number) like LOWER(:term)', term: "#{term}%").order('original_number').limit(20)
+      includes(:sale_items,:order_items).where('prev_number ilike :term or ' +
+                                               'next_number ilike :term or ' +
+                                               'item_number ilike :term or ' +
+                                               'original_number ilike :term', term: "#{term}%").reorder('original_number').limit(20)
     else
-      includes(:sale_items,:order_items).where('LOWER(name) like LOWER(:term) or ' +
-                                               'LOWER(description) like LOWER(:term) ', term: "%#{term}%").order('name').limit(20)
+      includes(:sale_items,:order_items).where('name ilike :term or ' +
+                                               'description ilike :term', term: "%#{term}%").reorder('name').limit(20)
     end
   end
 

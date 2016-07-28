@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160724221314) do
+ActiveRecord::Schema.define(version: 20160727093848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,13 @@ ActiveRecord::Schema.define(version: 20160724221314) do
     t.float    "dubai_price",     default: 0.0
     t.float    "korea_price",     default: 0.0
   end
+
+  add_index "items", ["description"], name: "items_lower_description", using: :gin
+  add_index "items", ["item_number"], name: "items_lower_item_number", using: :gin
+  add_index "items", ["name"], name: "items_lower_name", using: :gin
+  add_index "items", ["next_number"], name: "items_lower_next_number", using: :gin
+  add_index "items", ["original_number"], name: "items_lower_original_number", using: :gin
+  add_index "items", ["prev_number"], name: "items_lower_prev_number", using: :gin
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id"
