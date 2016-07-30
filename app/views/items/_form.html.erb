@@ -76,7 +76,7 @@
           <%= f.text_area :description, class:"form-control", rows: 4 %>
         </div>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <label>Inventory</label>
         <table>
           <tbody>
@@ -112,35 +112,26 @@
           </tbody>
         </table>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-2">
         <label>Pricing</label>
         <table>
           <tbody>
           <tr>
-            <td width="20%">S-Price</td>
+            <td width="50%"><%= f.label :sale_price %></td>
             <td>
-              <div class="input-group">
-                <div class="input-group-addon">AED</div>
-                <%= f.number_field :sale_price, class:"form-control", step:'0.01' %>
-              </div>
+                <%= f.number_field :sale_price, class:"form-control right-align", step:'0.01' %>
             </td>
           </tr>
           <tr>
-            <td width="20%">D-Price</td>
+            <td width="50%"><%= f.label :dubai_price %></td>
             <td>
-              <div class="input-group">
-                <div class="input-group-addon">AED</div>
-                <%= f.number_field :dubai_price, class:"form-control", step:'0.01' %>
-              </div>
+              <%= f.number_field :dubai_price, class:"form-control right-align", step:'0.01' %>
             </td>
           </tr>
           <tr>
-            <td width="15%">K-Price</td>
+            <td width="50%"><%= f.label :korea_price %>e</td>
             <td>
-              <div class="input-group">
-                <div class="input-group-addon">AED</div>
-                <%= f.number_field :korea_price, class:"form-control", step:'0.01' %>
-              </div>
+              <%= f.number_field :korea_price, class:"form-control right-align", step:'0.01' %>
             </td>
           </tr>
           </tbody>
