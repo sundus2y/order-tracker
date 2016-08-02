@@ -1,9 +1,9 @@
 class TransfersController < ApplicationController
-  before_action :set_transfer, only: [:show, :edit, :update, :destroy]
+  before_action :set_transfer, except: [:index, :new, :create, :transfer_items]
   before_action :set_transfers, only:[:index, :show_all]
 
   before_filter :authenticate_user!
-  before_action :check_authorization, except: [:submit,:create]
+  before_action :check_authorization, except: [:create]
   after_action :verify_authorized
 
   respond_to :html
@@ -18,7 +18,7 @@ class TransfersController < ApplicationController
   end
 
   def transfer_items
-    @transfer_items = Transfer.includes(:transfer_items).where(id: params[:transfer_id]).first.transfer_items
+    @transfer_items = Transfer.includes(:transfer_items).where(id: params[:id]).first.transfer_items
   end
 
   def new
@@ -51,12 +51,16 @@ class TransfersController < ApplicationController
   end
 
   def submit
-    @transfer = Transfer.find(params[:transfer_id])
-    authorize @transfer
     @transfer.submit!
     respond_to do |format|
       format.html {redirect_to(transfers_path)}
-      format.js {render 'update_actions' and return}
+    end
+  end
+
+  def receive
+    @transfer.submit!
+    respond_to do |format|
+      format.html {redirect_to(transfers_path)}
     end
   end
 

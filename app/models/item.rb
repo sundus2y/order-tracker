@@ -47,19 +47,26 @@ class Item < ActiveRecord::Base
 
   def actions
     url_helpers = Rails.application.routes.url_helpers
-    actions = []
-    separator = '<br>'.html_safe
-    actions <<  "<a class='btn btn-info btn-sm fa fa-eye action pop_up' role='button' href='#{url_helpers.item_pop_up_show_path self}'></a>"
-    actions <<  "<a class='btn btn-success btn-sm fa fa-pencil pop_up' role='button' href='#{url_helpers.item_pop_up_edit_path self}'></a>"
-    actions <<  "<a class='btn btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'></a>" if self.can_be_deleted?
-    actions.join(separator).html_safe
+    actions = <<-HTML
+      <div class="btn-group btn-block">
+        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <a class='btn btn-block btn-info btn-sm fa fa-eye action pop_up' role='button' href='#{url_helpers.item_pop_up_show_path self}'> View</a>
+          <a class='btn btn-block btn-success btn-sm fa fa-pencil pop_up' role='button' href='#{url_helpers.item_pop_up_edit_path self}'> Edit</a>
+          <a class='btn btn-block btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'> Delete</a>
+        </ul>
+      </div>
+    HTML
+    actions.html_safe
   end
 
   def inventories_display
     response = []
     sep = '<br>'.html_safe
     inventories.each do |inventory|
-      response << "#{inventory.store.short_name}: #{inventory.qty}"
+      response << "#{inventory.store.short_name}: #{inventory.qty}" unless inventory.store.virtual?
     end
     response.join(sep).html_safe
   end

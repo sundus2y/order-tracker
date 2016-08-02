@@ -79,7 +79,7 @@
     <div class="col-xs-4">
       <div class="field form-group">
         <%= f.label :store_id %><br>
-        <%= f.select(:store_id, Store.all.map {|store| [store.name,store.id]},{}, class: 'form-control', disabled: show_sale_items) %>
+        <%= f.select(:store_id, Store.for_sales.map {|store| [store.name,store.id]},{}, class: 'form-control', disabled: show_sale_items) %>
       </div>
     </div>
     <div class="col-xs-4">

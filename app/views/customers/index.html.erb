@@ -27,7 +27,7 @@
         <td><%= customer.tin_no %></td>
         <td><%= customer.category.titleize %></td>
         <td>
-          <%= actions customer, {separator: ' '.html_safe} %>
+          <%= actions(customer) %>
         </td>
       </tr>
     <% end %>

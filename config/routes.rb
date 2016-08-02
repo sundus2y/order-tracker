@@ -3,11 +3,12 @@ Rails.application.routes.draw do
   resources :transfer_items
 
   resources :transfers do
-    get :transfer_items
-    match :submit, as: :submit, via: [:patch,:get]
+    member do
+      get :transfer_items
+      match :submit, via: [:patch,:get]
+      match :receive, via: [:patch,:get]
+    end
   end
-
-  resources :return_items
 
   resources :sale_items
   get 'sale_items/store/:store_id/item/:item_id', to: 'sale_items#by_store_and_item', as: :by_store_and_item
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :stores do
     get :sales
+    get :for_sales, on: :collection
   end
 
   get 'check_duplicate/:item_ids/:brand/:order_id', to:'order_items#check_duplicate'

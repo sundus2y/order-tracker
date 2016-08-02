@@ -81,6 +81,7 @@
         <table>
           <tbody>
             <%= f.fields_for :inventories do |inv_f| %>
+              <% unless inv_f.object.store.virtual? %>
               <tr>
                 <td width="12%"><%= inv_f.label :qty, "#{inv_f.object.store.short_name} " %></td>
                 <td width="20%"><%= inv_f.number_field :qty, class: 'form-control'%></td>
@@ -91,6 +92,7 @@
                   </div>
                 </td>
               </tr>
+              <% end %>
             <% end %>
             <% no_stock_store = Store.all.select{|store| !f.object.inventories.map(&:store_id).include?(store.id)} %>
             <% no_stock_store.each_with_index do |store,index| %>

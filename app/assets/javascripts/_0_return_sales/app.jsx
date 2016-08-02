@@ -22,7 +22,7 @@ var returnSalesApp = returnSalesApp || {};
             var deferred = $.Deferred();
             $.ajax({
                 type: "GET",
-                url: "/stores",
+                url: "/stores/for_sales",
                 dataType: 'json',
                 success: function(data,response){
                     deferred.resolve({context:this,data:data,message:response});

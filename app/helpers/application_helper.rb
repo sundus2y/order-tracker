@@ -34,12 +34,19 @@ module ApplicationHelper
     nav.html_safe
   end
 
-  def actions object, options={}
-    actions = []
-    options[:separator] ||= '<br>'.html_safe
-    actions << (link_to '', object, class: "btn btn-info btn-sm fa fa-eye action", role:"button")
-    actions << (link_to '', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-success btn-sm fa fa-pencil", role:"button")
-    actions << (link_to '', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning btn-sm fa fa-trash", role:"button") if object.can_be_deleted?
-    actions.join(options[:separator]).html_safe
+  def actions(object)
+    actions = <<-HTML
+      <div class="btn-group btn-block">
+        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          #{link_to ' View', object, class: "btn btn-block btn-info btn-sm fa fa-eye action", role:"button"}
+          #{link_to ' Edit', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-block btn-success btn-sm fa fa-pencil", role:"button"}
+          #{link_to ' Delete', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-block btn-warning btn-sm fa fa-trash", role:"button" if object.can_be_deleted?}
+        </ul>
+      </div>
+    HTML
+    actions.html_safe
   end
 end
