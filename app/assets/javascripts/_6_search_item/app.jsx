@@ -164,9 +164,11 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                     <tr>
                         <th width="3%">ID</th>
                         <th>Name</th>
+                        <th>Description</th>
                         <th>Original number</th>
                         <th>Item number</th>
-                        <th>Description</th>
+                        <th>Prev number</th>
+                        <th>Next number</th>
                         <th width="4%">Car</th>
                         <th width="10%">Price</th>
                         <th width="9%">Stock</th>
