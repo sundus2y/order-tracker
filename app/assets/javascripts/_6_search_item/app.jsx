@@ -165,10 +165,10 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         <th width="3%">ID</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Original number</th>
-                        <th>Item number</th>
-                        <th>Prev number</th>
-                        <th>Next number</th>
+                        <th>Original Number</th>
+                        <th>Item Number</th>
+                        <th>Prev Number</th>
+                        <th>Next Number</th>
                         <th width="4%">Car</th>
                         <th width="10%">Price</th>
                         <th width="9%">Stock</th>
