@@ -21,12 +21,13 @@ class Item < ActiveRecord::Base
                       }
                   }
   before_destroy :can_be_deleted?
+  after_save :invalidate_cache
   validates :name, presence: true
   validates :original_number, presence: true
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
   validate :item_numbers_cannot_include_special_characters
 
-  default_scope { includes(:inventories,{inventories:[:store]}).reorder(updated_at: :desc)}
+  default_scope { includes(:inventories,{inventories:[:store]})}
 
   INVALID_CHARS = %w(, . - _ : | \\ /)
   INVALID_CHARS_REGEX = Regexp.new('\W')
@@ -36,7 +37,7 @@ class Item < ActiveRecord::Base
     case type
       when :search
         super({
-                  only: [:name,:original_number,:item_number,:prev_number,:next_number,
+                  only: [:id,:name,:original_number,:item_number,:prev_number,:next_number,
                         :description,:car,:model,:sale_price,:brand,:made],
                   methods: [:actions,:inventories_display]
               }.merge(options))
@@ -52,11 +53,22 @@ class Item < ActiveRecord::Base
         <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Actions <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
-          <a class='btn btn-block btn-info btn-sm fa fa-eye action pop_up' role='button' href='#{url_helpers.item_pop_up_show_path self}'> View</a>
-          <a class='btn btn-block btn-success btn-sm fa fa-pencil pop_up' role='button' href='#{url_helpers.item_pop_up_edit_path self}'> Edit</a>
-          <a class='btn btn-block btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'> Delete</a>
-        </ul>
+        <div class="container dropdown-menu">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4 menu-item">
+                  <a class='btn btn-block btn-info btn-sm fa fa-eye action pop_up' role='button' href='#{url_helpers.item_pop_up_show_path self}'> View</a>
+                </div>
+                <div class="col-md-4 menu-item">
+                  <a class='btn btn-block btn-success btn-sm fa fa-pencil pop_up' role='button' href='#{url_helpers.item_pop_up_edit_path self}'> Edit</a>
+                </div>
+                <div class="col-md-4 menu-item">
+                  <a class='btn btn-block btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'> Delete</a>
+                </div>
+              </div>
+          </div>
+        </div>
       </div>
     HTML
     actions.html_safe
@@ -168,6 +180,50 @@ class Item < ActiveRecord::Base
     return to_import, to_update, error_data
   end
 
+  def self.build_search_query(params)
+    query = []
+    query.push("name ilike '%#{params[:name]}%'") if params[:name].present?
+    query.push("description ilike '#{params[:description]}'") if params[:description].present?
+    query.push("prev_number ilike '#{params[:prev_number]}%'") if params[:prev_number].present?
+    query.push("next_number ilike '#{params[:next_number]}%'") if params[:next_number].present?
+    query.push("original_number ilike '#{params[:original_number]}%'") if params[:original_number].present?
+    query.push("item_number ilike '#{params[:item_number]}%'") if params[:item_number].present?
+    query.push("car ilike '#{params[:car]}%'") if params[:car].present?
+    query.push("brand ilike '#{params[:brand]}%'") if params[:brand].present?
+    query.push("made ilike '#{params[:made]}%'") if params[:made].present?
+    query.push("part_class ilike '#{params[:part_class]}%'") if params[:part_class].present?
+    query.push(parse_price_string(params[:sale_price])) if params[:sale_price].present?
+    query.push(parse_price_string(params[:dubai_price])) if params[:dubai_price].present?
+    query.join(' and ')
+  end
+
+  def self.parse_price_string(str)
+    return nil unless str
+    operator = str.scan(/^[><=][=]{0,1}/).compact.reject(&:empty?).first
+    val = str.scan(/\d*/).compact.reject(&:empty?).first
+    return "sale_price #{operator||'='} #{val}"
+  end
+
+  def self.fetch_cars
+    @@cars ||= Item.uniq.select(:car).reorder(:car).map(&:car).compact.sort
+    @@cars
+  end
+
+  def self.fetch_part_classes
+    @@part_classes ||= Item.uniq.select(:part_class).map(&:part_class).compact.sort
+    @@part_classes
+  end
+
+  def self.fetch_brands
+    @@brands ||= Item.uniq.select(:brand).map(&:brand).compact.sort
+    @@brands
+  end
+
+  def self.fetch_mades
+    @@mades ||= Item.uniq.select(:made).map(&:made).compact.sort
+    @@mades
+  end
+
   def to_s
     "#{original_number} |  #{name}"
   end
@@ -231,6 +287,13 @@ private
         connection.execute sql unless new_records.empty?
       end
     end
+  end
+
+  def invalidate_cache
+    @@cars = nil
+    @@part_classes = nil
+    @@brands = nil
+    @@mades = nil
   end
 
   def self.update_existing(dup_records)

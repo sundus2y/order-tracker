@@ -56,13 +56,13 @@ class Sale < ActiveRecord::Base
     aasm.states.map(&:name).map(&:to_s).map(&:upcase)
   end
 
-  def self.search(query)
+  def self.search(params)
     search_query = all.includes(:customer).reorder(updated_at: :desc)
-    search_query = search_query.where(customer_id: query[:customer_id]) if query[:customer_id].present?
-    search_query = search_query.where(status: query[:status].downcase) if query[:status].present?
-    if query[:date_from].present?
-      search_query  = search_query.where("created_at >= '#{query[:date_from]}'")
-      search_query = search_query.where("created_at <= '#{query[:date_to]}'") if query[:date_to].present?
+    search_query = search_query.where(customer_id: params[:customer_id]) if params[:customer_id].present?
+    search_query = search_query.where(status: params[:status].downcase) if params[:status].present?
+    if params[:date_from].present?
+      search_query  = search_query.where("created_at >= '#{params[:date_from]}'")
+      search_query = search_query.where("created_at <= '#{params[:date_to]}'") if params[:date_to].present?
     end
     search_query
   end

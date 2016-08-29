@@ -48,7 +48,10 @@ class ItemsController < ApplicationController
 
   def update
     flash[:notice] = 'Item was successfully updated.' if @item.update(item_params)
-    respond_with(@item,location: items_path)
+    respond_to do |format|
+      format.html {respond_with(@item,location: items_path)}
+      format.js
+    end
   end
 
   def destroy

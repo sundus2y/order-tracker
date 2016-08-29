@@ -31,14 +31,6 @@
         <a id="menu-toggle" href="#" class="hidden-xs">
           <i class="fa fa-bars"></i>
         </a>
-        <% if user_signed_in? %>
-          <form id="topbar-search" action="" method="" class="hidden-xs hidden-sm">
-            <div class="input-icon right text-white">
-              <a href="#"><i class="fa fa-search"></i></a>
-              <input id="dashboard_search" type="text" placeholder="Search here..." class="form-control text-white"/>
-            </div>
-          </form>
-        <% end %>
         <ul class="nav navbar navbar-top-links navbar-right mbn">
           <li class="topbar-user">
             <a data-hover="dropdown" href="#" class="dropdown-toggle">
@@ -88,33 +80,6 @@
         <div class="main-content">
           <%= yield %>
         </div>
-        <div class="search-result">
-          <h2>Search Results</h2>
-          <div id="search-items-result">
-            <table id='item-results-table' class="table-responsive display compact table table-striped">
-              <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Original number</th>
-                <th>Item number</th>
-                <th>Next number</th>
-                <th>Prev number</th>
-                <th>Description</th>
-                <th>Car</th>
-                <th>Model</th>
-                <th>Price</th>
-                <th>Inventory</th>
-                <th>Brand</th>
-                <th>Made</th>
-              </tr>
-              </thead>
-              <tbody class="list">
-              </tbody>
-            </table>
-          </div>
-        </div>
-
       </div>
     </div>
     <!--END PAGE WRAPPER-->

@@ -40,11 +40,22 @@ module ApplicationHelper
         <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Actions <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
-          #{link_to ' View', object, class: "btn btn-block btn-info btn-sm fa fa-eye action", role:"button"}
-          #{link_to ' Edit', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-block btn-success btn-sm fa fa-pencil", role:"button"}
-          #{link_to ' Delete', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-block btn-warning btn-sm fa fa-trash", role:"button" if object.can_be_deleted?}
-        </ul>
+        <div class="container dropdown-menu">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4 menu-item">
+                  #{link_to ' View', object, class: "btn btn-block btn-info btn-sm fa fa-eye action", role:"button"}
+                </div>
+                <div class="col-md-4 menu-item">
+                  #{link_to ' Edit', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-block btn-success btn-sm fa fa-pencil", role:"button"}
+                </div>
+                <div class="col-md-4 menu-item">
+                  #{link_to ' Delete', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-block btn-warning btn-sm fa fa-trash", role:"button" if object.can_be_deleted?}
+                </div>
+              </div>
+          </div>
+        </div>
       </div>
     HTML
     actions.html_safe

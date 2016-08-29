@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :modal_body, flush: true do %>
-    <%= render 'form', action: "Update Item" %>
+    <%= render 'form', action: "Update Item", remote: true %>
 <% end %>
 
 <%= render "/modals/base", id: 'pop_up' %>

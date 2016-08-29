@@ -66,6 +66,7 @@ Rails.application.routes.draw do
   resource :search do
     get :all, on: :collection, as: :all
     get :items, on: :collection, as: :items
+    get :item_lookup, on: :collection, as: :item_lookup
     get :orders, on: :collection, as: :orders
     post :sales, on: :collection, as: :sales
     post :transfers, on: :collection, as: :transfers
