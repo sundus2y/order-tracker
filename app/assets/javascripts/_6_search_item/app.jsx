@@ -91,37 +91,37 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         <div className="col-md-2">
                             <div className="form-group">
                                 <label htmlFor="car">Car: </label>
-                                <select id="car" className="form-control" name="car" placeholder="Car">
-                                    <option value=''></option>
+                                <input id="car" name="car" className='form-control' list="cars"/>
+                                <datalist id="cars">
                                     {this.state.lookup.cars.map(selectOptions)}
-                                </select>
+                                </datalist>
                             </div>
                         </div>
                         <div className="col-md-2">
                             <div className="form-group">
                                 <label htmlFor="brand">Brand: </label>
-                                <select id="brand" className="form-control" name="brand" placeholder="Brand">
-                                    <option value=''></option>
+                                <input id="brand" name="brand" className='form-control' list="brands"/>
+                                <datalist id="brands">
                                     {this.state.lookup.brands.map(selectOptions)}
-                                </select>
+                                </datalist>
                             </div>
                         </div>
                         <div className="col-md-2">
                             <div className="form-group">
                                 <label htmlFor="made">Made: </label>
-                                <select id="made" className="form-control" name="made" placeholder="Made">
-                                    <option value=''></option>
+                                <input id="made" name="made" className='form-control' list="mades"/>
+                                <datalist id="mades">
                                     {this.state.lookup.mades.map(selectOptions)}
-                                </select>
+                                </datalist>
                             </div>
                         </div>
                         <div className="col-md-2">
                             <div className="form-group">
                                 <label htmlFor="next_number">Part Class: </label>
-                                <select id="part_class" className="form-control" name="part_class" placeholder="Part Class">
-                                    <option value=''></option>
+                                <input id="part_class" name="part_class" className='form-control' list="part_classes"/>
+                                <datalist id="part_classes">
                                     {this.state.lookup.part_classes.map(selectOptions)}
-                                </select>
+                                </datalist>
                             </div>
                         </div>
                         <div className="col-md-2">
