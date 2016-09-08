@@ -184,10 +184,12 @@ class Item < ActiveRecord::Base
     query = []
     query.push("name ilike '%#{params[:name]}%'") if params[:name].present?
     query.push("description ilike '#{params[:description]}'") if params[:description].present?
-    query.push("prev_number ilike '#{params[:prev_number]}%'") if params[:prev_number].present?
-    query.push("next_number ilike '#{params[:next_number]}%'") if params[:next_number].present?
-    query.push("original_number ilike '#{params[:original_number]}%'") if params[:original_number].present?
     query.push("item_number ilike '#{params[:item_number]}%'") if params[:item_number].present?
+    if params[:other_numbers].present?
+      query.push("(prev_number ilike '#{params[:other_numbers]}%' or "+
+                  "next_number ilike '#{params[:other_numbers]}%' or "+
+                  "original_number ilike '#{params[:other_numbers]}%')")
+    end
     query.push("car ilike '#{params[:car]}%'") if params[:car].present?
     query.push("brand ilike '#{params[:brand]}%'") if params[:brand].present?
     query.push("made ilike '#{params[:made]}%'") if params[:made].present?

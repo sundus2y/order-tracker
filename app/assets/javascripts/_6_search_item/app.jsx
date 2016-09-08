@@ -68,22 +68,10 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                 <input id="item_number" className="form-control" name="item_number" placeholder="Item Number"></input>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-md-4">
                             <div className="form-group">
-                                <label htmlFor="original_number">Original Number: </label>
-                                <input id="original_number" className="form-control" name="original_number" placeholder="Original Number"></input>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className="form-group">
-                                <label htmlFor="prev_number">Prev Number: </label>
-                                <input id="prev_number" className="form-control" name="prev_number" placeholder="Previous Number"></input>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className="form-group">
-                                <label htmlFor="next_number">Next Number: </label>
-                                <input id="next_number" className="form-control" name="next_number" placeholder="Next Number"></input>
+                                <label htmlFor="other_numbers">Other Numbers: </label>
+                                <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number"></input>
                             </div>
                         </div>
                     </div>
@@ -117,7 +105,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         </div>
                         <div className="col-md-2">
                             <div className="form-group">
-                                <label htmlFor="next_number">Part Class: </label>
+                                <label htmlFor="part_class">Part Class: </label>
                                 <input id="part_class" name="part_class" className='form-control' list="part_classes"/>
                                 <datalist id="part_classes">
                                     {this.state.lookup.part_classes.map(selectOptions)}
