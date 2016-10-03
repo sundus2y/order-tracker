@@ -181,6 +181,11 @@ var app = app || {};
                 var qty = (isNaN(transferItem.qty))? 0 : transferItem.qty;
                 return accum + qty;
             },0);
+            var grandTotalPrice = transferItemList.reduce(function(accum,transferItem){
+                var qty = (isNaN(transferItem.qty))? 0 : transferItem.qty;
+                var price = (isNaN(transferItem.item.sale_price))? 0 : transferItem.item.sale_price;
+                return accum + (qty * price);
+            },0);
 
             var transferItems = transferItemList.map(function (transferItem,index) {
                 return (
@@ -262,7 +267,7 @@ var app = app || {};
                         {transferItems}
                         <TransferItemFooter
                             grandTotalQty={grandTotalQty}
-                            grandTotalPrice={0}
+                            grandTotalPrice={grandTotalPrice}
                         />
                     </tbody>
                 </table>

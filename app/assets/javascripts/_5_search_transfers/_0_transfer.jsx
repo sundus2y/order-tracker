@@ -46,9 +46,12 @@ var searchTransferApp = searchTransferApp || {};
                 <tr data-id={this.props.data.id}>
                     <td>{this.props.data.id}</td>
                     <td>{this.props.data.from_store.name}</td>
+                    <td>{this.props.data.sender ? this.props.data.sender.name : 'NA'}</td>
                     <td>{this.props.data.to_store.name}</td>
+                    <td>{this.props.data.receiver ? this.props.data.receiver.name : 'NA'}</td>
                     <td><span className="badge">{this.props.data.status_upcase}</span></td>
                     <td className="right-align">{this.props.data.transfer_items_count}</td>
+                    <td className="right-align">{this.props.data.transfer_total_items_count}</td>
                     <td>
                         <div className="btn-group btn-block">
                             <button type="button" className="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

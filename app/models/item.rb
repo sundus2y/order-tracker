@@ -53,7 +53,7 @@ class Item < ActiveRecord::Base
         <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Actions <span class="caret"></span>
         </button>
-        <div class="container dropdown-menu">
+        <div class="container search-item dropdown-menu">
           <div class="row">
             <div class="col-md-12">
               <div class="row">

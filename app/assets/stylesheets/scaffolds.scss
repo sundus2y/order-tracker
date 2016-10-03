@@ -76,12 +76,19 @@ hr.hr-dark{
 .badge{
   background-color: #c74a4a !important;
 }
-
-.container.dropdown-menu{
+// BEGINNING OF: DROP DOWN MENU CSS
+.container.search-item.dropdown-menu{
   margin-left: -125px !important;
   width: 181px !important;
 }
-
+.container.transfer-item.dropdown-menu{
+  margin-left: -111px !important;
+  width: 167px !important;
+}
+// END OF: DROP DOWN MENU CSS
 .col-md-4.menu-item{
+  padding: 0px;
+}
+.col-md-6.menu-item{
   padding: 0px;
 }

@@ -28,7 +28,7 @@ window.globalSearchTransferApp = window.globalSearchTransferApp || {};
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="6" className="center-aligned">
+                    <td colSpan="9" className="center-aligned">
                         No Transfers Found for the given criteria.
                     </td>
                 </tr>
@@ -40,9 +40,12 @@ window.globalSearchTransferApp = window.globalSearchTransferApp || {};
                     <tr>
                         <th width="6%">Tran #</th>
                         <th>From Store</th>
+                        <th>Sender</th>
                         <th>To Store</th>
+                        <th>Receiver</th>
                         <th width="5%">Status</th>
-                        <th>Total</th>
+                        <th width="8%">Total <br/>Item Type</th>
+                        <th width="8%">Total <br/>Item Qty</th>
                         <th>Actions</th>
                     </tr>
                     </thead>

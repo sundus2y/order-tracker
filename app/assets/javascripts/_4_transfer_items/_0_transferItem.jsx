@@ -19,7 +19,7 @@ var app = app || {};
 
         render: function(){
             var qty = (isNaN(this.props.transferItemData.qty))? 0 : this.props.transferItemData.qty;
-            var price = (isNaN(this.props.transferItemData.unit_price))? 0 : this.props.transferItemData.unit_price;
+            var price = (isNaN(this.props.transferItemData.unit_price))? this.props.transferItemData.item.sale_price : this.props.transferItemData.unit_price;
             var totalPrice = (qty * price);
 
             var deleteButton = (<span className="fa fa-trash btn btn-danger"
@@ -67,7 +67,7 @@ var app = app || {};
                     <td>
                         <div className="field form-group">
                             <input className={"form-control right-align "+this.props.transferItemData.status+"_item"}
-                                   defaultValue={this.props.transferItemData.unit_price}
+                                   defaultValue={this.props.transferItemData.item.sale_price}
                                    onBlur={this.handleUnitPriceChange}
                                    disabled={true}/>
                         </div>

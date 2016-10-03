@@ -58,6 +58,7 @@ class TransfersController < ApplicationController
   end
 
   def receive
+    @transfer.receiver = current_user
     @transfer.submit!
     respond_to do |format|
       format.html {redirect_to(transfers_path)}
