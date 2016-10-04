@@ -127,6 +127,9 @@ class Item < ActiveRecord::Base
 
   def self.import(file)
     workbook = Roo::Spreadsheet.open(file.path)
+    error_list = []
+    update_list = []
+    to_import = []
     header = %w(model item_number original_number prev_number next_number name description car part_class korea_price brand make_from make_to)
     header_hash = {} #"Model", "Item Number", "Original Number", "Prev Number", "Next Number", "Name", "Description", "Car", "Part Class", "Korea Price", "Brand", "Make From", "Make To"
     header.each{|k|header_hash[k] = k.titleize}
@@ -134,11 +137,15 @@ class Item < ActiveRecord::Base
     sheets_count.times do |index|
       puts "Sheet Number #{index} has #{workbook.sheet(index).count} items"
       to_import, to_update, error_data = write_to_db(header_hash, workbook, index)
-      puts "Done importing #{to_import.count} items"
+      [*error_list,*error_data]
+      [*update_list,*to_update]
     end
-    updated = update_existing(to_update)
+    Rails.logger.info "Errors Found" unless error_list.empty?
+    Rails.logger.debug error_list.to_yaml unless error_list.empty?
+    Rails.logger.info "Updates Found" unless update_list.empty?
+    Rails.logger.debug update_list.to_yaml unless update_list.empty?
     new_records = to_import.empty? ? [] : where(original_number: to_import.map{|item| item['original_number']}[1..100])
-    return updated, new_records
+    return update_list, new_records
   end
 
   def self.write_to_db(header_hash, workbook, sheet)
@@ -172,11 +179,16 @@ class Item < ActiveRecord::Base
         error_data << hash
       end
     end
+    puts '.  Check for Duplicate Items'
     duplicate_numbers = where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
+    puts ".    Found #{duplicate_numbers.count} Duplicate Items"
     to_update, to_import = raw_data.partition { |item| duplicate_numbers.include? item['original_number'] }
+    puts ".    Creating #{to_import.count} Items"
     create_new(to_import)
-    Rails.logger.info "Errors Found" unless error_data.empty?
-    Rails.logger.debug error_data.to_yaml unless error_data.empty?
+    puts ".    Done Creating #{to_import.count} Items"
+    puts ".    Update #{to_update.count} Items"
+    update_existing(to_update)
+    puts ".    Done Updating #{to_update.count} Items"
     return to_import, to_update, error_data
   end
 
@@ -283,12 +295,16 @@ private
         end
       end.join(',')})"
     end
-    inserts.in_groups_of(5000).each do |group|
-      unless group.compact.empty?
-        sql = "INSERT INTO Items (model,item_number,original_number,prev_number,next_number,name,description,car,part_class,korea_price,brand,make_from,make_to,sale_price) VALUES #{group.compact.join(", ")}"
+    puts ".      #{inserts.count/500} Groups to Insert"
+    inserts.in_groups_of(500).each_with_index do |group,index|
+      group.compact!
+      # puts "   Inserting Group ##{index} #{group.count} Items"
+      unless group.empty?
+        sql = "INSERT INTO Items (model,item_number,original_number,prev_number,next_number,name,description,car,part_class,dubai_price,brand,make_from,make_to,sale_price) VALUES #{group.join(", ")}"
         connection.execute sql unless new_records.empty?
       end
     end
+    puts ".      #{inserts.count/500} Groups Inserted"
   end
 
   def invalidate_cache
@@ -299,13 +315,18 @@ private
   end
 
   def self.update_existing(dup_records)
-    _items = Item.where(original_number: dup_records.map(&:original_number)).sort_by{|item| item.original_number}
-    dup_records.sort_by!{|item| item.original_number}
-    dup_records.zip(_items).each do |item,_item|
-      new_desc = "#{_item.description}\n#{item.car} #{item.model}".strip
-      _item.update_attribute(:description, new_desc)
+    puts ".      #{dup_records.count/1000} Groups to Update"
+    dup_records.in_groups_of(1000).each_with_index do |group, index|
+      group.compact!
+      # puts ".      Group #{index+1} - Updating #{group.count} Items "
+      _items = Item.where(original_number: group.map{|i| i['original_number']}).sort_by{|item| item.original_number}
+      group.sort_by!{|item| item['original_number']}
+      group.zip(_items).each do |item,_item|
+        _item.update_attribute(:dubai_price, item['korea_price'])
+      end
+      # puts ".      Group #{index+1} - Done Updating"
     end
-    _items
+    puts ".      #{dup_records.count/1000} Groups Updated"
   end
 
 end

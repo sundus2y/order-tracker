@@ -34,6 +34,7 @@ class Transfer < ActiveRecord::Base
 
   def self.search(query)
     search_query = all.includes(:from_store,:to_store,:sender,:receiver,:transfer_items).reorder(updated_at: :asc)
+    search_query = search_query.where(id: query[:id]) if query[:id].present?
     search_query = search_query.where(from_store_id: query[:from_store_id]) if query[:from_store_id].present?
     search_query = search_query.where(to_store_id: query[:to_store_id]) if query[:to_store_id].present?
     search_query = search_query.where(status: query[:status].downcase) if query[:status].present?
