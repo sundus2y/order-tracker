@@ -6459,7 +6459,7 @@ li [class*=" icon-"].icon-large {
 .rating label .fa-star:before {
   content: "\f005";
 }
-.table thead tr th,
+
 .table thead tr td {
   border-bottom: 0;
 }

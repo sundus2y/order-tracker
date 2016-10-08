@@ -11,6 +11,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                 result: [],
                 params: {},
                 lookup: {cars:[],part_classes:[], mades:[], brands:[]},
+                config: {}
             };
         },
 
@@ -30,12 +31,34 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
             return deferred.promise();
         },
 
+        getConfig: function(){
+            var deferred = $.Deferred();
+            $.ajax({
+                type: "GET",
+                url: "/configs",
+                dataType: 'json',
+                success: function(data,response){
+                    deferred.resolve({context:this,data:data,message:response});
+                }.bind(this),
+                error: function(err) {
+                    deferred.reject({context:this,err:err,message:'Error'});
+                }
+            });
+            return deferred.promise();
+        },
+
         componentDidMount: function(){
             this.getItemLookup().done(function(response) {
                 var self = response.context;
                 self.setState({lookup: response.data});
             }).fail(function(response){
                 alert("Error While Trying to load lookup" + response);
+            });
+            this.getConfig().done(function(response){
+                var self = response.context;
+                self.setState({config: response.data});
+            }).fail(function(response){
+                alert('Error While Trying to Load Config Values' + response);
             });
         },
 
@@ -74,6 +97,15 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                 <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number"></input>
                             </div>
                         </div>
+                        <div className="col-md-2">
+                            <div className="form-group">
+                                <label htmlFor="made">Made: </label>
+                                <input id="made" name="made" className='form-control' list="mades"/>
+                                <datalist id="mades">
+                                    {this.state.lookup.mades.map(selectOptions)}
+                                </datalist>
+                            </div>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-md-2">
@@ -96,15 +128,6 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         </div>
                         <div className="col-md-2">
                             <div className="form-group">
-                                <label htmlFor="made">Made: </label>
-                                <input id="made" name="made" className='form-control' list="mades"/>
-                                <datalist id="mades">
-                                    {this.state.lookup.mades.map(selectOptions)}
-                                </datalist>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className="form-group">
                                 <label htmlFor="part_class">Part Class: </label>
                                 <input id="part_class" name="part_class" className='form-control' list="part_classes"/>
                                 <datalist id="part_classes">
@@ -116,6 +139,12 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                             <div className="form-group">
                                 <label htmlFor="sale_price">Sale Price: </label>
                                 <input id="sale_price" className="form-control" name="sale_price" placeholder="Sale Price"></input>
+                            </div>
+                        </div>
+                        <div className="col-md-2">
+                            <div className="form-group">
+                                <label htmlFor="dubai_price">Dubai Price: </label>
+                                <input id="dubai_price" className="form-control" name="dubai_price" placeholder="Dubai Price"></input>
                             </div>
                         </div>
                         <div className="col-md-2">
@@ -134,13 +163,14 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                 return (
                     <Item lineNumber={index+1}
                           key={item.id}
-                          data={item} />
+                          data={item}
+                          config={this.state.config}/>
                 );
             }, this);
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="11" className="center-aligned">
+                    <td colSpan="13" className="center-aligned">
                         No Items Found.
                     </td>
                 </tr>
@@ -150,19 +180,24 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                 <table className="table-responsive display table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th width="3%">ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Original Number</th>
-                        <th>Item Number</th>
-                        <th>Prev Number</th>
-                        <th>Next Number</th>
-                        <th width="4%">Car</th>
-                        <th width="10%">Price</th>
-                        <th width="9%">Stock</th>
-                        <th>Brand</th>
-                        <th>Made</th>
-                        <th width="6%">Actions</th>
+                        <th width="3%" rowSpan="2">ID</th>
+                        <th rowSpan="2">Name</th>
+                        <th rowSpan="2">Description</th>
+                        <th rowSpan="2">Original Number</th>
+                        <th rowSpan="2">Item Number</th>
+                        <th rowSpan="2">Prev Number</th>
+                        <th rowSpan="2">Next Number</th>
+                        <th width="4%" rowSpan="2">Car</th>
+                        <th colSpan="3" className="center-aligned">Price</th>
+                        <th width="9%" rowSpan="2">Stock</th>
+                        <th rowSpan="2">Brand</th>
+                        <th rowSpan="2">Made</th>
+                        <th width="6%" rowSpan="2">Actions</th>
+                    </tr>
+                    <tr>
+                        <th>Sale</th>
+                        <th>Dubai</th>
+                        <th>Korea</th>
                     </tr>
                     </thead>
                     <tbody>

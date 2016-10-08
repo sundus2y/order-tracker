@@ -38,7 +38,7 @@ class Item < ActiveRecord::Base
       when :search
         super({
                   only: [:id,:name,:original_number,:item_number,:prev_number,:next_number,
-                        :description,:car,:model,:sale_price,:brand,:made],
+                        :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made],
                   methods: [:actions,:inventories_display]
               }.merge(options))
       when :default
@@ -206,16 +206,17 @@ class Item < ActiveRecord::Base
     query.push("brand ilike '#{params[:brand]}%'") if params[:brand].present?
     query.push("made ilike '#{params[:made]}%'") if params[:made].present?
     query.push("part_class ilike '#{params[:part_class]}%'") if params[:part_class].present?
-    query.push(parse_price_string(params[:sale_price])) if params[:sale_price].present?
-    query.push(parse_price_string(params[:dubai_price])) if params[:dubai_price].present?
+    query.push(parse_price_string(params[:sale_price],'sale_price')) if params[:sale_price].present?
+    query.push(parse_price_string(params[:dubai_price],'dubai_price')) if params[:dubai_price].present?
+    query.push(parse_price_string(params[:korea_price],'korea_price')) if params[:korea_price].present?
     query.join(' and ')
   end
 
-  def self.parse_price_string(str)
+  def self.parse_price_string(str,field)
     return nil unless str
     operator = str.scan(/^[><=][=]{0,1}/).compact.reject(&:empty?).first
     val = str.scan(/\d*/).compact.reject(&:empty?).first
-    return "sale_price #{operator||'='} #{val}"
+    return "#{field} #{operator||'='} #{val}"
   end
 
   def self.fetch_cars

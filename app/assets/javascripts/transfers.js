@@ -5,4 +5,5 @@ $(document).ready(function () {
     }).on('ajax:error',function(e, xhr, status, error){
         alert('Sales Search Failed'+error)
     });
+    $('#transfers_search_form').trigger('submit.rails');
 });

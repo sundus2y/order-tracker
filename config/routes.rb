@@ -59,9 +59,8 @@ Rails.application.routes.draw do
     get :pop_up_edit
   end
 
-  resource :dashboard do
-
-  end
+  resource :dashboard
+  get 'configs' => 'configs#index'
 
   resource :search do
     get :all, on: :collection, as: :all
