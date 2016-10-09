@@ -1,5 +1,5 @@
 namespace :set do
-  desc "Resets Counter Columns For Sales"
+  desc "Set Sale Price"
   task sale_price: :environment do
     sql = <<-SQL
 UPDATE items

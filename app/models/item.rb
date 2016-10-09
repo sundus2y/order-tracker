@@ -21,6 +21,7 @@ class Item < ActiveRecord::Base
                       }
                   }
   before_destroy :can_be_deleted?
+  before_save :update_default_sale_price
   after_save :invalidate_cache
   validates :name, presence: true
   validates :original_number, presence: true
@@ -38,7 +39,7 @@ class Item < ActiveRecord::Base
       when :search
         super({
                   only: [:id,:name,:original_number,:item_number,:prev_number,:next_number,
-                        :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made],
+                        :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made,:default_sale_price],
                   methods: [:actions,:inventories_display]
               }.merge(options))
       when :default
@@ -313,6 +314,11 @@ private
     @@part_classes = nil
     @@brands = nil
     @@mades = nil
+  end
+
+  def update_default_sale_price
+    self.default_sale_price = false if sale_price_changed?
+    true
   end
 
   def self.update_existing(dup_records)

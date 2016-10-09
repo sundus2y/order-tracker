@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802103908) do
+ActiveRecord::Schema.define(version: 20161009035321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20160802103908) do
     t.string   "name"
     t.text     "description"
     t.string   "item_number"
-    t.datetime "created_at",                               default: "now()", null: false
-    t.datetime "updated_at",                               default: "now()", null: false
+    t.datetime "created_at",                                  default: "now()", null: false
+    t.datetime "updated_at",                                  default: "now()", null: false
     t.string   "original_number"
     t.string   "model"
     t.string   "car"
@@ -52,9 +52,10 @@ ActiveRecord::Schema.define(version: 20160802103908) do
     t.string   "next_number"
     t.string   "brand"
     t.string   "made"
-    t.decimal  "sale_price",      precision: 11, scale: 2, default: 0.0
-    t.decimal  "dubai_price",     precision: 11, scale: 2, default: 0.0
-    t.decimal  "korea_price",     precision: 11, scale: 2, default: 0.0
+    t.decimal  "sale_price",         precision: 11, scale: 2, default: 0.0
+    t.decimal  "dubai_price",        precision: 11, scale: 2, default: 0.0
+    t.decimal  "korea_price",        precision: 11, scale: 2, default: 0.0
+    t.boolean  "default_sale_price"
   end
 
   add_index "items", ["description"], name: "items_lower_description", using: :gin
