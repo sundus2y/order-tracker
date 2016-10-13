@@ -22,19 +22,19 @@ var returnSalesApp = returnSalesApp || {};
                 $('ul.ui-autocomplete').prepend("" +
                     "<li class='autocomplete-header'>" +
                     "<div class='row'>" +
-                    "<div class='col-md-4' data-index='0'>Origninal Number</div>" +
-                    "<div class='col-md-8' data-index='1'>Name</div>" +
+                    "<div class='col-sm-4' data-index='0'>Origninal Number</div>" +
+                    "<div class='col-sm-8' data-index='1'>Name</div>" +
                     "</div>" +
                     "</li>").css('width','40%');
                 var indices = [0,1];
-                var widths = ['col-md-4','col-md-8'];
+                var widths = ['col-sm-4','col-sm-8'];
                 renderAutoCompleteResults(results, indices, widths);
             });
         },
 
         render: function() {
             return (
-                <div className="col-md-9">
+                <div className="col-sm-9">
                     <div className="field form-group">
                         <label>Item</label>
                         <span id="item-autocomplete">

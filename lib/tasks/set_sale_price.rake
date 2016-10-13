@@ -5,9 +5,9 @@ namespace :set do
 UPDATE items
 SET sale_price = (CASE
                       WHEN dubai_price > 0
-                        THEN (dubai_price + (dubai_price * 0.8)) * 6.04
+                        THEN (dubai_price * 0.27) * 80
                       WHEN korea_price > 0
-                        THEN (korea_price + (korea_price * 0.8)) * 0.020
+                        THEN (korea_price * 0.00088) * 80
                       WHEN korea_price = 0 AND dubai_price = 0
                         THEN 0
                     END)

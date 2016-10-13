@@ -17,7 +17,7 @@ var returnSalesApp = returnSalesApp || {};
             },this);
 
             return (
-                <div className="col-md-3">
+                <div className="col-sm-3">
                     <div className="field form-group">
                         <label htmlFor="store" >Store</label>
                         <select id="store" className="form-control" onChange={this.handleStoreSelect}>

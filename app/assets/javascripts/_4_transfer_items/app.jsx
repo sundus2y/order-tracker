@@ -16,15 +16,15 @@ var app = app || {};
             $('ul.ui-autocomplete').prepend("" +
                 "<li class='autocomplete-header'>" +
                     "<div class='row'>" +
-                    "<div class='col-md-3'>Item Number</div>" +
-                    "<div class='col-md-5'>Name</div>" +
-                    "<div class='col-md-2'>Inventory</div>" +
-                    "<div class='col-md-1'>Brand</div>" +
-                    "<div class='col-md-1'>Origin</div>" +
+                    "<div class='col-sm-3'>Item Number</div>" +
+                    "<div class='col-sm-5'>Name</div>" +
+                    "<div class='col-sm-2'>Inventory</div>" +
+                    "<div class='col-sm-1'>Brand</div>" +
+                    "<div class='col-sm-1'>Origin</div>" +
                     "</div>" +
                 "</li>").css('width','75%');
             var indices = [0,1,2,3,4];
-            var widths = ['col-md-3','col-md-5','col-md-2','col-md-1','col-md-1'];
+            var widths = ['col-sm-3','col-sm-5','col-sm-2','col-sm-1','col-sm-1'];
             renderAutoCompleteResults(results, indices, widths);
         });
     }
@@ -202,7 +202,7 @@ var app = app || {};
 
             var search = (
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-sm-4">
                         <div className="field form-group">
                             <input id="search_item_field"
                                    type="text"

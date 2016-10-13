@@ -79,25 +79,25 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
             var searchForm = (
                 <form id="search_item_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/search/items">
                     <div className="row">
-                        <div className="col-md-4">
+                        <div className="col-sm-4">
                             <div className="form-group">
                                 <label htmlFor="name">Name: </label>
                                 <input id="name" className='form-control' name="name" placeholder="Item Name"></input>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="item_number">Item Number: </label>
                                 <input id="item_number" className="form-control" name="item_number" placeholder="Item Number"></input>
                             </div>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-sm-4">
                             <div className="form-group">
                                 <label htmlFor="other_numbers">Other Numbers: </label>
                                 <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number"></input>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="made">Made: </label>
                                 <input id="made" name="made" className='form-control' list="mades"/>
@@ -108,7 +108,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="car">Car: </label>
                                 <input id="car" name="car" className='form-control' list="cars"/>
@@ -117,7 +117,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                 </datalist>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="brand">Brand: </label>
                                 <input id="brand" name="brand" className='form-control' list="brands"/>
@@ -126,7 +126,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                 </datalist>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="part_class">Part Class: </label>
                                 <input id="part_class" name="part_class" className='form-control' list="part_classes"/>
@@ -135,19 +135,19 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                 </datalist>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="sale_price">Sale Price: </label>
                                 <input id="sale_price" className="form-control" name="sale_price" placeholder="Sale Price"></input>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="dubai_price">Dubai Price: </label>
                                 <input id="dubai_price" className="form-control" name="dubai_price" placeholder="Dubai Price"></input>
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-sm-2">
                             <div className="form-group">
                                 <label htmlFor="korea_price">Korea Price: </label>
                                 <input id="korea_price" className="form-control" name="korea_price" placeholder="Korea Price"></input>

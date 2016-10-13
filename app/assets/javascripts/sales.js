@@ -22,16 +22,16 @@ $(document).ready(function () {
     $('#sale_customer,#query_customer').on('autocompleteopen', function (event, object) {
         var results = $('ul.ui-autocomplete').find('li');
         var indices = [0,1,2,3,4];
-        var widths = ['col-md-3','col-md-3','col-md-2','col-md-2','col-md-2'];
+        var widths = ['col-sm-3','col-sm-3','col-sm-2','col-sm-2','col-sm-2'];
         renderAutoCompleteResults(results, indices, widths);
         $('ul.ui-autocomplete').prepend("" +
             "<li class='autocomplete-header'>" +
             "<div class='row'>" +
-            "<div class='col-md-3'>Name</div>" +
-            "<div class='col-md-3'>Company</div>" +
-            "<div class='col-md-2'>Phone</div>" +
-            "<div class='col-md-2'>Tin No</div>" +
-            "<div class='col-md-2'>Category</div>" +
+            "<div class='col-sm-3'>Name</div>" +
+            "<div class='col-sm-3'>Company</div>" +
+            "<div class='col-sm-2'>Phone</div>" +
+            "<div class='col-sm-2'>Tin No</div>" +
+            "<div class='col-sm-2'>Category</div>" +
             "</div>" +
             "</li>").css('width','60%');
     });

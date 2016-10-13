@@ -116,14 +116,14 @@ var returnSalesApp = returnSalesApp || {};
                                     from sale <b>#{this.props.data.saleId}</b> of customer <b>{this.props.data.customerName}</b> ?
                                 </p>
                                 <div className="row">
-                                    <div className="col-md-3">
+                                    <div className="col-sm-3">
                                         <div className="field form-group">
                                             Qunatity: <select className="form-control"
                                                               defaultValue={this.state.returnableQty}
                                                               onChange={this.handleQtyChange}>{qtyOptions}</select> <br/>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-sm-3">
                                         <div className="field form-group">
                                             Unit Price: <input defaultValue={this.state.unitPrice} disabled="true" className="form-control"/> <br/>
                                         </div>
@@ -131,7 +131,7 @@ var returnSalesApp = returnSalesApp || {};
                                             Total Price: <input value={this.state.totalPrice} disabled="true" className="form-control"/> <br/>
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
+                                    <div className="col-sm-6">
                                         <div className="field form-group">
                                             Note: <textarea rows="5" className="form-control" placeholder="Please type reason for return." onChange={this.handleNoteChange}>
                                                 </textarea>
@@ -142,7 +142,7 @@ var returnSalesApp = returnSalesApp || {};
                             <h4>Already Returned Items</h4>
                             <hr/>
                             <div className="row">
-                                <div className="col-md-12">
+                                <div className="col-sm-12">
                                     <table className="table-responsive display table table-striped table-bordered">
                                         {returnedItemsHead}
                                         <tbody>
