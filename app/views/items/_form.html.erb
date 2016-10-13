@@ -42,27 +42,25 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-xs-3">
         <div class="field form-group">
           <%= f.label :original_number %>
           <%= f.text_field :original_number, class:"form-control" %>
         </div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-3">
         <div class="field form-group">
           <%= f.label :prev_number %>
           <%= f.text_field :prev_number, class:"form-control" %>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-6">
+      <div class="col-xs-3">
         <div class="field form-group">
           <%= f.label :item_number %>
           <%= f.text_field :item_number, class:"form-control" %>
         </div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-3">
         <div class="field form-group">
           <%= f.label :next_number %>
           <%= f.text_field :next_number, class:"form-control" %>
@@ -70,13 +68,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-xs-3">
         <div class="field form-group">
           <%= f.label :description %>
-          <%= f.text_area :description, class:"form-control", rows: 4 %>
+          <%= f.text_area :description, class:"form-control", rows: 7 %>
         </div>
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-6">
         <label>Inventory</label>
         <table>
           <tbody>
@@ -86,10 +84,10 @@
                 <td width="12%"><%= inv_f.label :qty, "#{inv_f.object.store.short_name} " %></td>
                 <td width="20%"><%= inv_f.number_field :qty, class: 'form-control'%></td>
                 <td width="40%" class="location">
-                  <div class="input-group margin-bottom-sm">
-                    <span class="input-group-addon"><i class="fa fa-map-marker fa-fw"></i></span>
-                    <%= inv_f.text_field :location, class: 'form-control', placeholder:'Location'%>
-                  </div>
+                  <%= inv_f.text_field :location, class: 'form-control', placeholder:'Location'%>
+                  <!--<div class="input-group margin-bottom-sm">-->
+                    <!--<span class="input-group-addon"><i class="fa fa-map-marker fa-fw"></i></span>-->
+                  <!--</div>-->
                 </td>
               </tr>
               <% end %>
@@ -98,23 +96,23 @@
             <% no_stock_store.each_with_index do |store,index| %>
               <tr>
                 <td width="12%"><label for="item_inventories_attributes_123_qty"> <%= "#{store.short_name} " %> </label></td>
-                <td width="20%">
+                <td width="24%">
                   <input type="number" name="item[inventories_attributes][<%="99#{index}"%>][qty]" id="<%="item_inventories_attributes_99#{index}_qty"%>" value="" class="form-control">
                   <input type="hidden" name="item[inventories_attributes][<%="99#{index}"%>][store_id]" id="<%="item_inventories_attributes_99#{index}_store_id"%>" value="<%= store.id %>">
                   <input type="hidden" name="item[inventories_attributes][<%="99#{index}"%>][id]" id="<%="item_inventories_attributes_99#{index}_id"%>" value="">
                 </td>
                 <td width="40%" class="location">
-                  <div class="input-group margin-bottom-sm">
-                    <span class="input-group-addon"><i class="fa fa-map-marker fa-fw"></i></span>
-                    <input class="form-control" type="text" name="item[inventories_attributes][<%="99#{index}"%>][location]" id="<%="item_inventories_attributes_99#{index}_id"%>" value="" placeholder="Location">
-                  </div>
+                  <input class="form-control" type="text" name="item[inventories_attributes][<%="99#{index}"%>][location]" id="<%="item_inventories_attributes_99#{index}_id"%>" value="" placeholder="Location">
+                  <!--<div class="input-group margin-bottom-sm">-->
+                    <!--<span class="input-group-addon"><i class="fa fa-map-marker fa-fw"></i></span>-->
+                  <!--</div>-->
                 </td>
               </tr>
             <% end %>
           </tbody>
         </table>
       </div>
-      <div class="col-xs-2">
+      <div class="col-xs-3">
         <label>Pricing</label>
         <table>
           <tbody>

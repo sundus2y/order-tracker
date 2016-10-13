@@ -15,16 +15,19 @@ class TransferItem < ActiveRecord::Base
     state :received
 
     event :submit do
-      transitions :from => :draft, :to => :sent #SALE
-      transitions :from => :sent, :to => :received, after: :update_inventory #SALE
+      transitions :from => :draft, :to => :sent, after: :dec_inventory #SALE
+      transitions :from => :sent, :to => :received, after: :inc_inventory #SALE
     end
 
   end
 
   private
 
-  def update_inventory
+  def dec_inventory
     item.update_inventory(transfer.from_store,qty)
+  end
+
+  def inc_inventory
     item.update_inventory(transfer.to_store,qty,:up)
   end
 
