@@ -69,7 +69,8 @@ var app = app || {};
             var newQty = {
                 _method: 'PATCH',
                 transfer_item: {
-                    qty: transferItem.qty
+                    qty: transferItem.qty,
+                    location: transferItem.location
                 }
             }
             $.ajax({
@@ -156,6 +157,7 @@ var app = app || {};
                 var updatedData = self.state.data.map(function(transferItem){
                     if (transferItem.id === response.data.id) {
                         transferItem.qty = response.data.qty;
+                        transferItem.location = response.location;
                     }
                     return transferItem;
                 });
@@ -244,6 +246,11 @@ var app = app || {};
                             <td>
                                 <div className="field form-group">
                                     Description
+                                </div>
+                            </td>
+                            <td>
+                                <div className="field form-group">
+                                    Location
                                 </div>
                             </td>
                             <td width="9%">

@@ -13,6 +13,12 @@ var app = app || {};
             this.props.onItemUpdate(updatedTransferItem);
         },
 
+        handleLocationChange: function(event){
+            var updatedTransferItem = this.props.transferItemData;
+            updatedTransferItem.location = event.target.value;
+            this.props.onItemUpdate(updatedTransferItem);
+        },
+
         handleTransferItemRemove: function(event){
             this.props.onTransferItemRemove(this.props.transferItemData);
         },
@@ -50,6 +56,15 @@ var app = app || {};
                     <td>
                         <div className={"field form-group "+this.props.transferItemData.status+"_item"}>
                             {this.props.transferItemData.item.description}
+                        </div>
+                    </td>
+                    <td>
+                        <div className="field form-group">
+                            <input className={"form-control "+this.props.transferItemData.status+"_item"}
+                                   defaultValue={this.props.transferItemData.location}
+                                   onBlur={this.handleLocationChange}
+                                   required
+                                   disabled={this.props.viewOnly}/>
                         </div>
                     </td>
                     <td>

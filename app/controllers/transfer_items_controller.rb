@@ -55,7 +55,7 @@ class TransferItemsController < ApplicationController
     end
 
     def transfer_item_params
-      params.require(:transfer_item).permit(:transfer_id, :item_id, :qty, :status)
+      params.require(:transfer_item).permit(:transfer_id, :item_id, :qty, :status, :location)
     end
 
     def check_authorization

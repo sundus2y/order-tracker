@@ -103,7 +103,7 @@ class ItemsController < ApplicationController
                                    :part_class,
                                    :brand,
                                    :made,
-                                   inventories_attributes: [:id, :qty, :store_id])
+                                   inventories_attributes: [:id, :qty, :location, :store_id])
     end
 
     def get_autocomplete_items(parameters)

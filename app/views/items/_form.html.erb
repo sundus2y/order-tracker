@@ -71,7 +71,7 @@
       <div class="col-xs-3">
         <div class="field form-group">
           <%= f.label :description %>
-          <%= f.text_area :description, class:"form-control", rows: 7 %>
+          <%= f.text_area :description, class:"form-control", rows: 5 %>
         </div>
       </div>
       <div class="col-xs-6">
@@ -92,10 +92,10 @@
               </tr>
               <% end %>
             <% end %>
-            <% no_stock_store = Store.all.select{|store| !f.object.inventories.map(&:store_id).include?(store.id)} %>
+            <% no_stock_store = Store.minus_virtual.select{|store| !f.object.inventories.map(&:store_id).include?(store.id)} %>
             <% no_stock_store.each_with_index do |store,index| %>
               <tr>
-                <td width="12%"><label for="item_inventories_attributes_123_qty"> <%= "#{store.short_name} " %> </label></td>
+                <td width="12%"><label for="<%="item_inventories_attributes_99#{index}_qty"%>"> <%= "#{store.short_name} " %> </label></td>
                 <td width="24%">
                   <input type="number" name="item[inventories_attributes][<%="99#{index}"%>][qty]" id="<%="item_inventories_attributes_99#{index}_qty"%>" value="" class="form-control">
                   <input type="hidden" name="item[inventories_attributes][<%="99#{index}"%>][store_id]" id="<%="item_inventories_attributes_99#{index}_store_id"%>" value="<%= store.id %>">

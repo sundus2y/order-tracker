@@ -28,7 +28,7 @@ class TransferItem < ActiveRecord::Base
   end
 
   def inc_inventory
-    item.update_inventory(transfer.to_store,qty,:up)
+    item.update_inventory(transfer.to_store,qty,:up).update_location(location)
   end
 
 end

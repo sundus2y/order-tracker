@@ -170,7 +170,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="13" className="center-aligned">
+                    <td colSpan="15" className="center-aligned">
                         No Items Found.
                     </td>
                 </tr>

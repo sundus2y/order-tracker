@@ -264,8 +264,9 @@ class Item < ActiveRecord::Base
     if inv.empty?
       inv.create(qty: 0,store: store)
     end
-    inv.reload.last.decrement!(:qty,qty) if direction == :down
-    inv.reload.last.increment!(:qty,qty) if direction == :up
+    inv.last.decrement!(:qty,qty) if direction == :down
+    inv.last.increment!(:qty,qty) if direction == :up
+    return inv.last
   end
 
   def label
