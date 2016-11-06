@@ -4,6 +4,7 @@ class Item < ActiveRecord::Base
   has_many :order_items, dependent: :destroy
   has_many :sale_items, dependent: :destroy
   has_many :inventories, dependent: :destroy
+  has_many :transfer_items, dependent: :destroy
 
   accepts_nested_attributes_for :inventories, reject_if: proc {|attrib| attrib['qty'].blank? }
 
