@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  devise :timeoutable
   enum role: [:user, :admin, :vendor, :supplier, :sales]
   after_initialize :set_default_role, :if => :new_record?
 
