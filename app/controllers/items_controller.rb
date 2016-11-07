@@ -70,8 +70,15 @@ class ItemsController < ApplicationController
   end
 
   def download
+    render html: '<div>Too Many Item to Download !!</div>'.html_safe
+    # respond_to do |format|
+    #   format.xlsx { send_file Item.download}
+    # end
+  end
+
+  def download_inventory
     respond_to do |format|
-      format.xlsx { send_file Item.download}
+      format.xlsx { send_file Inventory.download}
     end
   end
 

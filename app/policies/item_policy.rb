@@ -48,6 +48,10 @@ class ItemPolicy
     @current_user.admin?
   end
 
+  def download_inventory?
+    @current_user.admin?
+  end
+
   def autocomplete_item_name?
     true
   end

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
     post :import, on: :collection
     get :template, on: :collection
     get :download, on: :collection
+    get :download_inventory, on: :collection
     get :import_export, as: :import_export, on: :collection
     get :pop_up_show
     get :pop_up_edit
