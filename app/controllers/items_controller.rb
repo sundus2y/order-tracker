@@ -16,11 +16,13 @@ class ItemsController < ApplicationController
   end
 
   def show
+    set_transaction_log
     respond_with(@item)
   end
 
   def pop_up_show
     @item = Item.find(params[:item_id])
+    set_transaction_log
     render 'pop_up_show', layout: false
   end
 
@@ -30,10 +32,12 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    set_transaction_log
   end
 
   def pop_up_edit
     @item = Item.find(params[:item_id])
+    set_transaction_log
     render 'pop_up_edit', layout: false
   end
 
@@ -123,5 +127,10 @@ class ItemsController < ApplicationController
 
     def check_authorization
       authorize @item || Item
+    end
+
+    def set_transaction_log
+      @transactions = []
+      @transactions += @item.transfer_items.includes(:transfer)
     end
 end

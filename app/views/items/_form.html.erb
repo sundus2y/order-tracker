@@ -164,8 +164,29 @@
     </div>
     <div class="row">
       <div class="col-xs-6">
-        <label>Order History</label>
-        <div id="item_orders_history"></div>
+        <label>Transaction Log</label>
+        <div id="transaction_log">
+          <table class="table table-condensed">
+            <thead>
+              <th>No.</th>
+              <th>Transaction No.</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Qty</th>
+            </thead>
+            <% @transactions.each_with_index do |transaction,index| %>
+              <tr>
+                <th><%= index+1 %></th>
+                <th><%= link_to(transaction.transfer.id, transaction.transfer, :target => "_blank", style: 'color:#999999 !important;') %></th>
+                <th>Transfer</th>
+                <th><%= transaction.updated_at.to_formatted_s(:short)                %></th>
+                <th><%= transaction.status %></th>
+                <th><%= transaction.qty %></th>
+              </tr>
+            <% end %>
+          </table>
+        </div>
       </div>
       <div class="col-xs-6">
         <label>Last Month Sales</label>
