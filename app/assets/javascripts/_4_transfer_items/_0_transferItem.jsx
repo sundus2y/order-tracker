@@ -44,7 +44,7 @@ var app = app || {};
                         </div>
                     </td>
                     <td>
-                        <div className={"field form-group "+this.props.transferItemData.status+"_item"}>
+                        <div className={"field form-group item_number_focus "+this.props.transferItemData.status+"_item"}>
                             {this.props.transferItemData.item.item_number}
                         </div>
                     </td>
