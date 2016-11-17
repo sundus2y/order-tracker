@@ -241,6 +241,19 @@ class Item < ActiveRecord::Base
     @@mades
   end
 
+  def transfer_log(log)
+    t_items = transfer_items.includes(:transfer,transfer:[:to_store,:from_store])
+    t_items.each do |t_item|
+      t_in = Transaction.new(t_item.transfer.id,:transfer,t_item.qty,0,t_item.created_at,t_item.status)
+      t_out = Transaction.new(t_item.transfer.id,:transfer,0,t_item.qty,t_item.created_at,t_item.status)
+      log[t_item.transfer.to_store] ||= []
+      log[t_item.transfer.to_store] << t_in
+      log[t_item.transfer.from_store] ||= []
+      log[t_item.transfer.from_store] << t_out
+    end
+    log
+  end
+
   def to_s
     "#{original_number} |  #{name}"
   end

@@ -130,7 +130,7 @@ class ItemsController < ApplicationController
     end
 
     def set_transaction_log
-      @transactions = []
-      @transactions += @item.transfer_items.includes(:transfer)
+      @transactions = {}
+      @transactions = @item.transfer_log(@transactions)
     end
 end

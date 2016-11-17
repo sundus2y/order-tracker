@@ -13,7 +13,7 @@ td.actions{
 }
 
 .modal .modal-body {
-  max-height: 520px;
+  max-height: 630px;
   overflow-y: auto;
 }
 
@@ -35,4 +35,22 @@ td.location{
 
 .default_sale_price{
   color: darkblue;
+}
+
+#transaction_log > ul > li {
+  margin-bottom: 0px;
+}
+
+#transaction_log > ul > li.active {
+  padding-top: 3px;
+  font-weight: bold;
+}
+
+#transaction_log > div.tab-content {
+  border-top-width: 1.205px;
+  border-style: solid;
+}
+
+table.transaction_log {
+  margin-bottom: 0px;
 }

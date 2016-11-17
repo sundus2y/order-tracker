@@ -1,4 +1,4 @@
 <% content_for :header do %>
-    View Transfer
+    View Transfer #<%= @transfer.id %>
 <% end %>
 <%= render 'form', viewOnlyMode: true, show_transfer_items: true, new_transfer: false %>

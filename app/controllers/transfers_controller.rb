@@ -1,6 +1,5 @@
 class TransfersController < ApplicationController
   before_action :set_transfer, except: [:index, :new, :create, :transfer_items]
-  before_action :set_transfers, only:[:index, :show_all]
 
   before_filter :authenticate_user!
   before_action :check_authorization, except: [:create]
@@ -9,8 +8,6 @@ class TransfersController < ApplicationController
   respond_to :html
 
   def index
-    @transfers = Transfer.all
-    respond_with(@transfers)
   end
 
   def show
@@ -18,7 +15,7 @@ class TransfersController < ApplicationController
   end
 
   def transfer_items
-    @transfer_items = Transfer.includes(:transfer_items).where(id: params[:id]).first.transfer_items
+    @transfer_items = Transfer.includes(:transfer_items,transfer_items:[:item]).where(id: params[:id]).first.transfer_items
   end
 
   def new

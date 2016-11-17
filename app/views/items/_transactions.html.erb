@@ -1,0 +1,20 @@
+<table class="table table-condensed transaction_log">
+  <thead>
+  <th>No.</th>
+  <th>TYPE</th>
+  <th>DATE</th>
+  <th>IN</th>
+  <th>OUT</th>
+  <th>STATUS</th>
+  </thead>
+  <% transactions.reverse.each do |transaction| %>
+      <tr>
+        <th><%= link_to(transaction.transaction_num, transfer_path(transaction.transaction_num), :target => "_blank", style: 'color:#999999 !important;') %></th>
+        <th>Transfer</th>
+        <th><%= transaction.created_at.to_formatted_s(:short) %></th>
+        <th><%= transaction.in_qty%></th>
+        <th><%= transaction.out_qty %></th>
+        <th><%= transaction.status.upcase %></th>
+      </tr>
+  <% end %>
+</table>
