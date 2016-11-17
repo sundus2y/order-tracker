@@ -11,7 +11,7 @@ var searchItemApp = searchItemApp || {};
                     <th>{this.props.data.name}</th>
                     <th>{this.props.data.description}</th>
                     <th>{this.props.data.original_number}</th>
-                    <th>{this.props.data.item_number}</th>
+                    <th className="item_number_focus">{this.props.data.item_number}</th>
                     <th>{this.props.data.prev_number}</th>
                     <th>{this.props.data.next_number}</th>
                     <th>{this.props.data.car}</th>
