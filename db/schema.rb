@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161106070207) do
+ActiveRecord::Schema.define(version: 20161117093313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20161106070207) do
     t.decimal  "dubai_price",        precision: 11, scale: 2, default: 0.0
     t.decimal  "korea_price",        precision: 11, scale: 2, default: 0.0
     t.boolean  "default_sale_price"
+    t.string   "size"
   end
 
   add_index "items", ["description"], name: "items_lower_description", using: :gin

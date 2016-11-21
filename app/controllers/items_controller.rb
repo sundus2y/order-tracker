@@ -103,6 +103,7 @@ class ItemsController < ApplicationController
                                    :item_number,
                                    :prev_number,
                                    :next_number,
+                                   :size,
                                    :description,
                                    :car,
                                    :model,
