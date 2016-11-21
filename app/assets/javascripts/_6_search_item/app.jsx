@@ -94,7 +94,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         <div className="col-sm-3">
                             <div className="form-group">
                                 <label htmlFor="other_numbers">Other Numbers: </label>
-                                <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number"></input>
+                                <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number or Description"></input>
                             </div>
                         </div>
                         <div className="col-sm-2">

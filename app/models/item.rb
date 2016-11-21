@@ -197,10 +197,10 @@ class Item < ActiveRecord::Base
   def self.build_search_query(params)
     query = []
     query.push("name ilike '%#{params[:name]}%'") if params[:name].present?
-    query.push("description ilike '%#{params[:description]}%'") if params[:description].present?
     query.push("item_number ilike '#{params[:item_number]}%'") if params[:item_number].present?
     if params[:other_numbers].present?
-      query.push("(prev_number ilike '#{params[:other_numbers]}%' or "+
+      query.push("(description ilike '%#{params[:other_numbers]}%' or "+
+                  "prev_number ilike '#{params[:other_numbers]}%' or "+
                   "next_number ilike '#{params[:other_numbers]}%' or "+
                   "original_number ilike '#{params[:other_numbers]}%')")
     end
