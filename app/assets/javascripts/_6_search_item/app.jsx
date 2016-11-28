@@ -9,6 +9,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
         getInitialState: function () {
             return {
                 result: [],
+                searching: false,
                 params: {},
                 lookup: {cars:[],part_classes:[], mades:[], brands:[]},
                 config: {}
@@ -65,7 +66,12 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
         componentWillMount: function(){
             window.globalSearchItemApp.callback = function(data) {
                 this.setState({result: data});
+                this.setState({searching: false});
             }.bind(this);
+        },
+
+        handleSubmit: function(event) {
+            this.setState({searching: true});
         },
 
         render: function() {
@@ -77,7 +83,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
             };
 
             var searchForm = (
-                <form id="search_item_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/search/items">
+                <form id="search_item_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/search/items" onSubmit={this.handleSubmit}>
                     <div className="row">
                         <div className="col-sm-4">
                             <div className="form-group">
@@ -182,6 +188,15 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                 </tr>
             );
 
+            var searchingRow = (
+                <tr>
+                    <td colSpan="15" className="center-aligned">
+                        <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                        <span className="searching">Loading . . .</span>
+                    </td>
+                </tr>
+            );
+
             var searchResult =  (
                 <table className="table-responsive display table table-striped table-bordered">
                     <thead>
@@ -207,7 +222,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.result.length == 0 ? noResultRow : itemsResultRow}
+                    {this.state.searching ? searchingRow : this.state.result.length == 0 ? noResultRow : itemsResultRow}
                     </tbody>
                 </table>
             );
