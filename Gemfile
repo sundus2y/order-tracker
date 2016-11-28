@@ -18,12 +18,14 @@ gem 'react-rails'
 gem 'showdown-rails'
 gem 'rabl'
 gem 'oj'
+
 group :development, :test do
   gem 'byebug'
   gem 'awesome_print'
   gem 'web-console', '~> 2.0'
   gem 'spring'
 end
+
 gem 'bootstrap-sass'
 gem 'devise'
 gem 'pundit'
