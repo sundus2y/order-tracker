@@ -88,32 +88,12 @@
               <% unless inv_f.object.store.virtual? %>
               <tr>
                 <td width="12%"><%= inv_f.label :qty, "#{inv_f.object.store.short_name} " %></td>
-                <td width="20%"><%= inv_f.number_field :qty, class: 'form-control'%></td>
+                <td width="20%"><%= inv_f.number_field :qty, class: 'form-control', enabled: false%></td>
                 <td width="40%" class="location">
                   <%= inv_f.text_field :location, class: 'form-control', placeholder:'Location'%>
-                  <!--<div class="input-group margin-bottom-sm">-->
-                    <!--<span class="input-group-addon"><i class="fa fa-map-marker fa-fw"></i></span>-->
-                  <!--</div>-->
                 </td>
               </tr>
               <% end %>
-            <% end %>
-            <% no_stock_store = Store.minus_virtual.select{|store| !f.object.inventories.map(&:store_id).include?(store.id)} %>
-            <% no_stock_store.each_with_index do |store,index| %>
-              <tr>
-                <td width="12%"><label for="<%="item_inventories_attributes_99#{index}_qty"%>"> <%= "#{store.short_name} " %> </label></td>
-                <td width="24%">
-                  <input type="number" name="item[inventories_attributes][<%="99#{index}"%>][qty]" id="<%="item_inventories_attributes_99#{index}_qty"%>" value="" class="form-control">
-                  <input type="hidden" name="item[inventories_attributes][<%="99#{index}"%>][store_id]" id="<%="item_inventories_attributes_99#{index}_store_id"%>" value="<%= store.id %>">
-                  <input type="hidden" name="item[inventories_attributes][<%="99#{index}"%>][id]" id="<%="item_inventories_attributes_99#{index}_id"%>" value="">
-                </td>
-                <td width="40%" class="location">
-                  <input class="form-control" type="text" name="item[inventories_attributes][<%="99#{index}"%>][location]" id="<%="item_inventories_attributes_99#{index}_id"%>" value="" placeholder="Location">
-                  <!--<div class="input-group margin-bottom-sm">-->
-                    <!--<span class="input-group-addon"><i class="fa fa-map-marker fa-fw"></i></span>-->
-                  <!--</div>-->
-                </td>
-              </tr>
             <% end %>
           </tbody>
         </table>
