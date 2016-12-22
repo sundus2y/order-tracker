@@ -5,7 +5,10 @@
   <h4 class="modal-title" id="myModalLabel">Import Items</h4>
 </div>
 <div class="modal-body">
-  <%= link_to "Download Import Template (Excel)", template_items_path(format: "xlsx"),class: "btn btn-primary", role: "button" %>
+  <a href="<%= template_items_path(format: "xlsx") %>" class="btn btn-primary" role="button">
+    <i class="fa fa-download"></i>
+    Download Import Template (Excel)
+  </a>
   <br><br>
   <%= form_tag import_items_path, multipart: true do %>
       <%= file_field_tag :file %>
@@ -15,6 +18,31 @@
   <h4 class="modal-title" id="myModalLabel">Export Items</h4>
 </div>
 <div class="modal-body">
-  <%= link_to "Download All Items (Excel)", download_items_path(format: "xlsx"),class: "btn btn-primary", role: "button" %>
-  <%= link_to "Download All Items (PDF)", download_items_path(format: "pdf"),class: "btn btn-primary", role: "button" %>
+  <a href="<%= download_items_path(format: "xlsx") %>" class="btn btn-primary" role="button">
+    <i class="fa fa-download"></i>
+    Download All Items
+  </a>
+  <a href="<%= download_inventory_items_path(format: "xlsx") %>" class="btn btn-primary" role="button">
+    <i class="fa fa-download"></i>
+    Download All Store Inventories
+  </a>
+  <div class="btn-group">
+    <a class="btn btn-primary" href="#">
+      <i class="fa fa-tasks fa-fw"></i>
+      Download Inventory by Store
+    </a>
+    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+      <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+    </a>
+    <ul class="dropdown-menu context-menu">
+      <% Store.minus_virtual.each do |store| %>
+        <li>
+          <a href="<%= download_inventory_items_path(format: "xlsx", store_id: store.id) %>">
+            <i class="fa fa-download"></i>
+            <%= store.name %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

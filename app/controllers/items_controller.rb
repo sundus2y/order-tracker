@@ -82,7 +82,7 @@ class ItemsController < ApplicationController
 
   def download_inventory
     respond_to do |format|
-      format.xlsx { send_file Inventory.download}
+      format.xlsx { send_file params[:store_id] ? Inventory.download_by_store(params[:store_id]) : Inventory.download}
     end
   end
 
