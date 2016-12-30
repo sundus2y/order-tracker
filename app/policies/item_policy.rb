@@ -36,6 +36,10 @@ class ItemPolicy
     @current_user.admin?
   end
 
+  def import_non_original?
+    @current_user.admin?
+  end
+
   def import_export?
     @current_user.admin?
   end

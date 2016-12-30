@@ -41,3 +41,6 @@ KRW_XE_USD = 0.00087
 KRW_XE_ETB = 0.019
 ETB_XE_USD = 0.046
 USD_XE_ETB = 24
+
+INVALID_CHARS = %w(, . - _ : | \\ /)
+INVALID_CHARS_REGEX = Regexp.new('\W')

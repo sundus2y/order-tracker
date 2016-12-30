@@ -10,7 +10,7 @@
     Download Import Template (Excel)
   </a>
   <br><br>
-  <%= form_tag import_items_path, multipart: true do %>
+  <%= form_tag import_non_original_items_path, multipart: true do %>
       <%= file_field_tag :file %>
   <% end %>
 </div>

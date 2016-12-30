@@ -70,6 +70,13 @@ class ItemsController < ApplicationController
     flash[:warning] = "Found #{@duplicate_items.count} Duplicate Items" unless @duplicate_items.empty?
   end
 
+  def import_non_original
+    return redirect_to request.referrer, notice: "Please Select File First" unless params[:file]
+    @created_items, @cloned_items, @error_items = Item.import_non_original(params[:file])
+    flash[:notice] = "All Items Imported Successfully" if @error_items.empty?
+    flash[:warning] = "Found #{@error_items.count} Error Items" unless @error_items.empty?
+  end
+
   def import_export
   end
 

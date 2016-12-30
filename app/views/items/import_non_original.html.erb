@@ -1,0 +1,14 @@
+<table>
+  <thead><td>Newly Created Items Listing (<%= @created_items.count %>)</td></thead>
+  <% @created_items.each do |item| %>
+      <tr><td><%= pp item %></tr></td>
+  <% end %>
+  <thead><td>Newly Cloned Items Listing (<%= @cloned_items.count %>)<td></thead>
+  <% @cloned_items.each do |item| %>
+      <tr><td><%= pp item %></tr></td>
+  <% end %>
+  <thead><td>Error Items Listing<td> (<%= @error_items.count %>)</thead>
+  <% @error_items.each do |item| %>
+      <tr><td><%= pp item %></tr></td>
+  <% end %>
+</table>

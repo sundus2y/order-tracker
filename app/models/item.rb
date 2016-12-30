@@ -31,8 +31,8 @@ class Item < ActiveRecord::Base
 
   default_scope { includes(:inventories,{inventories:[:store]})}
 
-  INVALID_CHARS = %w(, . - _ : | \\ /)
-  INVALID_CHARS_REGEX = Regexp.new('\W')
+  # INVALID_CHARS = %w(, . - _ : | \\ /)
+  # INVALID_CHARS_REGEX = Regexp.new('\W')
 
   def as_json(options={})
     type = options.delete(:type) || :default
@@ -150,6 +150,57 @@ class Item < ActiveRecord::Base
     return update_list, new_records
   end
 
+  def self.import_non_original(file)
+    workbook = Roo::Spreadsheet.open(file.path)
+    raw_data = []
+    error_list = []
+    clone_list = []
+    create_list = []
+    header = %w(item_number original_number name qty made brand size description)
+    header_hash = {}
+    header.each{|k| header_hash[k] = k.titleize}
+    sheets_count = workbook.sheets.count
+    workbook.sheet(0).each_with_index(header_hash) do |hash, index|
+      if index > 0
+        begin
+          new_item = {}
+          new_item['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          new_item['original_number'] = hash['original_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          new_item['name'] = hash['name'].to_s.upcase
+          new_item['made'] = hash['made'].to_s.upcase
+          new_item['brand'] = hash['brand'].to_s.upcase
+          new_item['size'] = hash['size']
+          new_item['description'] = hash['description'].to_s.gsub('/',"\n")
+          raw_data << new_item
+        rescue Exception => e
+          error_list << new_item
+        end
+      end
+    end
+    puts '.  Check for Original Items'
+    existing_numbers = where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
+    puts ".    Found #{existing_numbers.count} Original Items"
+    clone_list, create_list = raw_data.partition { |item| existing_numbers.include? item['original_number'] }
+    puts ".    Creating #{create_list.count} Items"
+    create_non_original(create_list)
+    puts ".    Done Creating #{create_list.count} Items"
+    puts ".    Clone #{clone_list.count} Items"
+    clone_new(clone_list)
+    puts ".    Done Cloning #{clone_list.count} Items"
+    return create_list, clone_list, error_list
+  end
+
+  def self.non_original_template
+    workbook = WriteXLSX.new('tmp/non_original_template.xlsx')
+    worksheet = workbook.add_worksheet
+    header = %w(item_number original_number name qty made brand size description)
+    header.map(&:titleize).each_with_index do |header,index|
+      worksheet.write(0,index,header)
+    end
+    workbook.close
+    File.open('tmp/non_original_template.xlsx').path
+  end
+
   def self.write_to_db(header_hash, workbook, sheet)
     raw_data = []
     error_data = []
@@ -196,6 +247,8 @@ class Item < ActiveRecord::Base
 
   def self.build_search_query(params)
     query = []
+    params[:item_number].gsub!(INVALID_CHARS_REGEX, '') if params[:item_number].present?
+    params[:other_numbers].gsub!(INVALID_CHARS_REGEX, '') if params[:other_numbers].present?
     query.push("name ilike '%#{params[:name]}%'") if params[:name].present?
     query.push("item_number ilike '#{params[:item_number]}%'") if params[:item_number].present?
     if params[:other_numbers].present?
@@ -323,6 +376,44 @@ private
       end
     end
     puts ".      #{inserts.count/500} Groups Inserted"
+  end
+
+  def self.create_non_original(new_records)
+    inserts = []
+    new_records.each do |item|
+      inserts << "(#{item.values.map do |v|
+        new_val = sanitize(v.to_s)
+        if new_val == "''"
+          "NULL"
+        else
+          new_val
+        end
+      end.join(',')})"
+    end
+    puts ".      #{inserts.count/500} Groups to Insert"
+    inserts.in_groups_of(500).each_with_index do |group,index|
+      group.compact!
+      # puts "   Inserting Group ##{index} #{group.count} Items"
+      unless group.empty?
+        sql = "INSERT INTO Items (item_number,original_number,name,made,brand,size,description) VALUES #{group.join(", ")}"
+        connection.execute sql unless new_records.empty?
+      end
+    end
+    puts ".      #{inserts.count/500} Groups Inserted"
+  end
+
+  def self.clone_new(clone_records)
+    original_records = where(original_number: clone_records.map { |item| item['original_number'] })
+    clone_records.each do |clone_record|
+      cloned = original_records.select{|o_record| o_record.original_number == clone_record['original_number']}.first.dup
+      cloned.item_number = clone_record['item_number']
+      cloned.made = clone_record['made']
+      cloned.brand = clone_record['brand']
+      cloned.size = clone_record['size']
+      cloned.description = clone_record['description']
+      cloned.sale_price = cloned.korea_price = cloned.dubai_price = 0
+      cloned.save
+    end
   end
 
   def invalidate_cache

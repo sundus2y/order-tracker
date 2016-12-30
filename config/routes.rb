@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     get :autocomplete_item_name, on: :collection
     get :autocomplete_item_sale_price, on: :collection
     post :import, on: :collection
+    post :import_non_original, on: :collection
     get :template, on: :collection
     get :download, on: :collection
     get :download_inventory, on: :collection
