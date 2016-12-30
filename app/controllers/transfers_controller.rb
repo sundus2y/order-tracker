@@ -47,6 +47,13 @@ class TransfersController < ApplicationController
     respond_with(@transfer)
   end
 
+  def import_transfer_items
+    return redirect_to request.referrer, notice: "Please Select File First" unless params[:file]
+    @transfer_items, @error_items = TransferItem.import(params[:file],@transfer)
+    flash[:notice] = "All Items Imported Successfully" if @error_items.empty?
+    flash[:warning] = "Found #{@error_items.count} Error Items" unless @error_items.empty?
+  end
+
   def submit
     @transfer.submit!
     respond_to do |format|
@@ -64,7 +71,7 @@ class TransfersController < ApplicationController
 
   private
     def set_transfer
-      @transfer = Transfer.find(params[:id])
+      @transfer = Transfer.find(params[:id]||params[:transfer_id])
     end
 
     def transfer_params

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :transfer_items
 
   resources :transfers do
+    post :import_transfer_items
     member do
       get :transfer_items
       match :submit, via: [:patch,:get]

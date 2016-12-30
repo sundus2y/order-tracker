@@ -56,3 +56,8 @@
         <%= button_tag('Create Transfer', name:'save', type: 'submit', class: "btn btn-primary btn-block") %>
     <% end %>
 <% end %>
+<% if @transfer.note == 'QTY-IMPORT' %>
+    <%= form_tag transfer_import_transfer_items_path(@transfer), multipart: true do %>
+        <%= file_field_tag :file %>
+    <% end %>
+<% end %>

@@ -55,6 +55,10 @@ class TransferPolicy
     show?
   end
 
+  def import_transfer_items?
+    @transfer.draft? && @current_user.admin?
+  end
+
   def resolve
     if @current_user.sales?
       Transfer.draft.page(@params[:page]).per_page(10)

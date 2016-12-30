@@ -1,0 +1,10 @@
+<table>
+  <thead><td>Newly Created Transfer Items Listing (<%= @transfer_items.count %>)</td></thead>
+  <% @transfer_items.each do |item| %>
+    <tr><td><%= pp item %></tr></td>
+  <% end %>
+  <thead><td>Error Items Listing<td> (<%= @error_items.count %>)</thead>
+  <% @error_items.each do |item| %>
+      <tr><td><%= pp item %></tr></td>
+  <% end %>
+</table>
