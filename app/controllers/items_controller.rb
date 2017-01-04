@@ -95,7 +95,7 @@ class ItemsController < ApplicationController
 
   def template
     respond_to do |format|
-      format.xlsx { send_file Item.excel_template}
+      format.xlsx { send_file Item.non_original_template}
     end
   end
 

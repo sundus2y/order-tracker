@@ -43,11 +43,14 @@ class TransferItem < ActiveRecord::Base
       if index > 0
         begin
           new_item = {}
+          hash['item_number'] = hash['item_number'].to_i.to_s if hash['item_number'].class == Float
+          hash['original_number'] = hash['original_number'].to_i.to_s if hash['original_number'].class == Float
           new_item['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
           new_item['original_number'] = hash['original_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
           new_item['made'] = hash['made'].to_s.upcase
           new_item['brand'] = hash['brand'].to_s.upcase
           new_item['qty'] = hash['qty']
+          new_item['found'] = false
           raw_data << new_item
         rescue Exception => e
           error_list << new_item
@@ -64,9 +67,11 @@ brand = '#{item['brand']}')"
     items = Item.where(sql.join('or'))
     items.each do |item|
       raw_item = raw_data.select{ |i| item.item_number == i['item_number'] && item.original_number == i['original_number'] && item.made == i['made'] && item.brand == i['brand']}[0]
+      raw_item['found'] = true
       transfer.transfer_items.build(item_id: item.id, qty: raw_item['qty'], location: '0')
     end
     transfer.save!
+    error_list += raw_data.select{|i| !i['found']}
     return transfer.transfer_items, error_list
   end
 
