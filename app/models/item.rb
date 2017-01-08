@@ -39,7 +39,7 @@ class Item < ActiveRecord::Base
     case type
       when :search
         super({
-                  only: [:id,:name,:original_number,:item_number,:prev_number,:next_number,
+                  only: [:id,:name,:original_number,:item_number,:prev_number,:next_number, :cost_price,
                         :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made,:default_sale_price],
                   methods: [:actions,:inventories_display]
               }.merge(options))
