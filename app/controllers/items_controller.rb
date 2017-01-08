@@ -64,16 +64,23 @@ class ItemsController < ApplicationController
   end
 
   def import
-    return redirect_to request.referrer, notice: "Please Select File First" unless params[:file]
+    return redirect_to request.referrer, notice: 'Please Select File First' unless params[:file]
     @duplicate_items, @items = Item.import(params[:file])
-    flash[:notice] = "All Items Imported Successfully" if @duplicate_items.empty?
+    flash[:notice] = 'All Items Imported Successfully' if @duplicate_items.empty?
     flash[:warning] = "Found #{@duplicate_items.count} Duplicate Items" unless @duplicate_items.empty?
   end
 
   def import_non_original
-    return redirect_to request.referrer, notice: "Please Select File First" unless params[:file]
+    return redirect_to request.referrer, notice: 'Please Select File First' unless params[:file]
     @created_items, @cloned_items, @error_items = Item.import_non_original(params[:file])
-    flash[:notice] = "All Items Imported Successfully" if @error_items.empty?
+    flash[:notice] = 'All Items Imported Successfully' if @error_items.empty?
+    flash[:warning] = "Found #{@error_items.count} Error Items" unless @error_items.empty?
+  end
+
+  def bulk_update
+    return redirect_to request.referrer, notice: 'Please Select File First' unless params[:file]
+    @updated_items, @error_items = Item.bulk_update(params[:file],params[:update_field])
+    flash[:notice] = 'All Items where Updated Successfully' if @error_items.empty?
     flash[:warning] = "Found #{@error_items.count} Error Items" unless @error_items.empty?
   end
 
@@ -95,7 +102,19 @@ class ItemsController < ApplicationController
 
   def template
     respond_to do |format|
+      format.xlsx { send_file Item.template}
+    end
+  end
+
+  def non_original_template
+    respond_to do |format|
       format.xlsx { send_file Item.non_original_template}
+    end
+  end
+
+  def bulk_update_template
+    respond_to do |format|
+      format.xlsx { send_file Item.bulk_update_template}
     end
   end
 
@@ -130,7 +149,7 @@ class ItemsController < ApplicationController
       limit = parameters[:options][:limit]
       data = parameters[:options][:extra_data]
       data << parameters[:method]
-      model.where("LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term)", term: "%#{parameters[:term]}%").limit(limit)
+      model.where('LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term)', term: "%#{parameters[:term]}%").limit(limit)
     end
 
     def check_authorization

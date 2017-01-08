@@ -154,12 +154,9 @@ class Item < ActiveRecord::Base
     workbook = Roo::Spreadsheet.open(file.path)
     raw_data = []
     error_list = []
-    clone_list = []
-    create_list = []
     header = %w(item_number original_number name qty made brand size description)
     header_hash = {}
     header.each{|k| header_hash[k] = k.titleize}
-    sheets_count = workbook.sheets.count
     workbook.sheet(0).each_with_index(header_hash) do |hash, index|
       if index > 0
         begin
@@ -175,7 +172,7 @@ class Item < ActiveRecord::Base
           new_item['description'] = hash['description'].to_s.gsub('/',"\n")
           raw_data << new_item
         rescue Exception => e
-          error_list << new_item
+          error_list << hash
         end
       end
     end
@@ -190,6 +187,54 @@ class Item < ActiveRecord::Base
     clone_new(clone_list)
     puts ".    Done Cloning #{clone_list.count} Items"
     return create_list, clone_list, error_list
+  end
+
+  def self.bulk_update(file,update_field)
+    workbook = Roo::Spreadsheet.open(file.path)
+    raw_data = []
+    update_list = []
+    error_list = []
+    header = ['item_number', 'original_number', 'made', 'brand', update_field]
+    header_hash = {}
+    header.each{|k| header_hash[k] = k.titleize}
+    workbook.sheet(0).each_with_index(header_hash) do |hash,index|
+      if index > 0
+        begin
+          new_item = {}
+          hash['item_number'] = hash['item_number'].to_i.to_s if hash['item_number'].class == Float
+          hash['original_number'] = hash['original_number'].to_i.to_s if hash['original_number'].class == Float
+          new_item['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          new_item['original_number'] = hash['original_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+          new_item['made'] = hash['made'].to_s.upcase
+          new_item['brand'] = hash['brand'].to_s.upcase
+          new_item[update_field] = hash[update_field]
+          new_item['found'] = false
+          raw_data << new_item
+        rescue Exception => e
+          error_list << hash
+        end
+      end
+    end
+    sql = []
+    raw_data.each_with_index do |item|
+      sql << "( item_number = '#{item['item_number']}' and
+original_number = '#{item['original_number']}' and
+made = '#{item['made']}' and
+brand = '#{item['brand']}')"
+    end
+    items = Item.where(sql.join('or'))
+    items.each do |item|
+      raw_item = raw_data.select{ |i| item.item_number == i['item_number'] && item.original_number == i['original_number'] && item.made == i['made'] && item.brand == i['brand']}[0]
+      raw_item['found'] = true
+      begin
+        item.update(update_field.to_sym => raw_item[update_field])
+        update_list << item
+      rescue Exception => e
+        error_list << raw_item
+      end
+    end
+    error_list += raw_data.select{|i| !i['found']}
+    return update_list, error_list
   end
 
   def self.non_original_template
@@ -355,6 +400,12 @@ class Item < ActiveRecord::Base
       includes(:sale_items,:order_items).where('name ilike :term or ' +
                                                'description ilike :term', term: "%#{term}%").reorder('name').limit(20)
     end
+  end
+
+  def self.select_attributes
+    %w(name description model car part_class make_from make_to
+prev_number next_number sale_price dubai_price
+korea_price default_sale_price size cost_price).map{|col| [col.titleize, col]}
   end
 
 private

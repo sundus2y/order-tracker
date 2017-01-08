@@ -1,0 +1,10 @@
+<table>
+  <thead><td>Updated Items Listing (<%= @updated_items.count %>)</td></thead>
+  <% @updated_items.each do |item| %>
+      <tr><td><%= pp item %></tr></td>
+  <% end %>
+  <thead><td>Error Items Listing<td> (<%= @error_items.count %>)</thead>
+  <% @error_items.each do |item| %>
+      <tr><td><%= pp item %></tr></td>
+  <% end %>
+</table>

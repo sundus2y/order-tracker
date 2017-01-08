@@ -2,16 +2,49 @@
     Import / Export
 <% end %>
 <div class="modal-header">
-  <h4 class="modal-title" id="myModalLabel">Import Items</h4>
+  <h4 class="modal-title" id="myModalLabel">Import Original Items</h4>
 </div>
 <div class="modal-body">
   <a href="<%= template_items_path(format: "xlsx") %>" class="btn btn-primary" role="button">
     <i class="fa fa-download"></i>
-    Download Import Template (Excel)
+    Download Original Import Template (Excel)
+  </a>
+  <br><br>
+  <%= form_tag import_items_path, multipart: true do %>
+      <%= file_field_tag :file, class: 'file'  %>
+  <% end %>
+</div>
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel">Import Non-Original Items</h4>
+</div>
+<div class="modal-body">
+  <a href="<%= template_items_path(format: "xlsx") %>" class="btn btn-primary" role="button">
+    <i class="fa fa-download"></i>
+    Download Non-Original Import Template (Excel)
   </a>
   <br><br>
   <%= form_tag import_non_original_items_path, multipart: true do %>
-      <%= file_field_tag :file %>
+      <%= file_field_tag :file, class: 'file' %>
+  <% end %>
+</div>
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel">Bulk Update Items</h4>
+</div>
+<div class="modal-body">
+  <a href="<%= bulk_update_template_items_path(format: "xlsx") %>" class="btn btn-primary" role="button">
+    <i class="fa fa-download"></i>
+    Download Bulk Update Template (Excel)
+  </a>
+  <br><br>
+  <%= form_tag bulk_update_items_path, multipart: true do %>
+      <div class="row">
+        <div class="col-md-2">
+          <%= select_tag :update_field, options_for_select(Item.select_attributes,'test'), class: 'form-control' %>
+        </div>
+        <div class="col-md-10">
+          <%= file_field_tag :file, class: 'file' %>
+        </div>
+      </div>
   <% end %>
 </div>
 <div class="modal-header">

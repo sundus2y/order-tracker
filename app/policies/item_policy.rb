@@ -37,7 +37,11 @@ class ItemPolicy
   end
 
   def import_non_original?
-    @current_user.admin?
+    import?
+  end
+
+  def bulk_update?
+    import?
   end
 
   def import_export?
@@ -46,6 +50,14 @@ class ItemPolicy
 
   def template?
     @current_user.admin?
+  end
+
+  def non_original_template?
+    template?
+  end
+
+  def bulk_update_template?
+    template?
   end
 
   def download?
