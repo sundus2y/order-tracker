@@ -1,10 +1,10 @@
 class Item < ActiveRecord::Base
   include PgSearch
 
-  has_many :order_items, dependent: :destroy
-  has_many :sale_items, dependent: :destroy
-  has_many :inventories, dependent: :destroy
-  has_many :transfer_items, dependent: :destroy
+  has_many :order_items
+  has_many :sale_items
+  has_many :inventories
+  has_many :transfer_items
 
   accepts_nested_attributes_for :inventories, reject_if: proc {|attrib| attrib['qty'].blank? }
 
@@ -86,7 +86,8 @@ class Item < ActiveRecord::Base
   end
 
   def can_be_deleted?
-    order_items.empty? && sale_items.empty? && inventories.empty?
+    debugger
+    order_items.empty? && sale_items.empty? && inventories.empty? && transfer_items.empty?
   end
 
   def item_numbers_cannot_include_special_characters

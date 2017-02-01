@@ -12,30 +12,35 @@ class Inventory < ActiveRecord::Base
     worksheet = workbook.add_worksheet
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
     table_heading_format = workbook.add_format(bold: 1)
-    worksheet.merge_range('A1:G1','Inventory for All Stores', heading_format)
+    worksheet.merge_range('A1:H1','Inventory for All Stores', heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write(1,1,'Item Name',table_heading_format)
-    worksheet.write(1,2,'Original Number',table_heading_format)
-    worksheet.write(1,3,'Main Store',table_heading_format)
-    worksheet.write(1,4,'L Store',table_heading_format)
-    worksheet.write(1,5,'L Shop',table_heading_format)
-    worksheet.write(1,6,'T Shop',table_heading_format)
+    worksheet.write(1,2,'Item Number',table_heading_format)
+    worksheet.write(1,3,'Original Number',table_heading_format)
+    worksheet.write(1,4,'Main Store',table_heading_format)
+    worksheet.write(1,5,'L Store',table_heading_format)
+    worksheet.write(1,6,'L Shop',table_heading_format)
+    worksheet.write(1,7,'T Shop',table_heading_format)
     item_inv = includes(:item).group_by{|inv| [inv.item_id]}
     item_inv.each_with_index do |(key,invs),index|
-      worksheet.write(index+2,0,index+1)
-      worksheet.write(index+2,1,invs[0].item.name)
-      worksheet.write_string(index+2,2,invs[0].item.original_number)
-      invs.each do |inv|
-        case inv.store_id
-          when 8
-            worksheet.write_number(index+2,3,inv.qty)
-          when 6
-            worksheet.write_number(index+2,4,inv.qty)
-          when 5
-            worksheet.write_number(index+2,5,inv.qty)
-          when 4
-            worksheet.write_number(index+2,6,inv.qty)
+      begin
+        worksheet.write(index+2,0,index+1)
+        worksheet.write(index+2,1,invs[0].item.name)
+        worksheet.write(index+2,2,invs[0].item.item_number)
+        worksheet.write_string(index+2,3,invs[0].item.original_number)
+        invs.each do |inv|
+          case inv.store_id
+            when 8
+              worksheet.write_number(index+2,4,inv.qty)
+            when 6
+              worksheet.write_number(index+2,5,inv.qty)
+            when 5
+              worksheet.write_number(index+2,6,inv.qty)
+            when 4
+              worksheet.write_number(index+2,7,inv.qty)
+          end
         end
+      rescue Exception => e
       end
     end
     workbook.close
@@ -48,17 +53,22 @@ class Inventory < ActiveRecord::Base
     worksheet = workbook.add_worksheet
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
     table_heading_format = workbook.add_format(bold: 1)
-    worksheet.merge_range('A1:D1', "Inventory for #{store.name}", heading_format)
+    worksheet.merge_range('A1:E1', "Inventory for #{store.name}", heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write(1,1,'Item Name',table_heading_format)
-    worksheet.write(1,2,'Original Number',table_heading_format)
-    worksheet.write(1,3,'Qty',table_heading_format)
+    worksheet.write(1,2,'Item Number',table_heading_format)
+    worksheet.write(1,3,'Original Number',table_heading_format)
+    worksheet.write(1,4,'Qty',table_heading_format)
     item_inv = includes(:item).where(store: store)
     item_inv.each_with_index do |inv, index|
-      worksheet.write(index+2,0, index+1)
-      worksheet.write(index+2,1, inv.item.name)
-      worksheet.write_string(index+2,2, inv.item.original_number)
-      worksheet.write_number(index+2,3, inv.qty)
+      begin
+        worksheet.write(index+2,0, index+1)
+        worksheet.write(index+2,1, inv.item.name)
+        worksheet.write_string(index+2,2, inv.item.item_number)
+        worksheet.write_string(index+2,3, inv.item.original_number)
+        worksheet.write_number(index+2,4, inv.qty)
+      rescue Exception => e
+      end
     end
     workbook.close
     File.open("tmp/#{store.name} Inventory.xlsx").path
