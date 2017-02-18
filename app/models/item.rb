@@ -86,7 +86,6 @@ class Item < ActiveRecord::Base
   end
 
   def can_be_deleted?
-    debugger
     order_items.empty? && sale_items.empty? && inventories.empty? && transfer_items.empty?
   end
 
