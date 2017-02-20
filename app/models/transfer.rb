@@ -16,14 +16,16 @@ class Transfer < ActiveRecord::Base
 
   default_scope { includes(:transfer_items).reorder(created_at: :desc)}
 
+  before_create :set_sent_date
+
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
     state :sent
     state :received
 
     event :submit, after: :submit_transfer_items do
-      transitions :from => :draft, :to => :sent, unless: :empty_transfer_item? #SALE
-      transitions :from => :sent, :to => :received, unless: :empty_transfer_item? #SALE
+      transitions :from => :draft, :to => :sent, after: :set_sent_date, unless: :empty_transfer_item? #SALE
+      transitions :from => :sent, :to => :received, after: :set_received_date, unless: :empty_transfer_item? #SALE
     end
 
   end
@@ -52,6 +54,14 @@ class Transfer < ActiveRecord::Base
   private
   def submit_transfer_items
     transfer_items.map(&:submit!)
+  end
+
+  def set_sent_date
+    self.sent_date ||= Time.now
+  end
+
+  def set_received_date
+    self.received_date ||= Time.now
   end
 
   def empty_transfer_item?

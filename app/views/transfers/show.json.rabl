@@ -6,7 +6,7 @@ child(from_store: :from_store) { attributes :id, :name }
 child(to_store: :to_store) { attributes :id, :name }
 child(sender: :sender) { attributes :id, :name }
 child(receiver: :receiver) { attributes :id, :name }
-node(:transfer_items_count) {|transfer| transfer.transfer_items.count }
+node(:transfer_items_count) {|transfer| transfer.transfer_items.size }
 node(:transfer_total_items_count) {|transfer| transfer.transfer_items.map(&:qty).inject(:+)}
 
 node(:can_edit) { |transfer| policy(transfer).edit? }
