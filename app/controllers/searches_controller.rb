@@ -16,12 +16,19 @@ class SearchesController < ApplicationController
   end
 
   def items
-    authorize Item, :search?
+    search_type = :admin_search
+    begin
+      authorize Item, :destroy?
+    rescue Pundit::NotAuthorizedError => e
+      authorize Item, :search?
+      search_type = :regular_search
+    end
     search_query = Item.build_search_query(params)
-    results = Item.where(search_query).reorder(updated_at: :desc).limit(30)
+    results = Item.where(search_query).reorder(updated_at: :desc).limit(30).as_json({type: search_type})
+    results.map{|item| item.transform_keys!{|key| Item::KEY_MAP[key] || key }}
     respond_to do |format|
       format.html {}
-      format.js {render json: results.as_json({type: :search})}
+      format.js {render json: results}
     end
   end
 
@@ -36,7 +43,7 @@ class SearchesController < ApplicationController
 
   def transfers
     authorize Transfer, :search?
-    @transfers = Transfer.search(params[:query])
+    @transfers = Transfer.search(params[:query]).limit(15)
   end
 
   def _

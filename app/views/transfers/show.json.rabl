@@ -12,5 +12,6 @@ node(:transfer_total_items_count) {|transfer| transfer.transfer_items.map(&:qty)
 node(:can_edit) { |transfer| policy(transfer).edit? }
 node(:can_transfer) {|transfer| policy(transfer).transfer? }
 node(:can_receive) {|transfer| policy(transfer).receive? }
+node(:can_delete) {|transfer| policy(transfer).destroy? }
 
 

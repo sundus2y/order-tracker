@@ -32,7 +32,7 @@ class TransferPolicy
   end
 
   def destroy?
-    new?
+    new? && @transfer.draft?
   end
 
   def submit?

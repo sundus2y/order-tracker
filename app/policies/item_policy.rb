@@ -85,7 +85,7 @@ class ItemPolicy
   end
 
   def destroy?
-    @current_user.admin?
+    @current_user.admin? && (@item.class == Class || @item.can_be_deleted?)
   end
 
   def search?

@@ -31,9 +31,21 @@ var updateFormAction = function() {
     });
 }
 
+var submitFormWithLink = function() {
+    $('body').on('click','a.form-submit',function (e) {
+        var action = $(this).data('action');
+        if (typeof(action) !== "undefined") {
+            $(this).closest('form').attr('action',action);
+        }
+        $(this).closest('form').submit();
+        e.preventDefault();
+    })
+}
+
 $(document).ready(function (){
     makeFormReadOnly();
     updateFormAction();
+    submitFormWithLink();
     $( "#date_from" ).datepicker({
         defaultDate: "+1w",
         changeMonth: true,

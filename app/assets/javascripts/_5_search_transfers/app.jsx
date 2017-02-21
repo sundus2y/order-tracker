@@ -46,7 +46,7 @@ window.globalSearchTransferApp = window.globalSearchTransferApp || {};
                         <th width="5%">Status</th>
                         <th width="8%">Total <br/>Item Type</th>
                         <th width="8%">Total <br/>Item Qty</th>
-                        <th>Actions</th>
+                        <th width="7%">Actions</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -31,7 +31,7 @@ class CustomerPolicy
   end
 
   def destroy?
-    @current_user.admin? || @current_user.sales?
+    (@current_user.admin? || @current_user.sales?) && @customer.can_be_deleted?
   end
 
   def search?

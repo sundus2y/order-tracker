@@ -6,19 +6,19 @@ var searchTransferApp = searchTransferApp || {};
 
         render: function() {
             var edit_action = (
-                <a className="btn btn-sm btn-primary btn-block fa fa-edit" href={'/transfers/'+this.props.data.id+'/edit'}> Edit</a>
+                <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/edit'}><i className="fa fa-edit"/> Edit</a></li>
             )
 
             var transfer_action = (
-                <a className="btn btn-sm btn-primary btn-block fa fa-exchange" href={'/transfers/'+this.props.data.id+'/submit'}> Transfer</a>
+                <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/submit'}><i className="fa fa-exchange"/> Transfer</a></li>
             )
 
             var receive_action = (
-                <a className="btn btn-sm btn-primary btn-block fa fa-exchange" href={'/transfers/'+this.props.data.id+'/receive'}> Receive</a>
+                <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/receive'}><i className="fa fa-exchange"/> Receive</a></li>
             )
 
             var delete_action = (
-                <a type="button" className="btn btn-sm btn-danger btn-block fa fa-trash" data-toggle="modal" data-target={'#confirm_transfer_delete_'+this.props.data.id+''}> Delete</a>
+                <li><a className="btn-danger item-pop-up-menu" href="" data-toggle="modal" data-target={'#confirm_transfer_delete_'+this.props.data.id+''}><i className="fa fa-trash"/> Delete</a></li>
             )
             
             var delete_action_confirm = (
@@ -53,12 +53,14 @@ var searchTransferApp = searchTransferApp || {};
                     <td className="right-align">{this.props.data.transfer_items_count}</td>
                     <td className="right-align">{this.props.data.transfer_total_items_count}</td>
                     <td>
-                        <div className="btn-group btn-block">
-                            <button type="button" className="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Actions <span className="caret"></span>
-                            </button>
-                            <ul className="dropdown-menu">
-                                <a className="btn btn-sm btn-block btn-primary fa fa-folder-open" href={'/transfers/'+this.props.data.id+''}> Open</a>
+                        <div className="btn-group">
+                            <a className="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                Actions <span className="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                            </a>
+                            <ul className="dropdown-menu context-menu">
+                                <li>
+                                    <a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+''}><i className="fa fa-folder-open"></i> Open</a>
+                                </li>
                                 {this.props.data.can_edit ? edit_action : ''}
                                 {this.props.data.can_transfer ? transfer_action : ''}
                                 {this.props.data.can_receive ? receive_action : ''}

@@ -1,19 +1,17 @@
-<div class="btn-group btn-block">
-  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Actions <span class="caret"></span>
-  </button>
-  <div class="container transfer-item dropdown-menu">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-6 menu-item">
-            <%= button_tag('Save', type: 'submit', class: 'btn btn-block btn-info btn-sm fa fa-save action pop_up') %>
-          </div>
-          <div class="col-md-6 menu-item">
-            <%= button_tag('Transfer', type: 'submit', class: 'btn btn-block btn-success btn-sm fa fa-exchange pop_up', data:{action: submit_transfer_path(@transfer)})%>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="btn-group">
+  <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+    Actions <span class="fa fa-caret-down"></span>
+  </a>
+  <ul class="dropdown-menu context-menu">
+    <li>
+      <a class='btn-primary item-pop-up-menu form-submit' href="">
+        <i class="fa fa-save"></i> Save
+      </a>
+    </li>
+    <li>
+      <a class='btn-success item-pop-up-menu form-submit' href="" data-action="<%= submit_transfer_path(@transfer)%>">
+        <i class="fa fa-exchange"></i> Transfer
+      </a>
+    </li>
+  </ul>
 </div>

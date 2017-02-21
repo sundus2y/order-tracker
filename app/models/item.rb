@@ -34,46 +34,55 @@ class Item < ActiveRecord::Base
   # INVALID_CHARS = %w(, . - _ : | \\ /)
   # INVALID_CHARS_REGEX = Regexp.new('\W')
 
+  KEY_MAP = {'regular_actions' => 'actions', 'admin_actions' => 'actions'}
+
   def as_json(options={})
     type = options.delete(:type) || :default
     case type
-      when :search
+      when :admin_search
         super({
                   only: [:id,:name,:original_number,:item_number,:prev_number,:next_number, :cost_price,
-                        :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made,:default_sale_price],
-                  methods: [:actions,:inventories_display]
+                         :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made,:default_sale_price],
+                  methods: [:admin_actions,:inventories_display]
+              }.merge(options))
+      when :regular_search
+        super({
+                  only: [:id,:name,:original_number,:item_number,:prev_number,:next_number,:description,:car,:model,:sale_price,:brand,:made,:default_sale_price],
+                  methods: [:regular_actions,:inventories_display]
               }.merge(options))
       when :default
         super options
     end
   end
 
-  def actions
+  def actions(type)
     url_helpers = Rails.application.routes.url_helpers
-    actions = <<-HTML
-      <div class="btn-group btn-block">
-        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Actions <span class="caret"></span>
-        </button>
-        <div class="container search-item dropdown-menu">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-4 menu-item">
-                  <a class='btn btn-block btn-info btn-sm fa fa-eye action pop_up' role='button' href='#{url_helpers.item_pop_up_show_path self}'> View</a>
-                </div>
-                <div class="col-md-4 menu-item">
-                  <a class='btn btn-block btn-success btn-sm fa fa-pencil pop_up' role='button' href='#{url_helpers.item_pop_up_edit_path self}'> Edit</a>
-                </div>
-                <div class="col-md-4 menu-item">
-                  <a class='btn btn-block btn-warning btn-sm fa fa-trash' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'> Delete</a>
-                </div>
-              </div>
-          </div>
-        </div>
+    view_action = "<li><a class='btn-primary action pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_show_path self}'><i class='fa fa-eye'></i> View</a></li>"
+    edit_action = "<li><a class='btn-primary action pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_edit_path self}'><i class='fa fa-pencil'></i> Edit</a></li>"
+    delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
+    add_to_order_action = "<li><a class='btn-primary item-pop-up-menu' href=''><i class='fa fa-truck'></i> Add to Order</a></li>"
+    actions_html = <<-HTML
+      <div class="btn-group">
+        <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          Actions <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+        </a>
+        <ul class="dropdown-menu context-menu">
+          #{view_action}
+          #{edit_action if type == :admin}
+          #{add_to_order_action if type == :admin}
+          #{delete_action if type == :admin && self.can_be_deleted?}
+        </ul>
       </div>
     HTML
-    actions.html_safe
+    actions_html.html_safe
+  end
+
+  def regular_actions
+    actions(:regular)
+  end
+
+  def admin_actions
+    actions(:admin)
   end
 
   def inventories_display

@@ -70,7 +70,7 @@
     <ul class="dropdown-menu context-menu">
       <% Store.minus_virtual.each do |store| %>
         <li>
-          <a href="<%= download_inventory_items_path(format: "xlsx", store_id: store.id) %>">
+          <a class='btn-primary item-pop-up-menu' href="<%= download_inventory_items_path(format: "xlsx", store_id: store.id) %>">
             <i class="fa fa-download"></i>
             <%= store.name %>
           </a>

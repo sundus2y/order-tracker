@@ -35,27 +35,19 @@ module ApplicationHelper
   end
 
   def actions(object)
+    view_action = "<li><a class='btn-primary item-pop-up-menu' href='#{send(object.class.name.underscore+'_path', object)}'><i class='fa fa-eye'></i> View</a></li>"
+    edit_action = "<li><a class='btn-primary item-pop-up-menu' href='#{send("edit_#{object.class.name.underscore}_path",object)}'><i class='fa fa-pencil'></i> Edit</a></li>"
+    delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{send(object.class.name.underscore+'_path', object)}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
     actions = <<-HTML
-      <div class="btn-group btn-block">
-        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Actions <span class="caret"></span>
-        </button>
-        <div class="container dropdown-menu">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-4 menu-item">
-                  #{link_to ' View', object, class: "btn btn-block btn-info btn-sm fa fa-eye action", role:"button"}
-                </div>
-                <div class="col-md-4 menu-item">
-                  #{link_to ' Edit', send("edit_#{object.class.name.underscore}_path",object), class: "btn btn-block btn-success btn-sm fa fa-pencil", role:"button"}
-                </div>
-                <div class="col-md-4 menu-item">
-                  #{link_to ' Delete', object, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-block btn-warning btn-sm fa fa-trash", role:"button" if object.can_be_deleted?}
-                </div>
-              </div>
-          </div>
-        </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          Actions <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+        </a>
+        <ul class="dropdown-menu context-menu">
+          #{view_action}
+          #{edit_action if policy(object).edit?}
+          #{delete_action if policy(object).destroy?}
+        </ul>
       </div>
     HTML
     actions.html_safe

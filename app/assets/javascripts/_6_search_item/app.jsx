@@ -213,7 +213,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         <th width="9%" rowSpan="2">Stock</th>
                         <th rowSpan="2">Brand</th>
                         <th rowSpan="2">Made</th>
-                        <th width="6%" rowSpan="2">Actions</th>
+                        <th width="7%" rowSpan="2">Actions</th>
                     </tr>
                     <tr>
                         <th>Sale</th>
