@@ -32,7 +32,10 @@ class OrderItemsController < ApplicationController
 
   def update
     flash[:notice] = 'OrderItem was successfully updated.' if @order_item.update(order_item_params)
-    respond_with(@order_item)
+    respond_to do |format|
+      format.html {respond_with(@order_item,location: order_items_path)}
+      format.js {render 'close_pop_up'}
+    end
   end
 
   def destroy
@@ -68,7 +71,7 @@ class OrderItemsController < ApplicationController
     end
 
     def order_item_params
-      params.require(:order_item).permit(:order_id, :item_name, :quantity)
+      params.require(:order_item).permit(:order_id, :item_name, :quantity, :brand)
     end
 
     def check_authorization

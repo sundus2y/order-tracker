@@ -34,6 +34,8 @@ Rails.application.routes.draw do
 
   get 'check_duplicate/:item_ids/:brand/:order_id', to:'order_items#check_duplicate'
 
+  get 'pop_up_add_item_to_order/:item_id', to:'orders#pop_up_add_item', as:'pop_up_add_item_to_order'
+
   resources :order_items
 
   resources :orders do

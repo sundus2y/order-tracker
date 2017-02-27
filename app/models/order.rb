@@ -1,9 +1,6 @@
 class Order < ActiveRecord::Base
   include AASM
 
-  enum brand: [:mobis,:gm, :ng]
-
-
   default_scope {includes(:order_items).reorder(created_at: :desc)}
   scope :draft, lambda { where(status: 'draft') }
   scope :ordered, lambda { where(status: 'ordered') }

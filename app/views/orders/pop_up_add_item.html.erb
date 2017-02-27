@@ -1,0 +1,122 @@
+<% content_for :modal_header, flush: true do %>
+    Add Item To Order
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    <% if @order_items.present? %>
+        <h4><b style="color: red">(<%=@original_item.name%>) - (<%=@original_item.original_number%>) is already found in the following orders.</b></h4>
+    <% end %>
+    <table class="table-responsive display table table-striped table-bordered">
+      <thead>
+      <th>Order #</th>
+      <th>Title</th>
+      <th>Created Date</th>
+      <th>Status</th>
+      <th>Action</th>
+      </thead>
+      <tbody>
+      <% if @order_items.present? %>
+          <% @order_items.each do |order_item| %>
+              <tr>
+                <td><%= link_to order_item.order.id, edit_order_path(order_item.order), class:'btn btn-primary'%></td>
+                <td><%= order_item.order.title %></td>
+                <td><%= order_item.order.created_at %></td>
+                <td><span class="badge"><%= order_item.order.status.upcase %></span></td>
+                <td>
+                  <%= form_for(order_item, remote: true) do |f| %>
+                      <input type="hidden" name="item_id" value="<%=@original_item.id%>">
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="input-group">
+                            <span class="input-group-addon">Qty</span>
+                            <%= f.number_field :quantity, required: true, class: 'form-control', readonly: !order_item.order.draft? %>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="input-group">
+                            <span class="input-group-addon">Brand</span>
+                            <%= f.text_field :brand, class: 'form-control', readonly: !order_item.order.draft? %>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <% if order_item.order.draft? %>
+                              <%= f.submit 'Update Existing Order', class: 'btn btn-primary'%>
+                          <% end %>
+                        </div>
+                      </div>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
+      <% end %>
+      <% if @open_orders.present? %>
+          <% @open_orders.each do |order| %>
+              <tr>
+                <td><%= link_to order.id, edit_order_path(order), class:'btn btn-primary'%></td>
+                <td><%= order.title %></td>
+                <td><%= order.created_at %></td>
+                <td><span class="badge"><%= order.status.upcase %></span></td>
+                <td>
+                  <%= form_for(order, remote: true) do |f| %>
+                      <input type="hidden" name="item_id" value="<%=@original_item.id%>">
+                      <%= f.fields_for :order_items, @new_order_item do |ff| %>
+                          <input type="hidden" name="order[order_items_attributes][0][item_id]" value="<%=@original_item.id%>">
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="input-group">
+                                <span class="input-group-addon">Qty</span>
+                                <%= ff.number_field :quantity, required: true, class: 'form-control' %>
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                              <div class="input-group">
+                                <span class="input-group-addon">Brand</span>
+                                <%= ff.text_field :brand, class: 'form-control' %>
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                              <%= f.submit 'Add to Existing Order', class: 'btn btn-primary'%>
+                            </div>
+                          </div>
+                      <% end %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end%>
+      <% end%>
+      <tr>
+        <td></td>
+        <td>(New Order)</td>
+        <td>(<%= DateTime.now %>)</td>
+        <td><span class="badge">DRAFT</span></td>
+        <td>
+          <%= form_for(@new_order, remote: true) do |f| %>
+              <input type="hidden" name="order[title]" value="New Order">
+              <%= f.fields_for :order_items, @new_order_item do |ff| %>
+                  <input type="hidden" name="order[order_items_attributes][0][item_id]" value="<%=@original_item.id%>">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="input-group">
+                        <span class="input-group-addon">Qty</span>
+                        <%= ff.number_field :quantity, required: true, class: 'form-control' %>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="input-group">
+                        <span class="input-group-addon">Brand</span>
+                        <%= ff.text_field :brand, class: 'form-control' %>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <%= f.submit 'Add to New Order', class: 'btn btn-primary'%>
+                    </div>
+                  </div>
+              <% end %>
+          <% end %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+<% end %>
+
+<%= render "/modals/base", id: 'pop_up' %>

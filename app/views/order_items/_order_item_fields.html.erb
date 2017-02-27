@@ -16,5 +16,7 @@
   <td>
     <%= f.text_field :description, class:'form-control', readonly: :true %>
   </td>
-  <td><%= f.select :brand, OrderItem.brands.keys.map {|role| [role.upcase,role]},{}, class:'form-control'%></td>
+  <td>
+    <%= f.text_field :brand, class:'form-control'%>
+  </td>
 </tr>

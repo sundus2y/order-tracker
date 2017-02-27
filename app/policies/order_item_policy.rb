@@ -35,15 +35,19 @@ class OrderItemPolicy
   end
 
   def update?
-    @current_user.admin? && @item.draft?
+    @current_user.admin? && @order_item.draft?
   end
 
   def edit?
-    @current_user.admin? && @item.draft?
+    @current_user.admin? && @order_item.draft?
   end
 
   def destroy?
-    @current_user.admin? && @item.draft?
+    @current_user.admin? && @order_item.draft?
+  end
+
+  def check_duplicate?
+    @current_user.admin?
   end
 
   def search?

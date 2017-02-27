@@ -44,7 +44,7 @@ class TransfersController < ApplicationController
 
   def destroy
     @transfer.destroy
-    respond_with(@transfer)
+    redirect_to(transfers_path)
   end
 
   def import_transfer_items

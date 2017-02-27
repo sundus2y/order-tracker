@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:item_number,:description], :limit => 20
   autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
 
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit]
 
   before_filter :authenticate_user!
   before_action :check_authorization
@@ -21,7 +21,6 @@ class ItemsController < ApplicationController
   end
 
   def pop_up_show
-    @item = Item.find(params[:item_id])
     set_transaction_log
     render 'pop_up_show', layout: false
   end
@@ -36,7 +35,6 @@ class ItemsController < ApplicationController
   end
 
   def pop_up_edit
-    @item = Item.find(params[:item_id])
     set_transaction_log
     render 'pop_up_edit', layout: false
   end
@@ -120,7 +118,7 @@ class ItemsController < ApplicationController
 
   private
     def set_item
-      @item = Item.find(params[:id])
+      @item = Item.find(params[:id]||params[:item_id])
     end
 
     def item_params

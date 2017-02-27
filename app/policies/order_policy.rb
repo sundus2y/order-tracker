@@ -35,18 +35,22 @@ class OrderPolicy
   end
 
   def update?
-    @current_user.admin? && @item.draft?
+    @current_user.admin? && @order.draft?
   end
 
   def edit?
-    @current_user.admin? && @item.draft?
+    @current_user.admin? && @order.draft?
   end
 
   def destroy?
-    @current_user.admin? && @item.draft?
+    @current_user.admin? && @order.draft?
   end
 
   def search?
+    @current_user.admin?
+  end
+
+  def pop_up_add_item?
     @current_user.admin?
   end
 

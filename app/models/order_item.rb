@@ -1,20 +1,14 @@
 class OrderItem < ActiveRecord::Base
   include AASM
 
-  enum brand: [:mobis,:gm, :ng]
-
   belongs_to :order, :counter_cache => true
   belongs_to :item
 
-
-
-  default_scope {includes(:item)}
   scope :draft, lambda { where(status: 'draft')}
   scope :ordered, lambda { where(status: 'ordered')}
   scope :ready, lambda { where(status: 'ready')}
   scope :accepted, lambda { where(status: 'accepted')}
   scope :rejected, lambda { where(status: 'rejected')}
-
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -70,9 +64,9 @@ class OrderItem < ActiveRecord::Base
 
   def self.find_duplicates(item_ids,brand,order_id)
     query = <<-SQL
-order_items.status != :status and item_id in (:item_id) and orders.brand = :brand and orders.id != :order_id
+      order_items.status != :status and item_id in (:item_id) and orders.brand = :brand and orders.id != :order_id
     SQL
-    found_order_items = OrderItem.joins(:order).where(query,
+    OrderItem.joins(:order).where(query,
                                   status:'received',
                                   item_id:item_ids,
                                   brand: Order.brands[brand],

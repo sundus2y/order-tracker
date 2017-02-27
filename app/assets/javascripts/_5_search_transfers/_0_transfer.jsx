@@ -18,7 +18,7 @@ var searchTransferApp = searchTransferApp || {};
             )
 
             var delete_action = (
-                <li><a className="btn-danger item-pop-up-menu" href="" data-toggle="modal" data-target={'#confirm_transfer_delete_'+this.props.data.id+''}><i className="fa fa-trash"/> Delete</a></li>
+                <li><a className="btn-danger item-pop-up-menu" data-toggle="modal" href="#" data-target={'#confirm_transfer_delete_'+this.props.data.id+''}><i className="fa fa-trash"/> Delete</a></li>
             )
             
             var delete_action_confirm = (
@@ -34,7 +34,7 @@ var searchTransferApp = searchTransferApp || {};
                                 Are you sure you want to delete <b>Transfer #{this.props.data.id}</b>?
                             </div>
                             <div className="modal-footer">
-                                <a className="btn btn-info" data-dismiss="modal" data-remote="true" rel="nofollow" data-method="delete" href={'/transfers/'+this.props.data.id+''}>Yes</a>
+                                <a className="btn btn-info" data-dismiss="modal" data-remote="true" rel="nofollow" data-method="delete" href={'/transfers/'+this.props.data.id}>Yes</a>
                                 <button type="button" className="btn btn-info" data-dismiss="modal">No</button>
                             </div>
                         </div>
@@ -64,7 +64,7 @@ var searchTransferApp = searchTransferApp || {};
                                 {this.props.data.can_edit ? edit_action : ''}
                                 {this.props.data.can_transfer ? transfer_action : ''}
                                 {this.props.data.can_receive ? receive_action : ''}
-                                {this.props.data.can_delete ? delete_action : ''}
+                                {this.props.data.can_delete ? '' : ''}
                             </ul>
                         </div>
                         {this.props.data.can_delete ? delete_action_confirm : ''}

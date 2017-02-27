@@ -29,7 +29,7 @@ class Item < ActiveRecord::Base
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
   validate :item_numbers_cannot_include_special_characters
 
-  default_scope { includes(:inventories,{inventories:[:store]})}
+  default_scope { includes(:sale_items,:order_items,:transfer_items,:inventories,{inventories:[:store]})}
 
   # INVALID_CHARS = %w(, . - _ : | \\ /)
   # INVALID_CHARS_REGEX = Regexp.new('\W')
@@ -57,10 +57,10 @@ class Item < ActiveRecord::Base
 
   def actions(type)
     url_helpers = Rails.application.routes.url_helpers
-    view_action = "<li><a class='btn-primary action pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_show_path self}'><i class='fa fa-eye'></i> View</a></li>"
-    edit_action = "<li><a class='btn-primary action pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_edit_path self}'><i class='fa fa-pencil'></i> Edit</a></li>"
+    view_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_show_path self}'><i class='fa fa-eye'></i> View</a></li>"
+    edit_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_edit_path self}'><i class='fa fa-pencil'></i> Edit</a></li>"
     delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
-    add_to_order_action = "<li><a class='btn-primary item-pop-up-menu' href=''><i class='fa fa-truck'></i> Add to Order</a></li>"
+    add_to_order_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.pop_up_add_item_to_order_path(item_id: self.id)}'><i class='fa fa-truck'></i> Add to Order</a></li>"
     actions_html = <<-HTML
       <div class="btn-group">
         <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">

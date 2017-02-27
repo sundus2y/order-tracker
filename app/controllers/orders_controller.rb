@@ -37,12 +37,18 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     flash[:notice] = 'Order was successfully created.' if @order.save
-    respond_with(@order,location:orders_path)
+    respond_to do |format|
+      format.html {respond_with(@order,location: orders_path)}
+      format.js {render 'close_pop_up'}
+    end
   end
 
   def update
     flash[:notice] = 'Order was successfully updated.' if @order.update(order_params)
-    respond_with(@order,location:edit_order_path)
+    respond_to do |format|
+      format.html {respond_with(@order,location: orders_path)}
+      format.js {render 'close_pop_up'}
+    end
   end
 
   def destroy
@@ -58,6 +64,17 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def pop_up_add_item
+    item = Item.find(params[:item_id])
+    @original_item = Item.where(original_number: item.original_number).first
+    @original_item = item if item.original_number == 'NA'
+    @order_items = OrderItem.where(item: @original_item).where.not(status: 'delivered').order(updated_at: :desc)
+    @open_orders = Order.joins(:order_items).where(status: 'draft').where.not(id: @order_items.map(&:order).map(&:id))
+    @new_order = Order.new()
+    @new_order_item = OrderItem.new()
+    render 'pop_up_add_item', layout: false
   end
 
   private
