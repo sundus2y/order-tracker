@@ -42,6 +42,9 @@ Rails.application.routes.draw do
     get :submit_to_ordered, as: :submit_to_ordered
     get :show_all, as: :show_all, on: :collection
     get :show_selected, as: :show_selected
+    member do
+      get :download
+    end
   end
 
   root to: 'dashboard#index'

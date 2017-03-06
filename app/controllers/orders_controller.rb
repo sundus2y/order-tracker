@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :download]
   before_action :set_orders, only:[:index, :show_all]
 
   before_filter :authenticate_user!
@@ -75,6 +75,12 @@ class OrdersController < ApplicationController
     @new_order = Order.new()
     @new_order_item = OrderItem.new()
     render 'pop_up_add_item', layout: false
+  end
+
+  def download
+    respond_to do |format|
+      format.xlsx { send_file @order.download}
+    end
   end
 
   private

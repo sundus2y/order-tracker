@@ -54,6 +54,10 @@ class OrderPolicy
     @current_user.admin?
   end
 
+  def download?
+    @current_user.admin?
+  end
+
   def resolve
     if @current_user.vendor?
       Order.ordered
