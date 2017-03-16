@@ -27,10 +27,10 @@
               <%= link_to(link_span('Submit'), order_submit_to_ordered_path(order), class: "btn btn-sm btn-primary fa fa-send", remote: true) %>
               <%= render 'modals/confirm_order_delete', id: "confirm_order_delete_#{order.id}", obj: order%>
               <button type="button" class="btn btn-sm btn-danger fa fa-trash" data-toggle="modal" data-target="#confirm_order_delete_<%= order.id %>"><%=link_span('Delete')%></button>
-              <%= link_to(link_span('Download'), download_order_path(order,format: "xlsx"), class: "btn btn-sm btn-primary fa fa-download") %>
           <% elsif order.ready? %>
               <%= link_to(link_span('Process Order'), '#', class: "btn btn-success") %>
           <% end %>
+          <%= link_to(link_span('Download'), download_order_path(order,format: "xlsx"), class: "btn btn-sm btn-primary fa fa-download") %>
         </td>
       </tr>
   <% end %>
