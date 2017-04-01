@@ -4,11 +4,11 @@
 </td>
 <td>
   <%= form_for(user) do |f| %>
-    Role: <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %><br>
-    Default Store: <%= f.select(:default_store_id, Store.minus_virtual.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control') %>
-    <%= f.submit 'Update User', :class => 'button-xs' %>
+    Role: <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
+    Default Store: <%= f.select(:default_store_id, Store.minus_virtual.map {|store| [store.name,store.id]},{include_blank: true})%>
+    <%= f.submit 'Update User', :class => 'btn btn-primary' %>
   <% end %>
 </td>
 <td>
-  <%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') unless user == current_user %>
+  <%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-danger') unless user == current_user %>
 </td>
