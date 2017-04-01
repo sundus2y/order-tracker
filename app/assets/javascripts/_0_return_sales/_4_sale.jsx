@@ -51,12 +51,12 @@ var returnSalesApp = returnSalesApp || {};
                         </td>
                         <td>
                             <div className="field form-group">
-                                Sale Attachment Number
+                                Sale Order Number
                             </div>
                         </td>
                         <td>
                             <div className="field form-group">
-                                Sale Attachment Date
+                                Sale Order Date
                             </div>
                         </td>
                         <td>

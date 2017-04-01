@@ -56,7 +56,7 @@ var app = app || {};
                     </td>
                     <td>
                         <div className={"field form-group "+this.props.saleItemData.status+"_item"}>
-                            {this.props.saleItemData.item.description}
+                            {this.props.saleItemData.item.brand}
                         </div>
                     </td>
                     <td>

@@ -366,6 +366,20 @@ brand = '#{item['brand']}')"
     log
   end
 
+  def sales_order_log(log)
+    s_items = sale_items.includes(:sale,sale:[:store])
+    s_items.each do |s_item|
+      if s_item.qty > 0
+        t = Transaction.new(s_item.sale.id,:sale,0,s_item.qty,s_item.created_at,s_item.status)
+      else
+        t = Transaction.new(s_item.sale.id,:sale,-s_item.qty,0,s_item.created_at,s_item.status)
+      end
+      log[s_item.sale.store] ||= []
+      log[s_item.sale.store] << t
+    end
+    log
+  end
+
   def to_s
     "#{original_number} |  #{name}"
   end

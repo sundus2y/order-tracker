@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     get :return, on: :collection
   end
 
+  resources :return_items
+
   resources :customers do
     get :autocomplete_customer_name, on: :collection
   end

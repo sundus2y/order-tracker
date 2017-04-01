@@ -1,6 +1,5 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
-  before_action :set_sales, only:[:index, :show_all]
 
   before_filter :authenticate_user!
   before_action :check_authorization, except: [:index, :new, :create, :submit_to_sold, :submit_to_credited, :submit_to_sampled, :mark_as_sold]
@@ -35,7 +34,7 @@ class SalesController < ApplicationController
     @sale = Sale.new(sale_params)
     authorize @sale
     if @sale.save
-      flash[:notice] = 'Sale Attachment was successfully created.'
+      flash[:notice] = 'Sale Order was successfully created.'
       respond_with(@sale,location: edit_sale_path(@sale))
     else
       respond_with(@sale)

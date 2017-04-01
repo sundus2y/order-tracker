@@ -38,9 +38,9 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                 <table className="table-responsive display table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th width="5%">Att #</th>
+                        <th width="13%">Sales Order #</th>
                         <th>Customer</th>
-                        <th>Created at</th>
+                        <th>Created At</th>
                         <th width="5%">Status</th>
                         <th>Grand Total</th>
                         <th>Actions</th>

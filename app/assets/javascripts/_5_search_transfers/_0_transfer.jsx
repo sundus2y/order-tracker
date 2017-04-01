@@ -55,7 +55,7 @@ var searchTransferApp = searchTransferApp || {};
                     <td>
                         <div className="btn-group">
                             <a className="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                                Actions <span className="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                                Actions <span className="fa fa-caret-down"></span>
                             </a>
                             <ul className="dropdown-menu context-menu">
                                 <li>

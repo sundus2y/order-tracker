@@ -67,6 +67,10 @@ class Sale < ActiveRecord::Base
     search_query
   end
 
+  def formatted_created_at
+    created_at.to_formatted_s(:long)
+  end
+
   def status_upcase
     status.upcase
   end
@@ -109,7 +113,7 @@ class Sale < ActiveRecord::Base
 
     def set_transaction_num
       counter = TransactionNumCounter.get_transaction_next_num_for(store.id)
-      self.transaction_num = "INV-#{created_at.strftime('%Y%m%d')}-#{store.id}-#{counter}"
+      self.transaction_num = "S-ORD-#{created_at.strftime('%Y%m%d')}-#{store.id}-#{counter}"
     end
 
 end

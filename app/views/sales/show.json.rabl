@@ -1,6 +1,6 @@
 object @sale
 
-attributes :id, :created_at, :grand_total, :status_upcase
+attributes :id, :formatted_created_at, :grand_total, :status_upcase, :transaction_num
 
 child(:customer) { attributes :name }
 
