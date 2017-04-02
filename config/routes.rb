@@ -21,6 +21,9 @@ Rails.application.routes.draw do
     match :submit_to_credited, as: :submit_to_credited, via: [:patch,:get]
     match :submit_to_sampled, as: :submit_to_sampled, via: [:patch,:get]
     get :return, on: :collection
+    member do
+      get :print
+    end
   end
 
   resources :return_items
@@ -59,6 +62,7 @@ Rails.application.routes.draw do
   resources :items do
     get :autocomplete_item_name, on: :collection
     get :autocomplete_item_sale_price, on: :collection
+    get :autocomplete_item_sale_order, on: :collection
     post :import, on: :collection
     post :import_non_original, on: :collection
     post :bulk_update, on: :collection

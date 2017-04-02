@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:item_number,:description], :limit => 20
   autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
+  autocomplete :item, :sale_order, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
 
   before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit]
 
@@ -143,11 +144,13 @@ class ItemsController < ApplicationController
     end
 
     def get_autocomplete_items(parameters)
-      model = parameters[:model]
-      limit = parameters[:options][:limit]
-      data = parameters[:options][:extra_data]
-      data << parameters[:method]
-      model.where('LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term)', term: "%#{parameters[:term]}%").limit(limit)
+      if parameters[:method] == :sale_order
+        result = Item.autocomplete_for_sales(parameters[:term],parameters[:options][:limit])
+        ActiveRecord::Associations::Preloader.new.preload(result, :inventories)
+        result
+      else
+        model.where('LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term)', term: "%#{parameters[:term]}%").limit(limit)
+      end
     end
 
     def check_authorization

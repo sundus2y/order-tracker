@@ -7,19 +7,19 @@ var searchTransferApp = searchTransferApp || {};
         render: function() {
             var edit_action = (
                 <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/edit'}><i className="fa fa-edit"/> Edit</a></li>
-            )
+            );
 
             var transfer_action = (
                 <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/submit'}><i className="fa fa-exchange"/> Transfer</a></li>
-            )
+            );
 
             var receive_action = (
                 <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/receive'}><i className="fa fa-exchange"/> Receive</a></li>
-            )
+            );
 
             var delete_action = (
                 <li><a className="btn-danger item-pop-up-menu" data-toggle="modal" href="#" data-target={'#confirm_transfer_delete_'+this.props.data.id+''}><i className="fa fa-trash"/> Delete</a></li>
-            )
+            );
             
             var delete_action_confirm = (
                 <div className="modal fade" data-duplicate="true" id={'confirm_transfer_delete_'+this.props.data.id+''}>
@@ -40,7 +40,7 @@ var searchTransferApp = searchTransferApp || {};
                         </div>
                     </div>
                 </div>
-            )
+            );
 
             return (
                 <tr data-id={this.props.data.id}>

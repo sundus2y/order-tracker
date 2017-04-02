@@ -1,0 +1,21 @@
+<%= render 'form', viewOnlyMode: true, show_sale_items: true %>
+<hr class="hr-dark">
+<div class="row">
+  <div class="col-xs-9">
+    <div class="field form-group">
+      <label for="created_by">Created By: </label>
+      <span><%= @sale.creator.name %></span>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <div class="field form-group" style="text-align: right">
+      <label for="created_by">Printed By: </label>
+      <span><%= @current_user.name %></span>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+      print();
+  });
+</script>

@@ -67,6 +67,10 @@ class SalePolicy
     new?
   end
 
+  def print?
+    show?
+  end
+
   def resolve
     if @current_user.sales?
       Sale.draft.page(@params[:page]).per_page(10)

@@ -7,27 +7,31 @@ var searchSaleApp = searchSaleApp || {};
         render: function() {
             var edit_action = (
                 <li><a className="btn btn-primary item-pop-up-menu" href={'/sales/'+this.props.data.id+'/edit'}><i className="fa fa-edit"/> Edit</a></li>
-            )
+            );
+
+            var print_action = (
+                <li><a className="btn btn-primary item-pop-up-menu" href={'/sales/'+this.props.data.id+'/print'} target="_blank"><i className="fa fa-print"/> Print</a></li>
+            );
 
             var credit_action = (
                 <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_credited'}><i className="fa fa-exchange"/> Credit</a></li>
-            )
+            );
 
             var sample_action = (
                 <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_sampled'}><i className="fa fa-exchange"/> Sample</a></li>
-            )
+            );
 
             var sale_action = (
                 <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_sold'}><i className="fa fa-send"/> Submit</a></li>
-            )
+            );
 
             var mark_as_sold_action = (
                 <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/mark_as_sold'}><i className="fa fa-send"/> Mark as Sold</a></li>
-            )
+            );
 
             var delete_action = (
                 <li><a className="btn btn-danger item-pop-up-menu" data-toggle="modal" data-target={'#confirm_sale_delete_'+this.props.data.id+''}><i className="fa fa-trash"/> Delete</a></li>
-            )
+            );
 
             var delete_action_confirm = (
                 <div className="modal fade" data-duplicate="true" id={'confirm_sale_delete_'+this.props.data.id+''}>
@@ -48,12 +52,13 @@ var searchSaleApp = searchSaleApp || {};
                         </div>
                     </div>
                 </div>
-            )
+            );
 
             return (
                 <tr data-id={this.props.data.id}>
                     <td>{this.props.data.transaction_num}</td>
                     <td>{this.props.data.customer.name}</td>
+                    <td>{this.props.data.store.name}</td>
                     <td>{this.props.data.formatted_created_at}</td>
                     <td><span className="badge">{this.props.data.status_upcase}</span></td>
                     <td className="right-align">{this.props.data.grand_total}</td>
@@ -71,6 +76,7 @@ var searchSaleApp = searchSaleApp || {};
                                 {this.props.data.can_mark_as_sold ? mark_as_sold_action : ''}
                                 {this.props.data.can_credit ? credit_action : ''}
                                 {this.props.data.can_sample ? sample_action : ''}
+                                {print_action}
                                 {this.props.data.can_delete ? delete_action : ''}
                             </ul>
                         </div>

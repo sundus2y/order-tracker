@@ -40,6 +40,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                     <tr>
                         <th width="13%">Sales Order #</th>
                         <th>Customer</th>
+                        <th>Store</th>
                         <th>Created At</th>
                         <th width="5%">Status</th>
                         <th>Grand Total</th>

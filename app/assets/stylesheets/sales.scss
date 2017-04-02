@@ -24,7 +24,6 @@ span.selected-ac-close {
   display: inline-block;
 }
 
-@media all {
-  .no-print { display:none !important; }
-  .printable { font-size: 10px !important;}
+@media print {
+  .no-print { display:none; }
 }

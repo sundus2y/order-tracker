@@ -431,6 +431,16 @@ prev_number next_number sale_price dubai_price
 korea_price default_sale_price size cost_price).map{|col| [col.titleize, col]}
   end
 
+  def self.autocomplete_for_sales(term,limit)
+    find_by_sql("SELECT * FROM items WHERE LOWER(item_number) LIKE LOWER('%#{term}%')
+                            ORDER BY CASE
+                              WHEN item_number LIKE LOWER('#{term}%') THEN 1
+                              WHEN item_number LIKE LOWER('%#{term}') THEN 3
+                              ELSE 2
+                            END
+                            LIMIT #{limit}")
+  end
+
 private
   def self.create_new(new_records)
     inserts = []

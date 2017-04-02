@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330231404) do
+ActiveRecord::Schema.define(version: 20170402075257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20170330231404) do
     t.string   "status"
     t.integer  "sale_items_count", default: 0
     t.string   "transaction_num"
+    t.integer  "creator_id"
   end
 
   create_table "stores", force: :cascade do |t|
@@ -164,8 +165,8 @@ ActiveRecord::Schema.define(version: 20170330231404) do
     t.integer  "transfer_items_count", default: 0
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
-    t.date     "sent_date"
-    t.date     "received_date"
+    t.datetime "sent_date"
+    t.datetime "received_date"
   end
 
   create_table "users", force: :cascade do |t|

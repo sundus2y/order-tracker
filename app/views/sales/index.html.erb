@@ -2,26 +2,10 @@
     Sale Orders
 <% end %>
 
-<ul class="nav nav-tabs">
-  <li>
-    <a href="#search_sales_tab" data-toggle="tab"> Search </a>
-  </li>
-  <li class="active">
-    <a href="#sales_tab" data-toggle="tab">View All</a>
-  </li>
-</ul>
-
 <div class="tab-content">
-  <div id="search_sales_tab" class="tab-pane fade in">
+  <div id="search_sales_tab" class="tab-pane fade in active">
     <div>
       <%= render 'search'%>
-    </div>
-  </div>
-  <div id="sales_tab", class="tab-pane fade in active">
-    <div class="field form-group float_right">
-      <%= select_tag :store_id, options_from_collection_for_select(Store.for_sales, "id", "name", current_user.default_store_id), class: 'form-control' %>
-    </div>
-    <div id="store_sales">
     </div>
   </div>
 </div>

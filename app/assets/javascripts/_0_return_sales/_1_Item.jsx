@@ -40,7 +40,6 @@ var returnSalesApp = returnSalesApp || {};
                         <span id="item-autocomplete">
                             <input className="form-control" id="search_item_field"
                                    type="text"
-                                   className="form-control"
                                    data-autocomplete="/items/autocomplete_item_sale_price"
                                    data-name-element="#search_item_id"
                                    placeholder="Enter item to return. . ."

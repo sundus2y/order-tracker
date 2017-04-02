@@ -3,6 +3,7 @@ object @sale
 attributes :id, :formatted_created_at, :grand_total, :status_upcase, :transaction_num
 
 child(:customer) { attributes :name }
+child(:store) { attributes :name }
 
 node(:sale_items_count) { |sale| sale.sale_items.count }
 node(:can_edit) { |sale| policy(sale).edit? }

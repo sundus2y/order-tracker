@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: [:show, :edit, :update, :destroy]
+  before_action :set_sale, only: [:show, :edit, :update, :destroy, :print]
 
   before_filter :authenticate_user!
   before_action :check_authorization, except: [:index, :new, :create, :submit_to_sold, :submit_to_credited, :submit_to_sampled, :mark_as_sold]
@@ -31,7 +31,7 @@ class SalesController < ApplicationController
   end
 
   def create
-    @sale = Sale.new(sale_params)
+    @sale = Sale.new(sale_params.merge({creator_id: current_user.id}))
     authorize @sale
     if @sale.save
       flash[:notice] = 'Sale Order was successfully created.'
@@ -55,9 +55,13 @@ class SalesController < ApplicationController
     authorize @sale
     @sale.submit!
     respond_to do |format|
-      format.html {redirect_to(sales_path)}
+      format.html {redirect_to(sale_path @sale)}
       format.js {render 'remove_draft_actions' and return}
     end
+  end
+
+  def print
+    render 'print', layout: 'print'
   end
 
   def mark_as_sold
@@ -72,7 +76,7 @@ class SalesController < ApplicationController
     authorize @sale
     @sale.credit!
     respond_to do |format|
-      format.html {redirect_to(sales_path)}
+      format.html {redirect_to(sale_path @sale)}
       format.js {render 'remove_draft_actions' and return}
     end
   end
@@ -82,7 +86,7 @@ class SalesController < ApplicationController
     authorize @sale
     @sale.sample!
     respond_to do |format|
-      format.html {redirect_to(sales_path)}
+      format.html {redirect_to(sale_path @sale)}
       format.js {render 'remove_draft_actions' and return}
     end
   end
@@ -98,7 +102,7 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:customer_id, :store_id, :remark, :created_at)
+      params.require(:sale).permit(:customer_id, :store_id, :remark)
     end
 
     def check_authorization

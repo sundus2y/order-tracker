@@ -3,10 +3,11 @@ class Sale < ActiveRecord::Base
   has_many :sale_items, dependent: :destroy
   belongs_to :customer
   belongs_to :store
+  belongs_to :creator, class_name: 'User'
 
   before_create :set_transaction_num
 
-  validates_presence_of :customer_id, :store_id, :created_at
+  validates_presence_of :customer_id, :store_id
 
   include AASM
 
@@ -60,6 +61,7 @@ class Sale < ActiveRecord::Base
     search_query = all.includes(:customer).reorder(updated_at: :desc)
     search_query = search_query.where(customer_id: params[:customer_id]) if params[:customer_id].present?
     search_query = search_query.where(status: params[:status].downcase) if params[:status].present?
+    search_query = search_query.where(store_id: params[:store_id]) if params[:store_id].present?
     if params[:date_from].present?
       search_query  = search_query.where("created_at >= '#{params[:date_from]}'")
       search_query = search_query.where("created_at <= '#{params[:date_to]}'") if params[:date_to].present?
@@ -68,7 +70,7 @@ class Sale < ActiveRecord::Base
   end
 
   def formatted_created_at
-    created_at.to_formatted_s(:long)
+    created_at.to_formatted_s(:long) if created_at
   end
 
   def status_upcase

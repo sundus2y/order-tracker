@@ -57,11 +57,11 @@ class Transfer < ActiveRecord::Base
   end
 
   def set_sent_date
-    self.sent_date ||= Time.now
+    self.sent_date ||= DateTime.now
   end
 
   def set_received_date
-    self.received_date ||= Time.now
+    self.received_date ||= DateTime.now
   end
 
   def empty_transfer_item?

@@ -76,6 +76,10 @@ class ItemPolicy
     @current_user.admin? || @current_user.sales?
   end
 
+  def autocomplete_item_sale_order?
+    autocomplete_item_sale_price?
+  end
+
   def update?
     @current_user.admin?
   end
