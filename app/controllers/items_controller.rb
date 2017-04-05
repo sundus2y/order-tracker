@@ -149,6 +149,10 @@ class ItemsController < ApplicationController
         ActiveRecord::Associations::Preloader.new.preload(result, :inventories)
         result
       else
+        model = parameters[:model]
+        limit = parameters[:options][:limit]
+        data = parameters[:options][:extra_data]
+        data << parameters[:method]
         model.where('LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term)', term: "%#{parameters[:term]}%").limit(limit)
       end
     end
