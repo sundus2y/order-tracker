@@ -71,7 +71,7 @@ class OrdersController < ApplicationController
     @original_item = Item.where(original_number: item.original_number).first
     @original_item = item if item.original_number == 'NA'
     @order_items = OrderItem.where(item: @original_item).where.not(status: 'delivered').order(updated_at: :desc)
-    @open_orders = Order.joins(:order_items).where(status: ['draft','ordered'])
+    @open_orders = Order.joins(:order_items).where(status: 'draft')
     @new_order = Order.new()
     @new_order_item = OrderItem.new()
     render 'pop_up_add_item', layout: false
