@@ -26,6 +26,13 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                 );
             }, this);
 
+            var grandTotal = this.state.sales.reduce(function(total,sale){
+                if(sale.status_upcase !== 'DRAFT'){
+                    total += sale.grand_total;
+                }
+                return total;
+            },0);
+
             var noResultRow = (
                 <tr>
                     <td colSpan="6" className="center-aligned">
@@ -50,6 +57,17 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                     <tbody>
                         {this.state.sales.length == 0 ? noResultRow : salesResultRow}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td className="grand_total" colSpan='5'>
+                                <span><b>Grand Total</b></span>
+                            </td>
+                            <td className="grand_total">
+                                <strong>{grandTotal.toFixed(2)}</strong>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             );
         }
