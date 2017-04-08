@@ -1,14 +1,58 @@
 <table>
-  <thead><td>Newly Created Items Listing (<%= @created_items.count %>)</td></thead>
-  <% @created_items.each do |item| %>
-      <tr><td><%= pp item %></tr></td>
-  <% end %>
-  <thead><td>Newly Cloned Items Listing (<%= @cloned_items.count %>)<td></thead>
-  <% @cloned_items.each do |item| %>
-      <tr><td><%= pp item %></tr></td>
-  <% end %>
-  <thead><td>Error Items Listing<td> (<%= @error_items.count %>)</thead>
+  <thead>
+  <tr>
+    <th colspan="7">Error Items Listing (<%= @error_items.count %>)</th>
+  </tr>
+  <tr>
+    <th>Item Number</th>
+    <th>Original Number</th>
+    <th>Name</th>
+    <th>Made</th>
+    <th>Brand</th>
+    <th>Size</th>
+    <th>Description</th>
+  </tr>
+  <tbody>
   <% @error_items.each do |item| %>
-      <tr><td><%= pp item %></tr></td>
+      <tr>
+        <% item.values.each do |v| %>
+            <td><%= v %></td>
+        <% end %>
+      </tr>
   <% end %>
+  </tbody>
+  </thead>
+  <thead>
+  <tr>
+    <th colspan="7">Newly Created Items Listing (<%= @created_items.count %>)</th>
+  </tr>
+  <tr>
+    <th>Item Number</th>
+    <th>Original Number</th>
+    <th>Name</th>
+    <th>Made</th>
+    <th>Brand</th>
+    <th>Size</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @created_items.each do |item| %>
+      <tr>
+      <% item.values.each do |v| %>
+        <td><%= v %></td>
+      <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+  <thead>
+  <tr>
+    <th colspan="7">Newly Cloned Items Listing (<%= @cloned_items.count %>)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @cloned_items.each do |item| %>
+      <tr><td colspan="7"><%= pp item %></td></tr>
+  <% end %>
+  </tbody>
 </table>

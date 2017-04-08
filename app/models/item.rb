@@ -492,7 +492,11 @@ private
 
   def self.clone_new(clone_records)
     original_records = where(original_number: clone_records.map { |item| item['original_number'] })
-    clone_records.each do |clone_record|
+    puts clone_records.count
+    clone_records.each_with_index do |clone_record,index|
+      puts index
+      found = Item.where(clone_record.slice('item_number','original_number','made','brand'))
+      next unless found.empty?
       cloned = original_records.select{|o_record| o_record.original_number == clone_record['original_number']}.first.dup
       cloned.item_number = clone_record['item_number']
       cloned.made = clone_record['made']

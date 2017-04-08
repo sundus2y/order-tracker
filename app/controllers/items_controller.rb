@@ -4,6 +4,7 @@ class ItemsController < ApplicationController
   autocomplete :item, :sale_order, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
 
   before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit]
+  before_action :set_transaction_log, only: [:show, :edit, :pop_up_edit, :pop_up_show]
 
   before_filter :authenticate_user!
   before_action :check_authorization
@@ -17,26 +18,23 @@ class ItemsController < ApplicationController
   end
 
   def show
-    set_transaction_log
     respond_with(@item)
   end
 
   def pop_up_show
-    set_transaction_log
     render 'pop_up_show', layout: false
   end
 
   def new
     @item = Item.new
+    set_transaction_log
     respond_with(@item)
   end
 
   def edit
-    set_transaction_log
   end
 
   def pop_up_edit
-    set_transaction_log
     render 'pop_up_edit', layout: false
   end
 

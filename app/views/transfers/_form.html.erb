@@ -59,5 +59,6 @@
 <% if @transfer.note == 'QTY-IMPORT' %>
     <%= form_tag transfer_import_transfer_items_path(@transfer), multipart: true do %>
         <%= file_field_tag :file %>
+        <%= button_tag('Upload', type: 'submit') %>
     <% end %>
 <% end %>
