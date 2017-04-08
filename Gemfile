@@ -18,10 +18,10 @@ gem 'react-rails'
 gem 'showdown-rails'
 gem 'rabl'
 gem 'oj'
+gem 'awesome_print'
 
 group :development, :test do
   gem 'byebug'
-  gem 'awesome_print'
   gem 'web-console', '~> 2.0'
   gem 'spring'
 end
