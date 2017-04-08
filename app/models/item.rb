@@ -224,22 +224,25 @@ class Item < ActiveRecord::Base
         end
       end
     end
-    sql = []
-    raw_data.each_with_index do |item|
-      sql << "( item_number = '#{item['item_number']}' and
-original_number = '#{item['original_number']}' and
-made = '#{item['made']}' and
-brand = '#{item['brand']}')"
-    end
-    items = Item.where(sql.join('or'))
+    SearchItem.multiple_insert(raw_data.uniq!)
+    query = <<-SQL
+SELECT i.*
+FROM items i
+INNER JOIN search_items si
+ON i.item_number = si.item_number
+AND i.original_number = si.original_number
+AND i.brand = si.brand
+AND i.made = si.made
+    SQL
+    items = Item.find_by_sql(query)
     items.each do |item|
-      raw_item = raw_data.select{ |i| item.item_number == i['item_number'] && item.original_number == i['original_number'] && item.made == i['made'] && item.brand == i['brand']}[0]
-      raw_item['found'] = true
+      raw_items = raw_data.select{ |i| item.item_number == i['item_number'] && item.original_number == i['original_number'] && item.made == i['made'] && item.brand == i['brand']}
+      raw_items.each { |raw_item| raw_item['found'] = true}
       begin
-        item.update(update_field.to_sym => raw_item[update_field])
+        item.update(update_field.to_sym => raw_items[0][update_field])
         update_list << item
       rescue Exception => e
-        error_list << raw_item
+        error_list << raw_items[0]
       end
     end
     error_list += raw_data.select{|i| !i['found']}

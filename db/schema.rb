@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170402075257) do
+ActiveRecord::Schema.define(version: 20170408013109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_trgm"
+
+  create_table "cars", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.string   "vin_no"
+    t.string   "plate_no"
+    t.string   "year"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "customers", force: :cascade do |t|
     t.string   "name"
@@ -117,6 +126,13 @@ ActiveRecord::Schema.define(version: 20170402075257) do
     t.integer  "sale_items_count", default: 0
     t.string   "transaction_num"
     t.integer  "creator_id"
+  end
+
+  create_table "search_items", force: :cascade do |t|
+    t.string "item_number"
+    t.string "original_number"
+    t.string "made"
+    t.string "brand"
   end
 
   create_table "stores", force: :cascade do |t|
