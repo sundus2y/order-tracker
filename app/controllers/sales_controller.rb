@@ -47,7 +47,10 @@ class SalesController < ApplicationController
   end
 
   def destroy
-    @sale.destroy
+    @sale.delete_draft!
+    respond_to do |format|
+      format.js {render 'reload_search' and return}
+    end
   end
 
   def submit_to_sold
@@ -56,7 +59,7 @@ class SalesController < ApplicationController
     @sale.submit!
     respond_to do |format|
       format.html {redirect_to(sale_path @sale)}
-      format.js {render 'remove_draft_actions' and return}
+      format.js {render 'reload_search' and return}
     end
   end
 
@@ -68,7 +71,10 @@ class SalesController < ApplicationController
     @sale = Sale.find(params[:sale_id])
     authorize @sale
     @sale.mark_as_sold!
-    render 'remove_draft_actions' and return
+    respond_to do |format|
+      format.html {redirect_to(sale_path @sale)}
+      format.js {render 'reload_search' and return}
+    end
   end
 
   def submit_to_credited
@@ -77,7 +83,7 @@ class SalesController < ApplicationController
     @sale.credit!
     respond_to do |format|
       format.html {redirect_to(sale_path @sale)}
-      format.js {render 'remove_draft_actions' and return}
+      format.js {render 'reload_search' and return}
     end
   end
 
@@ -87,7 +93,7 @@ class SalesController < ApplicationController
     @sale.sample!
     respond_to do |format|
       format.html {redirect_to(sale_path @sale)}
-      format.js {render 'remove_draft_actions' and return}
+      format.js {render 'reload_search' and return}
     end
   end
 

@@ -32,7 +32,7 @@ class SalePolicy
   end
 
   def destroy?
-    edit?
+    edit? && @sale.may_delete_draft?
   end
 
   def search?

@@ -57,6 +57,7 @@ $(document).ready(function (){
             });
         }
     });
+    $( "#date_from" ).datepicker('setDate', 'today');
     $( "#date_to" ).datepicker({
         defaultDate: "+1w",
         changeMonth: true,
@@ -68,6 +69,7 @@ $(document).ready(function (){
             });
         }
     });
+    $( "#date_to" ).datepicker('setDate', '+1d');
 
     $('body').on('click', 'a.btn-group-toggle', function(e){
         $(this).parent().find('.dd-menu').toggleClass('hidden');

@@ -45,6 +45,10 @@ class SaleItem < ActiveRecord::Base
       transitions :from => [:sold,:credited,:sampled], :to => :void, after: [:minus_qty, :update_inventory] #ADMIN
     end
 
+    event :delete_draft do
+      transitions :from => :draft, :to => :void
+    end
+
     event :return_item do
       transitions :from => [:sold,:credited,:sampled], :to => :returned, after: [:minus_qty, :update_inventory]
     end

@@ -35,7 +35,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="6" className="center-aligned">
+                    <td colSpan="7" className="center-aligned">
                         No Sales Found for the given criteria.
                     </td>
                 </tr>

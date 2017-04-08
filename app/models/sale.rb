@@ -48,6 +48,10 @@ class Sale < ActiveRecord::Base
       transitions :from => [:sold,:credited,:sampled], :to => :void #ADMIN
     end
 
+    event :delete_draft do
+      transitions :from => :draft, :to => :void
+    end
+
     event :return_sale do
       transitions :from => [:sold,:accepted], :to => :returned, if: :empty_sold_item?
     end
@@ -58,7 +62,7 @@ class Sale < ActiveRecord::Base
   end
 
   def self.search(params)
-    search_query = all.includes(:customer).reorder(updated_at: :desc)
+    search_query = all.includes(:customer).reorder(created_at: :desc)
     search_query = search_query.where(customer_id: params[:customer_id]) if params[:customer_id].present?
     search_query = search_query.where(status: params[:status].downcase) if params[:status].present?
     search_query = search_query.where(store_id: params[:store_id]) if params[:store_id].present?

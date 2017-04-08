@@ -24,6 +24,10 @@ span.selected-ac-close {
   display: inline-block;
 }
 
+tr.VOID{
+  background-color: #fcffc8 !important;
+}
+
 @media print {
   .no-print { display:none; }
 }

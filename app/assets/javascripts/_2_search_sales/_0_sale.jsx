@@ -55,7 +55,7 @@ var searchSaleApp = searchSaleApp || {};
             );
 
             return (
-                <tr data-id={this.props.data.id}>
+                <tr data-id={this.props.data.id} className={this.props.data.status_upcase}>
                     <td>{this.props.data.transaction_num}</td>
                     <td>{this.props.data.customer.name}</td>
                     <td>{this.props.data.store.name}</td>
