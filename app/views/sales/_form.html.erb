@@ -1,4 +1,4 @@
-<%= link_to('Print', print_sale_path(@sale), target: '_blank', class:'btn btn-primary btn-block no-print') unless @sale.new_record? %>
+<%= link_to('Print', print_sale_path(@sale), target: '_blank', class:'btn btn-primary btn-block no-print') if policy(@sale).print? %>
 <%= form_for(@sale, data: {readOnly: viewOnlyMode}) do |f| %>
   <% if @sale.errors.any? %>
     <div id="error_explanation">

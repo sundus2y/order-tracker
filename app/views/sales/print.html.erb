@@ -1,3 +1,8 @@
+<div class="field">
+  <h4>
+    Sales Order#: <%= @sale.transaction_num %>
+  </h4>
+</div>
 <%= render 'form', viewOnlyMode: true, show_sale_items: true %>
 <hr class="hr-dark">
 <div class="row">
@@ -16,6 +21,8 @@
 </div>
 <script>
   $(document).ready(function(){
-      print();
+      setTimeout(function(){
+        print();
+      },1230);
   });
 </script>

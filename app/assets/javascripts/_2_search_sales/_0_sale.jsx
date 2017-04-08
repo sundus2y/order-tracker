@@ -76,7 +76,7 @@ var searchSaleApp = searchSaleApp || {};
                                 {this.props.data.can_mark_as_sold ? mark_as_sold_action : ''}
                                 {this.props.data.can_credit ? credit_action : ''}
                                 {this.props.data.can_sample ? sample_action : ''}
-                                {print_action}
+                                {this.props.data.can_print ? print_action : ''}
                                 {this.props.data.can_delete ? delete_action : ''}
                             </ul>
                         </div>

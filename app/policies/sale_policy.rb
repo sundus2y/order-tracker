@@ -68,7 +68,7 @@ class SalePolicy
   end
 
   def print?
-    show?
+    show? && !@sale.draft?
   end
 
   def resolve

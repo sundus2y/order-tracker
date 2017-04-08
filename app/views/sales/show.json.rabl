@@ -11,4 +11,5 @@ node(:can_submit) { |sale| policy(sale).submit_to_sold? }
 node(:can_mark_as_sold) { |sale| policy(sale).mark_as_sold? }
 node(:can_credit) { |sale| policy(sale).submit_to_credited? }
 node(:can_sample) { |sale| policy(sale).submit_to_sampled? }
+node(:can_print) { |sale| policy(sale).print? }
 node(:can_delete) { |sale| policy(sale).destroy? }
