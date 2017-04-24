@@ -115,6 +115,26 @@ class ItemsController < ApplicationController
     end
   end
 
+  def ip_xp
+    item_number_list = []
+    line_items = params['item_number_list'].split("\r\n")
+    msg = "Please make sure the list is formatted as <b>'ItemNumber [space or tab] Brand'. <br> Submitted List:</b> <br>".html_safe +
+        line_items.join('<br>'.html_safe).html_safe
+    line_items.each do |v|
+      row = v.split("\t")
+      if row.count != 2
+        row = v.split(" ")
+        if row.count != 2
+          return redirect_to request.referrer, notice: msg
+        end
+      end
+      item_number_list << row
+    end
+    respond_to do |format|
+      format.xlsx { send_file Item.ip_xp(item_number_list)}
+    end
+  end
+
   private
     def set_item
       @item = Item.find(params[:id]||params[:item_id])

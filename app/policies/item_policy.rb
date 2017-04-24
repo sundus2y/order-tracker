@@ -60,6 +60,10 @@ class ItemPolicy
     template?
   end
 
+  def ip_xp?
+    import_export?
+  end
+
   def download?
     @current_user.admin?
   end

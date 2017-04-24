@@ -2,6 +2,27 @@
     Import / Export
 <% end %>
 <div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel">Quick Import+Export</h4>
+</div>
+<div class="modal-body">
+  <%= form_tag ip_xp_items_path(format: "xlsx"), multipart: true do %>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="input-group">
+            <span class="input-group-addon vertical-top">List Item Number and Brand:</span>
+            <textarea id="item_number_list" name="item_number_list" class="form-control" rows="10"></textarea>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <button class="btn btn-primary">
+            <i class="fa fa-download"></i>
+            Export Details To Excel . . .
+          </button>
+        </div>
+      </div>
+  <% end %>
+</div>
+<div class="modal-header">
   <h4 class="modal-title" id="myModalLabel">Import Original Items</h4>
 </div>
 <div class="modal-body">

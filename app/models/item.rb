@@ -260,6 +260,55 @@ AND i.made = si.made
     File.open('tmp/non_original_template.xlsx').path
   end
 
+  def self.ip_xp(item_number_list)
+    workbook = WriteXLSX.new('tmp/Quick Export.xlsx')
+    worksheet = workbook.add_worksheet
+    heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
+    table_heading_format = workbook.add_format(bold: 1)
+    import_heading_format = workbook.add_format(bold: 1,color: 'green',align: 'left')
+    worksheet.merge_range('A1:Z1','Quick Export', heading_format)
+    worksheet.write(1,0,'No',table_heading_format)
+    worksheet.write(1,1,'Item Number',import_heading_format)
+    worksheet.write(1,2,'Brand',import_heading_format)
+    Item.export_attributes.each_with_index do |col,index|
+      worksheet.write(1,index+3, col[0], table_heading_format)
+    end
+    stores = Store.minus_virtual
+    stores.each_with_index do |store,index|
+      worksheet.write(1,index+21, store.short_name, table_heading_format)
+    end
+    items = Item.where(item_number: item_number_list.collect{|i|i[0]}).all
+    row = 2
+    item_number_list.each_with_index do |item, index|
+      match_items = items.select{|i| i.item_number == item[0]}
+      if match_items.count > 1
+        worksheet.merge_range("A#{row+1}:A#{row+match_items.count}",index+1, table_heading_format)
+        worksheet.merge_range("B#{row+1}:B#{row+match_items.count}",item[0], import_heading_format)
+        worksheet.merge_range("C#{row+1}:C#{row+match_items.count}",item[1], import_heading_format)
+      else
+        worksheet.write(row, 0, index+1, table_heading_format)
+        worksheet.write(row, 1, item[0], import_heading_format)
+        worksheet.write(row, 2, item[1], import_heading_format)
+      end
+      if match_items.count == 0
+        row+=1
+      else
+        match_items.each_with_index do |match_item,match_index|
+          Item.export_attributes.each_with_index do |col,col_index|
+            worksheet.write(row+match_index, col_index+3, match_item.send(col[1]).to_s)
+          end
+          stores.each_with_index do |store,store_index|
+            inv = match_item.inventories.select{|i| i.store_id == store.id}.first
+            worksheet.write(row+match_index, store_index+21, inv.try(:qty) || '')
+          end
+        end
+        row+=match_items.count
+      end
+    end
+    workbook.close
+    File.open('tmp/Quick Export.xlsx').path
+  end
+
   def self.write_to_db(header_hash, workbook, sheet)
     raw_data = []
     error_data = []
@@ -430,8 +479,14 @@ AND i.made = si.made
 
   def self.select_attributes
     %w(name description model car part_class make_from make_to
-prev_number next_number sale_price dubai_price
-korea_price default_sale_price size cost_price).map{|col| [col.titleize, col]}
+prev_number next_number sale_price dubai_price cost_price
+korea_price size).map{|col| [col.titleize, col]}
+  end
+
+  def self.export_attributes
+    %w(name description item_number original_number brand made size
+prev_number next_number model car part_class make_from make_to
+sale_price dubai_price korea_price cost_price).map{|col| [col.titleize, col]}
   end
 
   def self.autocomplete_for_sales(term,limit)

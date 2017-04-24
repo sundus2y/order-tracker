@@ -72,6 +72,7 @@ Rails.application.routes.draw do
     get :download, on: :collection
     get :download_inventory, on: :collection
     get :import_export, as: :import_export, on: :collection
+    post :ip_xp, as: :ip_xp, on: :collection
     get :pop_up_show
     get :pop_up_edit
   end
