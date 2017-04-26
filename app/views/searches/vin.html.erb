@@ -1,0 +1,24 @@
+<% content_for :header do %>
+    Search VIN
+<% end %>
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#search_hyundai_vin_tab" role="tab" data-toggle="tab">Hyundai</a>
+  </li>
+  <li>
+    <a href="#search_kia_vin_tab" role="tab" data-toggle="tab">Kia</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div id="search_hyundai_vin_tab" class="tab-pane fade in active">
+    <div>
+      <iframe id="ssg_iframe" src="https://www.catalogs.ssg.asia/hyundai/?lang=en" width="100%" height="1500px"></iframe>
+    </div>
+  </div>
+  <div id="search_kia_vin_tab" class="tab-pane fade in">
+    <div>
+      <iframe id="ssg_iframe" src="https://www.catalogs.ssg.asia/kia/?lang=en" width="100%" height="1500px"></iframe>
+    </div>
+  </div>
+</div>

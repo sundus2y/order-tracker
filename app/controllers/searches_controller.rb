@@ -46,6 +46,10 @@ class SearchesController < ApplicationController
     @transfers = Transfer.search(params[:query]).limit(15)
   end
 
+  def vin
+    authorize Order, :search?
+  end
+
   def _
 
   end

@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     get :items, on: :collection, as: :items
     get :item_lookup, on: :collection, as: :item_lookup
     get :orders, on: :collection, as: :orders
+    get :vin, on: :collection, as: :vin
     post :sales, on: :collection, as: :sales
     post :transfers, on: :collection, as: :transfers
   end

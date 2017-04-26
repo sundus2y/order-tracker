@@ -14,6 +14,11 @@
                     {id:'search_orders',
                      klass:'sub-menu',
                      parent:'finder'}) if policy(Order).search? %>
+  <%= navigation_li(vin_search_path,
+                    'Search VIN',
+                    {id:'search_vin',
+                     klass:'sub-menu',
+                     parent:'finder'}) if policy(Order).search? %>
   <%= navigation_li('#',
                     'Items',
                     {icon:"fa fa-cube",
