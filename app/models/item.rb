@@ -277,6 +277,7 @@ AND i.made = si.made
     stores.each_with_index do |store,index|
       worksheet.write(1,index+21, store.short_name, table_heading_format)
     end
+    item_number_list.map{|i|i[0].upcase!}
     items = Item.where(item_number: item_number_list.collect{|i|i[0]}).all
     row = 2
     item_number_list.each_with_index do |item, index|
