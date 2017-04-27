@@ -439,7 +439,7 @@ AND i.made = si.made
   def sale_item_autocomplete_display
     str = "".html_safe
     str << "<div class='row'>".html_safe
-    str << "<div data-index='0'>#{original_number}</div>".html_safe
+    str << "<div data-index='0'>#{item_number}</div>".html_safe
     str << "<div data-index='1'>#{name}</div>".html_safe
     str << "<div data-index='2'>".html_safe
     inventories.each do |inv|
