@@ -360,22 +360,22 @@ AND i.made = si.made
     query = []
     params[:item_number].gsub!(INVALID_CHARS_REGEX, '') if params[:item_number].present?
     params[:other_numbers].gsub!(INVALID_CHARS_REGEX, '') if params[:other_numbers].present?
-    query.push("name ilike '%#{params[:name]}%'") if params[:name].present?
-    query.push("item_number ilike '#{params[:item_number]}%'") if params[:item_number].present?
+    query.push("items.name ilike '%#{params[:name]}%'") if params[:name].present?
+    query.push("items.item_number ilike '#{params[:item_number]}%'") if params[:item_number].present?
     if params[:other_numbers].present?
-      query.push("(description ilike '%#{params[:other_numbers]}%' or "+
-                  "prev_number ilike '#{params[:other_numbers]}%' or "+
-                  "next_number ilike '#{params[:other_numbers]}%' or "+
-                  "original_number ilike '#{params[:other_numbers]}%')")
+      query.push("(items.description ilike '%#{params[:other_numbers]}%' or "+
+                  "items.prev_number ilike '#{params[:other_numbers]}%' or "+
+                  "items.next_number ilike '#{params[:other_numbers]}%' or "+
+                  "items.original_number ilike '#{params[:other_numbers]}%')")
     end
-    query.push("size ilike '%#{params[:size]}%'") if params[:size].present?
-    query.push("car ilike '#{params[:car]}%'") if params[:car].present?
-    query.push("brand ilike '#{params[:brand]}%'") if params[:brand].present?
-    query.push("made ilike '#{params[:made]}%'") if params[:made].present?
-    query.push("part_class ilike '#{params[:part_class]}%'") if params[:part_class].present?
-    query.push(parse_price_string(params[:sale_price],'sale_price')) if params[:sale_price].present?
-    query.push(parse_price_string(params[:dubai_price],'dubai_price')) if params[:dubai_price].present?
-    query.push(parse_price_string(params[:korea_price],'korea_price')) if params[:korea_price].present?
+    query.push("items.size ilike '%#{params[:size]}%'") if params[:size].present?
+    query.push("items.car ilike '#{params[:car]}%'") if params[:car].present?
+    query.push("items.brand ilike '#{params[:brand]}%'") if params[:brand].present?
+    query.push("items.made ilike '#{params[:made]}%'") if params[:made].present?
+    query.push("items.part_class ilike '#{params[:part_class]}%'") if params[:part_class].present?
+    query.push(parse_price_string(params[:sale_price],'items.sale_price')) if params[:sale_price].present?
+    query.push(parse_price_string(params[:dubai_price],'items.dubai_price')) if params[:dubai_price].present?
+    query.push(parse_price_string(params[:korea_price],'items.korea_price')) if params[:korea_price].present?
     query.join(' and ')
   end
 

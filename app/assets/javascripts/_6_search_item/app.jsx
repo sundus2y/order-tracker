@@ -103,7 +103,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                 <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number or Description"></input>
                             </div>
                         </div>
-                        <div className="col-sm-2">
+                        <div className="col-sm-1">
                             <div className="form-group">
                                 <label htmlFor="other_numbers">Size: </label>
                                 <input id="size" className="form-control" name="size" placeholder="Size"></input>
@@ -116,6 +116,13 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                 <datalist id="mades">
                                     {this.state.lookup.mades.map(selectOptions)}
                                 </datalist>
+                            </div>
+                        </div>
+                        <div className="col-sm-1">
+                            <div className="checkbox">
+                                <label>
+                                    <input id="inventory" name="inventory" type="checkbox"/>Show only Items with Inventory
+                                </label>
                             </div>
                         </div>
                     </div>
