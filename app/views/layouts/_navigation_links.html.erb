@@ -18,7 +18,7 @@
                     'Search VIN',
                     {id:'search_vin',
                      klass:'sub-menu',
-                     parent:'finder'}) if policy(Order).search? %>
+                     parent:'finder'}) if policy(Sale).new? %>
   <%= navigation_li('#',
                     'Items',
                     {icon:"fa fa-cube",
