@@ -48,7 +48,7 @@ class SearchesController < ApplicationController
   end
 
   def vin
-    authorize Order, :search?
+    authorize Sale, :search?
   end
 
   def _
