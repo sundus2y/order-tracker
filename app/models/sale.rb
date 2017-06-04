@@ -62,7 +62,7 @@ class Sale < ActiveRecord::Base
   end
 
   def self.search(params)
-    search_query = all.includes(:customer).reorder(created_at: :desc)
+    search_query = all.includes(:customer,:store).reorder(created_at: :desc)
     search_query = search_query.where(customer_id: params[:customer_id]) if params[:customer_id].present?
     search_query = search_query.where(status: params[:status].downcase) if params[:status].present?
     search_query = search_query.where(store_id: params[:store_id]) if params[:store_id].present?
@@ -107,8 +107,7 @@ class Sale < ActiveRecord::Base
     end
 
     def empty_sale_item?
-      return true if sale_items_count == 0
-      sale_items.where('qty = 0 OR unit_price = 0').count == 0 ? false : true
+      sale_items_count == 0
     end
 
     def empty_sold_item?

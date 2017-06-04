@@ -5,7 +5,7 @@ attributes :id, :formatted_created_at, :grand_total, :status_upcase, :transactio
 child(:customer) { attributes :name }
 child(:store) { attributes :name }
 
-node(:sale_items_count) { |sale| sale.sale_items.count }
+node(:sale_items_count) { |sale| sale.sale_items_count }
 node(:can_edit) { |sale| policy(sale).edit? }
 node(:can_submit) { |sale| policy(sale).submit_to_sold? }
 node(:can_mark_as_sold) { |sale| policy(sale).mark_as_sold? }

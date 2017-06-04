@@ -54,6 +54,9 @@ GEM
     bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
     builder (3.2.2)
+    bullet (5.1.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (3.5.1)
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
@@ -244,6 +247,7 @@ GEM
     uglifier (2.6.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    uniform_notifier (1.10.0)
     velocityjs-rails (2.0.0)
     warden (1.2.3)
       rack (>= 1.0)
@@ -272,6 +276,7 @@ DEPENDENCIES
   awesome_print
   better_errors
   bootstrap-sass
+  bullet
   byebug
   capybara
   coffee-rails (~> 4.1.0)
