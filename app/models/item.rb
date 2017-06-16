@@ -493,10 +493,10 @@ sale_price dubai_price korea_price cost_price).map{|col| [col.titleize, col]}
   def self.autocomplete_for_sales(term,limit)
     find_by_sql("SELECT * FROM items WHERE LOWER(item_number) LIKE LOWER('%#{term}%')
                             ORDER BY CASE
-                              WHEN item_number = LOWER('#{term}') THEN 0
-                              WHEN item_number LIKE LOWER('#{term}%') THEN 1
-                              WHEN item_number LIKE LOWER('%#{term}') THEN 3
-                              ELSE 2
+                              WHEN LOWER(item_number) = LOWER('#{term}') THEN CHAR_LENGTH(item_number)
+                              WHEN LOWER(item_number) LIKE LOWER('#{term}%') THEN CHAR_LENGTH(item_number) + 50
+                              WHEN LOWER(item_number) LIKE LOWER('%#{term}') THEN CHAR_LENGTH(item_number) + 100
+                              ELSE CHAR_LENGTH(item_number) + 150
                             END
                             LIMIT #{limit}")
   end
