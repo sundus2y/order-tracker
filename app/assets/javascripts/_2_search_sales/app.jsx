@@ -8,13 +8,19 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
     var SearchSaleApp = React.createClass({
         getInitialState: function () {
             return {
-                sales: []
+                sales: [],
+                searching: false,
             };
         },
 
         componentWillMount: function(){
             window.globalSearchSaleApp.callback = function(data) {
-                this.setState({sales: data});
+                if(data.searching) {
+                    this.setState({searching: true});
+                } else {
+                    this.setState({searching: false});
+                    this.setState({sales: data});
+                }
             }.bind(this);
         },
 
@@ -35,8 +41,17 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="7" className="center-aligned">
+                    <td colSpan="8" className="center-aligned">
                         No Sales Found for the given criteria.
+                    </td>
+                </tr>
+            );
+
+            var searchingRow = (
+                <tr>
+                    <td colSpan="8" className="center-aligned">
+                        <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                        <span className="searching">Loading . . .</span>
                     </td>
                 </tr>
             );
@@ -49,21 +64,22 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                         <th>Customer</th>
                         <th>Store</th>
                         <th>Created At</th>
+                        <th>Updated At</th>
                         <th width="5%">Status</th>
                         <th>Grand Total</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.sales.length == 0 ? noResultRow : salesResultRow}
+                        {this.state.searching ? searchingRow : this.state.sales.length == 0 ? noResultRow : salesResultRow}
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td className="grand_total" colSpan='5'>
+                            <td className="grand_total" colSpan='6'>
                                 <span><b>Grand Total</b></span>
                             </td>
                             <td className="grand_total">
-                                <strong>{grandTotal.toFixed(2)}</strong>
+                                <strong>{printCurrency(grandTotal)}</strong>
                             </td>
                             <td></td>
                         </tr>

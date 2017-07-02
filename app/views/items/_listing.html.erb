@@ -25,10 +25,10 @@
       <td><%= description_formatter(item.description) %></td>
       <td><%= item.car %></td>
       <td nowrap>
-        S-Price: <%= item.sale_price %><br/>
-        D-Price: <%= item.dubai_price %><br/>
-        K-Price: <%= item.korea_price %><br/>
-        C-Price: <%= item.cost_price %><br/>
+        S-Price: <%= number_with_delimiter(item.sale_price) %><br/>
+        D-Price: <%= number_with_delimiter(item.dubai_price * AED_XE_ETB) %><br/>
+        K-Price: <%= number_with_delimiter(item.korea_price * KRW_XE_ETB) %><br/>
+        C-Price: <%= number_with_delimiter(item.cost_price) %><br/>
       </td>
       <td nowrap>
         <% item.inventories.each do |item_inventory| %>

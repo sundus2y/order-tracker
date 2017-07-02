@@ -5,6 +5,7 @@ class SaleItem < ActiveRecord::Base
   has_many :return_items, dependent: :destroy
 
   before_create :set_unit_price
+  after_save :recal_grand_total
 
   include AASM
 
@@ -15,7 +16,7 @@ class SaleItem < ActiveRecord::Base
   scope :returned, lambda { where(status: 'returned') }
   scope :void, lambda { where(status: 'void') }
 
-  default_scope { reorder(updated_at: :desc)}
+  # default_scope { reorder(updated_at: :desc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -75,6 +76,10 @@ class SaleItem < ActiveRecord::Base
 
     def update_inventory
       item.update_inventory(sale.store, qty)
+    end
+
+    def recal_grand_total
+      sale.save!
     end
 
 end

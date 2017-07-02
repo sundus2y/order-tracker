@@ -38,9 +38,12 @@ module RailsDevisePundit
 end
 
 KRW_XE_USD = 0.00087
-KRW_XE_ETB = 0.019
-ETB_XE_USD = 0.046
-USD_XE_ETB = 24
+ETB_XE_USD = 0.043
+AED_XE_USD = 0.27
+
+KRW_XE_ETB = 0.020
+AED_XE_ETB = 6.32
+USD_XE_ETB = 23.22
 
 INVALID_CHARS = %w(, . - _ : | \\ /)
 INVALID_CHARS_REGEX = Regexp.new('\W')

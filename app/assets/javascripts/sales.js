@@ -1,5 +1,4 @@
 window.globalSearchSaleApp = window.globalSearchSaleApp || {};
-window.globalSalesIndexApp = window.globalSalesIndexApp || {};
 $(document).ready(function () {
     $('#query_customer').on('railsAutocomplete.select', function (event, object) {
         $(this).trigger('submit.rails');
@@ -36,23 +35,17 @@ $(document).ready(function () {
             "</li>").css('width','60%');
     });
 
+    $(document).ajaxStart(function(event, request, settings) {
+        if(window.globalSearchSaleApp.callback) {
+            window.globalSearchSaleApp.callback({searching: true});
+        }
+    });
+
     $('#sales_search_form').on('ajax:success', function(e, data, status, xhr){
         window.globalSearchSaleApp.callback(data);
     }).on('ajax:error',function(e, xhr, status, error){
         alert('Sales Search Failed'+error)
     });
-
-    $('#sales_index_form').on('ajax:success', function(e, data, status, xhr){
-        window.globalSalesIndexApp.callback(data);
-    }).on('ajax:error',function(e, xhr, status, error){
-        alert('Sales Search Failed'+error)
-    });
-
-    $('select#store_id').change(function(event){
-        $.get( "stores/"+$(this).val()+"/sales.json", function(data) {
-            window.globalSalesIndexApp.callback(data);
-        });
-    }).trigger('change');
 
     $('#sales_search_form').trigger('submit.rails');
 

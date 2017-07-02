@@ -14,8 +14,6 @@ class Transfer < ActiveRecord::Base
   scope :sent, lambda { where(status: 'sent') }
   scope :received, lambda { where(status: 'received') }
 
-  default_scope { includes(:transfer_items).reorder(created_at: :desc)}
-
   before_create :set_sent_date
 
   aasm :column => :status, :no_direct_assignment => true do

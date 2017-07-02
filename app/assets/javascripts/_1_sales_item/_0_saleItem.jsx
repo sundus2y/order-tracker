@@ -85,7 +85,7 @@ var app = app || {};
                     </td>
                     <td>
                         <div className={"field form-group right-align "+this.props.saleItemData.status+"_item"}>
-                            {totalPrice.toFixed(2)}
+                            {printCurrency(totalPrice)}
                         </div>
                     </td>
                 </tr>

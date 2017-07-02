@@ -1,3 +1,13 @@
+window.printCurrency = function(number){
+    if(typeof(number) === 'string') {
+        number = parseFloat(number);
+    }
+    else if(typeof(number) === 'undefined' || number === null){
+        number = 0.0;
+    }
+    return parseFloat(number.toFixed(2)).toLocaleString('en-IN');
+};
+
 var renderAutoCompleteResults = function(results, indices, widths) {
     results.each(function (index, elem) {
         var node = elem.childNodes[0].nodeValue;

@@ -6,6 +6,7 @@ class Sale < ActiveRecord::Base
   belongs_to :creator, class_name: 'User'
 
   before_create :set_transaction_num
+  after_save :update_grand_total
 
   validates_presence_of :customer_id, :store_id
 
@@ -18,7 +19,7 @@ class Sale < ActiveRecord::Base
   scope :returned, lambda { where(status: 'returned') }
   scope :void, lambda { where(status: 'void') }
 
-  default_scope { includes(:sale_items).reorder(updated_at: :desc)}
+  # default_scope { includes(:sale_items).reorder(updated_at: :desc)}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -67,8 +68,8 @@ class Sale < ActiveRecord::Base
     search_query = search_query.where(status: params[:status].downcase) if params[:status].present?
     search_query = search_query.where(store_id: params[:store_id]) if params[:store_id].present?
     if params[:date_from].present?
-      search_query  = search_query.where("created_at >= '#{params[:date_from]}'")
-      search_query = search_query.where("created_at <= '#{params[:date_to]}'") if params[:date_to].present?
+      search_query  = search_query.where("updated_at >= '#{params[:date_from]}'")
+      search_query = search_query.where("updated_at <= '#{params[:date_to]}'") if params[:date_to].present?
     end
     search_query
   end
@@ -77,12 +78,12 @@ class Sale < ActiveRecord::Base
     created_at.to_formatted_s(:long) if created_at
   end
 
-  def status_upcase
-    status.upcase
+  def formatted_updated_at
+    updated_at.to_formatted_s(:long) if updated_at
   end
 
-  def grand_total
-    sale_items.inject(0){|n,sale_item| n + (sale_item.qty*sale_item.unit_price)}
+  def status_upcase
+    status.upcase
   end
 
   private
@@ -119,6 +120,13 @@ class Sale < ActiveRecord::Base
     def set_transaction_num
       counter = TransactionNumCounter.get_transaction_next_num_for(store.id)
       self.transaction_num = "S-ORD-#{created_at.strftime('%Y%m%d')}-#{store.id}-#{counter}"
+    end
+
+    def update_grand_total
+      gt = sale_items.inject(0) do |n,sale_item|
+        n + (sale_item.qty*sale_item.unit_price)
+      end
+      update_column('grand_total',gt)
     end
 
 end

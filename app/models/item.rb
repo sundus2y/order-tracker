@@ -29,8 +29,6 @@ class Item < ActiveRecord::Base
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
   validate :item_numbers_cannot_include_special_characters
 
-  default_scope { includes(:sale_items,:order_items,:transfer_items,:inventories,{inventories:[:store]})}
-
   # INVALID_CHARS = %w(, . - _ : | \\ /)
   # INVALID_CHARS_REGEX = Regexp.new('\W')
 
@@ -70,7 +68,7 @@ class Item < ActiveRecord::Base
           #{view_action}
           #{edit_action if type == :admin}
           #{add_to_order_action if type == :admin}
-          #{delete_action if type == :admin && self.can_be_deleted?}
+          #{delete_action if type == :admin}
         </ul>
       </div>
     HTML

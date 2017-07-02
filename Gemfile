@@ -32,6 +32,8 @@ gem 'devise'
 gem 'pundit'
 gem 'roo'
 gem 'write_xlsx'
+gem 'ruby-progressbar'
+
 group :development do
   gem 'better_errors'
   gem 'quiet_assets'

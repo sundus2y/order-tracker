@@ -1,7 +1,6 @@
 class Order < ActiveRecord::Base
   include AASM
 
-  default_scope {includes(:order_items).reorder(created_at: :desc)}
   scope :draft, lambda { where(status: 'draft') }
   scope :ordered, lambda { where(status: 'ordered') }
   scope :ready, lambda { where(status: 'ready') }
