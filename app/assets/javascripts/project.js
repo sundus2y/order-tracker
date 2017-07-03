@@ -5,7 +5,7 @@ window.printCurrency = function(number){
     else if(typeof(number) === 'undefined' || number === null){
         number = 0.0;
     }
-    return parseFloat(number.toFixed(2)).toLocaleString('en-IN');
+    return parseFloat(number.toFixed(2)).toLocaleString();
 };
 
 var renderAutoCompleteResults = function(results, indices, widths) {
