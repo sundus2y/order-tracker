@@ -24,8 +24,8 @@ class SearchesController < ApplicationController
       search_type = :regular_search
     end
     search_query = Item.build_search_query(params)
-    results = Item.where(search_query).reorder(updated_at: :desc).limit(30).as_json({type: search_type}) unless params[:inventory].present?
-    results = Item.joins(:inventories).where(search_query).reorder(updated_at: :desc).limit(30).as_json({type: search_type}) if params[:inventory].present?
+    results = Item.includes(inventories: :store).where(search_query).reorder(updated_at: :desc).limit(30).as_json({type: search_type}) unless params[:inventory].present?
+    results = Item.joins(:inventories).includes(inventories: :store).where(search_query).reorder(updated_at: :desc).limit(30).as_json({type: search_type}) if params[:inventory].present?
     results.map{|item| item.transform_keys!{|key| Item::KEY_MAP[key] || key }}
     respond_to do |format|
       format.html {}

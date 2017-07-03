@@ -46,7 +46,7 @@ module ApplicationHelper
         <ul class="dropdown-menu context-menu">
           #{view_action}
           #{edit_action if policy(object).edit?}
-          #{delete_action if policy(object).destroy?}
+          #{delete_action if policy(object).edit?}
         </ul>
       </div>
     HTML

@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
   respond_to :html
 
   def index
-    @items = Item.all.includes(:sale_items,:order_items).order(:name).page(params[:page]).per_page(10)
+    @items = Item.all.includes(:inventories).order(:name).page(params[:page]).per_page(10)
     respond_with(@items)
   end
 
