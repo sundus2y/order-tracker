@@ -30,7 +30,7 @@ class Order < ActiveRecord::Base
 
   belongs_to :user
   has_many :order_items, dependent: :destroy
-  accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda{|item_param| item_param[:quantity].blank? }
+  accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda{|item_param| item_param[:qty].blank? }
 
   validates :title, presence: true
 
@@ -39,7 +39,7 @@ class Order < ActiveRecord::Base
   end
 
   def total_qty
-    order_items.map(&:quantity).compact.sum
+    order_items.map(&:qty).compact.sum
   end
 
   def status_upcase
@@ -68,7 +68,7 @@ class Order < ActiveRecord::Base
       worksheet.write_string(index+2,1,order_item.item.name)
       worksheet.write_string(index+2,2,order_item.item.original_number)
       worksheet.write_string(index+2,3,order_item.item.description||'')
-      worksheet.write(index+2,4,order_item.quantity)
+      worksheet.write(index+2,4,order_item.qty)
       worksheet.write(index+2,5,order_item.brand.try(:upcase)||'')
     end
     workbook.close

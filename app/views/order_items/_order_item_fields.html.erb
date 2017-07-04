@@ -1,7 +1,7 @@
 <tr class="new-item">
   <td class="right-align">
     <%= link_to content_tag(:a, content_tag(:i, '', class: "fa fa-trash"), class: "btn btn-danger remove-item", method: :delete, remote: true ) %>
-    <%= f.number_field :quantity, class:'form-control qty-input', min:1%>
+    <%= f.number_field :qty, class:'form-control qty-input', min:1%>
   </td>
   <td>
     <%= f.text_field :item_name, class:'form-control', readonly: :true %>

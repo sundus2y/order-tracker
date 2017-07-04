@@ -59,7 +59,7 @@ class OrderItem < ActiveRecord::Base
   end
 
   def total_price
-    unit_price.try(:*,quantity)
+    unit_price.try(:*,qty)
   end
 
   def self.find_duplicates(item_ids,brand,order_id)

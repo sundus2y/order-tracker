@@ -58,9 +58,9 @@ Rails.application.configure do
 
   # Bullet config
   config.after_initialize do
-    Bullet.enable = false
+    Bullet.enable = true
     # Bullet.alert = true
-    # Bullet.bullet_logger = true
+    Bullet.bullet_logger = true
     # Bullet.console = true
     # Bullet.growl = true
     # Bullet.xmpp = { :account  => 'bullets_account@jabber.org',

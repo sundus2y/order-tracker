@@ -22,7 +22,7 @@
       <%= f.fields_for :order_items do |order_item_f| %>
           <tr>
             <td class="right-align">
-              <%= order_item_f.object.quantity %>
+              <%= order_item_f.object.qty %>
             </td>
             <td>
               <%= order_item_f.object.item.name %>

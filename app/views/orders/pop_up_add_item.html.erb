@@ -29,7 +29,7 @@
                         <div class="col-lg-4">
                           <div class="input-group">
                             <span class="input-group-addon">Qty</span>
-                            <%= f.number_field :quantity, required: true, class: 'form-control', readonly: !order_item.order.draft? %>
+                            <%= f.number_field :qty, required: true, class: 'form-control', readonly: !order_item.order.draft? %>
                           </div>
                         </div>
                         <div class="col-lg-4">
@@ -65,7 +65,7 @@
                             <div class="col-lg-4">
                               <div class="input-group">
                                 <span class="input-group-addon">Qty</span>
-                                <%= ff.number_field :quantity, required: true, class: 'form-control' %>
+                                <%= ff.number_field :qty, required: true, class: 'form-control' %>
                               </div>
                             </div>
                             <div class="col-lg-4">
@@ -98,7 +98,7 @@
                     <div class="col-lg-4">
                       <div class="input-group">
                         <span class="input-group-addon">Qty</span>
-                        <%= ff.number_field :quantity, required: true, class: 'form-control' %>
+                        <%= ff.number_field :qty, required: true, class: 'form-control' %>
                       </div>
                     </div>
                     <div class="col-lg-4">

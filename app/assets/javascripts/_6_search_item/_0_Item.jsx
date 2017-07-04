@@ -44,6 +44,7 @@ var searchItemApp = searchItemApp || {};
                     <td className="right-align">{printCurrency(this.cal_korea_price())}</td>
                     <td className="right-align">{printCurrency(this.cal_cost_price())}</td>
                     <td dangerouslySetInnerHTML={{__html: this.props.data.inventories_display}}/>
+                    <td dangerouslySetInnerHTML={{__html: this.props.data.order_display}}/>
                     <td>{this.props.data.brand}</td>
                     <td >{this.props.data.made}</td>
                     <td dangerouslySetInnerHTML={{__html: this.props.data.actions}}/>

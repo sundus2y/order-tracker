@@ -189,7 +189,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="16" className="center-aligned">
+                    <td colSpan="17" className="center-aligned">
                         No Items Found.
                     </td>
                 </tr>
@@ -197,7 +197,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
 
             var searchingRow = (
                 <tr>
-                    <td colSpan="16" className="center-aligned">
+                    <td colSpan="17" className="center-aligned">
                         <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                         <span className="searching">Loading . . .</span>
                     </td>
@@ -218,6 +218,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                         <th width="4%" rowSpan="2">Car</th>
                         <th colSpan="4" className="center-aligned">Price</th>
                         <th width="9%" rowSpan="2">Stock</th>
+                        <th width="9%" rowSpan="2">Order</th>
                         <th rowSpan="2">Brand</th>
                         <th rowSpan="2">Made</th>
                         <th width="7%" rowSpan="2">Actions</th>

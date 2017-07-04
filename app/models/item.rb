@@ -41,12 +41,12 @@ class Item < ActiveRecord::Base
         super({
                   only: [:id,:name,:original_number,:item_number,:prev_number,:next_number, :cost_price,
                          :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made,:default_sale_price],
-                  methods: [:admin_actions,:inventories_display]
+                  methods: [:admin_actions,:inventories_display,:order_display]
               }.merge(options))
       when :regular_search
         super({
                   only: [:id,:name,:original_number,:item_number,:prev_number,:next_number,:description,:car,:model,:sale_price,:brand,:made,:default_sale_price],
-                  methods: [:regular_actions,:inventories_display]
+                  methods: [:regular_actions,:inventories_display,:order_display]
               }.merge(options))
       when :default
         super options
@@ -88,6 +88,15 @@ class Item < ActiveRecord::Base
     sep = '<br>'.html_safe
     inventories.each do |inventory|
       response << "#{inventory.store.short_name}: #{inventory.qty}" unless inventory.store.virtual?
+    end
+    response.join(sep).html_safe
+  end
+
+  def order_display
+    response = []
+    sep = '<br>'.html_safe
+    order_items.group_by(&:status).each_pair do |group,ois|
+      response << "#{group.titleize}: #{ois.sum(&:qty)}"
     end
     response.join(sep).html_safe
   end

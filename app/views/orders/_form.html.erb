@@ -62,7 +62,7 @@
           <tr>
             <td class="right-align">
               <button type="button" class="btn btn-danger fa fa-trash" data-toggle="modal" data-target="#confirm_order_item_delete_<%= order_item_id %>"></button>
-              <%= order_item_f.number_field :quantity, class:'form-control qty-input' %>
+              <%= order_item_f.number_field :qty, class:'form-control qty-input' %>
             </td>
             <td>
               <%= order_item_f.text_field :item_name, class:'form-control', readonly: :true %>

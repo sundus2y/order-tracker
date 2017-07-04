@@ -70,7 +70,7 @@ class OrdersController < ApplicationController
     item = Item.find(params[:item_id])
     @original_item = Item.where(original_number: item.original_number).first
     @original_item = item if item.original_number == 'NA'
-    @order_items = OrderItem.where(item: @original_item).where.not(status: 'delivered').order(updated_at: :desc)
+    @order_items = OrderItem.includes(:order).where(item: @original_item).where.not(status: 'delivered').order(updated_at: :desc)
     @open_orders = Order.where(status: 'draft')
     @new_order = Order.new()
     @new_order_item = OrderItem.new()
@@ -85,11 +85,11 @@ class OrdersController < ApplicationController
 
   private
     def set_order
-      @order = Order.find(params[:id])
+      @order = Order.includes(order_items: :item).where(id: params[:id]).first
     end
 
     def order_params
-      params.require(:order).permit(:title, :notes, :created_by, :status, :brand, order_items_attributes: [:id, :item_id, :quantity, :brand])
+      params.require(:order).permit(:title, :notes, :created_by, :status, :brand, order_items_attributes: [:id, :item_id, :qty, :brand])
     end
 
     def set_orders

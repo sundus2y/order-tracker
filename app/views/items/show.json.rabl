@@ -4,3 +4,4 @@ attributes :name,:original_number,:item_number,:description,:car,:model,:sale_pr
 
 node(:actions) {|item| item.actions}
 node(:inventories_display) {|item| item.inventories_display}
+node(:order_display) {|item| item.order_display}
