@@ -23,75 +23,78 @@
 <div>
 
   <!--BEGIN TOPBAR-->
-  <div id="header-topbar-option-demo" class="page-header-topbar">
-    <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
+  <nav class="navbar navbar-fixed-top navbar-inverse">
+    <span class="nav-log pull-left">OTS</span>
+    <span class="nav-user-name pull-right">
+      <%=user_signed_in? ? current_user.name : '(Please Login)'%>
+    </span>
+  </nav>
+  <!--END TOPBAR-->
+
+  <!--BEGIN SIDEBAR MENU-->
+  <nav class="navbar navbar-inverse sidebar navbar-sidebar" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
-        <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a id="logo" href="/" class="navbar-brand">
-          <span class="logo-text">OTS</span>
-        </a>
       </div>
-      <div class="topbar-main">
-        <a id="menu-toggle" href="#" class="hidden-xs">
-          <i class="fa fa-bars"></i>
-        </a>
-        <ul class="nav navbar navbar-top-links navbar-right mbn">
-          <li class="topbar-user">
-            <a data-hover="dropdown" href="#" class="dropdown-toggle">
-              <span class="hidden-xs">
-                <% if user_signed_in? %>
-                  Welcome <%= current_user.name %>
-                <% else %>
-                  Welcome
-                <% end %>
-              </span>
-            </a>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+          <li ><a href="#">Profile<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+          <li ><a href="#">Messages<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a>
+            <ul class="dropdown-menu forAnimate" role="menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+          <li ><a href="#">Profile<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+          <li ><a href="#">Messages<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a>
+            <ul class="dropdown-menu forAnimate" role="menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
           </li>
         </ul>
       </div>
-    </nav>
-
-  </div>
-  <!--END TOPBAR-->
-
-  <!--BEGIN MAIN CONTAINER-->
-  <div id="wrapper">
-    <!--BEGIN SIDEBAR MENU-->
-    <nav id="sidebar" role="navigation" data-step="2" class="navbar-default navbar-static-side hidden-print">
-      <div class="sidebar-collapse menu-scroll">
-        <ul id="side-menu" class="nav">
-          <div class="clearfix"></div>
-          <%= render 'layouts/navigation_links' %>
-        </ul>
-      </div>
-    </nav>
-    <!--END SIDEBAR MENU-->
-
-    <!--BEGIN PAGE WRAPPER-->
-    <div id="page-wrapper">
-      <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
-        <div class="page-header pull-left">
-          <div class="page-title">
-            <%= yield :header %>
-          </div>
-        </div>
-        <div class="clearfix">
-        </div>
-      </div>
-      <div class="page-content">
-        <%= render 'layouts/messages' %>
-        <div class="main-content">
-          <%= yield %>
-        </div>
+    </div>
+  </nav>
+  <div class="main">
+    <div class="page-title">
+      <%= yield :header %>
+    </div>
+    <div class="page-content">
+      <%= render 'layouts/messages' %>
+      <div class="main-content">
+        <%= yield %>
       </div>
     </div>
-    <!--END PAGE WRAPPER-->
   </div>
+  <!--END SIDEBAR MENU-->
+
+  <!--BEGIN MAIN CONTAINER-->
+
   <!--END MAIN CONTAINER-->
 
 </div>
