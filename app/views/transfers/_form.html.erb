@@ -11,34 +11,36 @@
         </div>
     <% end %>
     <%= f.hidden_field :id %>
-    <div class="row">
-      <div class="col-xs-12">
-        <h4>Transfer Info</h4>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">
-        <div class="field form-group">
-          <%= f.label :from_store_id, 'From Store' %><br>
-          <%= f.select(:from_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12">
+          <h4>Transfer Info</h4>
         </div>
       </div>
-      <div class="col-xs-3">
-        <div class="field form-group">
-          <%= f.label :to_store_id, 'To Store' %><br>
-          <%= f.select(:to_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+      <div class="row">
+        <div class="col-xs-3">
+          <div class="field form-group">
+            <%= f.label :from_store_id, 'From Store' %><br>
+            <%= f.select(:from_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+          </div>
         </div>
-      </div>
-      <div class="col-xs-3">
-        <div class="field form-group">
-          <%= f.label :sent_date, value:'Transfer Sent Date:' %><br>
-          <%= f.date_field :sent_date, class: 'form-control'  %>
+        <div class="col-xs-3">
+          <div class="field form-group">
+            <%= f.label :to_store_id, 'To Store' %><br>
+            <%= f.select(:to_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+          </div>
         </div>
-      </div>
-      <div class="col-xs-3">
-        <div class="field form-group">
-          <%= f.label :note %><br>
-          <%= f.text_area :note, class: 'form-control'  %>
+        <div class="col-xs-3">
+          <div class="field form-group">
+            <%= f.label :sent_date, value:'Transfer Sent Date:' %><br>
+            <%= f.date_field :sent_date, class: 'form-control'  %>
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <div class="field form-group">
+            <%= f.label :note %><br>
+            <%= f.text_area :note, class: 'form-control'  %>
+          </div>
         </div>
       </div>
     </div>
@@ -48,7 +50,7 @@
             <div class="transfer_items_show_app"></div>
         <% else %>
             <div class="transfer_items_app"></div>
-            <div class="float_right">
+            <div class="container-fluid float_right">
               <%= render 'actions'%>
             </div>
         <% end %>

@@ -20,11 +20,8 @@
 //= require bootstrap-sprockets
 //= require velocity
 //= require fileinput/fileinput
-//= require kadmin/main
-//= require kadmin/jquery.menu
-//= require kadmin/jquery.metisMenu
-//= require kadmin/jquery.slimscroll
-//= require kadmin/responsive-tabs
+//= require adminLTE/adminlte.js
+//= require chart/chart.min.js
 //= require showdown
 //= require react
 //= require react_bootstrap/react-bootstrap

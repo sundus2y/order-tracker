@@ -1,0 +1,261 @@
+<% content_for :header do %>
+    Dashboard
+<% end %>
+<% content_for :content do %>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-red"><i class="fa fa-line-chart"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Weekly Sales</span>
+            <span class="info-box-number"><%= number_to_currency(Sale.this_week_sales) %></span>
+            <% change = Sale.weekly_sales_change %>
+            <% change_style = get_change_style(change) %>
+              <%= content_tag(:span,nil,class:"description-percentage text-#{change_style[:color]}") do%>
+                <%= content_tag(:i,nil,class:"fa #{change_style[:icon]}") %>
+                <%= number_to_percentage(change) %>
+              <% end %>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Daily Sales</span>
+            <span class="info-box-number"><%= number_to_currency(Sale.daily_sales) %></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Daily Customers</span>
+            <span class="info-box-number"><%= Sale.daily_customers %></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-aqua"><i class="fa fa-truck"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Total Open Orders</span>
+            <span class="info-box-number"><%= Order.open_orders_count %></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Monthly Report</h3>
+            <!--TODO: Fix monthly recap data-->
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-12">
+                <p class="text-center">
+                  <strong>Sales: <%= since_beginning_of_year_formatted %></strong>
+                </p>
+
+                <div class="chart">
+                  <!-- Sales Chart Canvas -->
+                  <canvas id="salesChart" style="height: 180px;"></canvas>
+                </div>
+                <!-- /.chart-responsive -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- ./box-body -->
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-sm-3 col-xs-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                  <h5 class="description-header">$0.00</h5>
+                  <span class="description-text">TOTAL REVENUE</span>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-3 col-xs-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                  <h5 class="description-header">$0.00</h5>
+                  <span class="description-text">TOTAL COST</span>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-3 col-xs-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                  <h5 class="description-header">$0.00</h5>
+                  <span class="description-text">TOTAL PROFIT</span>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-3 col-xs-6">
+                <div class="description-block">
+                  <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                  <h5 class="description-header">$0.00</h5>
+                  <span class="description-text">GOAL COMPLETIONS</span>
+                </div>
+                <!-- /.description-block -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.box-footer -->
+        </div>
+        <!-- /.box -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Top 10 Popular Items</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Item Number</th>
+                  <th>Name</th>
+                  <th>Car</th>
+                  <th>Total Sales</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% Item.top_15.each_with_index do |(item,ct),index| %>
+                    <tr>
+                      <td><%= link_to(index+1,item_path(item[0])) %></td>
+                      <td><%= item[1] %></td>
+                      <td><%= item[2] %></td>
+                      <td><%= item[3] %></td>
+                      <td><%= ct %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Top 10 Sales Order</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Store</th>
+                  <th>Date</th>
+                  <th>Grand Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <% Sale.top_10.each_with_index do |sale,index| %>
+                    <tr>
+                      <td><%= link_to(index+1,sale) %></td>
+                      <td><%= sale.store.name %></td>
+                      <td><%= sale.updated_at.to_formatted_s(:long) %></td>
+                      <td><%= number_to_currency(sale.grand_total) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer clearfix">
+            <%= link_to 'View All Sales Orders', sales_path , class: 'btn btn-sm btn-default btn-flat pull-left' %>
+          </div>
+          <!-- /.box-footer -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <div class="col-md-3">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Top 5 Customers</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Total Purchases</th>
+                  <th>Grand Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% Customer.top_5.each_with_index do |row,index| %>
+                    <tr>
+                      <td><%= index+1 %></td>
+                      <td><%= row['name'] %></td>
+                      <td><%= row['ct']%></td>
+                      <td><%= number_to_currency(row['gt']) %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+          </div>
+        </div>
+        <!-- /.box -->
+      </div>
+    </div>
+  </section>
+<% end %>

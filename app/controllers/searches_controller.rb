@@ -16,6 +16,7 @@ class SearchesController < ApplicationController
   end
 
   def items
+    # TODO: Fix the id column for search on items with inventory only
     search_type = :admin_search
     begin
       authorize Item, :destroy?

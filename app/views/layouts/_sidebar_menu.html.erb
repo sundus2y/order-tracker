@@ -1,0 +1,42 @@
+<ul class="sidebar-menu" data-widget="tree">
+  <% if user_signed_in? %>
+      <%= menu('#','Finder','fa fa-search',
+               [
+                   {link: items_search_path, label:'Search Items', show_if: policy(Item).search?},
+                   {link: '#', label:'Search Orders', show_if: policy(Order).search?},
+                   {link: vin_search_path, label:'Search VIN', show_if: policy(Sale).new?}
+               ]) %>
+      <%= menu('#','Items','fa fa-cube',
+               [
+                   {link: new_item_path, label:'Add Item', show_if: policy(Item).new?},
+                   {link: items_path, label:'View All Items', show_if: policy(Item).show?},
+                   {link: import_export_items_path, label:'Import / Export', show_if: policy(Item).import_export?}
+               ]) if policy(Item).show? %>
+      <%= menu('#','Sales Order','fa fa-shopping-cart',
+               [
+                   {link: new_sale_path, label:'Add Sale Order', show_if: policy(Sale).new?},
+                   {link: return_sales_path, label:'Return Sale Order', show_if: policy(Sale).new?},
+                   {link: sales_path, label:'View All Sales Order', show_if: policy(Sale).show?}
+               ]) if policy(Sale).show? %>
+      <%= menu('#','Orders','fa fa-truck',
+               [
+                   {link: new_order_path, label:'Add Order', show_if: policy(Order).new?},
+                   {link: orders_path, label:'View All Orders', show_if: policy(Order).show?}
+               ]) if policy(Order).show? %>
+      <%= menu('#','Transfers','fa fa-exchange',
+               [
+                   {link: new_transfer_path, label:'Add Transfer', show_if: policy(Transfer).new?},
+                   {link: transfers_path, label:'View All Transfer', show_if: policy(Transfer).show?}
+               ]) if policy(Transfer).show? %>
+      <%= menu('#','Customers','fa fa-users',
+               [
+                   {link: new_customer_path, label:'Add Customer', show_if: policy(Customer).new?},
+                   {link: customers_path, label:'View All Customer', show_if: policy(Customer).show?}
+               ]) if policy(Customer).show? %>
+      <%= menu('#','Shipments','fa fa-ship') if policy(Order).show? %>
+      <%= menu(users_path,'Users','fa fa-users') if policy(User).manage? %>
+  <% else %>
+      <%= menu(new_user_session_path,'Sign In','fa fa-sign-in') %>
+      <%= menu(new_user_registration_path,'Sing Up','fa fa-pencil-square-o') %>
+  <% end %>
+</ul>

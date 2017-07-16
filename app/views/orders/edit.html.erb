@@ -1,4 +1,6 @@
-<h1>Editing Order #<%= @order.id %></h1>
+<% content_for :header do %>
+    Editing Order #<%= @order.id %>
+<% end %>
 <input type="hidden" id="order-id" value="<%=@order.id%>"/>
 
 <%= render 'form', action: "Update Order"%>

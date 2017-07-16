@@ -1,5 +1,7 @@
 <% @order ||= object %>
-<h1>Order #<%= @order.id %></h1>
+<% content_for :header do %>
+    Order #<%= @order.id %>
+<% end %>
 
 <%= form_for(@order, html:{class:'form-inline'}) do |f| %>
     <div class="row">

@@ -393,6 +393,14 @@ AND i.made = si.made
     return "#{field} #{operator||'='} #{val}"
   end
 
+  def self.top_15
+    Item.joins(:sale_items).
+        group(:item_id,:item_number,:name,:car).
+        order('count_item_id desc').
+        limit(15).
+        count('item_id')
+  end
+
   def self.fetch_cars
     @@cars ||= Item.uniq.select(:car).reorder(:car).map(&:car).compact.sort
     @@cars

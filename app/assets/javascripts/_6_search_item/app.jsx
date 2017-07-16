@@ -84,96 +84,98 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
 
             var searchForm = (
                 <form id="search_item_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/search/items" onSubmit={this.handleSubmit}>
-                    <div className="row">
-                        <div className="col-sm-4">
-                            <div className="form-group">
-                                <label htmlFor="name">Name: </label>
-                                <input id="name" className='form-control' name="name" placeholder="Item Name"></input>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-sm-4">
+                                <div className="form-group">
+                                    <label htmlFor="name">Name: </label>
+                                    <input id="name" className='form-control' name="name" placeholder="Item Name"></input>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
+                                <div className="form-group">
+                                    <label htmlFor="item_number">Item Number: </label>
+                                    <input id="item_number" className="form-control" name="item_number" placeholder="Item Number"></input>
+                                </div>
+                            </div>
+                            <div className="col-sm-3">
+                                <div className="form-group">
+                                    <label htmlFor="other_numbers">Other Numbers: </label>
+                                    <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number or Description"></input>
+                                </div>
+                            </div>
+                            <div className="col-sm-1">
+                                <div className="form-group">
+                                    <label htmlFor="other_numbers">Size: </label>
+                                    <input id="size" className="form-control" name="size" placeholder="Size"></input>
+                                </div>
+                            </div>
+                            <div className="col-sm-1">
+                                <div className="form-group">
+                                    <label htmlFor="made">Made: </label>
+                                    <input id="made" name="made" className='form-control' list="mades"/>
+                                    <datalist id="mades">
+                                        {this.state.lookup.mades.map(selectOptions)}
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div className="col-sm-1">
+                                <div className="checkbox">
+                                    <label>
+                                        <input id="inventory" name="inventory" type="checkbox"/>Show only Items with Inventory
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-sm-2">
-                            <div className="form-group">
-                                <label htmlFor="item_number">Item Number: </label>
-                                <input id="item_number" className="form-control" name="item_number" placeholder="Item Number"></input>
+                        <div className="row">
+                            <div className="col-sm-2">
+                                <div className="form-group">
+                                    <label htmlFor="car">Car: </label>
+                                    <input id="car" name="car" className='form-control' list="cars"/>
+                                    <datalist id="cars">
+                                        {this.state.lookup.cars.map(selectOptions)}
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
+                                <div className="form-group">
+                                    <label htmlFor="brand">Brand: </label>
+                                    <input id="brand" name="brand" className='form-control' list="brands"/>
+                                    <datalist id="brands">
+                                        {this.state.lookup.brands.map(selectOptions)}
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
+                                <div className="form-group">
+                                    <label htmlFor="part_class">Part Class: </label>
+                                    <input id="part_class" name="part_class" className='form-control' list="part_classes"/>
+                                    <datalist id="part_classes">
+                                        {this.state.lookup.part_classes.map(selectOptions)}
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
+                                <div className="form-group">
+                                    <label htmlFor="sale_price">Sale Price: </label>
+                                    <input id="sale_price" className="form-control" name="sale_price" placeholder="Sale Price"></input>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
+                                <div className="form-group">
+                                    <label htmlFor="dubai_price">Dubai Price: </label>
+                                    <input id="dubai_price" className="form-control" name="dubai_price" placeholder="Dubai Price"></input>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
+                                <div className="form-group">
+                                    <label htmlFor="korea_price">Korea Price: </label>
+                                    <input id="korea_price" className="form-control" name="korea_price" placeholder="Korea Price"></input>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-sm-3">
-                            <div className="form-group">
-                                <label htmlFor="other_numbers">Other Numbers: </label>
-                                <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number or Description"></input>
-                            </div>
-                        </div>
-                        <div className="col-sm-1">
-                            <div className="form-group">
-                                <label htmlFor="other_numbers">Size: </label>
-                                <input id="size" className="form-control" name="size" placeholder="Size"></input>
-                            </div>
-                        </div>
-                        <div className="col-sm-1">
-                            <div className="form-group">
-                                <label htmlFor="made">Made: </label>
-                                <input id="made" name="made" className='form-control' list="mades"/>
-                                <datalist id="mades">
-                                    {this.state.lookup.mades.map(selectOptions)}
-                                </datalist>
-                            </div>
-                        </div>
-                        <div className="col-sm-1">
-                            <div className="checkbox">
-                                <label>
-                                    <input id="inventory" name="inventory" type="checkbox"/>Show only Items with Inventory
-                                </label>
-                            </div>
-                        </div>
+                        <button id="item-search-button" className="btn btn-primary btn-block">Search</button>
                     </div>
-                    <div className="row">
-                        <div className="col-sm-2">
-                            <div className="form-group">
-                                <label htmlFor="car">Car: </label>
-                                <input id="car" name="car" className='form-control' list="cars"/>
-                                <datalist id="cars">
-                                    {this.state.lookup.cars.map(selectOptions)}
-                                </datalist>
-                            </div>
-                        </div>
-                        <div className="col-sm-2">
-                            <div className="form-group">
-                                <label htmlFor="brand">Brand: </label>
-                                <input id="brand" name="brand" className='form-control' list="brands"/>
-                                <datalist id="brands">
-                                    {this.state.lookup.brands.map(selectOptions)}
-                                </datalist>
-                            </div>
-                        </div>
-                        <div className="col-sm-2">
-                            <div className="form-group">
-                                <label htmlFor="part_class">Part Class: </label>
-                                <input id="part_class" name="part_class" className='form-control' list="part_classes"/>
-                                <datalist id="part_classes">
-                                    {this.state.lookup.part_classes.map(selectOptions)}
-                                </datalist>
-                            </div>
-                        </div>
-                        <div className="col-sm-2">
-                            <div className="form-group">
-                                <label htmlFor="sale_price">Sale Price: </label>
-                                <input id="sale_price" className="form-control" name="sale_price" placeholder="Sale Price"></input>
-                            </div>
-                        </div>
-                        <div className="col-sm-2">
-                            <div className="form-group">
-                                <label htmlFor="dubai_price">Dubai Price: </label>
-                                <input id="dubai_price" className="form-control" name="dubai_price" placeholder="Dubai Price"></input>
-                            </div>
-                        </div>
-                        <div className="col-sm-2">
-                            <div className="form-group">
-                                <label htmlFor="korea_price">Korea Price: </label>
-                                <input id="korea_price" className="form-control" name="korea_price" placeholder="Korea Price"></input>
-                            </div>
-                        </div>
-                    </div>
-                    <button id="item-search-button" className="btn btn-primary btn-block">Search</button>
                     <hr></hr>
                 </form>
             );
@@ -205,35 +207,37 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
             );
 
             var searchResult =  (
-                <table className="table-responsive display table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th width="3%" rowSpan="2">ID</th>
-                        <th rowSpan="2">Name</th>
-                        <th rowSpan="2">Description</th>
-                        <th rowSpan="2">Original Number</th>
-                        <th rowSpan="2">Item Number</th>
-                        <th rowSpan="2">Prev Number</th>
-                        <th rowSpan="2">Next Number</th>
-                        <th width="4%" rowSpan="2">Car</th>
-                        <th colSpan="4" className="center-aligned">Price</th>
-                        <th width="9%" rowSpan="2">Stock</th>
-                        <th width="9%" rowSpan="2">Order</th>
-                        <th rowSpan="2">Brand</th>
-                        <th rowSpan="2">Made</th>
-                        <th width="7%" rowSpan="2">Actions</th>
-                    </tr>
-                    <tr>
-                        <th>Sale</th>
-                        <th>Dubai</th>
-                        <th>Korea</th>
-                        <th>Cost</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.searching ? searchingRow : this.state.result.length == 0 ? noResultRow : itemsResultRow}
-                    </tbody>
-                </table>
+                <div className="table-container">
+                    <table className="table-responsive display table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="3%" rowSpan="2">ID</th>
+                            <th rowSpan="2">Name</th>
+                            <th rowSpan="2">Description</th>
+                            <th rowSpan="2">Original Number</th>
+                            <th rowSpan="2">Item Number</th>
+                            <th rowSpan="2">Prev Number</th>
+                            <th rowSpan="2">Next Number</th>
+                            <th width="4%" rowSpan="2">Car</th>
+                            <th colSpan="4" className="center-aligned">Price</th>
+                            <th width="9%" rowSpan="2">Stock</th>
+                            <th width="9%" rowSpan="2">Order</th>
+                            <th rowSpan="2">Brand</th>
+                            <th rowSpan="2">Made</th>
+                            <th width="7%" rowSpan="2">Actions</th>
+                        </tr>
+                        <tr>
+                            <th>Sale</th>
+                            <th>Dubai</th>
+                            <th>Korea</th>
+                            <th>Cost</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.searching ? searchingRow : this.state.result.length == 0 ? noResultRow : itemsResultRow}
+                        </tbody>
+                    </table>
+                </div>
             );
 
             return (

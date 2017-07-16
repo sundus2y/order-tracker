@@ -34,6 +34,32 @@ module ApplicationHelper
     nav.html_safe
   end
 
+  def menu(link,label,klass,submenu_items=[])
+    sub_menu_klass = submenu_items.empty? ? '' : 'treeview'
+    content_tag(:li, class: sub_menu_klass) do
+      content = content_tag('a', href: link) do
+        a_content = content_tag('i', nil, class: klass)
+        a_content << content_tag(:span, label)
+        a_content << content_tag(:span, class: 'pull-right-container') do
+          content_tag('i',nil,class:'fa fa-angle-left pull-right')
+        end unless submenu_items.empty?
+        a_content
+      end
+      content << content_tag(:ul, class:'treeview-menu') do
+        ul_content = ''.html_safe
+        submenu_items.each do |item|
+          ul_content << content_tag(:li) do
+            content_tag(:a,nil,href: item[:link]) do
+              content_tag(:i,nil,class:'fa fa-circle-o')+item[:label]
+            end
+          end if item[:show_if]
+        end
+        ul_content
+      end
+      content
+    end
+  end
+
   def actions(object)
     view_action = "<li><a class='btn-primary item-pop-up-menu' href='#{send(object.class.name.underscore+'_path', object)}'><i class='fa fa-eye'></i> View</a></li>"
     edit_action = "<li><a class='btn-primary item-pop-up-menu' href='#{send("edit_#{object.class.name.underscore}_path",object)}'><i class='fa fa-pencil'></i> Edit</a></li>"
@@ -51,5 +77,9 @@ module ApplicationHelper
       </div>
     HTML
     actions.html_safe
+  end
+
+  def since_beginning_of_year_formatted
+    "#{Date.today.beginning_of_year.to_formatted_s(:long)} - #{Date.today.to_formatted_s(:long)}"
   end
 end

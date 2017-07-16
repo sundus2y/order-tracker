@@ -40,10 +40,6 @@ div#page-content-wrapper {
   width: 100%;
   margin-top: 51px; // accommodate the navbar
   }
-section {
-  @extend .row;
-  margin-top: 20px;
-  }
 
 // Styles for form views
 // using Bootstrap
@@ -83,9 +79,6 @@ section {
 .right-align {
   text-align: right;
 }
-a:visited{
-  color: #fff!important;
-}
 span.link-btn{
   font-family: sans-serif !important;
   margin-left: 5px !important;
@@ -123,7 +116,8 @@ a.sub-menu{
 }
 
 thead{
-  background: #3C3C3C;
+  background: #222d32;
+  color: #ecf0f5;
 }
 
 i.parent-plus{
@@ -215,8 +209,14 @@ div#pop_up .modal-dialog {
 }
 
 .page-title {
-  padding: 20px;
-  margin-bottom: 15px;
-  background: #ffffff;
-  font-size: 25px;
+  min-height: 20px;
+  padding: 5px 5px 5px 9px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: inset 0 -4px 2px rgba(0, 0, 0, 0.05);
+  font-size: 21px;
+}
+.sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
+  top: 40px !important;
 }

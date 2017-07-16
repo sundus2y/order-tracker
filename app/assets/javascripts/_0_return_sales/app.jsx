@@ -120,7 +120,7 @@ var returnSalesApp = returnSalesApp || {};
             var itemEnabled = false;
             var saleEnabled = false;
             return (
-                <div>
+                <div className="container-fluid">
                     <div className="row">
                         <Store data={this.state.stores} onStoreSelect={this.handleStoreSelect}/>
                         <Item disabled={this.state.selectedStore == '-1' ? true : false} onItemSelect={this.handleItemSelect} />

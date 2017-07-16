@@ -34,6 +34,10 @@ class Order < ActiveRecord::Base
 
   validates :title, presence: true
 
+  def self.open_orders_count
+    draft.count
+  end
+
   def grand_total
     order_items.map(&:total_price).compact.sum
   end

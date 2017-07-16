@@ -1,35 +1,36 @@
 <% content_for :header do %>
     Customers
 <% end %>
+<div class="container-fluid">
+  <%= will_paginate @customers, renderer: BootstrapPagination::Rails %>
 
-<%= will_paginate @customers, renderer: BootstrapPagination::Rails %>
-
-<table id="customers" class="table-responsive display table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th class="id" >Id</th>
-      <th>Name</th>
-      <th>Company</th>
-      <th>Phone</th>
-      <th>TIN No.</th>
-      <th>Category</th>
-      <th class="actions" >Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @customers.each_with_index do |customer,index| %>
+  <table id="customers" class="table-responsive display table table-striped table-bordered">
+    <thead>
       <tr>
-        <td><%= line_number(index,@customer.try(:current_page)) %></td>
-        <td><%= customer.name %></td>
-        <td><%= customer.company %></td>
-        <td><%= customer.phone %></td>
-        <td><%= customer.tin_no %></td>
-        <td><%= customer.category.titleize %></td>
-        <td>
-          <%= actions(customer) %>
-        </td>
+        <th class="id" >Id</th>
+        <th>Name</th>
+        <th>Company</th>
+        <th>Phone</th>
+        <th>TIN No.</th>
+        <th>Category</th>
+        <th class="actions" >Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @customers.each_with_index do |customer,index| %>
+        <tr>
+          <td><%= line_number(index,@customer.try(:current_page)) %></td>
+          <td><%= customer.name %></td>
+          <td><%= customer.company %></td>
+          <td><%= customer.phone %></td>
+          <td><%= customer.tin_no %></td>
+          <td><%= customer.category.titleize %></td>
+          <td>
+            <%= actions(customer) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

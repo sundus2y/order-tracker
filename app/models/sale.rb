@@ -18,6 +18,7 @@ class Sale < ActiveRecord::Base
   scope :sampled, lambda { where(status: 'sampled') }
   scope :returned, lambda { where(status: 'returned') }
   scope :void, lambda { where(status: 'void') }
+  scope :current_year, lambda {where("updated_at > '#{Time.zone.now.beginning_of_year}'")}
 
   # default_scope { includes(:sale_items).reorder(updated_at: :desc)}
 
@@ -72,6 +73,33 @@ class Sale < ActiveRecord::Base
       search_query = search_query.where("updated_at <= '#{params[:date_to]}'") if params[:date_to].present?
     end
     search_query
+  end
+
+  def self.top_10
+    Sale.sold.order('grand_total desc').limit(10)
+  end
+
+  def self.monthly_sales
+    Sale.sold.current_year.group("date_trunc('month', updated_at)").order('date_trunc_month_updated_at').sum(:grand_total).to_a
+    # Sale.sold.group("date_part('week', updated_at)").order('date_part_week_updated_at').sum(:grand_total).to_a
+  end
+
+  def self.this_week_sales
+    Sale.sold.where(updated_at: [Time.zone.now.beginning_of_week..Time.zone.now.end_of_week]).sum(:grand_total)
+  end
+
+  def self.weekly_sales_change
+    last_week = Sale.sold.where(updated_at: [1.week.ago.beginning_of_week..1.week.ago]).sum(:grand_total)
+    this_week = Sale.sold.where(updated_at: [Time.zone.now.beginning_of_week..Time.zone.now]).sum(:grand_total)
+    ((this_week - last_week)/last_week*100)
+  end
+
+  def self.daily_sales
+    Sale.sold.where(updated_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).sum(:grand_total)
+  end
+
+  def self.daily_customers
+    Sale.sold.where(updated_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).distinct.count(:customer_id)
   end
 
   def formatted_created_at

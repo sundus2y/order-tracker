@@ -281,7 +281,7 @@ var app = app || {};
             );
 
             return (
-                <div>
+                <div className="container-fluid">
                     {this.props.viewOnly ? '' : search}
                     {main}
                 </div>

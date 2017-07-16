@@ -77,7 +77,9 @@ Rails.application.routes.draw do
     get :pop_up_edit
   end
 
-  resource :dashboard
+  resource :dashboard, only: [:index], controller: :dashboard do
+    get :sales_chart_data
+  end
   get 'configs' => 'configs#index'
 
   resource :search do
