@@ -61,6 +61,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                     <thead>
                     <tr>
                         <th width="13%">Sales Order #</th>
+                        <th>FS #</th>
                         <th>Customer</th>
                         <th>Store</th>
                         <th>Created At</th>

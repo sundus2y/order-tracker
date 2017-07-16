@@ -3,6 +3,12 @@
     <%= form_tag sales_search_path, remote: true, id: :sales_search_form do %>
       <div class="col-xs-2">
         <div class="input-group">
+          <label for="fs_num">FS #</label>
+          <input name="query[fs_num]" id="fs_num" class="form-control" onchange="$(this).trigger('submit.rails')"/>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="input-group">
           <label for="sale_customer">Customer</label>
           <span id="customer-autocomplete">
             <%= autocomplete_field :query, :customer ,autocomplete_customer_name_customers_path,

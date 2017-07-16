@@ -36,9 +36,10 @@ $(document).ready(function () {
     });
 
     $(document).ajaxStart(function(event, request, settings) {
-        if(window.globalSearchSaleApp.callback) {
+        if(window.globalSearchSaleApp.callback && $.pause_searching === false) {
             window.globalSearchSaleApp.callback({searching: true});
         }
+        $.pause_searching = false;
     });
 
     $('#sales_search_form').on('ajax:success', function(e, data, status, xhr){
@@ -64,4 +65,12 @@ $(document).ready(function () {
     });
 
     $('span#selected-customer, span#selected-item').hide();
+
+    $('table').on('click', 'a.edit_fs_num',function(){
+        $.pause_searching = true;
+    });
+
+    $('body').on('click', 'button.save_fs_num', function () {
+        $.pause_searching = true;
+    })
 });

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170704190246) do
+ActiveRecord::Schema.define(version: 20170716032858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170704190246) do
     t.string   "transaction_num"
     t.integer  "creator_id"
     t.decimal  "grand_total",      precision: 11, scale: 2
+    t.string   "fs_num"
   end
 
   create_table "search_items", force: :cascade do |t|

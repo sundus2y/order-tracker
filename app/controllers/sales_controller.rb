@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: [:show, :edit, :update, :destroy, :print]
+  before_action :set_sale, only: [:show, :edit, :update, :destroy, :print, :pop_up_fs_num_edit]
 
   before_filter :authenticate_user!
   before_action :check_authorization, except: [:index, :new, :create, :submit_to_sold, :submit_to_credited, :submit_to_sampled, :mark_as_sold]
@@ -30,6 +30,10 @@ class SalesController < ApplicationController
   def edit
   end
 
+  def pop_up_fs_num_edit
+    render 'pop_up_fs_num_edit', layout: false
+  end
+
   def create
     @sale = Sale.new(sale_params.merge({creator_id: current_user.id}))
     authorize @sale
@@ -42,8 +46,11 @@ class SalesController < ApplicationController
   end
 
   def update
-    @sale.update(sale_params)
-    respond_with(@sale,location: sales_path)
+    flash[:notice] = 'Sales was successfully updated.' if @sale.update(sale_params)
+    respond_to do |format|
+      format.html {respond_with(@sale,location: sales_path)}
+      format.js {render 'close_pop_up'}
+    end
   end
 
   def destroy
@@ -99,7 +106,7 @@ class SalesController < ApplicationController
 
   private
     def set_sale
-      @sale = Sale.find(params[:id])
+      @sale = Sale.find(params[:id]||params[:sale_id])
     end
 
     def set_sales
@@ -108,7 +115,7 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:customer_id, :store_id, :remark)
+      params.require(:sale).permit(:customer_id, :store_id, :remark, :fs_num)
     end
 
     def check_authorization

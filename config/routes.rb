@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     match :submit_to_credited, as: :submit_to_credited, via: [:patch,:get]
     match :submit_to_sampled, as: :submit_to_sampled, via: [:patch,:get]
     get :return, on: :collection
+    get :pop_up_fs_num_edit
     member do
       get :print
     end

@@ -71,6 +71,7 @@ class Sale < ActiveRecord::Base
     if params[:date_from].present?
       search_query  = search_query.where("updated_at >= '#{params[:date_from]}'")
       search_query = search_query.where("updated_at <= '#{params[:date_to]}'") if params[:date_to].present?
+      search_query = search_query.where("fs_num like '#{params[:fs_num]}%'") if params[:fs_num].present?
     end
     search_query
   end

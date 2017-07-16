@@ -1,0 +1,29 @@
+<% content_for :modal_header, flush: true do %>
+    Add/Edit FS Number
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    <%= form_for(@sale, remote: true) do |f| %>
+        <div class="form-group">
+          <%= f.label :transaction_num, 'Sales Order #'%>:
+          <%= f.text_field :transaction_num, readOnly: true, class:'form-control'%>
+        </div>
+        <%= f.fields_for (f.object.customer) do |c| %>
+          <div class="field form-group">
+            <%= c.label :name %>
+            <%= c.text_field :name, readOnly: true, class: 'form-control' %>
+          </div>
+        <% end %>
+        <div class="form-group">
+          <%= f.label :grand_total%>:
+          <%= f.text_field :grand_total, readOnly: true, class:'form-control'%>
+        </div>
+        <div class="form-group">
+          <%= f.label :fs_num, 'FS Number'%>:
+          <%= f.text_field :fs_num , class:'form-control'%>
+        </div>
+        <%= button_tag('Save', name:'save', type: 'submit', class: "btn btn-block btn-primary save_fs_num") %>
+    <% end %>
+<% end %>
+
+<%= render "/modals/base", id: 'pop_up', modal_id: 'fs_num_modal' %>

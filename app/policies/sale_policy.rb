@@ -31,6 +31,10 @@ class SalePolicy
     new? && @sale.draft?
   end
 
+  def pop_up_fs_num_edit?
+    new? && @sale.sold?
+  end
+
   def destroy?
     edit? && @sale.may_delete_draft?
   end

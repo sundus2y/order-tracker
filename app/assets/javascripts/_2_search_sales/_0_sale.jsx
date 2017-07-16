@@ -33,6 +33,10 @@ var searchSaleApp = searchSaleApp || {};
                 <li><a className="btn btn-danger item-pop-up-menu" data-toggle="modal" data-target={'#confirm_sale_delete_'+this.props.data.id+''}><i className="fa fa-trash"/> Delete</a></li>
             );
 
+            var edit_fs_num = (
+                <li><a className='btn btn-primary pop_up item-pop-up-menu edit_fs_num' href={'/sales/'+this.props.data.id+'/pop_up_fs_num_edit'}><i className='fa fa-barcode'/> Add/Edit FS</a></li>
+            )
+
             var delete_action_confirm = (
                 <div className="modal fade" data-duplicate="true" id={'confirm_sale_delete_'+this.props.data.id+''}>
                     <div className="modal-dialog">
@@ -57,6 +61,7 @@ var searchSaleApp = searchSaleApp || {};
             return (
                 <tr data-id={this.props.data.id} className={this.props.data.status_upcase}>
                     <td>{this.props.data.transaction_num}</td>
+                    <td>{this.props.data.fs_num}</td>
                     <td>{this.props.data.customer.name}</td>
                     <td>{this.props.data.store.name}</td>
                     <td>{this.props.data.formatted_created_at}</td>
@@ -78,6 +83,7 @@ var searchSaleApp = searchSaleApp || {};
                                 {this.props.data.can_credit ? credit_action : ''}
                                 {this.props.data.can_sample ? sample_action : ''}
                                 {this.props.data.can_print ? print_action : ''}
+                                {this.props.data.can_edit_fs_num ? edit_fs_num : ''}
                                 {this.props.data.can_delete ? delete_action : ''}
                             </ul>
                         </div>
