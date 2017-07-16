@@ -3,7 +3,8 @@ class ItemsController < ApplicationController
   autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
   autocomplete :item, :sale_order, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
 
-  before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit]
+  before_action :set_empty_transaction
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit, :copy]
   before_action :set_transaction_log, only: [:show, :edit, :pop_up_edit, :pop_up_show]
 
   before_filter :authenticate_user!
@@ -27,11 +28,15 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
-    set_transaction_log
     respond_with(@item)
   end
 
   def edit
+  end
+
+  def copy
+    @item = @item.copy
+    render 'new'
   end
 
   def pop_up_edit
@@ -179,8 +184,11 @@ class ItemsController < ApplicationController
       authorize @item || Item
     end
 
-    def set_transaction_log
+    def set_empty_transaction
       @transactions = {}
+    end
+
+    def set_transaction_log
       @transactions = @item.transfer_log(@transactions)
       @transactions = @item.sales_order_log(@transactions)
       @transactions.each{|k,v| v.sort_by!(&:created_at)}

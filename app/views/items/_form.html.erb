@@ -88,7 +88,7 @@
               <% unless inv_f.object.store.virtual? %>
               <tr>
                 <td width="12%"><%= inv_f.label :qty, "#{inv_f.object.store.short_name} " %></td>
-                <td width="20%"><%= inv_f.number_field :qty, class: 'form-control', enabled: false%></td>
+                <td width="20%"><%= inv_f.number_field :qty, class: 'form-control', disabled: true%></td>
                 <td width="40%" class="location">
                   <%= inv_f.text_field :location, class: 'form-control', placeholder:'Location'%>
                 </td>

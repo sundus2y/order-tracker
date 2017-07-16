@@ -24,8 +24,7 @@ class Item < ActiveRecord::Base
   before_destroy :can_be_deleted?
   before_save :update_default_sale_price
   after_save :invalidate_cache
-  validates :name, presence: true
-  validates :original_number, presence: true
+  validates_presence_of :item_number, :original_number, :brand, :made, :name
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
   validate :item_numbers_cannot_include_special_characters
 
@@ -59,6 +58,7 @@ class Item < ActiveRecord::Base
     edit_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_edit_path self}'><i class='fa fa-pencil'></i> Edit</a></li>"
     delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
     add_to_order_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.pop_up_add_item_to_order_path(item_id: self.id)}'><i class='fa fa-truck'></i> Add to Order</a></li>"
+    copy_action = "<li><a class='btn-primary item-pop-up-menu' target='_blank' href='#{url_helpers.copy_item_path(id: self.id)}'><i class='fa fa-clone'></i> Copy Item</a></li>"
     actions_html = <<-HTML
       <div class="btn-group">
         <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -69,6 +69,7 @@ class Item < ActiveRecord::Base
           #{edit_action if type == :admin}
           #{add_to_order_action if type == :admin}
           #{delete_action if type == :admin}
+          #{copy_action if type == :admin}
         </ul>
       </div>
     HTML
@@ -479,6 +480,12 @@ AND i.made = si.made
 
   def label
     "#{name} - (#{original_number})"
+  end
+
+  def copy
+    new_item = self.dup
+    new_item.item_number = new_item.brand = new_item.made = nil
+    new_item
   end
 
   def self.search_item2(term)

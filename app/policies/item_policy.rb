@@ -92,6 +92,10 @@ class ItemPolicy
     @current_user.admin?
   end
 
+  def copy?
+    @current_user.admin?
+  end
+
   def destroy?
     @current_user.admin? && (@item.class == Class || @item.can_be_deleted?)
   end
