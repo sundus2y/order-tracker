@@ -397,7 +397,7 @@ AND i.made = si.made
   def self.top_15
     Item.joins(:sale_items).
         group(:item_id,:item_number,:name,:car).
-        order('count_item_id desc').
+        order('sum_qty desc').
         limit(15).
         sum(:qty)
   end
