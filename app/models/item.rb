@@ -399,7 +399,7 @@ AND i.made = si.made
         group(:item_id,:item_number,:name,:car).
         order('count_item_id desc').
         limit(15).
-        count('item_id')
+        sum(:qty)
   end
 
   def self.fetch_cars
