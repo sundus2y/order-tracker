@@ -36,7 +36,8 @@ var app = app || {};
     var App = React.createClass({
         getInitialState: function () {
             return {
-                data: []
+                data: [],
+                loadingSaleItems: false
             };
         },
 
@@ -107,14 +108,17 @@ var app = app || {};
 
         getSaleItems: function(saleId){
             var deferred = $.Deferred();
+            this.setState({loadingSaleItems: true});
             $.ajax({
                 type: "GET",
                 url: "/sales/"+saleId+"/sale_items/",
                 dataType: 'json',
                 success: function(data,response){
                     deferred.resolve({context:this,data:data,message:response});
+                    this.setState({loadingSaleItems: false});
                 }.bind(this),
                 error: function(err) {
+                    this.setState({loadingSaleItems: false});
                     deferred.reject({context:this,err:err,message:'Error'});
                 }
             });
@@ -202,6 +206,15 @@ var app = app || {};
                 );
             }, this);
 
+            var loadingItems = (
+                <tr>
+                    <td colSpan="7" className="center-aligned">
+                        <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                        <span className="searching">Loading . . .</span>
+                    </td>
+                </tr>
+            );
+
             var search = (
                 <div id="item_search_row" className="row">
                     <div className="col-sm-4">
@@ -266,7 +279,7 @@ var app = app || {};
                         </tr>
                     </thead>
                     <tbody>
-                        {saleItems}
+                        {this.state.loadingSaleItems ? loadingItems : saleItems }
                         <SaleItemFooter
                             grandTotalQty={grandTotalQty}
                             grandTotalPrice={grandTotalPrice}

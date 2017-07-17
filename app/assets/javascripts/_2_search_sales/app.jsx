@@ -41,7 +41,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="8" className="center-aligned">
+                    <td colSpan="9" className="center-aligned">
                         No Sales Found for the given criteria.
                     </td>
                 </tr>
@@ -49,7 +49,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
 
             var searchingRow = (
                 <tr>
-                    <td colSpan="8" className="center-aligned">
+                    <td colSpan="9" className="center-aligned">
                         <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                         <span className="searching">Loading . . .</span>
                     </td>
@@ -66,6 +66,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                         <th>Store</th>
                         <th>Created At</th>
                         <th>Updated At</th>
+                        <th>Sold At</th>
                         <th width="5%">Status</th>
                         <th>Grand Total</th>
                         <th>Actions</th>

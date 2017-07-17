@@ -1,6 +1,6 @@
 object @sale
 
-attributes :id, :formatted_created_at, :formatted_updated_at, :grand_total, :status_upcase, :transaction_num, :fs_num
+attributes :id, :formatted_created_at, :formatted_updated_at, :formatted_sold_at ,:grand_total, :status_upcase, :transaction_num, :fs_num
 
 child(:customer) { attributes :name }
 child(:store) { attributes :name }

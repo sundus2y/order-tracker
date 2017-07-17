@@ -18,9 +18,7 @@ class Sale < ActiveRecord::Base
   scope :sampled, lambda { where(status: 'sampled') }
   scope :returned, lambda { where(status: 'returned') }
   scope :void, lambda { where(status: 'void') }
-  scope :current_year, lambda {where("updated_at > '#{Time.zone.now.beginning_of_year}'")}
-
-  # default_scope { includes(:sale_items).reorder(updated_at: :desc)}
+  scope :current_year, lambda {where("sold_at > '#{Time.zone.now.beginning_of_year}'")}
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
@@ -31,11 +29,11 @@ class Sale < ActiveRecord::Base
     state :void
 
     event :submit, after: :submit_sale_items do
-      transitions :from => :draft, :to => :sold, unless: :empty_sale_item? #SALE
+      transitions :from => :draft, :to => :sold, after: :set_sold_at, unless: :empty_sale_item? #SALE
     end
 
     event :mark_as_sold, after: :mark_as_sold_items do
-      transitions :from => [:sampled,:credited], :to => :sold, unless: :empty_sale_item? #SALE
+      transitions :from => [:sampled,:credited], :to => :sold, after: :set_sold_at, unless: :empty_sale_item? #SALE
     end
 
     event :credit, after: :credit_sale_items do
@@ -81,26 +79,26 @@ class Sale < ActiveRecord::Base
   end
 
   def self.monthly_sales
-    Sale.sold.current_year.group("date_trunc('month', updated_at)").order('date_trunc_month_updated_at').sum(:grand_total).to_a
+    Sale.sold.current_year.group("date_trunc('month', sold_at)").order('date_trunc_month_sold_at').sum(:grand_total).to_a
     # Sale.sold.group("date_part('week', updated_at)").order('date_part_week_updated_at').sum(:grand_total).to_a
   end
 
   def self.this_week_sales
-    Sale.sold.where(updated_at: [Time.zone.now.beginning_of_week..Time.zone.now.end_of_week]).sum(:grand_total)
+    Sale.sold.where(sold_at: [Time.zone.now.beginning_of_week..Time.zone.now.end_of_week]).sum(:grand_total)
   end
 
   def self.weekly_sales_change
-    last_week = Sale.sold.where(updated_at: [1.week.ago.beginning_of_week..1.week.ago]).sum(:grand_total)
-    this_week = Sale.sold.where(updated_at: [Time.zone.now.beginning_of_week..Time.zone.now]).sum(:grand_total)
-    ((this_week - last_week)/last_week*100)
+    last_week = Sale.sold.where(sold_at: [1.week.ago.beginning_of_week..1.week.ago]).sum(:grand_total)
+    this_week = Sale.sold.where(sold_at: [Time.zone.now.beginning_of_week..Time.zone.now]).sum(:grand_total)
+    last_week.to_i != 0 ? ((this_week - last_week)/last_week*100) : 0
   end
 
   def self.daily_sales
-    Sale.sold.where(updated_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).sum(:grand_total)
+    Sale.sold.where(sold_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).sum(:grand_total)
   end
 
   def self.daily_customers
-    Sale.sold.where(updated_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).distinct.count(:customer_id)
+    Sale.sold.where(sold_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).distinct.count(:customer_id)
   end
 
   def formatted_created_at
@@ -109,6 +107,10 @@ class Sale < ActiveRecord::Base
 
   def formatted_updated_at
     updated_at.to_formatted_s(:long) if updated_at
+  end
+
+  def formatted_sold_at
+    sold_at.to_formatted_s(:long) if sold_at
   end
 
   def status_upcase
@@ -156,6 +158,10 @@ class Sale < ActiveRecord::Base
         n + (sale_item.qty*sale_item.unit_price)
       end
       update_column('grand_total',gt)
+    end
+
+    def set_sold_at
+      update_column('sold_at',Time.zone.now)
     end
 
 end

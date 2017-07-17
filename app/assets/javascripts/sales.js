@@ -72,5 +72,13 @@ $(document).ready(function () {
 
     $('body').on('click', 'button.save_fs_num', function () {
         $.pause_searching = true;
-    })
+    });
+
+    $('.edit_sale').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 });

@@ -24,6 +24,11 @@ var app = app || {};
             this.props.onSaleItemRemove(this.props.saleItemData);
         },
 
+        componentDidMount: function(){
+            var last_input = $($('input.focus')[0]);
+            last_input.focus().val(last_input.val()).select();
+        },
+
         render: function(){
             var qty = (isNaN(this.props.saleItemData.qty))? 0 : this.props.saleItemData.qty;
             var price = (isNaN(this.props.saleItemData.unit_price))? 0 : this.props.saleItemData.unit_price;
@@ -61,7 +66,7 @@ var app = app || {};
                     </td>
                     <td>
                         <div className="field form-group">
-                            <input className={"form-control right-align "+this.props.saleItemData.status+"_item"}
+                            <input className={"form-control right-align focus "+this.props.saleItemData.status+"_item"}
                                    defaultValue={this.props.saleItemData.qty}
                                    onBlur={this.handleQtyChange}
                                    required

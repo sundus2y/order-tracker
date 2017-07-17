@@ -12,7 +12,7 @@ $(function () {
             labels: data['dates'],
             datasets: [
                 {
-                    label: 'Electronics',
+                    label: 'Monthly Sales',
                     fillColor: 'rgb(210, 214, 222)',
                     strokeColor: 'rgb(210, 214, 222)',
                     pointColor: 'rgb(210, 214, 222)',

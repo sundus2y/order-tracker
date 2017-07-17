@@ -66,6 +66,7 @@ var searchSaleApp = searchSaleApp || {};
                     <td>{this.props.data.store.name}</td>
                     <td>{this.props.data.formatted_created_at}</td>
                     <td>{this.props.data.formatted_updated_at}</td>
+                    <td>{this.props.data.formatted_sold_at}</td>
                     <td><span className="badge">{this.props.data.status_upcase}</span></td>
                     <td className="right-align">{printCurrency(this.props.data.grand_total)}</td>
                     <td>
