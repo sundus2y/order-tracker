@@ -1,0 +1,225 @@
+<% content_for :header do %>
+    Dashboard
+<% end %>
+<% content_for :content do %>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-red"><i class="fa fa-line-chart"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Sales</span>
+            <span class="info-box-number"><%= Stats::Sale.daily_sold_count %></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Credited Sales</span>
+            <span class="info-box-number"><%= Stats::Sale.daily_credited_count %></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Sampled Sales</span>
+            <span class="info-box-number"><%= Stats::Sale.daily_sampled_count %></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-aqua"><i class="fa fa-truck"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Draft Sales</span>
+            <span class="info-box-number"><%= Stats::Sale.daily_draft_count %></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Daily Credited</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name/Company</th>
+                  <th>Tel</th>
+                  <th width="15%">Date</th>
+                  <th>Age</th>
+                  <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% Stats::Sale.daily_credited.each_with_index do |sale| %>
+                    <tr>
+                      <td><%= link_to(sale.transaction_num,sale_path(sale),target:'_blank') %></td>
+                      <td><%= sale.customer.name %></td>
+                      <td><%= sale.customer.phone %></td>
+                      <td><%= sale.formatted_created_at(:long_date) %></td>
+                      <td><%= time_ago_in_words(sale.created_at) %></td>
+                      <td><%= number_to_currency(sale.grand_total) %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Daily Sampled</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name/Company</th>
+                  <th>Tel</th>
+                  <th width="15%">Date</th>
+                  <th>Age</th>
+                  <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% Stats::Sale.daily_sampled.each_with_index do |sale| %>
+                    <tr>
+                      <td><%= link_to(sale.transaction_num,sale_path(sale),target:'_blank') %></td>
+                      <td><%= sale.customer.name %></td>
+                      <td><%= sale.customer.phone %></td>
+                      <td><%= sale.formatted_created_at(:long_date) %></td>
+                      <td><%= time_ago_in_words(sale.created_at) %></td>
+                      <td><%= number_to_currency(sale.grand_total) %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">All Time Credited</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name/Company</th>
+                  <th>Tel</th>
+                  <th width="15%">Date</th>
+                  <th>Age</th>
+                  <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% Stats::Sale.all_time_credited.each_with_index do |sale| %>
+                    <tr>
+                      <td><%= link_to(sale.transaction_num,sale_path(sale),target:'_blank') %></td>
+                      <td><%= sale.customer.name %></td>
+                      <td><%= sale.customer.phone %></td>
+                      <td><%= sale.formatted_created_at(:long_date) %></td>
+                      <td><%= time_ago_in_words(sale.created_at) %></td>
+                      <td><%= number_to_currency(sale.grand_total) %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">All Time Sampled</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table no-margin">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name/Company</th>
+                  <th>Tel</th>
+                  <th width="15%">Date</th>
+                  <th>Age</th>
+                  <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% Stats::Sale.all_time_sampled.each_with_index do |sale| %>
+                    <tr>
+                      <td><%= link_to(sale.transaction_num,sale_path(sale),target:'_blank') %></td>
+                      <td><%= sale.customer.name %></td>
+                      <td><%= sale.customer.phone %></td>
+                      <td><%= sale.formatted_created_at(:long_date) %></td>
+                      <td><%= time_ago_in_words(sale.created_at) %></td>
+                      <td><%= number_to_currency(sale.grand_total) %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>

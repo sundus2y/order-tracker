@@ -74,43 +74,16 @@ class Sale < ActiveRecord::Base
     search_query
   end
 
-  def self.top_10
-    Sale.sold.order('grand_total desc').limit(10)
+  def formatted_created_at(format=:long)
+    created_at.to_formatted_s(format) if created_at
   end
 
-  def self.monthly_sales
-    Sale.sold.current_year.group("date_trunc('month', sold_at)").order('date_trunc_month_sold_at').sum(:grand_total).to_a
-    # Sale.sold.group("date_part('week', updated_at)").order('date_part_week_updated_at').sum(:grand_total).to_a
+  def formatted_updated_at(format=:long)
+    updated_at.to_formatted_s(format) if updated_at
   end
 
-  def self.this_week_sales
-    Sale.sold.where(sold_at: [Time.zone.now.beginning_of_week..Time.zone.now.end_of_week]).sum(:grand_total)
-  end
-
-  def self.weekly_sales_change
-    last_week = Sale.sold.where(sold_at: [1.week.ago.beginning_of_week..1.week.ago]).sum(:grand_total)
-    this_week = Sale.sold.where(sold_at: [Time.zone.now.beginning_of_week..Time.zone.now]).sum(:grand_total)
-    last_week.to_i != 0 ? ((this_week - last_week)/last_week*100) : 0
-  end
-
-  def self.daily_sales
-    Sale.sold.where(sold_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).sum(:grand_total)
-  end
-
-  def self.daily_customers
-    Sale.sold.where(sold_at: [Time.zone.now.beginning_of_day..Time.zone.now.end_of_day]).distinct.count(:customer_id)
-  end
-
-  def formatted_created_at
-    created_at.to_formatted_s(:long) if created_at
-  end
-
-  def formatted_updated_at
-    updated_at.to_formatted_s(:long) if updated_at
-  end
-
-  def formatted_sold_at
-    sold_at.to_formatted_s(:long) if sold_at
+  def formatted_sold_at(format=:long)
+    sold_at.to_formatted_s(format) if sold_at
   end
 
   def status_upcase

@@ -10,8 +10,8 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Weekly Sales</span>
-            <span class="info-box-number"><%= number_to_currency(Sale.this_week_sales) %></span>
-            <% change = Sale.weekly_sales_change %>
+            <span class="info-box-number"><%= number_to_currency(Stats::Sale.this_week_sales) %></span>
+            <% change = Stats::Sale.weekly_sales_change %>
             <% change_style = get_change_style(change) %>
               <%= content_tag(:span,nil,class:"description-percentage text-#{change_style[:color]}") do%>
                 <%= content_tag(:i,nil,class:"fa #{change_style[:icon]}") %>
@@ -28,7 +28,8 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Daily Sales</span>
-            <span class="info-box-number"><%= number_to_currency(Sale.daily_sales) %></span>
+            <span class="info-box-number"><%= number_to_currency(Stats::Sale.daily_sold_amount) %></span>
+            <span class="info-box-number"><%= Stats::Sale.daily_sold_count %></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -40,7 +41,7 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Daily Customers</span>
-            <span class="info-box-number"><%= Sale.daily_customers %></span>
+            <span class="info-box-number"><%= Stats::Sale.daily_customers %></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -90,38 +91,29 @@
           <!-- ./box-body -->
           <div class="box-footer">
             <div class="row">
-              <div class="col-sm-3 col-xs-6">
+              <div class="col-sm-4">
                 <div class="description-block border-right">
                   <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                  <h5 class="description-header">$0.00</h5>
+                  <h5 class="description-header"><%= number_to_currency(Stats::Sale.monthly_revenue) %></h5>
                   <span class="description-text">TOTAL REVENUE</span>
                 </div>
                 <!-- /.description-block -->
               </div>
               <!-- /.col -->
-              <div class="col-sm-3 col-xs-6">
+              <div class="col-sm-4">
                 <div class="description-block border-right">
                   <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                  <h5 class="description-header">$0.00</h5>
+                  <h5 class="description-header"><%= number_to_currency(Stats::Sale.monthly_cost) %></h5>
                   <span class="description-text">TOTAL COST</span>
                 </div>
                 <!-- /.description-block -->
               </div>
               <!-- /.col -->
-              <div class="col-sm-3 col-xs-6">
+              <div class="col-sm-4">
                 <div class="description-block border-right">
                   <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                  <h5 class="description-header">$0.00</h5>
+                  <h5 class="description-header"><%= number_to_currency(Stats::Sale.monthly_revenue - Stats::Sale.monthly_cost) %></h5>
                   <span class="description-text">TOTAL PROFIT</span>
-                </div>
-                <!-- /.description-block -->
-              </div>
-              <!-- /.col -->
-              <div class="col-sm-3 col-xs-6">
-                <div class="description-block">
-                  <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                  <h5 class="description-header">$0.00</h5>
-                  <span class="description-text">GOAL COMPLETIONS</span>
                 </div>
                 <!-- /.description-block -->
               </div>
@@ -160,7 +152,7 @@
                 <tbody>
                 <% Item.top_15.each_with_index do |(item,ct),index| %>
                     <tr>
-                      <td><%= link_to(index+1,item_path(item[0])) %></td>
+                      <td><%= link_to(index+1,item_path(item[0]),target:'_blank') %></td>
                       <td><%= item[1] %></td>
                       <td><%= item[2] %></td>
                       <td><%= item[3] %></td>
@@ -196,9 +188,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <% Sale.top_10.each_with_index do |sale,index| %>
+                  <% Stats::Sale.top_10_sales.each_with_index do |sale,index| %>
                     <tr>
-                      <td><%= link_to(index+1,sale) %></td>
+                      <td><%= link_to(index+1,sale,target:'_blank') %></td>
                       <td><%= sale.store.name %></td>
                       <td><%= sale.updated_at.to_formatted_s(:long) %></td>
                       <td><%= number_to_currency(sale.grand_total) %></td>

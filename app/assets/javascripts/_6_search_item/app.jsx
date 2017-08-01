@@ -89,7 +89,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                             <div className="col-sm-4">
                                 <div className="form-group">
                                     <label htmlFor="name">Name: </label>
-                                    <input id="name" className='form-control' name="name" placeholder="Item Name"></input>
+                                    <input id="name" type="search" results='5'  autosave='name_search_hs' className='form-control' name="name" placeholder="Item Name"></input>
                                 </div>
                             </div>
                             <div className="col-sm-2">
