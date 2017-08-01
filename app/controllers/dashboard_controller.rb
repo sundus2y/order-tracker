@@ -2,8 +2,12 @@ class DashboardController < ApplicationController
 
   def index
     redirect_to new_user_session_path unless user_signed_in?
-    render 'admin_dashboard' if user_signed_in? && @current_user.admin?
-    render 'sales_dashboard' if user_signed_in? && @current_user.sales?
+    if user_signed_in? && @current_user.admin?
+      @dash_view = 'admin_dashboard'
+      @dash_header = 'admin_dashboard_header'
+    elsif user_signed_in? && @current_user.sales?
+      @dash_view = 'sales_dashboard'
+    end
   end
 
   def sales_chart_data

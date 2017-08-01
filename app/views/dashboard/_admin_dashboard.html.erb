@@ -1,7 +1,4 @@
-<% content_for :header do %>
-    Dashboard
-<% end %>
-<% content_for :content do %>
+<div id='admin_dash_container'>
   <section class="content">
     <div class="row">
       <div class="col-md-3 col-sm-6 col-xs-12">
@@ -13,10 +10,10 @@
             <span class="info-box-number"><%= number_to_currency(Stats::Sale.this_week_sales) %></span>
             <% change = Stats::Sale.weekly_sales_change %>
             <% change_style = get_change_style(change) %>
-              <%= content_tag(:span,nil,class:"description-percentage text-#{change_style[:color]}") do%>
+            <%= content_tag(:span,nil,class:"description-percentage text-#{change_style[:color]}") do%>
                 <%= content_tag(:i,nil,class:"fa #{change_style[:icon]}") %>
                 <%= number_to_percentage(change) %>
-              <% end %>
+            <% end %>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -188,14 +185,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <% Stats::Sale.top_10_sales.each_with_index do |sale,index| %>
+                <% Stats::Sale.top_10_sales.each_with_index do |sale,index| %>
                     <tr>
                       <td><%= link_to(index+1,sale,target:'_blank') %></td>
                       <td><%= sale.store.name %></td>
                       <td><%= sale.updated_at.to_formatted_s(:long) %></td>
                       <td><%= number_to_currency(sale.grand_total) %></td>
                     </tr>
-                  <% end %>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -250,4 +247,7 @@
       </div>
     </div>
   </section>
-<% end %>
+</div>
+<div id="sales_dash_container" class="hidden">
+  <%= render 'sales_dashboard' %>
+</div>

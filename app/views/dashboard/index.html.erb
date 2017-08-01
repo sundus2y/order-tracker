@@ -1,6 +1,14 @@
 <% content_for :header do %>
-    Dashboard
+    <% if @dash_header %>
+        <%= render @dash_header %>
+    <% else %>
+        Dashboard
+    <% end %>
 <% end %>
 <% content_for :content do %>
-  <%= image_tag('dashboard.png') %>
+    <% if @dash_view %>
+        <%= render @dash_view %>
+    <% else %>
+        <%= image_tag('dashboard.png') %>
+    <% end %>
 <% end %>
