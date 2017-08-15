@@ -6,8 +6,9 @@ class Store < ActiveRecord::Base
   has_many :received_transfers, dependent: :destroy, class_name: 'Transfer', foreign_key: :to_store_id
   has_many :users, dependent: :destroy
 
-  scope :for_sales, -> { where.not(store_type: ['VS','ST']) }
-  scope :minus_virtual, -> { where.not(store_type: ['VS']) }
+  scope :for_sales, -> { where.not(store_type: ['VS','ST'], active: false) }
+  scope :minus_virtual, -> { where.not(store_type: ['VS'], active: false) }
+  scope :active, -> { where(active: true) }
 
   def virtual?
     store_type == 'VS'

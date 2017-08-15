@@ -88,7 +88,7 @@ class Item < ActiveRecord::Base
     response = []
     sep = '<br>'.html_safe
     inventories.each do |inventory|
-      response << "#{inventory.store.short_name}: #{inventory.qty}" unless inventory.store.virtual?
+      response << "#{inventory.store.short_name}: #{inventory.qty}" if !inventory.store.virtual? && inventory.store.active
     end
     response.join(sep).html_safe
   end

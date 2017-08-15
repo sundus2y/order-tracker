@@ -11,7 +11,7 @@
           <div class="input-group">
             <label for="from_store_id">From Store</label>
             <%= select_tag 'query[from_store_id]',
-                           content_tag(:option,'select one...',:value=>"") + options_from_collection_for_select(Store.all, "id", "name"),
+                           content_tag(:option,'select one...',:value=>"") + options_from_collection_for_select(Store.active, "id", "name"),
                            class: 'form-control', onchange: "$(this).trigger('submit.rails')" %>
           </div>
         </div>
@@ -19,7 +19,7 @@
           <div class="input-group">
             <label for="to_store_id">To Store</label>
             <%= select_tag 'query[to_store_id]',
-                           content_tag(:option,'select one...',:value=>"") + options_from_collection_for_select(Store.all, "id", "name"),
+                           content_tag(:option,'select one...',:value=>"") + options_from_collection_for_select(Store.active, "id", "name"),
                            class: 'form-control', onchange: "$(this).trigger('submit.rails')" %>
           </div>
         </div>
