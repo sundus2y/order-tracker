@@ -86,7 +86,7 @@ class Item < ActiveRecord::Base
 
   def inventories_display
     response = []
-    sep = '<br>'.html_safe
+    sep = "<hr style='margin: 0px'>".html_safe
     inventories.each do |inventory|
       response << "#{inventory.store.short_name}: #{inventory.qty}" if !inventory.store.virtual? && inventory.store.active
     end

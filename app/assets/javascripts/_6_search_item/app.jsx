@@ -220,7 +220,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                             <th rowSpan="2">Next Number</th>
                             <th width="4%" rowSpan="2">Car</th>
                             <th colSpan="4" className="center-aligned">Price</th>
-                            <th width="9%" rowSpan="2">Stock</th>
+                            <th width="12%" rowSpan="2">Stock</th>
                             <th width="9%" rowSpan="2">Order</th>
                             <th rowSpan="2">Brand</th>
                             <th rowSpan="2">Made</th>
