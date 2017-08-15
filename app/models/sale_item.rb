@@ -79,7 +79,7 @@ class SaleItem < ActiveRecord::Base
     end
 
     def recal_grand_total
-      sale.save!
+      sale.reload.save!
     end
 
 end
