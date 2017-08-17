@@ -6,7 +6,7 @@
   <%= form_for(user) do |f| %>
     Role: <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
     Default Store: <%= f.select(:default_store_id, Store.minus_virtual.map {|store| [store.name,store.id]},{include_blank: true})%>
-    <%= f.submit 'Update User', :class => 'btn btn-primary' %>
+    <%= f.submit 'Update User', :class => 'btn btn-primary', data: {disable_with: 'Please wait...'} %>
   <% end %>
 </td>
 <td>

@@ -22,7 +22,7 @@
           <%= f.label :fs_num, 'FS Number'%>:
           <%= f.text_field :fs_num , class:'form-control'%>
         </div>
-        <%= button_tag('Save', name:'save', type: 'submit', class: "btn btn-block btn-primary save_fs_num") %>
+        <%= button_tag 'Save', name:'save', type: 'submit', class: "btn btn-block btn-primary save_fs_num", data: {disable_with: 'Please wait...'} %>
     <% end %>
 <% end %>
 

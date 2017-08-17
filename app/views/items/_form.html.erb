@@ -12,7 +12,7 @@
     <% end %>
     <% unless action=="Show"%>
       <div class="actions">
-        <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
+        <%= button_tag action, type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'} %>
       </div>
     <% end %>
     <div class="row">
@@ -188,7 +188,7 @@
     </div>
     <% unless action=="Show"%>
       <div class="actions">
-        <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
+        <%= button_tag action, type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'} %>
       </div>
     <% end %>
 <% end %>

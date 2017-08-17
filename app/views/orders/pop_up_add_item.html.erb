@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-lg-4">
                           <% if order_item.order.draft? %>
-                              <%= f.submit 'Update Existing Order', class: 'btn btn-primary'%>
+                              <%= f.submit 'Update Existing Order', class: 'btn btn-primary', data: {disable_with: 'Please wait...'}%>
                           <% end %>
                         </div>
                       </div>
@@ -75,7 +75,7 @@
                               </div>
                             </div>
                             <div class="col-lg-4">
-                              <%= f.submit 'Add to Existing Order', class: 'btn btn-primary'%>
+                              <%= f.submit 'Add to Existing Order', class: 'btn btn-primary', data: {disable_with: 'Please wait...'}%>
                             </div>
                           </div>
                       <% end %>
@@ -108,7 +108,7 @@
                       </div>
                     </div>
                     <div class="col-lg-4">
-                      <%= f.submit 'Add to New Order', class: 'btn btn-primary'%>
+                      <%= f.submit 'Add to New Order', class: 'btn btn-primary', data: {disable_with: 'Please wait...'}%>
                     </div>
                   </div>
               <% end %>

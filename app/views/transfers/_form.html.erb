@@ -55,12 +55,12 @@
             </div>
         <% end %>
     <% else %>
-        <%= button_tag('Create Transfer', name:'save', type: 'submit', class: "btn btn-primary btn-block") %>
+        <%= button_tag 'Create Transfer', name:'save', type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'} %>
     <% end %>
 <% end %>
 <% if @transfer.note == 'QTY-IMPORT' %>
     <%= form_tag transfer_import_transfer_items_path(@transfer), multipart: true do %>
         <%= file_field_tag :file %>
-        <%= button_tag('Upload', type: 'submit') %>
+        <%= button_tag 'Upload', type: 'submit', data: {disable_with: 'Please wait...'} %>
     <% end %>
 <% end %>

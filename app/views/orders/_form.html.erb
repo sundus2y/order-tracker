@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <%= form_for(@order, html:{class:'form-inline', readOnly: action=="Show"}) do |f| %>
     <div class="actions">
-      <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
+      <%= button_tag action, type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'} %>
     </div>
 
     <% if @order.errors.any? %>
@@ -94,7 +94,7 @@
     <br><br>
 
     <div class="actions">
-      <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block") %>
+      <%= button_tag action, type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'} %>
     </div>
   <% end %>
 

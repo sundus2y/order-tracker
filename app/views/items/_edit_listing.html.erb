@@ -41,8 +41,8 @@
             </td>
             <td class="actions">
               <div class="actions">
-                <%= button_tag("Add", type: 'submit', class: "btn btn-primary add-import") %>
-                <%= button_tag("Ignore", class: "btn btn-warning ignore-import") %>
+                <%= button_tag "Add", type: 'submit', class: "btn btn-primary add-import", data: {disable_with: 'Please wait...'} %>
+                <%= button_tag "Ignore", class: "btn btn-warning ignore-import", data: {disable_with: 'Please wait...'} %>
               </div>
             </td>
           </tr>

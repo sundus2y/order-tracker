@@ -28,6 +28,6 @@
     <%= f.number_field :unit_price %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Save', data: {disable_with: 'Please wait...'} %>
   </div>
 <% end %>

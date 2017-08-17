@@ -20,6 +20,6 @@
     <%= f.number_field :qty %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Save', data: {disable_with: 'Please wait...'} %>
   </div>
 <% end %>
