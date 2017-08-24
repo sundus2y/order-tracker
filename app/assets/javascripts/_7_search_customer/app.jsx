@@ -45,8 +45,8 @@ window.globalSearchCustomerApp = window.globalSearchCustomerApp || {};
                             </div>
                             <div className="col-sm-3">
                                 <div className="form-group">
-                                    <label htmlFor="phone_number">Phone Numbers: </label>
-                                    <input id="phone_number" className="form-control" name="phone_number" placeholder="Phone Number"></input>
+                                    <label htmlFor="phone">Phone Numbers: </label>
+                                    <input id="phone" className="form-control" name="phone" placeholder="Phone Number"></input>
                                 </div>
                             </div>
                             <div className="col-sm-3">
