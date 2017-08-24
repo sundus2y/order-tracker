@@ -1,0 +1,9 @@
+<% content_for :modal_header, flush: true do %>
+    Update Customer
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    <%= render 'form', action: "Update Customer", remote: true %>
+<% end %>
+
+<%= render "/modals/base", id: 'pop_up' %>

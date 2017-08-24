@@ -5,7 +5,7 @@ class CustomersController < ApplicationController
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
 
   before_filter :authenticate_user!
-  before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit]
   before_action :check_authorization, except: [:index, :new, :create]
   after_action :verify_authorized
 
@@ -42,7 +42,10 @@ class CustomersController < ApplicationController
 
   def update
     flash[:notice] = 'Customer was successfully updated.' if @customer.update(customer_params)
-    respond_with(@customer,location: customers_path)
+    respond_to do |format|
+      format.html {respond_with(@customer,location: customers_path)}
+      format.js
+    end
   end
 
   def destroy
@@ -50,9 +53,17 @@ class CustomersController < ApplicationController
     respond_with(@customer)
   end
 
+  def pop_up_edit
+    render 'pop_up_edit', layout: false
+  end
+
+  def pop_up_show
+    render 'pop_up_show', layout: false
+  end
+
   private
     def set_customer
-      @customer = Customer.find(params[:id])
+      @customer = Customer.find(params[:id] ||params[:customer_id])
     end
 
     def check_authorization

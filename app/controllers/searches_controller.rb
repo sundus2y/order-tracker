@@ -52,6 +52,22 @@ class SearchesController < ApplicationController
     authorize Sale, :search?
   end
 
+  def customers
+    search_type = :admin_search
+    begin
+      authorize Customer, :destroy?
+    rescue Pundit::NotAuthorizedError => e
+      authorize Customer, :search?
+      search_type = :regular_search
+    end
+    @customers = Customer.search(params).reorder(:name).limit(20).as_json({type: search_type})
+    @customers.map{|item| item.transform_keys!{|key| Item::KEY_MAP[key] || key }}
+    respond_to do |format|
+      format.html {}
+      format.js {render json: @customers}
+    end
+  end
+
   def _
 
   end

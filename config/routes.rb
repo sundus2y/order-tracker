@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
   resources :customers do
     get :autocomplete_customer_name, on: :collection
+    get :pop_up_show
+    get :pop_up_edit
   end
 
   resources :stores do
@@ -89,6 +91,7 @@ Rails.application.routes.draw do
   resource :search do
     get :all, on: :collection, as: :all
     get :items, on: :collection, as: :items
+    get :customers, on: :collection, as: :customers
     get :item_lookup, on: :collection, as: :item_lookup
     get :orders, on: :collection, as: :orders
     get :vin, on: :collection, as: :vin

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <%= form_for(@customer, data: {readOnly: action=="Show"}) do |f| %>
+  <%= form_for(@customer, data: {readOnly: action=="Show"}, remote: remote) do |f| %>
     <% if @customer.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@customer.errors.count, "error") %> prohibited this customer from being saved:</h2>

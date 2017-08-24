@@ -31,11 +31,19 @@ class CustomerPolicy
   end
 
   def destroy?
-    (@current_user.admin? || @current_user.sales?) && @customer.can_be_deleted?
+    @current_user.admin? && (@customer.class == Class || @customer.can_be_deleted?)
+  end
+
+  def pop_up_show?
+    show?
+  end
+
+  def pop_up_edit?
+    edit?
   end
 
   def search?
-    !@current_user.user? && !@current_user.vendor?
+    @current_user.admin? || @current_user.sales?
   end
 
   def autocomplete_customer_name?
