@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <%= form_tag sales_search_path, remote: true, id: :sales_search_form do %>
+    <%= form_tag sales_searches_path, method: :get, remote: true, id: :sales_search_form do %>
       <div class="col-xs-2">
         <div class="input-group">
           <label for="fs_num">FS #</label>

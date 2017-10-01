@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <%= form_tag transfers_search_path, remote: true, id: :transfers_search_form do %>
+    <%= form_tag transfers_searches_path, method: :get, remote: true, id: :transfers_search_form do %>
         <div class="col-xs-2">
           <div class="input-group">
             <label for="from_store_id">Invoice #</label>

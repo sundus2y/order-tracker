@@ -10,11 +10,11 @@ var searchTransferApp = searchTransferApp || {};
             );
 
             var transfer_action = (
-                <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/submit'}><i className="fa fa-exchange"/> Transfer</a></li>
+                <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/submit'} data-method="POST"><i className="fa fa-exchange"/> Transfer</a></li>
             );
 
             var receive_action = (
-                <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/receive'}><i className="fa fa-exchange"/> Receive</a></li>
+                <li><a className="btn-primary item-pop-up-menu" href={'/transfers/'+this.props.data.id+'/receive'} data-method="POST"><i className="fa fa-exchange"/> Receive</a></li>
             );
 
             var delete_action = (

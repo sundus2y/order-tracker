@@ -20,7 +20,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
             var deferred = $.Deferred();
             $.ajax({
                 type: "GET",
-                url: "/search/item_lookup/",
+                url: "/searches/item_lookup/",
                 dataType: 'json',
                 success: function(data,response){
                     deferred.resolve({context:this,data:data,message:response});
@@ -83,7 +83,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
             };
 
             var searchForm = (
-                <form id="search_item_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/search/items" onSubmit={this.handleSubmit}>
+                <form id="search_item_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/searches/items" onSubmit={this.handleSubmit}>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-sm-4">

@@ -104,14 +104,14 @@
     <% else %>
       <div class="sales_item_app"></div>
       <div id="sales_actions" class="btn-group float_right">
-        <%= button_tag 'Save Draft', name:'save', type: 'submit', class: "btn btn-primary", data: {disable_with: 'Please wait...'} %>
+        <%= button_tag 'Save Draft', name:'save', type: 'submit', class: "btn btn-primary"%>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
           <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
         </a>
         <ul class="dropdown-menu save-dropdown-menu">
-          <li><%= button_tag 'Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sold_path(@sale), disable_with: 'Please wait...'} %></li>
-          <li><%= button_tag 'Credit', name:'credit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_credited_path(@sale), disable_with: 'Please wait...'} %></li>
-          <li><%= button_tag 'Sample', name:'sample', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sampled_path(@sale), disable_with: 'Please wait...'} %></li>
+          <li><%= button_tag 'Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sold_path(@sale)} %></li>
+          <li><%= button_tag 'Credit', name:'credit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_credited_path(@sale)} %></li>
+          <li><%= button_tag 'Sample', name:'sample', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sampled_path(@sale)} %></li>
         </ul>
       </div>
     <% end %>

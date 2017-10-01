@@ -6,8 +6,8 @@ Rails.application.routes.draw do
     post :import_transfer_items
     member do
       get :transfer_items
-      match :submit, via: [:patch,:get]
-      match :receive, via: [:patch,:get]
+      match :submit, via: [:patch,:post]
+      match :receive, via: [:patch,:post]
     end
   end
 
@@ -16,10 +16,10 @@ Rails.application.routes.draw do
 
   resources :sales do
     get :sale_items
-    match :submit_to_sold, as: :submit_to_sold, via: [:patch,:get]
-    match :mark_as_sold, as: :mark_as_sold, via: [:patch,:get]
-    match :submit_to_credited, as: :submit_to_credited, via: [:patch,:get]
-    match :submit_to_sampled, as: :submit_to_sampled, via: [:patch,:get]
+    match :submit_to_sold, as: :submit_to_sold, via: [:patch,:post]
+    match :mark_as_sold, as: :mark_as_sold, via: [:patch,:post]
+    match :submit_to_credited, as: :submit_to_credited, via: [:patch,:post]
+    match :submit_to_sampled, as: :submit_to_sampled, via: [:patch,:post]
     get :return, on: :collection
     get :pop_up_fs_num_edit
     member do
@@ -88,14 +88,14 @@ Rails.application.routes.draw do
   end
   get 'configs' => 'configs#index'
 
-  resource :search do
+  resource :searches do
     get :all, on: :collection, as: :all
     get :items, on: :collection, as: :items
     get :customers, on: :collection, as: :customers
     get :item_lookup, on: :collection, as: :item_lookup
     get :orders, on: :collection, as: :orders
     get :vin, on: :collection, as: :vin
-    post :sales, on: :collection, as: :sales
-    post :transfers, on: :collection, as: :transfers
+    get :sales, on: :collection, as: :sales
+    get :transfers, on: :collection, as: :transfers
   end
 end

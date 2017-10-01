@@ -2,10 +2,10 @@
   <% if user_signed_in? %>
       <%= menu('#','Finder','fa fa-search',
                [
-                   {link: items_search_path, label:'Search Items', show_if: policy(Item).search?},
-                   {link: customers_search_path, label:'Search Customers', show_if: policy(Customer).search?},
+                   {link: items_searches_path, label:'Search Items', show_if: policy(Item).search?},
+                   {link: customers_searches_path, label:'Search Customers', show_if: policy(Customer).search?},
                    {link: '#', label:'Search Orders', show_if: policy(Order).search?},
-                   {link: vin_search_path, label:'Search VIN', show_if: policy(Sale).new?}
+                   {link: vin_searches_path, label:'Search VIN', show_if: policy(Sale).new?}
                ]) %>
       <%= menu('#','Items','fa fa-cube',
                [

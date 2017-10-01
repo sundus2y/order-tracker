@@ -28,7 +28,7 @@ window.globalSearchCustomerApp = window.globalSearchCustomerApp || {};
         render: function() {
 
             var searchForm = (
-                <form id="search_customer_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/search/customers" onSubmit={this.handleSubmit}>
+                <form id="search_customer_form" data-remote="true" acceptCharset="UTF-8" method="get" action="/searches/customers" onSubmit={this.handleSubmit}>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-sm-3">

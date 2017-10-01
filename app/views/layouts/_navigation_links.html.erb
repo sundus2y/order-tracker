@@ -4,7 +4,7 @@
                     {icon:"fa fa-search",
                      klass:'parent-menu',
                     id:'finder'}) %>
-  <%= navigation_li(items_search_path,
+  <%= navigation_li(items_searches_path,
                     'Search Items',
                     {id:'search_items',
                      klass:'sub-menu',
@@ -14,7 +14,7 @@
                     {id:'search_orders',
                      klass:'sub-menu',
                      parent:'finder'}) if policy(Order).search? %>
-  <%= navigation_li(vin_search_path,
+  <%= navigation_li(vin_searches_path,
                     'Search VIN',
                     {id:'search_vin',
                      klass:'sub-menu',

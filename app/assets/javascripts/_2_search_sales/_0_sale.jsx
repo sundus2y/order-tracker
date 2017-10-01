@@ -14,19 +14,19 @@ var searchSaleApp = searchSaleApp || {};
             );
 
             var credit_action = (
-                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_credited'}><i className="fa fa-exchange"/> Credit</a></li>
+                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_credited'} data-method="POST"><i className="fa fa-exchange"/> Credit</a></li>
             );
 
             var sample_action = (
-                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_sampled'}><i className="fa fa-exchange"/> Sample</a></li>
+                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_sampled'} data-method="POST"><i className="fa fa-exchange"/> Sample</a></li>
             );
 
             var sale_action = (
-                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_sold'}><i className="fa fa-send"/> Submit</a></li>
+                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/submit_to_sold'} data-method="POST"><i className="fa fa-send"/> Submit</a></li>
             );
 
             var mark_as_sold_action = (
-                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/mark_as_sold'}><i className="fa fa-send"/> Mark as Sold</a></li>
+                <li><a className="btn btn-success item-pop-up-menu" href={'/sales/'+this.props.data.id+'/mark_as_sold'} data-method="POST"><i className="fa fa-send"/> Mark as Sold</a></li>
             );
 
             var delete_action = (
