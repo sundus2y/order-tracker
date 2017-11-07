@@ -13,7 +13,7 @@ class Inventory < ActiveRecord::Base
     store_column_map = {}
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
     table_heading_format = workbook.add_format(bold: 1)
-    worksheet.merge_range('A1:P1','Inventory for All Stores', heading_format)
+    worksheet.merge_range('A1:Q1','Inventory for All Stores', heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write(1,1,'Item Name',table_heading_format)
     worksheet.write(1,2,'Item Number',table_heading_format)
