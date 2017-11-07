@@ -20,9 +20,13 @@ class Inventory < ActiveRecord::Base
     worksheet.write(1,3,'Original Number',table_heading_format)
     worksheet.write(1,4,'Brand',table_heading_format)
     worksheet.write(1,5,'Made',table_heading_format)
-    start_index = 6
+    worksheet.write(1,6,'Dubai Price', table_heading_format)
+    worksheet.write(1,7,'Korea Price', table_heading_format)
+    worksheet.write(1,8,'Cost Price', table_heading_format)
+    worksheet.write(1,9,'Sale Price', table_heading_format)
+    start_index = 10
     Store.minus_virtual.each_with_index do |store,index|
-      worksheet.write(1,start_index+index,store.name.titleize,table_heading_format)
+      worksheet.write(1,start_index+index,store.name.titleize.upcase,table_heading_format)
       store_column_map[store.id] = start_index+index
     end
     item_inv = includes(:item).group_by{|inv| [inv.item_id]}
@@ -34,6 +38,10 @@ class Inventory < ActiveRecord::Base
         worksheet.write_string(index+2,3,invs[0].item.original_number)
         worksheet.write_string(index+2,4,invs[0].item.brand)
         worksheet.write_string(index+2,5,invs[0].item.made)
+        worksheet.write_number(index+2,6,invs[0].item.dubai_price)
+        worksheet.write_number(index+2,7,invs[0].item.korea_price)
+        worksheet.write_number(index+2,8,invs[0].item.cost_price)
+        worksheet.write_number(index+2,9,invs[0].item.sale_price)
         invs.each_with_index do |inv,i|
           worksheet.write_number(index+2,store_column_map[inv.store_id],inv.qty) if store_column_map[inv.store_id]
         end
@@ -50,14 +58,18 @@ class Inventory < ActiveRecord::Base
     worksheet = workbook.add_worksheet
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
     table_heading_format = workbook.add_format(bold: 1)
-    worksheet.merge_range('A1:E1', "Inventory for #{store.name}", heading_format)
+    worksheet.merge_range('A1:K1', "Inventory for #{store.name}", heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write_string(1,1,'Item Name',table_heading_format)
     worksheet.write_string(1,2,'Item Number',table_heading_format)
     worksheet.write_string(1,3,'Original Number',table_heading_format)
     worksheet.write_string(1,4,'Brand',table_heading_format)
     worksheet.write_string(1,5,'Made',table_heading_format)
-    worksheet.write(1,6,'Qty',table_heading_format)
+    worksheet.write(1,6,'Dubai Price', table_heading_format)
+    worksheet.write(1,7,'Korea Price', table_heading_format)
+    worksheet.write(1,8,'Cost Price', table_heading_format)
+    worksheet.write(1,9,'Sale Price', table_heading_format)
+    worksheet.write(1,10,'Qty',table_heading_format)
     item_inv = includes(:item).where(store: store)
     item_inv.each_with_index do |inv, index|
       begin
@@ -67,6 +79,10 @@ class Inventory < ActiveRecord::Base
         worksheet.write_string(index+2,3, inv.item.original_number)
         worksheet.write_string(index+2,4, inv.item.brand)
         worksheet.write_string(index+2,5, inv.item.made)
+        worksheet.write_number(index+2,6, inv.item.dubai_price)
+        worksheet.write_number(index+2,7, inv.item.korea_price)
+        worksheet.write_number(index+2,8, inv.item.cost_price)
+        worksheet.write_number(index+2,9, inv.item.sale_price)
         worksheet.write_number(index+2,6, inv.qty)
       rescue Exception => e
       end
