@@ -83,7 +83,7 @@ class Inventory < ActiveRecord::Base
         worksheet.write_number(index+2,7, inv.item.korea_price)
         worksheet.write_number(index+2,8, inv.item.cost_price)
         worksheet.write_number(index+2,9, inv.item.sale_price)
-        worksheet.write_number(index+2,6, inv.qty)
+        worksheet.write_number(index+2,10, inv.qty)
       rescue Exception => e
       end
     end
