@@ -80,7 +80,7 @@
           <%= f.text_area :description, class:"form-control", rows: 5 %>
         </div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-3">
         <label>Inventory</label>
         <table>
           <tbody>
@@ -98,35 +98,33 @@
           </tbody>
         </table>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-6">
         <label>Pricing</label>
-        <table>
-          <tbody>
+        <table id="item-pricing">
           <tr>
-            <td width="50%"><%= f.label :sale_price %></td>
+            <td width="12%"><%= f.label :sale_price %></td>
             <td>
                 <%= f.number_field :sale_price, class:"form-control right-align", step:'0.01' %>
             </td>
-          </tr>
-          <tr>
-            <td width="50%"><%= f.label :dubai_price %></td>
-            <td>
-              <%= f.number_field :dubai_price, class:"form-control right-align", step:'0.01' %>
-            </td>
-          </tr>
-          <tr>
-            <td width="50%"><%= f.label :korea_price %>e</td>
-            <td>
-              <%= f.number_field :korea_price, class:"form-control right-align", step:'0.01' %>
-            </td>
-          </tr>
-          <tr>
-            <td width="50%"><%= f.label :cost_price %>e</td>
+            <td width="12%"><%= f.label :cost_price %></td>
             <td>
               <%= f.number_field :cost_price, class:"form-control right-align", step:'0.01' %>
             </td>
           </tr>
-          </tbody>
+          <tr>
+            <td width="12%"><%= f.label :dubai_price %></td>
+            <td>
+              <%= f.number_field :dubai_price, class:"form-control right-align", step:'0.01' %>
+            </td>
+            <td width="12%"><%= f.label :korea_price %></td>
+            <td>
+              <%= f.number_field :korea_price, class:"form-control right-align", step:'0.01' %>
+            </td>
+            <td width="12%"><%= f.label :c_price %></td>
+            <td>
+              <%= f.number_field :c_price, class:"form-control right-align", step:'0.01' %>
+            </td>
+          </tr>
         </table>
       </div>
     </div>
@@ -141,13 +139,13 @@
         <%= f.label :make_to %>
         <%= f.text_field :make_to, class:"form-control", type:'date' %>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-2">
         <div class="field form-group">
           <%= f.label :brand %>
           <%= f.text_field :brand, class:"form-control" %>
         </div>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-2">
         <div class="field form-group">
           <%= f.label :made %>
           <%= f.text_field :made, class:"form-control" %>

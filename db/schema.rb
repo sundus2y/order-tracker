@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815030302) do
+ActiveRecord::Schema.define(version: 20180104003527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20170815030302) do
     t.boolean  "default_sale_price"
     t.string   "size"
     t.decimal  "cost_price",         precision: 11, scale: 2
+    t.decimal  "c_price",            precision: 11, scale: 2
   end
 
   add_index "items", ["description"], name: "items_lower_description", using: :gin
@@ -152,9 +153,6 @@ ActiveRecord::Schema.define(version: 20170815030302) do
 
   create_table "tmp_item", id: false, force: :cascade do |t|
     t.string  "item_no", limit: 50,                          null: false
-    t.string  "name",    limit: 50
-    t.string  "a",       limit: 50
-    t.string  "b",       limit: 50
     t.decimal "price",              precision: 11, scale: 2, null: false
   end
 

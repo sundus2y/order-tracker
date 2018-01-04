@@ -66,3 +66,7 @@ table.transaction_log {
 .vertical-top {
   vertical-align: top;
 }
+
+table#item-pricing > tbody > tr > td{
+  padding: 5px;
+}

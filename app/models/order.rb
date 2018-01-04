@@ -70,6 +70,7 @@ class Order < ActiveRecord::Base
     worksheet.write(1,7,'Korea Price',table_heading_format)
     worksheet.write(1,8,'Cost Price',table_heading_format)
     worksheet.write(1,9,'Sale Price',table_heading_format)
+    worksheet.write(1,10,'C Price',table_heading_format)
 
     order_items.includes(:item).each_with_index do |order_item,index|
       worksheet.write(index+2,0,index+1)
@@ -82,6 +83,7 @@ class Order < ActiveRecord::Base
       worksheet.write(index+2,7,order_item.item.korea_price)
       worksheet.write(index+2,8,order_item.item.cost_price)
       worksheet.write(index+2,9,order_item.item.sale_price)
+      worksheet.write(index+2,10,order_item.item.c_price)
     end
     workbook.close
     File.open("tmp/Order ##{id}.xlsx").path

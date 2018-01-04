@@ -274,7 +274,7 @@ AND i.made = si.made
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
     table_heading_format = workbook.add_format(bold: 1)
     import_heading_format = workbook.add_format(bold: 1,color: 'green',align: 'left')
-    worksheet.merge_range('A1:Z1','Quick Export', heading_format)
+    worksheet.merge_range('A1:AC1','Quick Export', heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write(1,1,'Item Number',import_heading_format)
     worksheet.write(1,2,'Brand',import_heading_format)
@@ -283,7 +283,7 @@ AND i.made = si.made
     end
     stores = Store.minus_virtual
     stores.each_with_index do |store,index|
-      worksheet.write(1,index+21, store.short_name, table_heading_format)
+      worksheet.write(1,index+22, store.short_name, table_heading_format)
     end
     item_number_list.map{|i|i[0].upcase!}
     items = Item.where(item_number: item_number_list.collect{|i|i[0]}).all
@@ -509,7 +509,7 @@ korea_price size).map{|col| [col.titleize, col]}
   def self.export_attributes
     %w(name description item_number original_number brand made size
 prev_number next_number model car part_class make_from make_to
-sale_price dubai_price korea_price cost_price).map{|col| [col.titleize, col]}
+sale_price dubai_price korea_price cost_price c_price).map{|col| [col.titleize, col]}
   end
 
   def self.autocomplete_for_sales(term,limit)
