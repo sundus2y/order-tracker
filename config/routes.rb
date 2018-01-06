@@ -59,7 +59,7 @@ Rails.application.routes.draw do
 
   get 'make_admin' => 'users#make_admin'
 
-  devise_for :users
+  devise_for :users, :controllers => { :sessions => "custom_sessions" }
 
   resources :users
   resources :items do
