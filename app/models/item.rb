@@ -326,8 +326,7 @@ AND i.made = si.made
         hash['item_number'] = hash['item_number'].to_i.to_s if hash['item_number'].class == Float
         hash['original_number'] = hash['original_number'].to_i.to_s if hash['original_number'].class == Float
         hash['original_number'] = hash['original_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
-        # TODO Add this back once initial import is done.
-        # hash['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
+        hash['item_number'] = hash['item_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
         hash['item_number'] = hash['original_number']
         hash['prev_number'] = hash['prev_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase
         hash['next_number'] = hash['next_number'].to_s.gsub(INVALID_CHARS_REGEX, '').to_s.upcase

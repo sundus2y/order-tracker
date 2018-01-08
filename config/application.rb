@@ -36,7 +36,7 @@ module RailsDevisePundit
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
-
+# TODO: Make this part of admin configuration options
 KRW_XE_USD = 0.00087
 ETB_XE_USD = 0.043
 AED_XE_USD = 0.27

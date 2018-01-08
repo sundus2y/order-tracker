@@ -12,6 +12,7 @@ class CustomSessionsController < Devise::SessionsController
 
   private
 
+  # TODO: Make this part of admin configuration options
   def is_off_hours?
     login_time = Time.zone.now
     # Is Sunday?
