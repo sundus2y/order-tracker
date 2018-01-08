@@ -16,8 +16,8 @@ class CustomSessionsController < Devise::SessionsController
     login_time = Time.zone.now
     # Is Sunday?
     return true if login_time.sunday?
-    # Is Between 6PM and 7AM?
-    return true if login_time.hour < 4 || login_time.hour > 15
+    # Is Between 6:30PM and 7AM?
+    return true if login_time.hour < 4 || login_time.hour > 16 || (login_time.hour == 15 && login_time.min > 30)
     false
   end
 end

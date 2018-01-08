@@ -370,6 +370,7 @@ AND i.made = si.made
     params[:other_numbers].gsub!(INVALID_CHARS_REGEX, '') if params[:other_numbers].present?
     query.push("items.name ilike '%#{params[:name]}%'") if params[:name].present?
     query.push("items.item_number ilike '#{params[:item_number]}%'") if params[:item_number].present?
+    query.push("items.item_number ilike '_____#{params[:car_identifier]}%'") if params[:car_identifier].present?
     if params[:other_numbers].present?
       query.push("(items.description ilike '%#{params[:other_numbers]}%' or "+
                   "items.prev_number ilike '#{params[:other_numbers]}%' or "+

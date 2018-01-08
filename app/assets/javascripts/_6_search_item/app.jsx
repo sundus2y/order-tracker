@@ -98,7 +98,13 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
                                     <input id="item_number" className="form-control" name="item_number" placeholder="Item Number"></input>
                                 </div>
                             </div>
-                            <div className="col-sm-3">
+                            <div className="col-sm-1">
+                                <div className="form-group">
+                                    <label htmlFor="item_number">Car Identifier: </label>
+                                    <input id="car_identifier" className="form-control" name="car_identifier" placeholder="Car Identifier"></input>
+                                </div>
+                            </div>
+                            <div className="col-sm-2">
                                 <div className="form-group">
                                     <label htmlFor="other_numbers">Other Numbers: </label>
                                     <input id="other_numbers" className="form-control" name="other_numbers" placeholder="Original/Prev/Next Number or Description"></input>
