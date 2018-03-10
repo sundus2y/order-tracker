@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180104003527) do
+ActiveRecord::Schema.define(version: 20180310075100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,29 @@ ActiveRecord::Schema.define(version: 20180104003527) do
     t.integer  "order_items_count", default: 0
   end
 
+  create_table "proforma_items", force: :cascade do |t|
+    t.integer  "proforma_id"
+    t.integer  "item_id"
+    t.integer  "qty",                                  default: 0
+    t.decimal  "unit_price",  precision: 11, scale: 2, default: 0.0
+    t.string   "status"
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  create_table "proformas", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.integer  "store_id"
+    t.text     "remark"
+    t.string   "status"
+    t.integer  "proforma_items_count",                          default: 0
+    t.string   "transaction_num"
+    t.integer  "creator_id"
+    t.decimal  "grand_total",          precision: 11, scale: 2
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+  end
+
   create_table "return_items", force: :cascade do |t|
     t.integer  "sale_item_id"
     t.integer  "qty"
@@ -161,6 +184,7 @@ ActiveRecord::Schema.define(version: 20180104003527) do
     t.integer  "counter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "klass_name"
   end
 
   create_table "transfer_items", force: :cascade do |t|
