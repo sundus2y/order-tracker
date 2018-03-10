@@ -112,7 +112,7 @@ class Sale < ActiveRecord::Base
     end
 
     def empty_sale_item?
-      sale_items_count == 0
+      grand_total == 0
     end
 
     def empty_sold_item?
