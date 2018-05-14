@@ -274,7 +274,7 @@ AND i.made = si.made
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
     table_heading_format = workbook.add_format(bold: 1)
     import_heading_format = workbook.add_format(bold: 1,color: 'green',align: 'left')
-    worksheet.merge_range('A1:AC1','Quick Export', heading_format)
+    worksheet.merge_range('A1:AE1','Quick Export', heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write(1,1,'Item Number',import_heading_format)
     worksheet.write(1,2,'Brand',import_heading_format)
