@@ -11,6 +11,7 @@
         </ul>
       </div>
     <% end %>
+    <%= f.hidden_field :id %>
     <% unless action=="Show"%>
       <div class="actions">
         <%= button_tag(action, type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'}) %>
@@ -20,7 +21,7 @@
       <div class="col-xs-6">
         <div class="field form-group">
           <%= f.label :name %><br>
-          <%= f.text_field :name, class:"form-control" %>
+          <%= f.text_field :name, class:"form-control", required: true %>
         </div>
       </div>
       <div class="col-xs-6">
@@ -34,13 +35,13 @@
       <div class="col-xs-6">
         <div class="field form-group">
           <%= f.label :phone %><br>
-          <%= f.text_field :phone, class:"form-control" %>
+          <%= f.text_field :phone, class:"form-control", required: true %>
         </div>
       </div>
       <div class="col-xs-3">
         <div class="field form-group">
           <%= f.label :tin_no %><br>
-          <%= f.text_field :tin_no, class:"form-control" %>
+          <%= f.text_field :tin_no, class:"form-control", required: true %>
         </div>
       </div>
       <div class="col-xs-3">
@@ -49,6 +50,13 @@
           <%= f.select(:category, Customer.categories.keys.map {|category| [category.titleize,category]},{}, class: 'form-control') %>
         </div>
       </div>
+    </div>
+    <div class="row">
+      <% if viewOnlyMode %>
+          <div class="customer_cars_show_app"></div>
+      <% else %>
+          <div class="customer_cars_app"></div>
+      <% end %>
     </div>
     <% unless action=="Show"%>
       <div class="actions">

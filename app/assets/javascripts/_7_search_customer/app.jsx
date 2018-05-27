@@ -117,7 +117,7 @@ window.globalSearchCustomerApp = window.globalSearchCustomerApp || {};
     });
 
     function render(container) {
-        React.render(
+        ReactDOM.render(
             <SearchCustomerApp />,
             container[0]
         );

@@ -27,7 +27,7 @@ class Inventory < ActiveRecord::Base
         worksheet.write(index+2,0,index+1)
         write_item_cell(index+2, invs[0].item, worksheet)
         invs.each_with_index do |inv,i|
-          worksheet.write_number(index+2,store_column_map[inv.store_id],inv.qty) if store_column_map[inv.store_id]
+          worksheet.write_number(index+2,store_column_map[inv.store_id],inv.qty || 0) if store_column_map[inv.store_id]
         end
       rescue Exception => e
       end
@@ -50,8 +50,9 @@ class Inventory < ActiveRecord::Base
     item_inv.each_with_index do |inv, index|
       begin
         worksheet.write(index+2,0, index+1)
+        debugger if inv.item.item_number == '5466025750'
         write_item_cell(index+2, inv.item, worksheet)
-        worksheet.write_number(index+2,10, inv.qty)
+        worksheet.write_number(index+2,10, inv.qty || 0)
       rescue Exception => e
       end
     end
@@ -80,10 +81,10 @@ private
     worksheet.write_string(row, 3, item.original_number)
     worksheet.write_string(row, 4, item.brand)
     worksheet.write_string(row, 5, item.made)
-    worksheet.write_number(row, 6, item.dubai_price)
-    worksheet.write_number(row, 7, item.korea_price)
-    worksheet.write_number(row, 8, item.cost_price)
-    worksheet.write_number(row, 9, item.sale_price)
+    worksheet.write_number(row, 6, item.dubai_price || 0.00)
+    worksheet.write_number(row, 7, item.korea_price || 0.00)
+    worksheet.write_number(row, 8, item.cost_price || 0.00)
+    worksheet.write_number(row, 9, item.sale_price || 0.00)
   end
 
 end

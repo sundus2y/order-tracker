@@ -92,7 +92,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
     });
 
     function render(container) {
-        React.render(
+        ReactDOM.render(
             <SearchSaleApp />,
             container[0]
         );

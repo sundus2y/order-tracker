@@ -274,7 +274,7 @@ AND i.made = si.made
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'center')
     table_heading_format = workbook.add_format(bold: 1)
     import_heading_format = workbook.add_format(bold: 1,color: 'green',align: 'left')
-    worksheet.merge_range('A1:AC1','Quick Export', heading_format)
+    worksheet.merge_range('A1:AE1','Quick Export', heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write(1,1,'Item Number',import_heading_format)
     worksheet.write(1,2,'Brand',import_heading_format)
@@ -283,7 +283,7 @@ AND i.made = si.made
     end
     stores = Store.minus_virtual
     stores.each_with_index do |store,index|
-      worksheet.write(1,index+22, store.short_name, table_heading_format)
+      worksheet.write(1,index+Item.export_attributes.length+3, store.short_name, table_heading_format)
     end
     item_number_list.map{|i|i[0].upcase!}
     items = Item.where(item_number: item_number_list.collect{|i|i[0]}).all
@@ -308,7 +308,7 @@ AND i.made = si.made
           end
           stores.each_with_index do |store,store_index|
             inv = match_item.inventories.select{|i| i.store_id == store.id}.first
-            worksheet.write(row+match_index, store_index+21, inv.try(:qty) || '')
+            worksheet.write(row+match_index, store_index+Item.export_attributes.length+3, inv.try(:qty) || '')
           end
         end
         row+=match_items.count

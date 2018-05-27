@@ -9,3 +9,7 @@ table#customers>thead>tr>th.actions{
 table#customers>thead>tr>th.id{
   width: 50px;
 }
+
+tr.car_marked_for_delete{
+  background-color: palevioletred !important;
+}

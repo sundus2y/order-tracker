@@ -42,6 +42,10 @@ class CustomerPolicy
     edit?
   end
 
+  def cars?
+    show?
+  end
+
   def search?
     @current_user.admin? || @current_user.sales?
   end

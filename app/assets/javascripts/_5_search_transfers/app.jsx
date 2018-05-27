@@ -58,7 +58,7 @@ window.globalSearchTransferApp = window.globalSearchTransferApp || {};
     });
 
     function render(container) {
-        React.render(
+        ReactDOM.render(
             <SearchTransferApp />,
             container[0]
         );

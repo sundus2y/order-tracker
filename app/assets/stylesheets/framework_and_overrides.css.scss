@@ -12,25 +12,25 @@ img {
   font-size: inherit;
   }
 
-// THESE ARE EXAMPLES YOU CAN MODIFY
-// create your own classes
-// to make views framework-neutral
-.column {
-  @extend .col-md-6;
-  @extend .text-center;
-  }
-.form {
-  @extend .col-md-6;
-  }
-.form-centered {
-  @extend .col-md-6;
-  @extend .text-center;
-  }
-.submit {
-  @extend .btn;
-  @extend .btn-primary;
-  @extend .btn-lg;
-  }
+//// THESE ARE EXAMPLES YOU CAN MODIFY
+//// create your own classes
+//// to make views framework-neutral
+//.column {
+//  @extend .col-md-6;
+//  @extend .text-center;
+//  }
+//.form {
+//  @extend .col-md-6;
+//  }
+//.form-centered {
+//  @extend .col-md-6;
+//  @extend .text-center;
+//  }
+//.submit {
+//  @extend .btn;
+//  @extend .btn-primary;
+//  @extend .btn-lg;
+//  }
 // apply styles to HTML elements
 // to make views framework-neutral
 div#page-content-wrapper {

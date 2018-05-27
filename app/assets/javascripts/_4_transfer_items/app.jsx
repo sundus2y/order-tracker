@@ -290,7 +290,7 @@ var app = app || {};
     });
 
     function render(viewMode,container) {
-        React.render(
+        ReactDOM.render(
             <App viewOnly={viewMode}/>,
             container[0]
         );
