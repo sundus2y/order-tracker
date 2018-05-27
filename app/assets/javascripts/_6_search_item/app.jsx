@@ -256,7 +256,7 @@ window.globalSearchItemApp = window.globalSearchItemApp || {};
     });
 
     function render(container) {
-        React.render(
+        ReactDOM.render(
             <SearchItemApp />,
             container[0]
         );

@@ -132,7 +132,7 @@ var returnSalesApp = returnSalesApp || {};
     });
 
     function renderReturnSalesApp(container) {
-        React.render(
+        ReactDOM.render(
             <ReturnSalesApp/>,
             container[0]
         );

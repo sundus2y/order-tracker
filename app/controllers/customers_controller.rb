@@ -17,6 +17,23 @@ class CustomersController < ApplicationController
     respond_with(@customers)
   end
 
+  def vue_index
+    if params[:paginate]
+      sortOrder = params[:descending] == 'true' ? 'desc' : 'asc'
+      sortBy = params[:sortBy].blank? ?  'id' : params[:sortBy]
+      limit = params[:rowsPerPage] == '-1' ? Customer.count : params[:rowsPerPage]
+      @customers = Customer.paginate(page: params[:page], per_page: limit).order("#{sortBy} #{sortOrder}")
+    else
+      @customers = Customer.limit(10)
+    end
+
+    authorize @customers
+    respond_to do |format|
+      format.html {}
+      format.json {render json: {items: @customers.as_json(), total: @customers.count}}
+    end
+  end
+
   def show
     respond_with(@customer)
   end
@@ -30,12 +47,17 @@ class CustomersController < ApplicationController
   def edit
   end
 
+  def cars
+    @cars = Car.where(customer_id: params[:customer_id])
+  end
+
   def create
     @customer = Customer.new(customer_params)
     authorize @customer
     flash[:notice] = 'Customer was successfully created.' if @customer.save
     respond_to do |format|
       format.html {respond_with(@customer,location: customers_path)}
+      format.json {render json: {item: @customer.as_json(), errors: @customer.errors}}
       format.js
     end
   end
@@ -44,13 +66,17 @@ class CustomersController < ApplicationController
     flash[:notice] = 'Customer was successfully updated.' if @customer.update(customer_params)
     respond_to do |format|
       format.html {respond_with(@customer,location: customers_path)}
+      format.json {render json: {item: @customer.as_json(), errors: @customer.errors}}
       format.js
     end
   end
 
   def destroy
     @customer.destroy
-    respond_with(@customer)
+    respond_to do |format|
+      format.html {respond_with(@customer,location: customers_path)}
+      format.json {render json: {item: @customer.as_json(), errors: @customer.errors}}
+    end
   end
 
   def pop_up_edit
@@ -71,7 +97,7 @@ class CustomersController < ApplicationController
     end
 
     def customer_params
-      params.require(:customer).permit(:name, :company, :phone, :tin_no, :category)
+      params.require(:customer).permit(:name, :company, :phone, :tin_no, :category, cars_attributes: [:id, :vin_no,:plate_no,:year,:brand,:model,:_destroy])
     end
 
     def get_autocomplete_items(parameters)

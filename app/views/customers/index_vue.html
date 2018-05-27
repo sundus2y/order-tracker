@@ -1,0 +1,159 @@
+<div class="container-fluid">
+    <div id="app">
+        <v-app id="inspire">
+            <v-btn color="primary" class="mb-2" @click.stop="customerDialog = true">New Customer</v-btn>
+            <v-divider class="mt-0"></v-divider>
+            <v-dialog v-model="customerDialog" max-width="900px">
+                <v-card ref="form">
+                    <v-card-title>
+                        <span class="headline">{{ formTitle }}</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-layout row>
+                                <v-flex>
+                                    <v-text-field
+                                            ref="name"
+                                            required
+                                            label="Name"
+                                            v-model="editedItem.name"
+                                            v-bind:disabled="disableEdit"
+                                            :rules="[rules.required]">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row>
+                                <v-flex>
+                                    <v-text-field
+                                            ref="company"
+                                            label="Company"
+                                            v-model="editedItem.company"
+                                            v-bind:disabled="disableEdit">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row>
+                                <v-flex>
+                                    <v-text-field
+                                            ref="phone"
+                                            required
+                                            label="Phone"
+                                            v-model="editedItem.phone"
+                                            v-bind:disabled="disableEdit"
+                                            :rules="[rules.required]">
+
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row>
+                                <v-flex>
+                                    <v-text-field
+                                            ref="tin_no"
+                                            label="TIN #:"
+                                            v-model="editedItem.tin_no"
+                                            v-bind:disabled="disableEdit">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row>
+                                <v-flex>
+                                    <v-text-field
+                                            ref="category"
+                                            label="Category"
+                                            v-model="editedItem.category"
+                                            v-bind:disabled="disableEdit">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row wrap>
+                                <v-flex d-flex xs12 sm6 md4>
+                                    <v-card color="purple" dark>
+                                        <v-card-title primary class="title">Lorem</v-card-title>
+                                        <v-card-text>{{ lorem }}</v-card-text>
+                                    </v-card>
+                                </v-flex>
+                                <v-flex d-flex xs12 sm6 md3>
+                                    <v-layout row wrap>
+                                        <v-flex d-flex>
+                                            <v-card color="indigo" dark>
+                                                <v-card-text>{{ lorem.slice(0, 70) }}</v-card-text>
+                                            </v-card>
+                                        </v-flex>
+                                        <v-flex d-flex>
+                                            <v-layout row wrap>
+                                                <v-flex
+                                                        v-for="n in 2"
+                                                        :key="n"
+                                                        d-flex
+                                                        xs12
+                                                >
+                                                    <v-card
+                                                            color="red lighten-2"
+                                                            dark
+                                                    >
+                                                        <v-card-text>{{ lorem.slice(0, 40) }}</v-card-text>
+                                                    </v-card>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-flex>
+                                <v-flex d-flex xs12 sm6 md2 child-flex>
+                                    <v-card color="green lighten-2" dark>
+                                        <v-card-text>{{ lorem.slice(0, 90) }}</v-card-text>
+                                    </v-card>
+                                </v-flex>
+                                <v-flex d-flex xs12 sm6 md3>
+                                    <v-card color="blue lighten-2" dark>
+                                        <v-card-text>{{ lorem.slice(0, 100) }}</v-card-text>
+                                    </v-card>
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-card-text>
+                    <v-divider class="mt-1"></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" @click="close" v-show="disableEdit">Close</v-btn>
+                        <v-btn color="blue darken-1" @click="close" v-show="!disableEdit">Cancel</v-btn>
+                        <v-btn color="blue darken-1" @click="save" v-show="!disableEdit">Save</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+            <v-data-table
+                    :rows-per-page-items="rpg"
+                    :headers="headers"
+                    :items="items"
+                    :search="search"
+                    :pagination.sync="pagination"
+                    :total-items="totalItems"
+                    :loading="loading"
+                    class="elevation-1"
+            >
+                <template slot="items" slot-scope="props">
+                    <td>{{ props.item.name }}</td>
+                    <td>{{ props.item.company }}</td>
+                    <td>{{ props.item.phone }}</td>
+                    <td>{{ props.item.tin_no }}</td>
+                    <td>{{ props.item.category }}</td>
+                    <td class="layout px-0">
+                        <v-btn icon class="mx-0" @click="viewItem(props.item)">
+                            <v-icon color="teal">visibility</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-0" @click="editItem(props.item)">
+                            <v-icon color="teal">edit</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+                            <v-icon color="pink">delete</v-icon>
+                        </v-btn>
+                    </td>
+                </template>
+            </v-data-table>
+        </v-app>
+    </div>
+    <div>
+    </div>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+</div>

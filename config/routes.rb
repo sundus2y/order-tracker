@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :cars
+
   resources :transfer_items
 
   resources :transfers do
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
   resources :return_items
 
   resources :customers do
+    get :cars
     get :autocomplete_customer_name, on: :collection
     get :pop_up_show
     get :pop_up_edit

@@ -2,6 +2,13 @@ class Customer < ActiveRecord::Base
   enum category: [:retail, :wholesale, :company]
 
   has_many :sales, dependent: :destroy
+  has_many :cars
+
+  accepts_nested_attributes_for :cars, allow_destroy: true
+
+  validates_presence_of :name, :phone
+  validates_uniqueness_of :tin_no, if: Proc.new { |customer| customer.new_record? && customer.tin_no != '0' }
+  validates_uniqueness_of :phone, if: Proc.new { |customer| customer.new_record? }
 
   before_save :upcase_fields
 

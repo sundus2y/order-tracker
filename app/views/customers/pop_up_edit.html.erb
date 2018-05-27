@@ -3,7 +3,19 @@
 <% end %>
 
 <% content_for :modal_body, flush: true do %>
-    <%= render 'form', action: "Update Customer", remote: true %>
+    <%= render 'form', action: "Update Customer", remote: true, viewOnlyMode: false %>
 <% end %>
 
 <%= render "/modals/base", id: 'pop_up' %>
+
+<script>
+    (function () {
+        $(document).ready(function(){
+            var CustomerCar = app.CustomerCar;
+            ReactDOM.render(
+                React.createElement(CustomerCar, {viewOnly: false}, null),
+                $('.customer_cars_app')[0]
+            );
+        });
+    })();
+</script>
