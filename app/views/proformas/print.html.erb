@@ -1,10 +1,16 @@
+<div class="center-aligned">
+  <h1>ZINU TOUR PLC</h1>
+  <p>Tel. +251-116-676307 +251-911-206359 Fax. +251-116-673656</p>
+  <p>Address. Yeka K/K W.08 House No.003/FF-05 Addis Ababa, Ethiopia P.O.Box. 100086 </p>
+  <p>TIN No. 0005143435</p>
+</div>
 <div class="field center-aligned">
+  <h2 class="underline">PROFORMA</h2>
   <h4>
-    <b>Proforma#: <%= @proforma.transaction_num %></b>
+    <b><%= @proforma.transaction_num %></b>
   </h4>
 </div>
 <%= render 'form', viewOnlyMode: true, show_proforma_items: true %>
-<hr class="hr-dark">
 <div class="row">
   <div class="col-xs-12">
     <li>This proforma is valid for _________ days after Proforma Date.</li>
@@ -29,7 +35,6 @@
 <script>
   $(document).ready(function(){
       setTimeout(function(){
-          $('input.')
           print();
       },1230);
   });

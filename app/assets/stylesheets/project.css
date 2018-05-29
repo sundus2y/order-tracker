@@ -2,6 +2,11 @@
     overflow-x: scroll;
     min-height: 250px;
 }
+
+.underline {
+    text-decoration: underline;
+}
+
 @media print {
     .no-print { display:none; }
     .form-control
