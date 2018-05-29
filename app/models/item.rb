@@ -3,6 +3,7 @@ class Item < ActiveRecord::Base
 
   has_many :order_items
   has_many :sale_items
+  has_many :proforma_items
   has_many :inventories
   has_many :transfer_items
 
@@ -425,8 +426,8 @@ AND i.made = si.made
   def transfer_log(log)
     t_items = transfer_items.includes(:transfer,transfer:[:to_store,:from_store])
     t_items.each do |t_item|
-      t_in = Transaction.new(t_item.transfer.id,:transfer,t_item.qty,0,t_item.created_at,t_item.status)
-      t_out = Transaction.new(t_item.transfer.id,:transfer,0,t_item.qty,t_item.created_at,t_item.status)
+      t_in = Transaction.new(t_item.transfer.id,:transfer,t_item.qty,0,t_item.created_at,t_item.status,t_item.transfer.from_store.short_name)
+      t_out = Transaction.new(t_item.transfer.id,:transfer,0,t_item.qty,t_item.created_at,t_item.status,t_item.transfer.from_store.short_name)
       log[t_item.transfer.to_store] ||= []
       log[t_item.transfer.to_store] << t_in
       log[t_item.transfer.from_store] ||= []
@@ -436,15 +437,29 @@ AND i.made = si.made
   end
 
   def sales_order_log(log)
-    s_items = sale_items.includes(:sale,sale:[:store])
+    s_items = sale_items.includes(:sale,sale:[:store,:customer])
     s_items.each do |s_item|
       if s_item.qty > 0
-        t = Transaction.new(s_item.sale.id,:sale,0,s_item.qty,s_item.created_at,s_item.status)
+        t = Transaction.new(s_item.sale.id,:sale,0,s_item.qty,s_item.created_at,s_item.status,s_item.sale.customer.name)
       else
-        t = Transaction.new(s_item.sale.id,:sale,-s_item.qty,0,s_item.created_at,s_item.status)
+        t = Transaction.new(s_item.sale.id,:sale,-s_item.qty,0,s_item.created_at,s_item.status,s_item.sale.customer.name)
       end
       log[s_item.sale.store] ||= []
       log[s_item.sale.store] << t
+    end
+    log
+  end
+
+  def proforma_log(log)
+    p_items = proforma_items.includes(:proforma,proforma:[:store,:customer])
+    p_items.each do |p_item|
+      if p_item.qty > 0
+        t = Transaction.new(p_item.proforma.id,:proforma,0,p_item.qty,p_item.created_at,p_item.status,p_item.proforma.customer.name)
+      else
+        t = Transaction.new(p_item.proforma.id,:proforma,-p_item.qty,0,p_item.created_at,p_item.status,p_item.proforma.customer.name)
+      end
+      log[p_item.proforma.store] ||= []
+      log[p_item.proforma.store] << t
     end
     log
   end

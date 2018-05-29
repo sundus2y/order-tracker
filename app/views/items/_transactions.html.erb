@@ -10,7 +10,7 @@
   <% transactions.reverse.each do |transaction| %>
       <tr>
         <th><%= link_to(transaction.transaction_num, send(transaction.transaction_type.to_s + '_path',(transaction.transaction_num)), :target => "_blank", style: 'color:#999999 !important;') %></th>
-        <th><%= transaction.transaction_type.to_s.titleize %></th>
+        <th><%= transaction.transaction_type.to_s.titleize %> (<%= transaction.label %>) </th>
         <th><%= transaction.created_at.to_formatted_s(:short) %></th>
         <th><%= transaction.in_qty%></th>
         <th><%= transaction.out_qty %></th>
