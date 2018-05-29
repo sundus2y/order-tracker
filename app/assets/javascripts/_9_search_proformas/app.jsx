@@ -1,55 +1,54 @@
-var searchSaleApp = searchSaleApp || {};
-window.globalSearchSaleApp = window.globalSearchSaleApp || {};
+var SearchProformaApp = SearchProformaApp || {};
 
 (function () {
 
-    var Sale = searchSaleApp.Sale;
+    var Proforma = SearchProformaApp.Proforma;
 
-    var SearchSaleApp = React.createClass({
+    SearchProformaApp.App = React.createClass({
         getInitialState: function () {
             return {
-                sales: [],
+                proformas: [],
                 searching: false,
             };
         },
 
         componentWillMount: function(){
-            window.globalSearchSaleApp.callback = function(data) {
+            SearchProformaApp.callback = function(data) {
                 if(data.searching) {
                     this.setState({searching: true});
                 } else {
                     this.setState({searching: false});
-                    this.setState({sales: data});
+                    this.setState({proformas: data});
                 }
             }.bind(this);
         },
 
         render: function() {
 
-            var salesResultRow = this.state.sales.map(function (sale,index) {
+            var proformasResultRow = this.state.proformas.map(function (proforma,index) {
                 return (
-                    <Sale key={sale.id} data={sale} />
+                    <Proforma key={proforma.id} data={proforma} />
                 );
             }, this);
 
-            var grandTotal = this.state.sales.reduce(function(total,sale){
-                if(sale.status_upcase !== 'DRAFT'){
-                    total += sale.grand_total;
+            var grandTotal = this.state.proformas.reduce(function(total,proforma){
+                if(proforma.status_upcase !== 'DRAFT'){
+                    total += proforma.grand_total;
                 }
                 return total;
             },0);
 
             var noResultRow = (
                 <tr>
-                    <td colSpan="10" className="center-aligned">
-                        No Sales Found for the given criteria.
+                    <td colSpan="9" className="center-aligned">
+                        No Proforma Found for the given criteria.
                     </td>
                 </tr>
             );
 
             var searchingRow = (
                 <tr>
-                    <td colSpan="10" className="center-aligned">
+                    <td colSpan="9" className="center-aligned">
                         <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                         <span className="searching">Loading . . .</span>
                     </td>
@@ -60,8 +59,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                 <table className="table-responsive display table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th width="13%">Sales Order #</th>
-                        <th>FS #</th>
+                        <th width="13%">Proforma #</th>
                         <th>Customer</th>
                         <th>Store</th>
                         <th>Created At</th>
@@ -73,11 +71,11 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.searching ? searchingRow : this.state.sales.length == 0 ? noResultRow : salesResultRow}
+                        {this.state.searching ? searchingRow : this.state.proformas.length == 0 ? noResultRow : proformasResultRow}
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td className="grand_total" colSpan='8'>
+                            <td className="grand_total" colSpan='7'>
                                 <span><b>Grand Total</b></span>
                             </td>
                             <td className="grand_total">
@@ -92,12 +90,13 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
     });
 
     function render(container) {
+        var App = SearchProformaApp.App;
         ReactDOM.render(
-            <SearchSaleApp />,
+            <App />,
             container[0]
         );
     }
     $(document).ready(function(){
-        if ($('#sales_search_results').length != 0){render($('#sales_search_results'));}
+        if ($('#proformas_search_results').length != 0){render($('#proformas_search_results'));}
     });
 })();

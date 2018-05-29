@@ -52,6 +52,11 @@ class SearchesController < ApplicationController
     authorize Sale, :search?
   end
 
+  def proformas
+    authorize Proforma, :search?
+    @proformas = Proforma.search(params[:query])
+  end
+
   def customers
     search_type = :admin_search
     begin

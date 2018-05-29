@@ -1,11 +1,11 @@
-<%= link_to('Print', print_sale_path(@sale), target: '_blank', class:'btn btn-primary btn-block no-print') if policy(@sale).print? %>
-<%= form_for(@sale, data: {readOnly: viewOnlyMode}) do |f| %>
-  <% if @sale.errors.any? %>
+<%= link_to('Print', print_proforma_path(@proforma), target: '_blank', class:'btn btn-primary btn-block no-print') if policy(@proforma).print? %>
+<%= form_for(@proforma, data: {readOnly: viewOnlyMode}) do |f| %>
+  <% if @proforma.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+      <h2><%= pluralize(@proforma.errors.count, "error") %> prohibited this proforma from being saved:</h2>
 
       <ul>
-      <% @sale.errors.full_messages.each do |message| %>
+      <% @proforma.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -24,18 +24,18 @@
                                      class: 'form-control',
                                      placeholder: 'Enter customer to search. . .',
                                      :update_elements => {
-                                         :id => '#sale_customer_id',
-                                         :name => '#sale_customer_name',
-                                         :company => '#sale_customer_company',
-                                         :phone => '#sale_customer_phone',
-                                         :tin_no => '#sale_customer_tin_no',
-                                         :category => '#sale_customer_category'
+                                         :id => '#proforma_customer_id',
+                                         :name => '#proforma_customer_name',
+                                         :company => '#proforma_customer_company',
+                                         :phone => '#proforma_customer_phone',
+                                         :tin_no => '#proforma_customer_tin_no',
+                                         :category => '#proforma_customer_category'
                                      } %>
           </div>
         </div>
         <div class="col-xs-3 customer_cars_picker_app"
-             data-picker-id="sale_car_picker_id"
-             data-update-elements="sale_car">
+             data-picker-id="proforma_car_picker_id"
+             data-update-elements="proforma_car">
         </div>
       </div>
     <% end %>
@@ -49,7 +49,7 @@
         <div class="col-xs-3">
           <div class="field form-group">
             <%= c.label :name %>
-            <%= c.number_field :id, name:'sale[customer_id]', class:'hidden' %>
+            <%= c.number_field :id, name:'proforma[customer_id]', class:'hidden' %>
             <%= c.text_field :name, readOnly: true, class: 'form-control' %>
           </div>
         </div>
@@ -83,7 +83,7 @@
           <div class="col-xs-3">
             <div class="field form-group">
               <%= c.label :vin_no, 'VIN No' %>
-              <%= c.number_field :id, name:'sale[car_id]', class:'hidden' %>
+              <%= c.number_field :id, name:'proforma[car_id]', class:'hidden' %>
               <%= c.text_field :vin_no, readOnly: true, class: 'form-control' %>
             </div>
           </div>
@@ -118,12 +118,12 @@
       <div class="col-xs-4">
         <div class="field form-group">
           <%= f.label :store_id %><br>
-          <%= f.select(:store_id, Store.for_sales.map {|store| [store.name,store.id]},{selected: f.object.store_id || current_user.default_store_id}, class: 'form-control', disabled: show_sale_items) %>
+          <%= f.select(:store_id, Store.for_sales.map {|store| [store.name,store.id]},{selected: f.object.store_id || current_user.default_store_id}, class: 'form-control', disabled: show_proforma_items) %>
         </div>
       </div>
       <div class="col-xs-4">
         <div class="field form-group">
-          <%= f.label :created_at, value:'Sales Date:' %><br>
+          <%= f.label :created_at, value:'Proforma Date:' %><br>
           <%= f.datetime_field :created_at, class: 'form-control', readOnly: true, value: f.object.formatted_created_at %>
         </div>
       </div>
@@ -136,24 +136,22 @@
     </div>
     <hr class="hr-dark">
   </div>
-  <% if show_sale_items %>
+  <% if show_proforma_items %>
     <% if viewOnlyMode %>
-      <div class="sales_item_show_app"></div>
+      <div class="proforma_items_show_app"></div>
     <% else %>
-      <div class="sales_item_app"></div>
-      <div id="sales_actions" class="btn-group float_right">
+      <div class="proforma_items_app"></div>
+      <div id="proformas_actions" class="btn-group float_right">
         <%= button_tag 'Save Draft', name:'save', type: 'submit', class: "btn btn-primary"%>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
           <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
         </a>
         <ul class="dropdown-menu save-dropdown-menu">
-          <li><%= button_tag 'Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sold_path(@sale)} %></li>
-          <li><%= button_tag 'Credit', name:'credit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_credited_path(@sale)} %></li>
-          <li><%= button_tag 'Sample', name:'sample', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sampled_path(@sale)} %></li>
+          <li><%= button_tag 'Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block", data:{action: proforma_submit_to_submitted_path(@proforma)} %></li>
         </ul>
       </div>
     <% end %>
   <% else %>
-  <%= button_tag 'Create Sales Order', name:'save', type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'} %>
+  <%= button_tag 'Create Proforma', name:'save', type: 'submit', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'} %>
   <% end %>
 <% end %>

@@ -1,9 +1,9 @@
-class SalePolicy
+class ProformaPolicy
   attr_reader :current_user, :model
 
   def initialize(current_user, model,params=nil)
     @current_user = current_user
-    @sale = model
+    @proforma = model
     @params = params
   end
 
@@ -28,54 +28,38 @@ class SalePolicy
   end
 
   def edit?
-    new? && @sale.draft?
-  end
-
-  def pop_up_fs_num_edit?
-    new? && @sale.sold?
+    new? && @proforma.draft?
   end
 
   def destroy?
-    edit? && @sale.may_delete_draft?
+    edit? && @proforma.may_delete_draft?
   end
 
   def search?
     show?
   end
 
-  def sale_items?
+  def proforma_items?
     show?
   end
 
-  def submit_to_sold?
-    new? && @sale.may_submit?
+  def submit_to_submitted?
+    new? && @proforma.may_submit?
   end
 
   def mark_as_sold?
-    new? && @sale.may_mark_as_sold?
-  end
-
-  def submit_to_credited?
-    new? && @sale.may_credit?
-  end
-
-  def submit_to_sampled?
-    new? && @sale.may_sample?
-  end
-
-  def return?
-    new?
+    new? && @proforma.may_mark_as_sold?
   end
 
   def print?
-    show? && !@sale.draft?
+    show? && !@proforma.draft?
   end
 
   def resolve
     if @current_user.sales?
-      Sale.draft.page(@params[:page]).per_page(10)
+      Proforma.draft.page(@params[:page]).per_page(10)
     elsif @current_user.admin?
-      Sale.all.page(@params[:page]).per_page(10)
+      Proforma.all.page(@params[:page]).per_page(10)
     else
       []
     end

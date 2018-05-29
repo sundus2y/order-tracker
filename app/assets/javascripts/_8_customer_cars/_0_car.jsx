@@ -1,10 +1,10 @@
 //noinspection JSUnresolvedFunction
 
-var app = app || {};
+var CustomerCarApp = CustomerCarApp || {};
 
 (function () {
 
-    app.Car = React.createClass({
+    CustomerCarApp.Car = React.createClass({
         
         handleCarRemove: function(event){
             this.props.onCarRemove(this.props.carData);

@@ -58,6 +58,17 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :proformas do
+    get :proforma_items
+    match :submit_to_submitted, as: :submit_to_submitted, via: [:patch,:post]
+    match :mark_as_sold, as: :mark_as_sold, via: [:patch,:post]
+    member do
+      get :print
+    end
+  end
+
+  resources :proforma_items
+
   root to: 'dashboard#index'
 
   get 'make_admin' => 'users#make_admin'
@@ -99,6 +110,7 @@ Rails.application.routes.draw do
     get :orders, on: :collection, as: :orders
     get :vin, on: :collection, as: :vin
     get :sales, on: :collection, as: :sales
+    get :proformas, on: :collection, as: :proformas
     get :transfers, on: :collection, as: :transfers
   end
 end

@@ -1,0 +1,6 @@
+<% content_for :header do %>
+    Edit Proforma #<%= @proforma.transaction_num %>
+<% end %>
+
+<%= render 'form', show_proforma_items: true, viewOnlyMode: false %>
+

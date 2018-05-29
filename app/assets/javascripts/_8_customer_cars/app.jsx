@@ -1,10 +1,10 @@
-var app = app || {};
+var CustomerCarApp = CustomerCarApp || {};
 
 (function () {
 
-    var Car = app.Car;
+    var Car = CustomerCarApp.Car;
 
-    app.CustomerCar = React.createClass({
+    CustomerCarApp.App = React.createClass({
         getInitialState: function () {
             return {
                 data: [],
@@ -163,9 +163,9 @@ var app = app || {};
     });
 
     function render(viewMode,container) {
-        var CustomerCar = app.CustomerCar;
+        var App = CustomerCarApp.App;
         ReactDOM.render(
-            <CustomerCar viewOnly={viewMode}/>,
+            <App viewOnly={viewMode}/>,
             container[0]
         );
     }

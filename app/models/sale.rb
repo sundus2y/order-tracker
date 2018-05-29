@@ -2,8 +2,12 @@ class Sale < ActiveRecord::Base
 
   has_many :sale_items, dependent: :destroy
   belongs_to :customer
+  belongs_to :car
   belongs_to :store
+  belongs_to :proforma
   belongs_to :creator, class_name: 'User'
+
+  accepts_nested_attributes_for :sale_items, allow_destroy: true
 
   before_create :set_transaction_num
   after_save :update_grand_total
@@ -48,7 +52,7 @@ class Sale < ActiveRecord::Base
       transitions :from => [:sold,:credited,:sampled], :to => :void #ADMIN
     end
 
-    event :delete_draft do
+    event :delete_draft, after: :delete_draft_sale_items do
       transitions :from => :draft, :to => :void
     end
 
@@ -109,6 +113,10 @@ class Sale < ActiveRecord::Base
 
     def sample_sale_items
       sale_items.map(&:sample!)
+    end
+
+    def delete_draft_sale_items
+      sale_items.map(&:delete_draft)
     end
 
     def empty_sale_item?

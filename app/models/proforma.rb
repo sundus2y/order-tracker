@@ -2,8 +2,10 @@ class Proforma < ActiveRecord::Base
 
   has_many :proforma_items, dependent: :destroy
   belongs_to :customer
+  belongs_to :car
   belongs_to :store
   belongs_to :creator, class_name: 'User'
+  has_one :sale
 
   before_create :set_transaction_num
   after_save :update_grand_total
@@ -28,12 +30,16 @@ class Proforma < ActiveRecord::Base
       transitions :from => :draft, :to => :submitted, unless: :empty_proforma_item? #SALE
     end
 
-    event :mark_as_sold, after: :mark_as_sold_items do
+    event :mark_as_sold, after: [:create_sales_from_proforma, :mark_as_sold_items] do
       transitions :from => :submitted, :to => :sold, after: :set_sold_at, unless: :empty_proforma_item? #SALE
     end
 
     event :reject, after: :reject_proforma_items do
-      transitions :from => [:sold,:draft,:submitted], :to => :void #ADMIN
+      transitions :from => [:sold,:submitted], :to => :void #ADMIN
+    end
+
+    event :delete_draft, after: :delete_proforma_items do
+      transitions :from => :draft, :to => :void
     end
   end
 
@@ -49,7 +55,6 @@ class Proforma < ActiveRecord::Base
     if params[:date_from].present?
       search_query  = search_query.where("updated_at >= '#{params[:date_from]}'")
       search_query = search_query.where("updated_at <= '#{params[:date_to]}'") if params[:date_to].present?
-      search_query = search_query.where("fs_num like '#{params[:fs_num]}%'") if params[:fs_num].present?
     end
     search_query
   end
@@ -83,8 +88,37 @@ class Proforma < ActiveRecord::Base
       proforma_items.map(&:reject!)
     end
 
+    def delete_proforma_items
+      proforma_items.map(&:delete!)
+    end
+
     def empty_proforma_item?
       proforma_items_count == 0
+    end
+
+    def create_sales_from_proforma(params)
+      sale_items_attributes = proforma_items.map do |proforma_item|
+        {
+            item_id: proforma_item.item_id,
+            qty: proforma_item.qty,
+            unit_price: proforma_item.unit_price,
+            created_at: DateTime.now,
+            updated_at: DateTime.now
+        }
+      end
+      Sale.create!(
+          {
+              customer_id: customer_id,
+              car_id: car_id,
+              store_id: store_id,
+              remark: "Created From Proforma #: #{transaction_num}",
+              created_at: DateTime.now,
+              updated_at: DateTime.now,
+              creator_id: params[:current_user_id],
+              proforma_id: id,
+              sale_items_attributes: sale_items_attributes
+          }
+      )
     end
 
     def set_transaction_num
@@ -97,5 +131,9 @@ class Proforma < ActiveRecord::Base
         n + (proforma_item.qty*proforma_item.unit_price)
       end
       update_column('grand_total',gt)
+    end
+
+    def set_sold_at
+      update_column('sold_at',Time.zone.now)
     end
 end

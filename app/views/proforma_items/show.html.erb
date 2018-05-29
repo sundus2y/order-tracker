@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Proforma:</strong>
+  <%= @proforma_item.proforma_id %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @proforma_item.item_id %>
+</p>
+
+<p>
+  <strong>Qty:</strong>
+  <%= @proforma_item.qty %>
+</p>
+
+<p>
+  <strong>Unit price:</strong>
+  <%= @proforma_item.unit_price %>
+</p>
+
+<%= link_to 'Edit', edit_proforma_item_path(@proforma_item) %> |
+<%= link_to 'Back', proforma_items_path %>

@@ -1,0 +1,2 @@
+$("tr[data-id='<%= @proforma.id %>']").velocity(
+    "fadeOut", { duration: 700, complete: function(element) { element.remove() } });

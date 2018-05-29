@@ -115,7 +115,7 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:customer_id, :store_id, :remark, :fs_num)
+      params.require(:sale).permit(:customer_id, :car_id, :store_id, :remark, :fs_num)
     end
 
     def check_authorization

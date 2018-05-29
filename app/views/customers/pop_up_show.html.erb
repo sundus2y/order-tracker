@@ -11,9 +11,9 @@
 <script>
     (function () {
         $(document).ready(function(){
-            var CustomerCar = app.CustomerCar;
+            var App = CustomerCarApp.App;
             ReactDOM.render(
-                React.createElement(CustomerCar, {viewOnly: true}, null),
+                React.createElement(App, {viewOnly: true}, null),
                 $('.customer_cars_show_app')[0]
             );
         });

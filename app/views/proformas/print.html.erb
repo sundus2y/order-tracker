@@ -1,0 +1,36 @@
+<div class="field center-aligned">
+  <h4>
+    <b>Proforma#: <%= @proforma.transaction_num %></b>
+  </h4>
+</div>
+<%= render 'form', viewOnlyMode: true, show_proforma_items: true %>
+<hr class="hr-dark">
+<div class="row">
+  <div class="col-xs-12">
+    <li>This proforma is valid for _________ days after Proforma Date.</li>
+    <li>Please indicate our Proforma # <b><%= @proforma.transaction_num %></b> on your purchase order.</li>
+  </div>
+</div>
+<hr class="hr-dark">
+<div class="row">
+  <div class="col-xs-9">
+    <div class="field form-group">
+      <label for="created_by">Created By: </label>
+      <span><%= @proforma.creator.name %></span>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <div class="field form-group" style="text-align: right">
+      <label for="created_by">Printed By: </label>
+      <span><%= @current_user.name %></span>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+      setTimeout(function(){
+          $('input.')
+          print();
+      },1230);
+  });
+</script>

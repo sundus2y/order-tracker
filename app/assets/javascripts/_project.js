@@ -1,4 +1,4 @@
-window.printCurrency = function(number){
+var printCurrency = function(number){
     if(typeof(number) === 'string') {
         number = parseFloat(number);
     }
@@ -24,13 +24,13 @@ var renderAutoCompleteResults = function(results, indices, widths) {
         elem.innerHTML = "";
         $(elem).append(node_element);
     });
-}
+};
 
 var makeFormReadOnly = function() {
     $("form[data-readOnly='true']").find('input').attr('readOnly', true);
     $("form[data-readOnly='true']").find('select').attr('disabled', true);
     $("form[data-readOnly='true']").find('textarea').attr('readOnly', true);
-}
+};
 
 var updateFormAction = function() {
     $('body').on('click',"button[type='submit']", function(){
@@ -39,7 +39,7 @@ var updateFormAction = function() {
            $(this).closest('form').attr('action',action);
        }
     });
-}
+};
 
 var submitFormWithLink = function() {
     $('body').on('click','a.form-submit',function (e) {
@@ -50,7 +50,30 @@ var submitFormWithLink = function() {
         $(this).closest('form').submit();
         e.preventDefault();
     })
-}
+};
+
+var bindSearchSelectEvent = function() {
+    $('#search_item_field').on('railsAutocomplete.select', function (event, object) {
+        $('#search_item_id').val(object.item.id);
+        $(this).val('');
+    });
+    $('#search_item_field').on('autocompleteopen', function (event, object) {
+        var results = $('ul.ui-autocomplete').find('li');
+        $('ul.ui-autocomplete').prepend("" +
+            "<li class='autocomplete-header'>" +
+            "<div class='row'>" +
+            "<div class='col-sm-3'>Item Number</div>" +
+            "<div class='col-sm-5'>Name</div>" +
+            "<div class='col-sm-2'>Inventory</div>" +
+            "<div class='col-sm-1'>Brand</div>" +
+            "<div class='col-sm-1'>Origin</div>" +
+            "</div>" +
+            "</li>").css('width','80%');
+        var indices = [0,1,2,3,4];
+        var widths = ['col-sm-3','col-sm-5','col-sm-2','col-sm-1','col-sm-1'];
+        renderAutoCompleteResults(results, indices, widths);
+    });
+};
 
 $(document).ready(function (){
     makeFormReadOnly();
@@ -111,4 +134,60 @@ $(document).ready(function (){
 
         $('#'+$("a[href*='"+link+"']").parent().data('parent')).click();
     },0.5);
+
+    $(document).ajaxStart(function(event, request, settings) {
+        if(globalSearchSaleApp.callback && $.pause_searching_for_fs_num === false) {
+            globalSearchSaleApp.callback({searching: true});
+        } else if(SearchProformaApp.callback) {
+            SearchProformaApp.callback({searching: true});
+        }
+        $.pause_searching_for_fs_num = false;
+    });
+
+    $('#query_customer').on('railsAutocomplete.select', function (event, object) {
+        $(this).trigger('submit.rails');
+        $('span#selected-customer input').val(object.item.value);
+        $('span#selected-customer').show();
+        $('span#customer-autocomplete').hide();
+    });
+
+    $('#sale_customer,#proforma_customer,#query_customer').on('autocompleteopen', function (event, object) {
+        var results = $('ul.ui-autocomplete').find('li');
+        var indices = [0,1,2,3,4];
+        var widths = ['col-sm-3','col-sm-3','col-sm-2','col-sm-2','col-sm-2'];
+        renderAutoCompleteResults(results, indices, widths);
+        $('ul.ui-autocomplete').prepend("" +
+            "<li class='autocomplete-header'>" +
+            "<div class='row'>" +
+            "<div class='col-sm-3'>Name</div>" +
+            "<div class='col-sm-3'>Company</div>" +
+            "<div class='col-sm-2'>Phone</div>" +
+            "<div class='col-sm-2'>Tin No</div>" +
+            "<div class='col-sm-2'>Category</div>" +
+            "</div>" +
+            "</li>").css('width','60%');
+    });
+
+    $('#search_item_field').on('railsAutocomplete.select', function (event, object) {
+        $(this).trigger('submit.rails');
+        $('span#selected-item input').val(object.item.value);
+        $('span#selected-item').show();
+        $('span#item-autocomplete').hide();
+    });
+
+    $('span#selected-customer-close').click(function(){
+        $('span#selected-customer').hide();
+        $('span#customer-autocomplete').show();
+        $('input#customer_id').val('');
+        $('span#customer-autocomplete input').val('').trigger('submit.rails');
+    });
+
+    $('span#selected-item-close').click(function(){
+        $('span#selected-item').hide();
+        $('span#item-autocomplete').show();
+        $('input#item_id').val('');
+        $('span#item-autocomplete input').val('').trigger('submit.rails');
+    });
+
+    $('span#selected-customer, span#selected-item').hide();
 });

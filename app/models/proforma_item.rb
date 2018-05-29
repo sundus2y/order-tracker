@@ -22,16 +22,16 @@ class ProformaItem < ActiveRecord::Base
     state :sold
     state :void
 
-    event :submit, after: :submit_proforma_items do
-      transitions :from => :draft, :to => :submitted
+    event :submit do
+      transitions :from => :draft, :to => :submitted, after: :update_inventory
     end
 
-    event :mark_as_sold, after: :mark_as_sold_items do
-      transitions :from => :submitted, :to => :sold #SALE
+    event :mark_as_sold do
+      transitions :from => :submitted, :to => :sold, after: [:minus_qty, :update_inventory] #SALE
     end
 
-    event :reject, after: :reject_proforma_items do
-      transitions :from => [:sold,:draft,:submitted], :to => :void #ADMIN
+    event :reject do
+      transitions :from => [:sold,:draft,:submitted], :to => :void, after: [:minus_qty, :update_inventory] #ADMIN
     end
   end
 
@@ -43,6 +43,14 @@ class ProformaItem < ActiveRecord::Base
   private
     def set_unit_price
       self.unit_price = item.sale_price if unit_price.nil? || unit_price == 0
+    end
+
+    def minus_qty
+      update_attribute(:qty, qty*-1)
+    end
+
+    def update_inventory
+      item.update_inventory(proforma.store, qty)
     end
 
     def recal_grand_total

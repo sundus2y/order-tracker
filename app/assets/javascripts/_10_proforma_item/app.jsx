@@ -1,28 +1,28 @@
-var app = app || {};
+var ProformaItemApp = ProformaItemApp || {};
 
 (function () {
 
 
-    var SaleItemFooter = app.SaleItemFooter;
-    var SaleItem = app.SaleItem;
+    var ProformaItemFooter = ProformaItemApp.ProformaItemFooter;
+    var ProformaItem = ProformaItemApp.ProformaItem;
 
     function clearSearchFields(){
         $('#search_item_id').val('');
     }
 
-    var App = React.createClass({
+    ProformaItemApp.App = React.createClass({
         getInitialState: function () {
             return {
                 data: [],
-                loadingSaleItems: false
+                loadingProformaItems: false
             };
         },
 
-        saveSaleItem: function(saleId,itemId){
+        saveProformaItem: function(proformaId,itemId){
             var deferred = $.Deferred();
-            var newSaleItem = {
-                sale_item: {
-                    sale_id: saleId,
+            var newProformaItem = {
+                proforma_item: {
+                    proforma_id: proformaId,
                     item_id: itemId,
                     qty: 1,
                     unit_price: 0
@@ -30,8 +30,8 @@ var app = app || {};
             };
             $.ajax({
                 type: "POST",
-                url: "/sale_items/",
-                data: newSaleItem,
+                url: "/proforma_items/",
+                data: newProformaItem,
                 dataType: 'json',
                 success: function (data,response) {
                     deferred.resolve({context:this,data:data,message:response});
@@ -43,18 +43,18 @@ var app = app || {};
             return deferred.promise();
         },
 
-        updateSaleItem: function(saleItem){
+        updateProformaItem: function(proformaItem){
             var deferred = $.Deferred();
             var newQtyAndUnitPrice = {
                 _method: 'PATCH',
-                sale_item: {
-                    qty: saleItem.qty,
-                    unit_price: saleItem.unit_price
+                proforma_item: {
+                    qty: proformaItem.qty,
+                    unit_price: proformaItem.unit_price
                 }
             }
             $.ajax({
                 type: "POST",
-                url: "/sale_items/"+saleItem.id,
+                url: "/proforma_items/"+proformaItem.id,
                 data: newQtyAndUnitPrice,
                 dataType: 'json',
                 success: function (data,response) {
@@ -67,11 +67,11 @@ var app = app || {};
             return deferred.promise();
         },
 
-        destroySaleItem: function(saleItem){
+        destroyProformaItem: function(proformaItem){
             var deferred = $.Deferred();
             $.ajax({
                 type: "DELETE",
-                url: "/sale_items/"+saleItem.id,
+                url: "/proforma_items/"+proformaItem.id,
                 dataType: 'json',
                 success: function (data,response) {
                     deferred.resolve({context:this,data:data,message:response});
@@ -83,101 +83,108 @@ var app = app || {};
             return deferred.promise();
         },
 
-        getSaleItems: function(saleId){
+        getProformaItems: function(proformaId){
             var deferred = $.Deferred();
-            this.setState({loadingSaleItems: true});
+            this.setState({loadingProformaItems: true});
             $.ajax({
                 type: "GET",
-                url: "/sales/"+saleId+"/sale_items/",
+                url: "/proformas/"+proformaId+"/proforma_items/",
                 dataType: 'json',
                 success: function(data,response){
                     deferred.resolve({context:this,data:data,message:response});
-                    this.setState({loadingSaleItems: false});
+                    this.setState({loadingProformaItems: false});
                 }.bind(this),
                 error: function(err) {
-                    this.setState({loadingSaleItems: false});
                     deferred.reject({context:this,err:err,message:'Error'});
+                    this.setState({loadingProformaItems: false});
                 }
             });
             return deferred.promise();
         },
 
-        handleSaleItemCreate: function(){
+        handleProformaItemCreate: function(){
             var itemId = $('#search_item_id').val();
-            var saleId = parseInt($('#sale_id').val());
+            var proformaId = parseInt($('#proforma_id').val());
             if (itemId != '') {
                 itemId = parseInt(itemId)
-                var foundSaleItem = this.state.data.find(function(saleItem){return saleItem.item.id === itemId});
-                if (foundSaleItem) {
+                var foundProformaItem = this.state.data.find(function(proformaItem){return proformaItem.item.id === itemId});
+                if (foundProformaItem) {
                     clearSearchFields();
                     alert('Item Already Exists');
                 } else {
-                    this.saveSaleItem(saleId, itemId).done(function (response) {
+                    this.saveProformaItem(proformaId, itemId).done(function (response) {
                         var self = response.context;
                         var updatedData = [response.data].concat(self.state.data);
                         self.setState({data: updatedData});
                     }).fail(function (response){
-                        alert("Error While Trying to Save Sale Item" + response);
+                        alert("Error While Trying to Save Proforma Item" + response);
                     }).always(clearSearchFields);
                 }
             }
         },
 
-        handleSaleItemRemove: function(saleItemToRemove){
-            this.destroySaleItem(saleItemToRemove).done(function(response){
+        handleProformaItemRemove: function(proformaItemToRemove){
+            this.destroyProformaItem(proformaItemToRemove).done(function(response){
                 var self = response.context;
-                var updatedData = self.state.data.filter(function(saleItem){
-                    return saleItem.id != response.data.id;
+                var updatedData = self.state.data.filter(function(proformaItem){
+                    return proformaItem.id != response.data.id;
                 });
                 self.setState({data: updatedData});
             })
         },
 
-        handleSaleItemUpdate: function(updatedSaleItem){
-            this.updateSaleItem(updatedSaleItem).done(function(response){
+        handleProformaItemUpdate: function(updatedProformaItem){
+            this.updateProformaItem(updatedProformaItem).done(function(response){
                 var self = response.context;
-                var updatedData = self.state.data.map(function(saleItem){
-                    if (saleItem.id === response.data.id) {
-                        saleItem.qty = response.data.qty;
-                        saleItem.unit_price = response.data.unit_price;
+                var updatedData = self.state.data.map(function(proformaItem){
+                    if (proformaItem.id === response.data.id) {
+                        proformaItem.qty = response.data.qty;
+                        proformaItem.unit_price = response.data.unit_price;
                     }
-                    return saleItem;
+                    return proformaItem;
                 });
                 self.setState({data: updatedData});
             });
         },
 
         componentDidMount: function(){
-            var saleId = $('#sale_id').val();
+            var proformaId = $('#proforma_id').val();
             bindSearchSelectEvent();
-            this.getSaleItems(saleId).done(function(response) {
+            this.getProformaItems(proformaId).done(function(response) {
                 var self = response.context;
                 self.setState({data: response.data});
             }).fail(function(response){
-                alert("Error While Trying to Get Sale Item" + response);
+                alert("Error While Trying to Get Proforma Item" + response);
             });
+        },
+
+        componentWillMount: function(){
+            ProformaItemApp.customerCallback = function() {
+                var customerId = $('#proforma_customer_id').val();
+                alert(customerId);
+            }.bind(this);
         },
 
         render: function(){
             var main;
-            var saleItemList = this.state.data;
-            var grandTotalQty = saleItemList.reduce(function(accum,saleItem){
-                var qty = (isNaN(saleItem.qty))? 0 : saleItem.qty;
+            var proformaItemList = this.state.data;
+            var grandTotalQty = proformaItemList.reduce(function(accum,proformaItem){
+                var qty = (isNaN(proformaItem.qty))? 0 : proformaItem.qty;
                 return accum + qty;
             },0);
-            var grandTotalPrice = saleItemList.reduce(function(accum,saleItem){
-                var qty = (isNaN(saleItem.qty))? 0 : saleItem.qty;
-                var price = (isNaN(saleItem.unit_price))? 0 : saleItem.unit_price;
+            var grandTotalPrice = proformaItemList.reduce(function(accum,proformaItem){
+                var qty = (isNaN(proformaItem.qty))? 0 : proformaItem.qty;
+                var price = (isNaN(proformaItem.unit_price))? 0 : proformaItem.unit_price;
                 return accum + (qty * price);
             },0);
-            var saleItems = saleItemList.map(function (saleItem,index) {
+            var proformaItems = proformaItemList.map(function (proformaItem,index) {
                 return (
-                    <SaleItem
+                    <ProformaItem
                         lineNumber={index+1}
-                        key={saleItem.id}
-                        saleItemData={saleItem}
-                        onItemUpdate={this.handleSaleItemUpdate}
-                        onSaleItemRemove={this.handleSaleItemRemove}
+                        key={proformaItem.id}
+                        proformaItemData={proformaItem}
+                        onItemUpdate={this.handleProformaItemUpdate}
+                        onProformaItemRemove={this.handleProformaItemRemove}
                         viewOnly={this.props.viewOnly}
                     />
                 );
@@ -185,7 +192,7 @@ var app = app || {};
 
             var loadingItems = (
                 <tr>
-                    <td colSpan="7" className="center-aligned">
+                    <td colSpan="5" className="center-aligned">
                         <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                         <span className="searching">Loading . . .</span>
                     </td>
@@ -202,7 +209,7 @@ var app = app || {};
                                    data-autocomplete="/items/autocomplete_item_sale_order"
                                    data-name-element="#search_item_id"
                                    placeholder="Enter item to search. . ."
-                                   onSelect={this.handleSaleItemCreate}/>
+                                   onSelect={this.handleProformaItemCreate}/>
                             <div className="form-group hidden">
                                 <input type="text" id="search_item_id" />
                             </div>
@@ -216,7 +223,9 @@ var app = app || {};
                     <thead>
                         <tr>
                             <td>
-                                No.
+                                <div className="field form-group">
+                                    No.
+                                </div>
                             </td>
                             <td>
                                 <div className="field form-group">
@@ -225,30 +234,20 @@ var app = app || {};
                             </td>
                             <td>
                                 <div className="field form-group">
-                                    Item Number
-                                </div>
-                            </td>
-                            <td>
-                                <div className="field form-group">
-                                    Original Number
-                                </div>
-                            </td>
-                            <td>
-                                <div className="field form-group">
                                     Brand
                                 </div>
                             </td>
-                            <td width="9%">
+                            <td width="11%">
                                 <div className="field form-group">
                                     Qty
                                 </div>
                             </td>
-                            <td width="9%">
+                            <td width="11%">
                                 <div className="field form-group">
                                     Unit Price
                                 </div>
                             </td>
-                            <td>
+                            <td width="10%">
                                 <div className="field form-group">
                                     Total Price
                                 </div>
@@ -256,8 +255,8 @@ var app = app || {};
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.loadingSaleItems ? loadingItems : saleItems }
-                        <SaleItemFooter
+                        {this.state.loadingProformaItems ? loadingItems : proformaItems }
+                        <ProformaItemFooter
                             grandTotalQty={grandTotalQty}
                             grandTotalPrice={grandTotalPrice}
                         />
@@ -275,13 +274,14 @@ var app = app || {};
     });
 
     function render(viewMode,container) {
+        var App = ProformaItemApp.App;
         ReactDOM.render(
             <App viewOnly={viewMode}/>,
             container[0]
         );
     }
     $(document).ready(function(){
-        if ($('.sales_item_app').length != 0){render(false,$('.sales_item_app'));}
-        if ($('.sales_item_show_app').length != 0){render(true,$('.sales_item_show_app'));}
+        if ($('.proforma_items_app').length != 0){render(false,$('.proforma_items_app'));}
+        if ($('.proforma_items_show_app').length != 0){render(true,$('.proforma_items_show_app'));}
     });
 })();

@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="row">
+    <%= form_tag proformas_searches_path, method: :get, remote: true, id: :proformas_search_form do %>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <label for="proforma_customer">Customer</label>
+          <span id="customer-autocomplete">
+            <%= autocomplete_field :query, :customer ,autocomplete_customer_name_customers_path,
+                                   class: 'form-control',
+                                   placeholder: 'Enter customer to search. . .',
+                                   :update_elements => {
+                                    :id => '#customer_id'
+                                   } %>
+          </span>
+          <span class="input-group" id="selected-customer">
+            <input class="form-control" readonly>
+            <span id="selected-customer-close" class="selected-ac-close input-group-addon">X</span>
+          </span>
+        </div>
+        <input id="customer_id" name="query[customer_id]" class="hidden"/>
+      </div>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <label for="status">Store</label>
+          <%= select_tag 'store', options_from_collection_for_select(Store.for_sales,'id','name',current_user.default_store_id), {include_blank: true, class:'form-control',name:'query[store_id]',onchange: "$(this).trigger('submit.rails')"} %>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <label for="date_from">Date From</label>
+          <input name="query[date_from]" id="date_from" class="form-control datepicker" onchange="$(this).trigger('submit.rails')"/>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <label for="date_to">Date To</label>
+          <input name="query[date_to]" id="date_to" class="form-control datepicker" onchange="$(this).trigger('submit.rails')"/>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <label for="status">Status</label>
+          <%= select_tag 'status', options_for_select(['']+Proforma.get_all_states,''), {class:'form-control',name:'query[status]',onchange: "$(this).trigger('submit.rails')"} %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <br>
+  <div class="row">
+    <div id="proformas_search_results" class="col-xs-12">
+      No Results
+    </div>
+  </div>
+</div>
+

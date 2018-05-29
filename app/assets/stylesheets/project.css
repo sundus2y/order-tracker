@@ -2,3 +2,20 @@
     overflow-x: scroll;
     min-height: 250px;
 }
+@media print {
+    .no-print { display:none; }
+    .form-control
+    {
+        border: 0;
+        border-bottom: 2px;
+        border-bottom-style: solid;
+        padding:0;
+        margin-top: -10px;
+        overflow:visible;
+    }
+    select.form-control{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+}

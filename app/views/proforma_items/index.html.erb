@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Proforma Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Proforma</th>
+      <th>Item</th>
+      <th>Qty</th>
+      <th>Unit price</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @proforma_items.each do |proforma_item| %>
+      <tr>
+        <td><%= proforma_item.proforma_id %></td>
+        <td><%= proforma_item.item_id %></td>
+        <td><%= proforma_item.qty %></td>
+        <td><%= proforma_item.unit_price %></td>
+        <td><%= link_to 'Show', proforma_item %></td>
+        <td><%= link_to 'Edit', edit_proforma_item_path(proforma_item) %></td>
+        <td><%= link_to 'Destroy', proforma_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Proforma item', new_proforma_item_path %>

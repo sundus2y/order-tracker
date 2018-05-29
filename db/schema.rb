@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180318030201) do
+ActiveRecord::Schema.define(version: 20180528215817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,8 @@ ActiveRecord::Schema.define(version: 20180318030201) do
     t.decimal  "grand_total",          precision: 11, scale: 2
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
+    t.datetime "sold_at"
+    t.integer  "car_id"
   end
 
   create_table "return_items", force: :cascade do |t|
@@ -155,6 +157,8 @@ ActiveRecord::Schema.define(version: 20180318030201) do
     t.decimal  "grand_total",      precision: 11, scale: 2
     t.string   "fs_num"
     t.datetime "sold_at"
+    t.integer  "proforma_id"
+    t.integer  "car_id"
   end
 
   create_table "search_items", force: :cascade do |t|
