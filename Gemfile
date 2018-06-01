@@ -19,6 +19,7 @@ gem 'showdown-rails'
 gem 'rabl'
 gem 'oj'
 gem 'awesome_print'
+gem 'font-awesome-sass'
 
 group :development, :test do
   gem 'byebug'
