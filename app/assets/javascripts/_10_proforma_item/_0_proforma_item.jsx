@@ -23,7 +23,7 @@ var ProformaItemApp = ProformaItemApp || {};
         },
 
         componentDidMount: function(){
-            var last_input = $($('input.focus')[0]);
+            var last_input = $('input.focus').last();
             last_input.focus().val(last_input.val()).select();
         },
 

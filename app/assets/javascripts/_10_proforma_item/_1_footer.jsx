@@ -7,16 +7,14 @@ var ProformaItemApp = ProformaItemApp || {};
         render: function(){
             return (
                 <tr>
-                    <td className="grand_total" colSpan='3'>
-                        <span><b>Grand Total</b></span>
+                    <td className="total" colSpan='5'>
+                        <span><b>{this.props.label}:</b></span>
                     </td>
-                    <td className="grand_total">
-                        <strong>{this.props.grandTotalQty}</strong>
-                    </td>
-                    <td className="grand_total" colSpan="2">
-                        <strong>{printCurrency(this.props.grandTotalPrice)}</strong>
+                    <td className="total" colSpan="2">
+                        <strong>{printCurrency(this.props.value)}</strong>
                     </td>
                 </tr>
+
             );
         }
 

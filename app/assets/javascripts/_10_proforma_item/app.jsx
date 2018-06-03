@@ -14,7 +14,8 @@ var ProformaItemApp = ProformaItemApp || {};
         getInitialState: function () {
             return {
                 data: [],
-                loadingProformaItems: false
+                loadingProformaItems: false,
+                config: {}
             };
         },
 
@@ -114,7 +115,7 @@ var ProformaItemApp = ProformaItemApp || {};
                 } else {
                     this.saveProformaItem(proformaId, itemId).done(function (response) {
                         var self = response.context;
-                        var updatedData = [response.data].concat(self.state.data);
+                        var updatedData = self.state.data.concat([response.data]);
                         self.setState({data: updatedData});
                     }).fail(function (response){
                         alert("Error While Trying to Save Proforma Item" + response);
@@ -149,6 +150,7 @@ var ProformaItemApp = ProformaItemApp || {};
 
         componentDidMount: function(){
             var proformaId = $('#proforma_id').val();
+            var self = this;
             bindSearchSelectEvent();
             this.getProformaItems(proformaId).done(function(response) {
                 var self = response.context;
@@ -156,23 +158,15 @@ var ProformaItemApp = ProformaItemApp || {};
             }).fail(function(response){
                 alert("Error While Trying to Get Proforma Item" + response);
             });
-        },
-
-        componentWillMount: function(){
-            ProformaItemApp.customerCallback = function() {
-                var customerId = $('#proforma_customer_id').val();
-                alert(customerId);
-            }.bind(this);
+            service.config(function(response){
+                self.setState({config: response})
+            });
         },
 
         render: function(){
             var main;
             var proformaItemList = this.state.data;
-            var grandTotalQty = proformaItemList.reduce(function(accum,proformaItem){
-                var qty = (isNaN(proformaItem.qty))? 0 : proformaItem.qty;
-                return accum + qty;
-            },0);
-            var grandTotalPrice = proformaItemList.reduce(function(accum,proformaItem){
+            var totalPrice = proformaItemList.reduce(function(accum,proformaItem){
                 var qty = (isNaN(proformaItem.qty))? 0 : proformaItem.qty;
                 var price = (isNaN(proformaItem.unit_price))? 0 : proformaItem.unit_price;
                 return accum + (qty * price);
@@ -256,10 +250,9 @@ var ProformaItemApp = ProformaItemApp || {};
                     </thead>
                     <tbody>
                         {this.state.loadingProformaItems ? loadingItems : proformaItems }
-                        <ProformaItemFooter
-                            grandTotalQty={grandTotalQty}
-                            grandTotalPrice={grandTotalPrice}
-                        />
+                        <ProformaItemFooter label='Total' value={totalPrice}/>
+                        <ProformaItemFooter label='VAT(15%)' value={totalPrice * this.state.config.vat_rate}/>
+                        <ProformaItemFooter label='Total With VAT' value={totalPrice * (1 + this.state.config.vat_rate)}/>
                     </tbody>
                 </table>
             );
