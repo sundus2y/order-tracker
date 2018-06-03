@@ -130,7 +130,7 @@ class Proforma < ActiveRecord::Base
       gt = proforma_items.inject(0) do |n,proforma_item|
         n + (proforma_item.qty*proforma_item.unit_price)
       end
-      update_column('grand_total',gt)
+      update_column('grand_total',gt*1.15)
     end
 
     def set_sold_at
