@@ -180,13 +180,14 @@ var ProformaItemApp = ProformaItemApp || {};
                         onItemUpdate={this.handleProformaItemUpdate}
                         onProformaItemRemove={this.handleProformaItemRemove}
                         viewOnly={this.props.viewOnly}
+                        hideItemNumber={this.props.hideItemNumber}
                     />
                 );
             }, this);
 
             var loadingItems = (
                 <tr>
-                    <td colSpan="5" className="center-aligned">
+                    <td colSpan={this.props.hideItemNumber ? '5' : '6'} className="center-aligned">
                         <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                         <span className="searching">Loading . . .</span>
                     </td>
@@ -221,6 +222,11 @@ var ProformaItemApp = ProformaItemApp || {};
                                     No.
                                 </div>
                             </td>
+                            <td className={this.props.hideItemNumber ? 'hidden' : ''}>
+                                <div className="field form-group">
+                                    Item Number
+                                </div>
+                            </td>
                             <td>
                                 <div className="field form-group">
                                     Item Name
@@ -250,9 +256,9 @@ var ProformaItemApp = ProformaItemApp || {};
                     </thead>
                     <tbody>
                         {this.state.loadingProformaItems ? loadingItems : proformaItems }
-                        <ProformaItemFooter label='Total' value={totalPrice}/>
-                        <ProformaItemFooter label='VAT(15%)' value={totalPrice * this.state.config.vat_rate}/>
-                        <ProformaItemFooter label='Total With VAT' value={totalPrice * (1 + this.state.config.vat_rate)}/>
+                        <ProformaItemFooter label='Total' value={totalPrice} hideItemNumber={this.props.hideItemNumber}/>
+                        <ProformaItemFooter label='VAT(15%)' value={totalPrice * this.state.config.vat_rate} hideItemNumber={this.props.hideItemNumber}/>
+                        <ProformaItemFooter label='Total With VAT' value={totalPrice * (1 + this.state.config.vat_rate)} hideItemNumber={this.props.hideItemNumber}/>
                     </tbody>
                 </table>
             );
@@ -266,15 +272,18 @@ var ProformaItemApp = ProformaItemApp || {};
         }
     });
 
-    function render(viewMode,container) {
+    function render(viewMode, hideItemNumber, container) {
         var App = ProformaItemApp.App;
         ReactDOM.render(
-            <App viewOnly={viewMode}/>,
+            <App viewOnly={viewMode} hideItemNumber={hideItemNumber}/>,
             container[0]
         );
     }
     $(document).ready(function(){
-        if ($('.proforma_items_app').length != 0){render(false,$('.proforma_items_app'));}
-        if ($('.proforma_items_show_app').length != 0){render(true,$('.proforma_items_show_app'));}
+        if ($('.proforma_items_app').length != 0){
+            var hide_item_number = $('.proforma_items_app').data('hide_item_number');
+            var view_only = $('.proforma_items_app').data('view_only');
+            render(view_only, hide_item_number, $('.proforma_items_app'));
+        }
     });
 })();

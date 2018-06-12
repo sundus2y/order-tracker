@@ -1,4 +1,11 @@
-<%= link_to('Print', print_proforma_path(@proforma), target: '_blank', class:'btn btn-primary btn-block no-print') if policy(@proforma).print? %>
+<div class="row">
+  <div class="col-xs-6">
+    <%= link_to('Print', print_proforma_path(@proforma,{hide_item_number: true}), target: '_blank', class:'btn btn-primary btn-block no-print') if policy(@proforma).print? %>
+  </div>
+  <div class="col-xs-6">
+    <%= link_to('Office Print', print_proforma_path(@proforma), target: '_blank', class:'btn btn-primary btn-block no-print') if policy(@proforma).print? %>
+  </div>
+</div>
 <%= form_for(@proforma, data: {readOnly: viewOnlyMode}) do |f| %>
   <% if @proforma.errors.any? %>
     <div id="error_explanation">
@@ -137,10 +144,8 @@
     <hr class="hr-dark">
   </div>
   <% if show_proforma_items %>
-    <% if viewOnlyMode %>
-      <div class="proforma_items_show_app"></div>
-    <% else %>
-      <div class="proforma_items_app"></div>
+    <div class="proforma_items_app" data-view_only="<%= viewOnlyMode %>" data-hide_item_number="<%= hide_item_number %>"></div>
+    <% if !viewOnlyMode %>
       <div id="proformas_actions" class="btn-group float_right">
         <%= button_tag 'Save Draft', name:'save', type: 'submit', class: "btn btn-primary"%>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">

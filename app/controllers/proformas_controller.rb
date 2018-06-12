@@ -67,6 +67,7 @@ class ProformasController < ApplicationController
   end
 
   def print
+    @hide_item_number = params[:hide_item_number].present?
     render 'print', layout: 'print'
   end
 

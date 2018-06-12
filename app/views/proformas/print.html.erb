@@ -10,10 +10,10 @@
     <b><%= @proforma.transaction_num %></b>
   </h4>
 </div>
-<%= render 'form', viewOnlyMode: true, show_proforma_items: true %>
+<%= render 'form', viewOnlyMode: true, show_proforma_items: true, hide_item_number: @hide_item_number %>
 <div class="row">
   <div class="col-xs-12">
-    <li>This proforma is valid for _________ days after Proforma Date.</li>
+    <li>This proforma is valid for <b> 7 days </b> after Proforma Date.</li>
     <li>Please indicate our Proforma # <b><%= @proforma.transaction_num %></b> on your purchase order.</li>
   </div>
 </div>

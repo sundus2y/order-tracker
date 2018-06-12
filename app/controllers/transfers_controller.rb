@@ -52,6 +52,22 @@ class TransfersController < ApplicationController
     @transfer_items, @error_items = TransferItem.import(params[:file],@transfer)
     flash[:notice] = "All Items Imported Successfully" if @error_items.empty?
     flash[:warning] = "Found #{@error_items.count} Error Items" unless @error_items.empty?
+    @grouped_error_items = {
+        empty_fields: [],
+        item_not_found: []
+    }
+    @error_items.each do |error_item|
+      if error_item['item_number'].to_s.empty? ||
+          error_item['original_number'].to_s.empty? ||
+          error_item['qty'].to_s.empty? ||
+          error_item['brand'].to_s.empty? ||
+          error_item['made'].to_s.empty?
+        @grouped_error_items[:empty_fields] << error_item
+      else
+        possible_items = Item.where(item_number: error_item['item_number'])
+        @grouped_error_items[:item_not_found] << {possible_items: possible_items, error_item: error_item}
+      end
+    end
   end
 
   def submit

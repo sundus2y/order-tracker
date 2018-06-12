@@ -1,10 +1,75 @@
-<table>
-  <thead><td>Newly Created Transfer Items Listing (<%= @transfer_items.count %>)</td></thead>
-  <% @transfer_items.each do |item| %>
-      <tr><td><%= item.to_json %></tr></td>
-  <% end %>
-  <thead><td>Error Items Listing<td> (<%= @error_items.count %>)</thead>
-  <% @error_items.each do |item| %>
-      <tr><td><%= item.to_json %></tr></td>
+<table border="2" style="display: none">
+  <thead><tr><td colspan="3">Newly Created Transfer Items Listing (<%= @transfer_items.count %>)</td></tr></thead>
+  <% @transfer_items.each do |transfer_item| %>
+      <tr>
+        <td><%= transfer_item.id %></td>
+        <td><%= transfer_item.item.item_number%></td>
+        <td><%= transfer_item.qty %></td>
+      </tr>
   <% end %>
 </table>
+<br>
+<table border="2">
+  <thead><tr><td colspan="5">Error Items with empty fields(<%= @grouped_error_items[:empty_fields].count %>)</td></tr></thead>
+  <thead>
+  <tr>
+    <td>Item Number</td>
+    <td>Original Number</td>
+    <td>Made</td>
+    <td>Brand</td>
+    <td>Qty</td>
+  </tr>
+  </thead>
+  <tbody>
+  <% @grouped_error_items[:empty_fields].each do |error_item| %>
+      <tr>
+        <td><%= error_item['item_number'] %></td>
+        <td><%= error_item['original_number'] %></td>
+        <td><%= error_item['made'] %></td>
+        <td><%= error_item['brand'] %></td>
+        <td><%= error_item['qty'] %></td>
+      </tr>
+  <% end %>
+  <tr style="height: 30px;"><td colspan="5"></td></tr>
+  </tbody>
+  <thead><tr><td colspan="5">Error Items with no matching items(<%= @grouped_error_items[:item_not_found].count %>)</td></tr></thead>
+  <thead>
+  <tr>
+    <td>Item Number</td>
+    <td>Original Number</td>
+    <td>Made</td>
+    <td>Brand</td>
+    <td>Qty</td>
+  </tr>
+  </thead>
+  <tbody>
+  <% @grouped_error_items[:item_not_found].each do |missing_item| %>
+      <tr>
+        <td><%= missing_item[:error_item]['item_number'] %></td>
+        <td><%= missing_item[:error_item]['original_number'] %></td>
+        <td><%= missing_item[:error_item]['made'] %></td>
+        <td><%= missing_item[:error_item]['brand'] %></td>
+        <td><%= missing_item[:error_item]['qty'] %></td>
+      </tr>
+      <% if !missing_item[:possible_items].empty? %>
+          <thead><tr><td colspan="5">Possible Matches Found</td></tr></thead>
+          <% missing_item[:possible_items].each do |possible_item| %>
+              <tr>
+                <td><%= possible_item.item_number %></td>
+                <td><%= possible_item.original_number %></td>
+                <td><%= possible_item.made %></td>
+                <td><%= possible_item.brand %></td>
+                <td style="background-color: #4b646f"></td>
+              </tr>
+          <% end %>
+      <% else %>
+          <thead><tr><td colspan="5">No Possible Matches Found</td></tr></thead>
+      <% end %>
+      <tr style="height: 30px;"><td colspan="5"></td></tr>
+  <% end %>
+  </tbody>
+</table>
+<style>
+  table { empty-cells: show; }
+  td { padding: 6px !important; }
+</style>

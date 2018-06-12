@@ -21,6 +21,7 @@ class ProformaItem < ActiveRecord::Base
     state :submitted
     state :sold
     state :void
+    state :expired
 
     event :submit do
       transitions :from => :draft, :to => :submitted, after: :update_inventory
@@ -31,7 +32,15 @@ class ProformaItem < ActiveRecord::Base
     end
 
     event :reject do
-      transitions :from => [:sold,:draft,:submitted], :to => :void, after: [:minus_qty, :update_inventory] #ADMIN
+      transitions :from => [:sold,:submitted], :to => :void, after: [:minus_qty, :update_inventory] #ADMIN
+    end
+
+    event :delete_draft do
+      transitions :from => :draft, :to => :void, after: [:minus_qty, :update_inventory]
+    end
+
+    event :expire do
+      transitions :from => :submitted, :to => :expired, after: [:minus_qty, :update_inventory]
     end
   end
 

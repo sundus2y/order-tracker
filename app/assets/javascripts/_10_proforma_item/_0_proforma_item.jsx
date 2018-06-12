@@ -42,6 +42,11 @@ var ProformaItemApp = ProformaItemApp || {};
                             <span className={"line_number  "+this.props.proformaItemData.status+"_item"}>{this.props.lineNumber}</span>
                         </div>
                     </td>
+                    <td className={this.props.hideItemNumber ? 'hidden' : ''}>
+                        <div className={"field form-group "+this.props.proformaItemData.status+"_item"}>
+                            {this.props.proformaItemData.item.item_number}
+                        </div>
+                    </td>
                     <td>
                         <div className={"field form-group "+this.props.proformaItemData.status+"_item"}>
                             {this.props.proformaItemData.item.name}

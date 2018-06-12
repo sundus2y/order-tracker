@@ -25,6 +25,7 @@ class Proforma < ActiveRecord::Base
     state :submitted
     state :sold
     state :void
+    state :expired
 
     event :submit, after: :submit_proforma_items do
       transitions :from => :draft, :to => :submitted, unless: :empty_proforma_item? #SALE
@@ -40,6 +41,10 @@ class Proforma < ActiveRecord::Base
 
     event :delete_draft, after: :delete_proforma_items do
       transitions :from => :draft, :to => :void
+    end
+
+    event :expire, after: :expire_proforma_items do
+      transitions :from => :submitted, :to => :expired
     end
   end
 
@@ -90,6 +95,10 @@ class Proforma < ActiveRecord::Base
 
     def delete_proforma_items
       proforma_items.map(&:delete!)
+    end
+
+    def expire_proforma_items
+      proforma_items.map(&:expire!)
     end
 
     def empty_proforma_item?
