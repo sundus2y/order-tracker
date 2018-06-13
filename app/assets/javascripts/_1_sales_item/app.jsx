@@ -14,7 +14,8 @@ var app = app || {};
         getInitialState: function () {
             return {
                 data: [],
-                loadingSaleItems: false
+                loadingSaleItems: false,
+                config: {}
             };
         },
 
@@ -114,7 +115,7 @@ var app = app || {};
                 } else {
                     this.saveSaleItem(saleId, itemId).done(function (response) {
                         var self = response.context;
-                        var updatedData = [response.data].concat(self.state.data);
+                        var updatedData = self.state.data.concat([response.data]);
                         self.setState({data: updatedData});
                     }).fail(function (response){
                         alert("Error While Trying to Save Sale Item" + response);
@@ -148,6 +149,7 @@ var app = app || {};
         },
 
         componentDidMount: function(){
+            var self = this;
             var saleId = $('#sale_id').val();
             bindSearchSelectEvent();
             this.getSaleItems(saleId).done(function(response) {
@@ -156,16 +158,15 @@ var app = app || {};
             }).fail(function(response){
                 alert("Error While Trying to Get Sale Item" + response);
             });
+            service.config(function(response){
+                self.setState({config: response})
+            });
         },
 
         render: function(){
             var main;
             var saleItemList = this.state.data;
-            var grandTotalQty = saleItemList.reduce(function(accum,saleItem){
-                var qty = (isNaN(saleItem.qty))? 0 : saleItem.qty;
-                return accum + qty;
-            },0);
-            var grandTotalPrice = saleItemList.reduce(function(accum,saleItem){
+            var totalPrice = saleItemList.reduce(function(accum,saleItem){
                 var qty = (isNaN(saleItem.qty))? 0 : saleItem.qty;
                 var price = (isNaN(saleItem.unit_price))? 0 : saleItem.unit_price;
                 return accum + (qty * price);
@@ -257,10 +258,9 @@ var app = app || {};
                     </thead>
                     <tbody>
                         {this.state.loadingSaleItems ? loadingItems : saleItems }
-                        <SaleItemFooter
-                            grandTotalQty={grandTotalQty}
-                            grandTotalPrice={grandTotalPrice}
-                        />
+                        <SaleItemFooter label='Total' value={totalPrice}/>
+                        <SaleItemFooter label='VAT(15%)' value={totalPrice * this.state.config.vat_rate}/>
+                        <SaleItemFooter label='Total With VAT' value={totalPrice * (1 + this.state.config.vat_rate)}/>
                     </tbody>
                 </table>
             );

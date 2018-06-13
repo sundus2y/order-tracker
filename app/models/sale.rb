@@ -138,7 +138,7 @@ class Sale < ActiveRecord::Base
       gt = sale_items.inject(0) do |n,sale_item|
         n + (sale_item.qty*sale_item.unit_price)
       end
-      update_column('grand_total',gt)
+      update_column('grand_total',gt * 1.15)
     end
 
     def set_sold_at
