@@ -191,7 +191,6 @@ class ItemsController < ApplicationController
     def set_transaction_log
       @transactions = @item.transfer_log(@transactions)
       @transactions = @item.sales_order_log(@transactions)
-      @transactions = @item.proforma_log(@transactions)
       @transactions.each{|k,v| v.sort_by!(&:created_at)}
     end
 end

@@ -41,7 +41,7 @@ class Item < ActiveRecord::Base
         super({
                   only: [:id,:name,:original_number,:item_number,:prev_number,:next_number, :cost_price,
                          :description,:car,:model,:sale_price,:korea_price,:dubai_price,:brand,:made,:default_sale_price],
-                  methods: [:admin_actions,:inventories_display,:order_display]
+                  methods: [:admin_actions,:inventories_display,:order_display,:proforma_display]
               }.merge(options))
       when :regular_search
         super({
@@ -87,7 +87,7 @@ class Item < ActiveRecord::Base
 
   def inventories_display
     response = []
-    sep = "<hr style='margin: 0px'>".html_safe
+    sep = "<hr style='margin: 2px'>".html_safe
     inventories.each do |inventory|
       response << "#{inventory.store.short_name}: #{inventory.qty}" if !inventory.store.virtual? && inventory.store.active
     end
@@ -99,6 +99,15 @@ class Item < ActiveRecord::Base
     sep = '<br>'.html_safe
     order_items.group_by(&:status).each_pair do |group,ois|
       response << "#{group.titleize}: #{ois.sum(&:qty)}"
+    end
+    response.join(sep).html_safe
+  end
+
+  def proforma_display
+    response = []
+    sep = "<hr style='margin: 2px'>".html_safe
+    proforma_items.where(status: ['draft','submitted']).group_by(&:status).each_pair do |group,pis|
+      response << "#{group.titleize}: #{pis.sum(&:qty)}"
     end
     response.join(sep).html_safe
   end
