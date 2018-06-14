@@ -6,13 +6,14 @@ namespace :reset do
       if p.status == 'sold'
         p.proforma_items.each do |pi|
           pi.qty = -1 * pi.qty if pi.qty < 0
+          pi.save!
         end
-      elsif p.status == 'submitted'
-        p.proforma_items.each do |pi|
-          iv = pi.item.inventories.where(store: p.store).first
-          iv.qty += 1
-          iv.save!
-        end
+      # elsif p.status == 'submitted'
+      #   p.proforma_items.each do |pi|
+      #     iv = pi.item.inventories.where(store: p.store).first
+      #     iv.qty += 1
+      #     iv.save!
+      #   end
       end
       p.save
       progressbar.increment
