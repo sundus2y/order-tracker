@@ -28,7 +28,7 @@ class ProformaPolicy
   end
 
   def edit?
-    new? && @proforma.draft?
+    new?
   end
 
   def destroy?
