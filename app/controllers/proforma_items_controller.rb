@@ -60,7 +60,7 @@ class ProformaItemsController < ApplicationController
     end
 
     def proforma_item_params
-      params.require(:proforma_item).permit(:proforma_id, :item_id, :qty, :unit_price)
+      params.require(:proforma_item).permit(:proforma_id, :item_id, :remark, :qty, :unit_price)
     end
 
     def check_authorization

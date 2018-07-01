@@ -18,6 +18,12 @@ var ProformaItemApp = ProformaItemApp || {};
             this.props.onItemUpdate(updatedProformaItem);
         },
 
+        handleRemarkChange: function(event){
+            var updatedProformaItem = this.props.proformaItemData;
+            updatedProformaItem.remark = event.target.value;
+            this.props.onItemUpdate(updatedProformaItem);
+        },
+
         handleProformaItemRemove: function(event){
             this.props.onProformaItemRemove(this.props.proformaItemData);
         },
@@ -55,6 +61,14 @@ var ProformaItemApp = ProformaItemApp || {};
                     <td>
                         <div className={"field form-group "+this.props.proformaItemData.status+"_item"}>
                             {this.props.proformaItemData.item.brand}
+                        </div>
+                    </td>
+                    <td>
+                        <div className="field form-group">
+                            <input className={"form-control focus "+this.props.proformaItemData.status+"_item"}
+                                   defaultValue={this.props.proformaItemData.remark}
+                                   onBlur={this.handleRemarkChange}
+                                   disabled={this.props.viewOnly}/>
                         </div>
                     </td>
                     <td>

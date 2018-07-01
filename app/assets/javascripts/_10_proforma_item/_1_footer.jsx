@@ -7,7 +7,7 @@ var ProformaItemApp = ProformaItemApp || {};
         render: function(){
             return (
                 <tr>
-                    <td className="total" colSpan={this.props.hideItemNumber ? '5' : '6'}>
+                    <td className="total" colSpan={this.props.hideItemNumber ? '6' : '7'}>
                         <span><b>{this.props.label}:</b></span>
                     </td>
                     <td className="total">

@@ -49,6 +49,7 @@ var ProformaItemApp = ProformaItemApp || {};
             var newQtyAndUnitPrice = {
                 _method: 'PATCH',
                 proforma_item: {
+                    remark: proformaItem.remark,
                     qty: proformaItem.qty,
                     unit_price: proformaItem.unit_price
                 }
@@ -235,6 +236,11 @@ var ProformaItemApp = ProformaItemApp || {};
                             <td>
                                 <div className="field form-group">
                                     Brand
+                                </div>
+                            </td>
+                            <td>
+                                <div className="field form-group">
+                                    Remark
                                 </div>
                             </td>
                             <td width="11%">
