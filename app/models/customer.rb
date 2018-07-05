@@ -2,6 +2,7 @@ class Customer < ActiveRecord::Base
   enum category: [:retail, :wholesale, :company]
 
   has_many :sales, dependent: :destroy
+  has_many :proformas, dependent: :destroy
   has_many :cars
 
   accepts_nested_attributes_for :cars, allow_destroy: true
@@ -66,7 +67,7 @@ class Customer < ActiveRecord::Base
         <ul class="dropdown-menu context-menu">
           #{view_action}
           #{edit_action}
-          #{delete_action if type == :admin}
+          #{delete_action if (type == :admin && (sales.count==0 && proformas.count==0))}
         </ul>
       </div>
     HTML
