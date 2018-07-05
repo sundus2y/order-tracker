@@ -26,6 +26,14 @@ var CustomerCarApp = CustomerCarApp || {};
                     <td>
                         <div className="field form-group">
                             <input className="form-control focus"
+                                   defaultValue={this.props.carData.owner}
+                                   required
+                                   disabled={this.props.viewOnly || this.props.carData.markedForDeletion} name={"customer[cars_attributes]["+this.props.lineNumber+"][owner]"}/>
+                        </div>
+                    </td>
+                    <td>
+                        <div className="field form-group">
+                            <input className="form-control focus"
                                    defaultValue={this.props.carData.vin_no}
                                    required
                                    disabled={this.props.viewOnly || this.props.carData.markedForDeletion} name={"customer[cars_attributes]["+this.props.lineNumber+"][vin_no]"}/>

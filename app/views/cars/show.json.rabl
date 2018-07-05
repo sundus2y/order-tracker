@@ -1,3 +1,3 @@
 object @car
 
-attributes :id,:vin_no,:plate_no,:year,:brand,:model
+attributes :id,:owner,:vin_no,:plate_no,:year,:brand,:model

@@ -6,6 +6,7 @@ class Car < ActiveRecord::Base
   before_save :upcase_fields
 
   def upcase_fields
+    self.owner.upcase!
     self.vin_no.upcase!
     self.plate_no.upcase!
     self.year.upcase!

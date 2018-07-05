@@ -97,7 +97,7 @@ class CustomersController < ApplicationController
     end
 
     def customer_params
-      params.require(:customer).permit(:name, :company, :phone, :tin_no, :category, cars_attributes: [:id, :vin_no,:plate_no,:year,:brand,:model,:_destroy])
+      params.require(:customer).permit(:name, :company, :phone, :tin_no, :category, cars_attributes: [:id, :owner, :vin_no,:plate_no,:year,:brand,:model,:_destroy])
     end
 
     def get_autocomplete_items(parameters)

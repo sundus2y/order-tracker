@@ -48,8 +48,8 @@ var CustomerCarApp = CustomerCarApp || {};
                 var selectedCar = this.state.data.filter(function(car){
                     return car.id.toString() === $('#'+self.props.pickerId).val();
                 })[0];
-                selectedCar = selectedCar || {vin_no:'',plate_no:'',year:'',brand:'',model:''};
-                ['id','vin_no','plate_no','year','brand','model'].forEach(function(field){
+                selectedCar = selectedCar || {owner:'',vin_no:'',plate_no:'',year:'',brand:'',model:''};
+                ['id','owner','vin_no','plate_no','year','brand','model'].forEach(function(field){
                     $('#'+self.props.updateElements+'_'+field).val(selectedCar[field]);
                 });
             }
@@ -57,7 +57,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
         clearUpdateElements: function(){
             var self = this;
-            ['id','vin_no','plate_no','year','brand','model'].forEach(function(field){
+            ['id','owner','vin_no','plate_no','year','brand','model'].forEach(function(field){
                 $('#'+self.props.updateElements+'_'+field).val('');
             });
         },
@@ -67,7 +67,7 @@ var CustomerCarApp = CustomerCarApp || {};
             var carsListUI = carsList.map(function (car,index) {
                 return (
                     <option key={car.id} value={car.id}>
-                        {car.vin_no+" / "+car.plate_no}
+                        {car.owner + " / " + car.vin_no+" / "+car.plate_no}
                     </option>
                 );
             }, this);
@@ -76,7 +76,7 @@ var CustomerCarApp = CustomerCarApp || {};
                 <div className="input-group">
                     <label htmlFor={this.props.pickerId}>Select Car</label>
                     <select className="form-control" id={this.props.pickerId} onChange={this.handleCarSelect}>
-                        <option>Select Car...</option>
+                        <option>Select Car (Owner / VIN No / Plate No)</option>
                         {carsListUI}
                     </select>
                 </div>

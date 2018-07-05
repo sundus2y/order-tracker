@@ -50,6 +50,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
         handleCarAdd: function(event) {
             var newCar = {
+                owner: '',
                 vin_no: '',
                 plate_no: '',
                 year: '',
@@ -88,7 +89,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
             var loadingCarsUI = (
                 <tr>
-                    <td colSpan="6" className="center-aligned">
+                    <td colSpan="7" className="center-aligned">
                         <i className="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                         <span className="searching">Loading . . .</span>
                     </td>
@@ -97,7 +98,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
             var addNewCarUI = (
                 <tr>
-                    <td colSpan="6" className="center-aligned">
+                    <td colSpan="7" className="center-aligned">
                         <span className="fa fa-plus btn btn-success" onClick={this.handleCarAdd}> Add New Car</span>
                     </td>
                 </tr>
@@ -105,7 +106,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
             var noCarsUI = (
                 <tr>
-                    <td colSpan="6" className="center-aligned">
+                    <td colSpan="7" className="center-aligned">
                         <span className>No Registered Cars</span>
                     </td>
                 </tr>
@@ -118,6 +119,11 @@ var CustomerCarApp = CustomerCarApp || {};
                             <td>
                                 <div className="field form-group">
                                     No.
+                                </div>
+                            </td>
+                            <td>
+                                <div className="field form-group">
+                                    Owner
                                 </div>
                             </td>
                             <td>
