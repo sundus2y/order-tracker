@@ -62,7 +62,7 @@ var searchSaleApp = searchSaleApp || {};
                 <tr data-id={this.props.data.id} className={this.props.data.status_upcase}>
                     <td>{this.props.data.transaction_num}</td>
                     <td>{this.props.data.fs_num}</td>
-                    <td>{this.props.data.customer.name}</td>
+                    <td>{this.props.data.customer ? this.props.data.customer.name : ''}</td>
                     <td>{this.props.data.store.name}</td>
                     <td>{this.props.data.formatted_created_at}</td>
                     <td>{this.props.data.formatted_updated_at}</td>
