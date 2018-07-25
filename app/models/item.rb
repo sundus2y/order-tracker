@@ -459,16 +459,17 @@ AND i.made = si.made
     log
   end
 
-  def proforma_log(log)
-    p_items = proforma_items.includes(:proforma,proforma:[:store,:customer])
+  def proforma_log()
+    log = []
+    p_items = proforma_items.includes(:proforma,proforma:[:customer])
     p_items.each do |p_item|
+      customer_name = p_item.proforma.customer ? p_item.proforma.customer.name : 'NA'
       if p_item.qty > 0
-        t = Transaction.new(p_item.proforma.id,:proforma,0,p_item.qty,p_item.created_at,p_item.status,p_item.proforma.customer.name)
+        t = Transaction.new(p_item.proforma.id,:proforma,0,p_item.qty,p_item.created_at,p_item.status,customer_name)
       else
-        t = Transaction.new(p_item.proforma.id,:proforma,-p_item.qty,0,p_item.created_at,p_item.status,p_item.proforma.customer.name)
+        t = Transaction.new(p_item.proforma.id,:proforma,-p_item.qty,0,p_item.created_at,p_item.status,customer_name)
       end
-      log[p_item.proforma.store] ||= []
-      log[p_item.proforma.store] << t
+      log << t
     end
     log
   end

@@ -17,4 +17,9 @@
         <th><%= transaction.status.upcase %></th>
       </tr>
   <% end %>
+  <% if transactions.length == 0 %>
+    <tr>
+      <th colspan="6" class="text-center">No Data Available.</th>
+    </tr>
+  <% end %>
 </table>

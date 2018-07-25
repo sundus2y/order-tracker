@@ -44,13 +44,6 @@
   </thead>
   <tbody>
   <% @grouped_error_items[:item_not_found].each do |missing_item| %>
-      <tr>
-        <td><%= missing_item[:error_item]['item_number'] %></td>
-        <td><%= missing_item[:error_item]['original_number'] %></td>
-        <td><%= missing_item[:error_item]['made'] %></td>
-        <td><%= missing_item[:error_item]['brand'] %></td>
-        <td><%= missing_item[:error_item]['qty'] %></td>
-      </tr>
       <% if !missing_item[:possible_items].empty? %>
           <thead><tr><td colspan="5">Possible Matches Found</td></tr></thead>
           <% missing_item[:possible_items].each do |possible_item| %>
@@ -65,6 +58,13 @@
       <% else %>
           <thead><tr><td colspan="5">No Possible Matches Found</td></tr></thead>
       <% end %>
+      <tr>
+        <td><%= missing_item[:error_item]['item_number'] %></td>
+        <td><%= missing_item[:error_item]['original_number'] %></td>
+        <td><%= missing_item[:error_item]['made'] %></td>
+        <td><%= missing_item[:error_item]['brand'] %></td>
+        <td><%= missing_item[:error_item]['qty'] %></td>
+      </tr>
       <tr style="height: 30px;"><td colspan="5"></td></tr>
   <% end %>
   </tbody>

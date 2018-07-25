@@ -164,6 +164,9 @@
               </li>
               <% index +=1 %>
             <% end %>
+            <li>
+              <a href="#t_log_tab_proformas" data-toggle="tab">PROFORMAS</a>
+            </li>
           </ul>
 
           <div class="tab-content">
@@ -176,6 +179,9 @@
               </div>
               <% index +=1 %>
             <% end %>
+            <div id="t_log_tab_proformas" class="tab-pane fade in">
+              <%= render 'transactions', transactions: @proforma_transactions %>
+            </div>
           </div>
         </div>
       </div>
