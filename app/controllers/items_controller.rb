@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
 
   before_action :set_empty_transaction
   before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit, :copy]
-  before_action :set_transaction_log, only: [:show, :edit, :pop_up_edit, :pop_up_show]
+  before_action :set_transaction_log, only: [:show, :edit, :update, :pop_up_edit, :pop_up_show, :new]
 
   before_filter :authenticate_user!
   before_action :check_authorization
@@ -36,6 +36,7 @@ class ItemsController < ApplicationController
 
   def copy
     @item = @item.copy
+    set_transaction_log
     render 'new'
   end
 
@@ -45,6 +46,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
+    set_transaction_log
     flash[:notice] = 'Item was successfully created.' if @item.save
     respond_to do |format|
       format.html {respond_with(@item,location: items_path)}

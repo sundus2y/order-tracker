@@ -106,7 +106,7 @@ class Item < ActiveRecord::Base
   def proforma_display
     response = []
     sep = "<hr style='margin: 2px'>".html_safe
-    proforma_items.where(status: ['draft','submitted']).group_by(&:status).each_pair do |group,pis|
+    proforma_items.select{|pi| ['draft','submitted'].include?(pi.status)}.group_by(&:status).each_pair do |group,pis|
       response << "#{group.titleize}: #{pis.sum(&:qty)}"
     end
     response.join(sep).html_safe
