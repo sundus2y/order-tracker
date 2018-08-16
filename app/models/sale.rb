@@ -17,6 +17,7 @@ class Sale < ActiveRecord::Base
   include AASM
 
   scope :draft, lambda { where(status: 'draft') }
+  scope :ordered, lambda { where(status: 'ordered') }
   scope :sold, lambda { where(status: 'sold') }
   scope :credited, lambda { where(status: 'credited') }
   scope :sampled, lambda { where(status: 'sampled') }
@@ -26,14 +27,19 @@ class Sale < ActiveRecord::Base
 
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
+    state :ordered
     state :sold
     state :credited
     state :sampled
     state :returned
     state :void
 
+    event :submit_to_ordered, after: :submit_to_ordered_sale_items do
+      transitions from: :draft, to: :ordered, unless: :empty_sale_item? #SALE
+    end
+
     event :submit, after: :submit_sale_items do
-      transitions :from => :draft, :to => :sold, after: :set_sold_at, unless: :empty_sale_item? #SALE
+      transitions :from => [:draft,:ordered], :to => :sold, after: :set_sold_at, unless: :empty_sale_item? #SALE
     end
 
     event :mark_as_sold, after: :mark_as_sold_items do
@@ -90,14 +96,22 @@ class Sale < ActiveRecord::Base
     sold_at.to_formatted_s(format) if sold_at
   end
 
+  def formatted_delivery_date(format=:long)
+    delivery_date.to_formatted_s(format) if delivery_date
+  end
+
   def status_upcase
     status.upcase
   end
 
   private
+    def submit_to_ordered_sale_items
+      sale_items.map(&:submit_to_ordered!)
+    end
+
     def submit_sale_items
       sale_items.map(&:submit!)
-      end
+    end
 
     def mark_as_sold_items
       sale_items.where.not(status: 'returned').map(&:mark_as_sold!)

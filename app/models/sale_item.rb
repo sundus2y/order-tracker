@@ -10,6 +10,7 @@ class SaleItem < ActiveRecord::Base
   include AASM
 
   scope :draft, lambda { where(status: 'draft') }
+  scope :ordered, lambda { where(status: 'ordered') }
   scope :sold, lambda { where(status: 'sold') }
   scope :credited, lambda { where(status: 'credited') }
   scope :sampled, lambda { where(status: 'sampled') }
@@ -21,13 +22,18 @@ class SaleItem < ActiveRecord::Base
   aasm :column => :status, :no_direct_assignment => true do
     state :draft, :initial => true
     state :sold
+    state :ordered
     state :credited
     state :sampled
     state :returned
     state :void
 
+    event :submit_to_ordered do
+      transitions from: :draft, to: :ordered #SALE
+    end
+
     event :submit do
-      transitions :from => :draft, :to => :sold, after: :update_inventory #SALE
+      transitions from: [:draft,:ordered], to: :sold, after: :update_inventory #SALE
     end
 
     event :mark_as_sold do

@@ -12,19 +12,56 @@
     </div>
   <% end %>
   <%= f.hidden_field :id %>
-  <%= render 'customers/picker_with_car_for', model_name: 'sale', f: f, viewOnlyMode: viewOnlyMode, show_items: show_sale_items%>
+  <div class="container-fluid">
+    <%= render 'customers/picker_with_car_for', model_name: 'sale', f: f, viewOnlyMode: viewOnlyMode, show_items: show_sale_items%>
+    <hr class="hr-dark">
+    <div class="row">
+      <div class="col-xs-2">
+        <div class="field form-group">
+          <%= f.label :store_id %><br>
+          <%= f.select(:store_id, Store.for_sales.map {|store| [store.name,store.id]},{selected: f.object.store_id || current_user.default_store_id}, class: 'form-control', disabled: show_sale_items) %>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="field form-group">
+          <%= f.label :created_at, 'Sale Date' %><br>
+          <%= f.datetime_field :created_at, class: 'form-control', readOnly: true, value: f.object.formatted_created_at %>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="field form-group">
+          <%= f.label :delivery_date, 'Delivery Date' %><br>
+          <%= f.datetime_field :delivery_date, class: 'form-control', disabled: viewOnlyMode, value: f.object.formatted_delivery_date %>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="field form-group">
+          <%= f.label :down_payment, 'Down Payment' %><br>
+          <%= f.number_field :down_payment, class: 'form-control', disabled: viewOnlyMode%>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="field form-group">
+          <%= f.label :remark %><br>
+          <%= f.text_area :remark, class: 'form-control'  %>
+        </div>
+      </div>
+    </div>
+    <hr class="hr-dark">
+  </div>
   <% if show_sale_items %>
     <% if viewOnlyMode %>
       <div class="sales_item_show_app"></div>
     <% else %>
       <div class="sales_item_app"></div>
       <div id="sales_actions" class="btn-group float_right">
-        <%= button_tag 'Save Draft', name:'save', type: 'submit', class: "btn btn-primary"%>
+        <%= button_tag 'Save', name:'save', type: 'submit', class: "btn btn-primary"%>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
           <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
         </a>
         <ul class="dropdown-menu save-dropdown-menu">
           <li><%= button_tag 'Submit', name:'submit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sold_path(@sale)} %></li>
+          <li><%= button_tag 'Order', name:'order', type: 'submit', class: "btn btn-primary btn-block order", data:{action: sale_submit_to_ordered_path(@sale)} %></li>
           <li><%= button_tag 'Credit', name:'credit', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_credited_path(@sale)} %></li>
           <li><%= button_tag 'Sample', name:'sample', type: 'submit', class: "btn btn-primary btn-block", data:{action: sale_submit_to_sampled_path(@sale)} %></li>
         </ul>

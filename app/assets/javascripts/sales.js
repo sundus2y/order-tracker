@@ -32,4 +32,11 @@ $(document).ready(function () {
             return false;
         }
     });
+
+    $('button.order').on('click',function(e){
+        if($('#sale_down_payment').val() == '' || $('#sale_delivery_date').val() == ''){
+            alert('Make sure Down Payment is set and/or Delivery Date is set to a future date');
+            e.preventDefault();
+        }
+    });
 });

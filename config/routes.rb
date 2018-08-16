@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   resources :sales do
     get :sale_items
+    match :submit_to_ordered, as: :submit_to_ordered, via: [:patch,:post]
     match :submit_to_sold, as: :submit_to_sold, via: [:patch,:post]
     match :mark_as_sold, as: :mark_as_sold, via: [:patch,:post]
     match :submit_to_credited, as: :submit_to_credited, via: [:patch,:post]

@@ -104,6 +104,12 @@ $(document).ready(function (){
     });
     $( "#date_to" ).datepicker('setDate', '+1d');
 
+    $( "#sale_delivery_date" ).datepicker({
+        changeMonth: true,
+        numberOfMonths: 2,
+        dateFormat: 'yy-mm-dd'
+    });
+
     $('body').on('click', 'a.btn-group-toggle', function(e){
         $(this).parent().find('.dd-menu').toggleClass('hidden');
         e.preventDefault();

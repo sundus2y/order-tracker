@@ -28,7 +28,7 @@ class SalePolicy
   end
 
   def edit?
-    new? && @sale.draft?
+    new? && (@sale.draft? || @sale.ordered?)
   end
 
   def pop_up_fs_num_edit?
@@ -49,6 +49,10 @@ class SalePolicy
 
   def submit_to_sold?
     new? && @sale.may_submit?
+  end
+
+  def submit_to_ordered?
+    new? && @sale.may_submit_to_ordered?
   end
 
   def mark_as_sold?

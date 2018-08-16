@@ -1,8 +1,10 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: [:show, :edit, :update, :destroy, :print, :pop_up_fs_num_edit]
+  before_action :set_sale, only: [:show, :edit, :update, :destroy,
+                                  :print, :pop_up_fs_num_edit, :mark_as_sold,
+                                  :submit_to_sold, :submit_to_credited, :submit_to_sampled, :submit_to_ordered]
 
   before_filter :authenticate_user!
-  before_action :check_authorization, except: [:index, :new, :create, :submit_to_sold, :submit_to_credited, :submit_to_sampled, :mark_as_sold]
+  before_action :check_authorization, except: [:index, :new, :create]
   after_action :verify_authorized
 
   respond_to :html
@@ -61,12 +63,19 @@ class SalesController < ApplicationController
   end
 
   def submit_to_sold
-    @sale = Sale.find(params[:sale_id])
-    authorize @sale
+    @sale.update(sale_params)
     @sale.submit!
     respond_to do |format|
       format.html {redirect_to(sale_path @sale)}
       format.js {render 'reload_search' and return}
+    end
+  end
+
+  def submit_to_ordered
+    @sale.update(sale_params)
+    @sale.submit_to_ordered!
+    respond_to do |format|
+      format.html {redirect_to(sale_path @sale)}
     end
   end
 
@@ -75,8 +84,7 @@ class SalesController < ApplicationController
   end
 
   def mark_as_sold
-    @sale = Sale.find(params[:sale_id])
-    authorize @sale
+    @sale.update(sale_params)
     @sale.mark_as_sold!
     respond_to do |format|
       format.html {redirect_to(sale_path @sale)}
@@ -85,8 +93,7 @@ class SalesController < ApplicationController
   end
 
   def submit_to_credited
-    @sale = Sale.find(params[:sale_id])
-    authorize @sale
+    @sale.update(sale_params)
     @sale.credit!
     respond_to do |format|
       format.html {redirect_to(sale_path @sale)}
@@ -95,8 +102,7 @@ class SalesController < ApplicationController
   end
 
   def submit_to_sampled
-    @sale = Sale.find(params[:sale_id])
-    authorize @sale
+    @sale.update(sale_params)
     @sale.sample!
     respond_to do |format|
       format.html {redirect_to(sale_path @sale)}
@@ -115,7 +121,8 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:customer_id, :car_id, :store_id, :remark, :fs_num)
+      return {} if params[:sale].nil?
+      params.require(:sale).permit(:customer_id, :car_id, :store_id, :remark, :fs_num, :delivery_date, :down_payment)
     end
 
     def check_authorization

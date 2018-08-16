@@ -19,12 +19,36 @@
     </div>
   <% end %>
   <%= f.hidden_field :id %>
-  <%= render 'customers/picker_with_car_for', model_name: 'proforma', f: f, viewOnlyMode: viewOnlyMode, show_items: show_proforma_items%>
+  <div class="container-fluid">
+    <%= render 'customers/picker_with_car_for', model_name: 'proforma', f: f, viewOnlyMode: viewOnlyMode, show_items: show_proforma_items%>
+    <hr class="hr-dark">
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="field form-group">
+          <%= f.label :store_id %><br>
+          <%= f.select(:store_id, Store.for_sales.map {|store| [store.name,store.id]},{selected: f.object.store_id || current_user.default_store_id}, class: 'form-control', disabled: show_proforma_items) %>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="field form-group">
+          <%= f.label :created_at, value:'Proforma Date:' %><br>
+          <%= f.datetime_field :created_at, class: 'form-control', readOnly: true, value: f.object.formatted_created_at %>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="field form-group">
+          <%= f.label :remark %><br>
+          <%= f.text_area :remark, class: 'form-control'  %>
+        </div>
+      </div>
+    </div>
+    <hr class="hr-dark">
+  </div>
   <% if show_proforma_items %>
     <div class="proforma_items_app" data-view_only="<%= viewOnlyMode %>" data-hide_item_number="<%= hide_item_number %>"></div>
     <% if !viewOnlyMode %>
       <div id="proformas_actions" class="btn-group float_right">
-        <%= button_tag 'Save Draft', name:'save', type: 'submit', class: "btn btn-primary"%>
+        <%= button_tag 'Save', name:'save', type: 'submit', class: "btn btn-primary"%>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
           <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
         </a>
