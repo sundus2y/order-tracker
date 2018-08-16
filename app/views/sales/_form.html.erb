@@ -55,7 +55,7 @@
     <% else %>
       <div class="sales_item_app"></div>
       <div id="sales_actions" class="btn-group float_right">
-        <%= button_tag 'Save', name:'save', type: 'submit', class: "btn btn-primary"%>
+        <%= button_tag 'Save', name:'save', type: 'submit', class: "btn btn-primary", data:{action: sale_path(@sale)}%>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
           <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
         </a>
