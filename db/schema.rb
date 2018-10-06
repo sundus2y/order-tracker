@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180814035712) do
+ActiveRecord::Schema.define(version: 20181006025735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.string   "brand"
     t.string   "model"
     t.string   "owner"
+    t.datetime "deleted_at"
   end
+
+  add_index "cars", ["deleted_at"], name: "index_cars_on_deleted_at", using: :btree
 
   create_table "customers", force: :cascade do |t|
     t.string   "name"
@@ -37,7 +40,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "updated_at",             null: false
     t.string   "tin_no"
     t.integer  "category",   default: 0
+    t.datetime "deleted_at"
   end
+
+  add_index "customers", ["deleted_at"], name: "index_customers_on_deleted_at", using: :btree
 
   create_table "inventories", force: :cascade do |t|
     t.integer  "store_id"
@@ -46,7 +52,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.string   "location"
     t.datetime "created_at", default: "now()", null: false
     t.datetime "updated_at", default: "now()", null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "inventories", ["deleted_at"], name: "index_inventories_on_deleted_at", using: :btree
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
@@ -71,8 +80,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.string   "size"
     t.decimal  "cost_price",         precision: 11, scale: 2
     t.decimal  "c_price",            precision: 11, scale: 2
+    t.datetime "deleted_at"
   end
 
+  add_index "items", ["deleted_at"], name: "index_items_on_deleted_at", using: :btree
   add_index "items", ["description"], name: "items_lower_description", using: :gin
   add_index "items", ["item_number"], name: "items_lower_item_number", using: :gin
   add_index "items", ["name"], name: "items_lower_name", using: :gin
@@ -89,7 +100,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.decimal  "unit_price", precision: 11, scale: 2
     t.string   "brand"
     t.string   "status"
+    t.datetime "deleted_at"
   end
+
+  add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.string   "title"
@@ -100,7 +114,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "updated_at",                    null: false
     t.string   "brand"
     t.integer  "order_items_count", default: 0
+    t.datetime "deleted_at"
   end
+
+  add_index "orders", ["deleted_at"], name: "index_orders_on_deleted_at", using: :btree
 
   create_table "proforma_items", force: :cascade do |t|
     t.integer  "proforma_id"
@@ -111,7 +128,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
     t.string   "remark"
+    t.datetime "deleted_at"
   end
+
+  add_index "proforma_items", ["deleted_at"], name: "index_proforma_items_on_deleted_at", using: :btree
 
   create_table "proformas", force: :cascade do |t|
     t.integer  "customer_id"
@@ -126,7 +146,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "updated_at",                                                null: false
     t.datetime "sold_at"
     t.integer  "car_id"
+    t.datetime "deleted_at"
   end
+
+  add_index "proformas", ["deleted_at"], name: "index_proformas_on_deleted_at", using: :btree
 
   create_table "return_items", force: :cascade do |t|
     t.integer  "sale_item_id"
@@ -134,7 +157,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.text     "note"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "return_items", ["deleted_at"], name: "index_return_items_on_deleted_at", using: :btree
 
   create_table "sale_items", force: :cascade do |t|
     t.integer  "sale_id"
@@ -144,7 +170,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
     t.string   "status"
+    t.datetime "deleted_at"
   end
+
+  add_index "sale_items", ["deleted_at"], name: "index_sale_items_on_deleted_at", using: :btree
 
   create_table "sales", force: :cascade do |t|
     t.integer  "customer_id"
@@ -163,7 +192,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.integer  "car_id"
     t.datetime "delivery_date"
     t.decimal  "down_payment",     precision: 11, scale: 2
+    t.datetime "deleted_at"
   end
+
+  add_index "sales", ["deleted_at"], name: "index_sales_on_deleted_at", using: :btree
 
   create_table "search_items", force: :cascade do |t|
     t.string "item_number"
@@ -182,7 +214,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "active"
+    t.datetime "deleted_at"
   end
+
+  add_index "stores", ["deleted_at"], name: "index_stores_on_deleted_at", using: :btree
 
   create_table "tmp_item", id: false, force: :cascade do |t|
     t.string  "item_no", limit: 50,                          null: false
@@ -205,7 +240,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "location"
+    t.datetime "deleted_at"
   end
+
+  add_index "transfer_items", ["deleted_at"], name: "index_transfer_items_on_deleted_at", using: :btree
 
   create_table "transfers", force: :cascade do |t|
     t.integer  "sender_id"
@@ -219,7 +257,10 @@ ActiveRecord::Schema.define(version: 20180814035712) do
     t.datetime "updated_at",                       null: false
     t.datetime "sent_date"
     t.datetime "received_date"
+    t.datetime "deleted_at"
   end
+
+  add_index "transfers", ["deleted_at"], name: "index_transfers_on_deleted_at", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

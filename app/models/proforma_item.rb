@@ -1,4 +1,5 @@
 class ProformaItem < ActiveRecord::Base
+  acts_as_paranoid
 
   belongs_to :proforma, :counter_cache => true
   belongs_to :item

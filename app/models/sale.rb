@@ -1,4 +1,5 @@
 class Sale < ActiveRecord::Base
+  acts_as_paranoid
 
   has_many :sale_items, dependent: :destroy
   belongs_to :customer

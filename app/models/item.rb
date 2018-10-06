@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
   include PgSearch
+  acts_as_paranoid
 
   has_many :order_items
   has_many :sale_items

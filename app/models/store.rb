@@ -1,4 +1,5 @@
 class Store < ActiveRecord::Base
+  acts_as_paranoid
 
   has_many :inventories, dependent: :destroy
   has_many :sales, dependent: :destroy

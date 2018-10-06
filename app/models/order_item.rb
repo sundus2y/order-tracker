@@ -1,5 +1,6 @@
 class OrderItem < ActiveRecord::Base
   include AASM
+  acts_as_paranoid
 
   belongs_to :order, :counter_cache => true
   belongs_to :item

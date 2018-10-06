@@ -1,4 +1,5 @@
 class TransferItem < ActiveRecord::Base
+  acts_as_paranoid
 
   belongs_to :transfer, :counter_cache => true
   belongs_to :item

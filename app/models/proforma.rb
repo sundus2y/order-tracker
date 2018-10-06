@@ -1,4 +1,5 @@
 class Proforma < ActiveRecord::Base
+  acts_as_paranoid
 
   has_many :proforma_items, dependent: :destroy
   belongs_to :customer
@@ -94,7 +95,7 @@ class Proforma < ActiveRecord::Base
     end
 
     def delete_proforma_items
-      proforma_items.map(&:delete!)
+      proforma_items.map(&:delete_draft!)
     end
 
     def expire_proforma_items

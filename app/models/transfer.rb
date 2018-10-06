@@ -1,4 +1,5 @@
 class Transfer < ActiveRecord::Base
+  acts_as_paranoid
 
   has_many :transfer_items
   belongs_to :sender, class_name: 'User', foreign_key: :sender_id

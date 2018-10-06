@@ -1,4 +1,6 @@
 class Customer < ActiveRecord::Base
+  acts_as_paranoid
+
   enum category: [:retail, :wholesale, :company]
 
   has_many :sales, dependent: :destroy

@@ -1,4 +1,5 @@
 class Inventory < ActiveRecord::Base
+  acts_as_paranoid
 
   belongs_to :store
   belongs_to :item

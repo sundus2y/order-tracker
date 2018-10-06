@@ -20,6 +20,7 @@ gem 'rabl'
 gem 'oj'
 gem 'awesome_print'
 gem 'font-awesome-sass'
+gem 'paranoia'
 
 group :development, :test do
   gem 'byebug'

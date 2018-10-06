@@ -1,5 +1,6 @@
 class Order < ActiveRecord::Base
   include AASM
+  acts_as_paranoid
 
   scope :draft, lambda { where(status: 'draft') }
   scope :ordered, lambda { where(status: 'ordered') }
