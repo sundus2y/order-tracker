@@ -3,7 +3,77 @@
 <% end %>
 
 <% content_for :modal_body, flush: true do %>
-    <%= render 'form', action: "Show", remote: false %>
+    <div id="item_container">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#item_info" data-toggle="tab">Info</a>
+        </li>
+        <li>
+          <a href="#related_items" data-toggle="tab">Related Items</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="item_info" class="tab-pane fade in active">
+          <div class="container-fluid" style="padding-top: 15px">
+            <%= render 'form', action: "Show", remote: false %>
+          </div>
+        </div>
+        <div id="related_items" class="tab-pane fade in">
+          <div class="container-fluid" style="padding-top: 15px">
+            <table class="table-responsive display table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th rowspan="2">No.</th>
+                  <th rowspan="2">Name</th>
+                  <th rowspan="2">Description</th>
+                  <th rowspan="2">Original Number</th>
+                  <th rowspan="2">Item Number</th>
+                  <th rowspan="2">Prev Number</th>
+                  <th rowspan="2">Next Number</th>
+                  <th rowspan="2">Car</th>
+                  <th colspan="4">Price</th>
+                  <th rowspan="2">Stock</th>
+                  <th rowspan="2">Proforma</th>
+                  <th rowspan="2">Order</th>
+                  <th rowspan="2">Brand</th>
+                  <th rowspan="2">Made</th>
+                </tr>
+                <tr>
+                  <th>Sale</th>
+                  <th>Dubai</th>
+                  <th>Korea</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @related_items.each_with_index do |item, index| %>
+                  <tr>
+                    <td><%= index + 1%></td>
+                    <td title="<%= @item.name %>"><%= item.name %></td>
+                    <td title="<%= @item.description %>"><%= item.description %></td>
+                    <td title="<%= @item.original_number %>"><%= item.original_number %></td>
+                    <td title="<%= @item.item_number %>"><%= item.item_number %></td>
+                    <td title="<%= @item.prev_number %>"><%= item.prev_number %></td>
+                    <td title="<%= @item.next_number %>"><%= item.next_number %></td>
+                    <td title="<%= @item.car %>"><%= item.car %></td>
+                    <td title="<%= @item.sale_price %>"><%= item.sale_price %></td>
+                    <td title="<%= @item.dubai_price %>"><%= item.dubai_price %></td>
+                    <td title="<%= @item.korea_price %>"><%= item.korea_price %></td>
+                    <td title="<%= @item.cost_price %>"><%= item.cost_price %></td>
+                    <td><%= item.inventories_display %></td>
+                    <td><%= item.proforma_display %></td>
+                    <td><%= item.order_display %></td>
+                    <td title="<%= @item.brand %>"><%= item.brand %></td>
+                    <td title="<%= @item.made %>"><%= item.made %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 <% end %>
 
 <%= render "/modals/base", id: 'pop_up' %>

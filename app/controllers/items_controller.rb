@@ -6,6 +6,7 @@ class ItemsController < ApplicationController
   before_action :set_empty_transaction
   before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit, :copy]
   before_action :set_transaction_log, only: [:show, :edit, :update, :pop_up_edit, :pop_up_show, :new]
+  before_action :set_related_items, only: [:show, :edit, :pop_up_edit, :pop_up_show]
 
   before_filter :authenticate_user!
   before_action :check_authorization
@@ -191,9 +192,19 @@ class ItemsController < ApplicationController
     end
 
     def set_transaction_log
-      @transactions = @item.transfer_log(@transactions)
-      @transactions = @item.sales_order_log(@transactions)
-      @proforma_transactions = @item.proforma_log
+      @transactions = @item.try(:transfer_log,@transactions) || @transactions
+      @transactions = @item.try(:sales_order_log,@transactions) || @transactions
+      @proforma_transactions = @item.try(:proforma_log) || []
       @transactions.each{|k,v| v.sort_by!(&:created_at)}
+    end
+
+    def set_related_items
+      @related_items = Item.includes({inventories: :store}, :order_items, :proforma_items)
+                    .where(item_number: @item.related_item_numbers)
+                    .where.not(id: @item.id)
+                    .reorder(updated_at: :desc)
+                    .limit(50)
+                    # .as_json({type: :regular_search})
+      # results.map{|item| item.transform_keys!{|key| Item::KEY_MAP[key] || key }}
     end
 end

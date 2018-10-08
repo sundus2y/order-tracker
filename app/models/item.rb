@@ -25,6 +25,7 @@ class Item < ActiveRecord::Base
                   }
   before_destroy :can_be_deleted?
   before_save :update_default_sale_price
+  before_save :upcase_fields
   after_save :invalidate_cache
   validates_presence_of :item_number, :original_number, :brand, :made, :name
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
@@ -514,6 +515,11 @@ AND i.made = si.made
     new_item
   end
 
+  def related_item_numbers
+    related_numbers = self.description.try(:split, ' ') || []
+    (related_numbers + [self.prev_number, self.next_number, self.original_number]).uniq.compact
+  end
+
   def self.search_item2(term)
     if (term.count('1234567890').to_f/term.length) > 0.7
       includes(:sale_items,:order_items).where('prev_number ilike :term or ' +
@@ -641,6 +647,20 @@ private
       # puts ".      Group #{index+1} - Done Updating"
     end
     puts ".      #{dup_records.count/1000} Groups Updated"
+  end
+
+  def upcase_fields
+    self.name.upcase!
+    self.description.upcase!
+    self.item_number.upcase!
+    self.original_number.upcase!
+    self.next_number.upcase!
+    self.prev_number.upcase!
+    self.model.upcase!
+    self.car.upcase!
+    self.part_class.upcase!
+    self.brand.upcase!
+    self.made.upcase!
   end
 
 end
