@@ -199,12 +199,12 @@ class ItemsController < ApplicationController
     end
 
     def set_related_items
-      @related_items = Item.includes({inventories: :store}, :order_items, :proforma_items)
-                    .where(item_number: @item.related_item_numbers)
-                    .where.not(id: @item.id)
-                    .reorder(updated_at: :desc)
-                    .limit(50)
-                    # .as_json({type: :regular_search})
-      # results.map{|item| item.transform_keys!{|key| Item::KEY_MAP[key] || key }}
+      @related_items = Item.joins(:inventories, {inventories: :store})
+                           .includes({inventories: :store}, :order_items, :proforma_items)
+                           .where("stores.active = true AND stores.store_type != 'VS'")
+                           .where(item_number: @item.related_item_numbers)
+                           .where.not(id: @item.id)
+                           .reorder(updated_at: :desc)
+                           .limit(50)
     end
 end
