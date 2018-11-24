@@ -21,6 +21,8 @@ gem 'oj'
 gem 'awesome_print'
 gem 'font-awesome-sass'
 gem 'paranoia'
+gem 'geocoder'
+gem 'timezone'
 
 group :development, :test do
   gem 'byebug'
