@@ -64,7 +64,9 @@ class Sale < ActiveRecord::Base
     end
 
     event :return_sale do
-      transitions :from => [:sold,:accepted], :to => :returned, if: :empty_sold_item?
+      transitions :from => :sold, :to => :returned, if: :empty_sold_item?
+      transitions :from => :sampled, :to => :returned, if: :empty_sampled_item?
+      transitions :from => :credited, :to => :returned, if: :empty_credited_item?
     end
   end
 
@@ -115,7 +117,7 @@ class Sale < ActiveRecord::Base
     end
 
     def mark_as_sold_items
-      sale_items.where.not(status: 'returned').map(&:mark_as_sold!)
+      sale_items.where.not(status: ['returned', 'sold']).map(&:mark_as_sold!)
     end
 
     def reject_sale_items
@@ -141,7 +143,19 @@ class Sale < ActiveRecord::Base
     def empty_sold_item?
       sold_count = sale_items.where(status: 'sold').sum(:qty)
       returned_count = sale_items.where(status: 'returned').sum(:qty)
-      sold_count + returned_count == 0 ? true : false
+      (sold_count + returned_count) == 0
+    end
+
+    def empty_sampled_item?
+      sampled_count = sale_items.where(status: 'sampled').sum(:qty)
+      returned_count = sale_items.where(status: 'returned').sum(:qty)
+      (sampled_count + returned_count) == 0
+    end
+
+    def empty_credited_item?
+      credited_count = sale_items.where(status: 'credited').sum(:qty)
+      returned_count = sale_items.where(status: 'returned').sum(:qty)
+      (credited_count + returned_count) == 0
     end
 
     def set_transaction_num
