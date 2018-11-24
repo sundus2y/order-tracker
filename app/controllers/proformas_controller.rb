@@ -1,4 +1,6 @@
 class ProformasController < ApplicationController
+  impressionist
+
   before_action :set_proforma, only: [:show, :edit, :update, :destroy, :print]
 
   before_filter :authenticate_user!

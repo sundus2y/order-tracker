@@ -1,4 +1,6 @@
 class ProformaItemsController < ApplicationController
+  impressionist
+
   before_action :set_proforma_item, only: [:show, :edit, :update, :destroy]
 
   before_filter :authenticate_user!

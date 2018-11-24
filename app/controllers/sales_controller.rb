@@ -1,4 +1,6 @@
 class SalesController < ApplicationController
+  impressionist
+
   before_action :set_sale, only: [:show, :edit, :update, :destroy,
                                   :print, :pop_up_fs_num_edit, :mark_as_sold,
                                   :submit_to_sold, :submit_to_credited, :submit_to_sampled, :submit_to_ordered]

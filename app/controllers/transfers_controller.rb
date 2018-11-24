@@ -1,4 +1,6 @@
 class TransfersController < ApplicationController
+  impressionist
+
   before_action :set_transfer, except: [:index, :new, :create, :transfer_items]
 
   before_filter :authenticate_user!

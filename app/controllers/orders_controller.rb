@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  impressionist
+
   before_action :set_order, only: [:show, :edit, :update, :destroy, :download]
   before_action :set_orders, only:[:index, :show_all]
 

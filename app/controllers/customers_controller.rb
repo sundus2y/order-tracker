@@ -1,4 +1,6 @@
 class CustomersController < ApplicationController
+  impressionist
+
   autocomplete :customer, :name, :full => true, :display_value => :autocomplete_display,
                :extra_data => [:name, :company, :phone, :tin_no, :category], :limit => 20
 

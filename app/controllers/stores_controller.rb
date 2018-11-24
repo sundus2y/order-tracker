@@ -1,4 +1,5 @@
 class StoresController < ApplicationController
+  impressionist
 
   def index
     @stores = Store.all

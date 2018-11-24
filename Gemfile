@@ -23,6 +23,7 @@ gem 'font-awesome-sass'
 gem 'paranoia'
 gem 'geocoder'
 gem 'timezone'
+gem 'impressionist'
 
 group :development, :test do
   gem 'byebug'
