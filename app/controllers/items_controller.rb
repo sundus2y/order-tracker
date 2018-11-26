@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  impressionist
+  impressionist actions: ItemsController.action_methods.to_a - ['autocomplete_item_name','autocomplete_item_sale_order','autocomplete_item_sale_price']
 
   autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:item_number,:description], :limit => 20
   autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20

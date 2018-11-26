@@ -1,5 +1,5 @@
 class CustomersController < ApplicationController
-  impressionist
+  impressionist actions: CustomersController.action_methods.to_a - ['autocomplete_customer_name','cars']
 
   autocomplete :customer, :name, :full => true, :display_value => :autocomplete_display,
                :extra_data => [:name, :company, :phone, :tin_no, :category], :limit => 20
