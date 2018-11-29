@@ -650,17 +650,17 @@ private
   end
 
   def upcase_fields
-    self.name.upcase!
-    self.description.upcase!
-    self.item_number.upcase!
-    self.original_number.upcase!
-    self.next_number.upcase!
-    self.prev_number.upcase!
-    self.model.upcase!
-    self.car.upcase!
-    self.part_class.upcase!
-    self.brand.upcase!
-    self.made.upcase!
+    self.name.try(:upcase!)
+    self.description.try(:upcase!)
+    self.item_number.try(:upcase!)
+    self.original_number.try(:upcase!)
+    self.next_number.try(:upcase!)
+    self.prev_number.try(:upcase!)
+    self.model.try(:upcase!)
+    self.car.try(:upcase!)
+    self.part_class.try(:upcase!)
+    self.brand.try(:upcase!)
+    self.made.try(:upcase!)
   end
 
 end
