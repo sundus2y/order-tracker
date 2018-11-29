@@ -23,12 +23,13 @@ namespace :migrate do
     progressbar = ProgressBar.create(title: 'Migrate CPrice - Total', :starting_at => 0, :total => raw_data.in_groups_of(500).count, format: "%a %e %P% Processed: %c from %C")
     raw_data.in_groups_of(500).each_with_index do |raw_data_group,index|
       begin
+        raw_data_group.compact!
         update_list = []
         new_list= []
         update_sql_result = ''
         insert_sql_result = ''
         select_sql = 'SELECT item_number FROM items WHERE item_number IN ('
-        select_sql += raw_data_group.compact.map{|data| "'#{data['item_number']}'" }.join(', ')
+        select_sql += raw_data_group.map{|data| "'#{data['item_number']}'" }.join(', ')
         select_sql += ')'
         result = ActiveRecord::Base.connection.execute(select_sql)
         item_numbers = result.map{|r| r.values}.flatten
