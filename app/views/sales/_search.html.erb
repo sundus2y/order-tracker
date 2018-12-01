@@ -28,7 +28,7 @@
       <div class="col-xs-2">
         <div class="input-group">
           <label for="status">Store</label>
-          <%= select_tag 'store', options_from_collection_for_select(Store.for_sales,'id','name',current_user.default_store_id), {include_blank: true, class:'form-control',name:'query[store_id]',onchange: "$(this).trigger('submit.rails')"} %>
+          <%= select_tag 'store', options_from_collection_for_select(Store.for_sales_by_user(current_user),'id','name',current_user.default_store_id), {include_blank: current_user.is_admin?, class:'form-control',name:'query[store_id]',onchange: "$(this).trigger('submit.rails')"} %>
         </div>
       </div>
       <div class="col-xs-2">

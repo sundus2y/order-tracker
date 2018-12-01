@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :block_user
   # around_action :set_time_zone
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def json_for_autocomplete(results, method, extra_data=[])
     results.collect do |result|
@@ -57,6 +58,13 @@ users)
       # debugger if block_path || block_http_method
       render file: 'public/disabled.html' if block_path || block_http_method
     end
+  end
+
+  private
+
+  def user_not_authorized
+    flash[:alert] = 'You are not authorized to perform this action. If you are having issues please contact Senam.'
+    redirect_to(request.referrer || root_path)
   end
 
 end

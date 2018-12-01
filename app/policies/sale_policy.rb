@@ -12,7 +12,13 @@ class SalePolicy
   end
 
   def show?
-    !@current_user.user? && !@current_user.vendor?
+    if @current_user.user? || @current_user.vendor?
+      return false
+    elsif @sale != Sale
+      @current_user.can_access_sale_record?(@sale)
+    else
+      true
+    end
   end
 
   def new?
@@ -24,15 +30,15 @@ class SalePolicy
   end
 
   def update?
-    new?
+    new? & show?
   end
 
   def edit?
-    new? && (@sale.draft? || @sale.ordered?)
+    new? && show? && (@sale.draft? || @sale.ordered?)
   end
 
   def pop_up_fs_num_edit?
-    new? && @sale.sold?
+    new? && show? && @sale.sold?
   end
 
   def destroy?
@@ -40,7 +46,7 @@ class SalePolicy
   end
 
   def search?
-    show?
+    !@current_user.user? && !@current_user.vendor?
   end
 
   def sale_items?
@@ -48,27 +54,27 @@ class SalePolicy
   end
 
   def submit_to_sold?
-    new? && @sale.may_submit?
+    new? && show? && @sale.may_submit?
   end
 
   def submit_to_ordered?
-    new? && @sale.may_submit_to_ordered?
+    new? && show? && @sale.may_submit_to_ordered?
   end
 
   def mark_as_sold?
-    new? && @sale.may_mark_as_sold?
+    new? && show? && @sale.may_mark_as_sold?
   end
 
   def submit_to_credited?
-    new? && @sale.may_credit?
+    new? && show? && @sale.may_credit?
   end
 
   def submit_to_sampled?
-    new? && @sale.may_sample?
+    new? && show? && @sale.may_sample?
   end
 
   def return?
-    new?
+    new? & show?
   end
 
   def print?

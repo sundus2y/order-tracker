@@ -15,4 +15,9 @@ class Store < ActiveRecord::Base
     store_type == 'VS'
   end
 
+  def self.for_sales_by_user(user)
+    return for_sales if user.is_admin?
+    [user.default_store]
+  end
+
 end

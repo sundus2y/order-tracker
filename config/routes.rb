@@ -76,7 +76,12 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :sessions => "custom_sessions" }
 
-  resources :users
+  resources :users do
+    member do
+      get :activity_log
+      get :activity_log_data
+    end
+  end
   resources :items do
     get :autocomplete_item_name, on: :collection
     get :autocomplete_item_sale_price, on: :collection

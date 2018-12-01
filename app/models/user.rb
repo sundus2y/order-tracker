@@ -13,6 +13,14 @@ class User < ActiveRecord::Base
     self.role ||= :user
   end
 
+  def is_admin?
+    role == 'admin'
+  end
+
+  def can_access_sale_record?(sale)
+    self.is_admin? || (sale.store_id == self.default_store_id)
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
