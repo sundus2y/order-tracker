@@ -85,7 +85,7 @@
         <table>
           <tbody>
             <%= f.fields_for :inventories do |inv_f| %>
-              <% unless inv_f.object.store.virtual? %>
+              <% if (!inv_f.object.store.virtual? && inv_f.object.store.active) %>
               <tr>
                 <td width="12%"><%= inv_f.label :qty, "#{inv_f.object.store.short_name} " %></td>
                 <td width="20%"><%= inv_f.number_field :qty, class: 'form-control', disabled: true%></td>
