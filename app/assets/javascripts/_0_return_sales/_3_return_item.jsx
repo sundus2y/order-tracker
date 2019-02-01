@@ -25,7 +25,7 @@ var returnSalesApp = returnSalesApp || {};
                         <b>Original Number:</b> {this.props.saleItem.item.original_number}
                     </td>
                     <td>
-                        {this.props.saleItem.sale.id}
+                        {this.props.saleItem.sale.transaction_num}
                     </td>
                     <td>
                         {this.props.saleItem.sale.created_at}
