@@ -23,12 +23,12 @@ var returnSalesApp = returnSalesApp || {};
                     "<li class='autocomplete-header'>" +
                     "<div class='row'>" +
                     "<div class='col-sm-4'>Origninal Number</div>" +
-                    "<div class='col-sm-7'>Name</div>" +
+                    "<div class='col-sm-6'>Name</div>" +
                     "<div class='col-sm-1'>Brand</div>" +
                     "</div>" +
-                    "</li>").css('width','40%');
+                    "</li>").css('width','45%');
                 var indices = [0,1,3];
-                var widths = ['col-sm-4','col-sm-7','col-sm-1'];
+                var widths = ['col-sm-4','col-sm-6','col-sm-1'];
                 renderAutoCompleteResults(results, indices, widths);
             });
         },
