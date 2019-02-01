@@ -69,7 +69,7 @@ class SaleItem < ActiveRecord::Base
   end
 
   def total_returned_qty
-    return_items.sum(:qty)
+    return_items.to_a.sum(&:qty)
   end
 
   private
