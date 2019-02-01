@@ -7,7 +7,7 @@ var app = app || {};
         render: function(){
             return (
                 <tr>
-                    <td className="grand_total" colSpan='6'>
+                    <td className="grand_total" colSpan='7'>
                         <span><b>Grand Total</b></span>
                     </td>
                     <td className="grand_total">

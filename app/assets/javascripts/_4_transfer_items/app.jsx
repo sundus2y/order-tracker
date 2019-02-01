@@ -250,6 +250,11 @@ var app = app || {};
                             </td>
                             <td>
                                 <div className="field form-group">
+                                    Brand
+                                </div>
+                            </td>
+                            <td>
+                                <div className="field form-group">
                                     Location
                                 </div>
                             </td>

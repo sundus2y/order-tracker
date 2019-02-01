@@ -59,6 +59,11 @@ var app = app || {};
                         </div>
                     </td>
                     <td>
+                        <div className={"field form-group "+this.props.transferItemData.status+"_item"}>
+                            {this.props.transferItemData.item.brand}
+                        </div>
+                    </td>
+                    <td>
                         <div className="field form-group">
                             <input className={"form-control "+this.props.transferItemData.status+"_item"}
                                    defaultValue={this.props.transferItemData.location}
