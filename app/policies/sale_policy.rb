@@ -62,7 +62,7 @@ class SalePolicy
   end
 
   def mark_as_sold?
-    new? && show? && @sale.may_mark_as_sold?
+    new? && show? && @sale.may_mark_as_sold? && (@current_user.admin? || @sale.created_at.beginning_of_day == Time.zone.now.beginning_of_day)
   end
 
   def submit_to_credited?
