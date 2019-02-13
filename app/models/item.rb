@@ -487,7 +487,7 @@ AND i.made = si.made
     str << "<div data-index='1'>#{name}</div>".html_safe
     str << "<div data-index='2'>".html_safe
     inventories.each do |inv|
-      str << "<span class='inventory'>#{inv.store.short_name}: #{inv.qty}</span>".html_safe
+      str << "<span class='inventory'> #{inv.store.short_name}: #{inv.qty}</span> ".html_safe if !inv.store.virtual? && inv.store.active
     end
     str << "</div>".html_safe
     str << "<div data-index='3'>#{brand.present? ? brand : 'Unknown'}</div>".html_safe

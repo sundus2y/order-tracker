@@ -21,13 +21,13 @@
         <div class="col-xs-3">
           <div class="field form-group">
             <%= f.label :from_store_id, 'From Store' %><br>
-            <%= f.select(:from_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+            <%= f.select(:from_store_id, Store.active.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
           </div>
         </div>
         <div class="col-xs-3">
           <div class="field form-group">
             <%= f.label :to_store_id, 'To Store' %><br>
-            <%= f.select(:to_store_id, Store.all.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
+            <%= f.select(:to_store_id, Store.active.map {|store| [store.name,store.id]},{include_blank: true}, class: 'form-control', disabled: (new_transfer ? false : true)) %>
           </div>
         </div>
         <div class="col-xs-3">
