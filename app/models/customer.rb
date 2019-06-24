@@ -59,7 +59,7 @@ class Customer < ActiveRecord::Base
   def actions(type)
     url_helpers = Rails.application.routes.url_helpers
     view_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.customer_pop_up_show_path self}'><i class='fa fa-eye'></i> View</a></li>"
-    edit_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.customer_pop_up_edit_path self}'><i class='fa fa-pencil'></i> Edit</a></li>"
+    edit_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.customer_pop_up_edit_path self}'><i class='fa fa-pencil-alt'></i> Edit</a></li>"
     delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{url_helpers.customer_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
     actions_html = <<-HTML
       <div class="btn-group">

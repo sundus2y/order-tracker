@@ -58,7 +58,7 @@ class Item < ActiveRecord::Base
   def actions(type)
     url_helpers = Rails.application.routes.url_helpers
     view_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_show_path self}'><i class='fa fa-eye'></i> View</a></li>"
-    edit_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_edit_path self}'><i class='fa fa-pencil'></i> Edit</a></li>"
+    edit_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_edit_path self}'><i class='fa fa-pencil-alt'></i> Edit</a></li>"
     delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
     add_to_order_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.pop_up_add_item_to_order_path(item_id: self.id)}'><i class='fa fa-truck'></i> Add to Order</a></li>"
     copy_action = "<li><a class='btn-primary item-pop-up-menu' target='_blank' href='#{url_helpers.copy_item_path(id: self.id)}'><i class='fa fa-clone'></i> Copy Item</a></li>"

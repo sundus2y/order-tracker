@@ -51,7 +51,6 @@ class Inventory < ActiveRecord::Base
     item_inv.each_with_index do |inv, index|
       begin
         worksheet.write(index+2,0, index+1)
-        debugger if inv.item.item_number == '5466025750'
         write_item_cell(index+2, inv.item, worksheet)
         worksheet.write_number(index+2,10, inv.qty || 0)
       rescue Exception => e

@@ -62,7 +62,7 @@ module ApplicationHelper
 
   def actions(object)
     view_action = "<li><a class='btn-primary item-pop-up-menu' href='#{send(object.class.name.underscore+'_path', object)}'><i class='fa fa-eye'></i> View</a></li>"
-    edit_action = "<li><a class='btn-primary item-pop-up-menu' href='#{send("edit_#{object.class.name.underscore}_path",object)}'><i class='fa fa-pencil'></i> Edit</a></li>"
+    edit_action = "<li><a class='btn-primary item-pop-up-menu' href='#{send("edit_#{object.class.name.underscore}_path",object)}'><i class='fa fa-pencil-alt'></i> Edit</a></li>"
     delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{send(object.class.name.underscore+'_path', object)}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
     actions = <<-HTML
       <div class="btn-group">

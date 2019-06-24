@@ -29,7 +29,7 @@
                    {link: new_order_path, label:'Add Order', show_if: policy(Order).new?},
                    {link: orders_path, label:'View All Orders', show_if: policy(Order).show?}
                ]) if policy(Order).show? %>
-      <%= menu('#','Transfers','fa fa-exchange',
+      <%= menu('#','Transfers','fa fa-exchange-alt',
                [
                    {link: new_transfer_path, label:'Add Transfer', show_if: policy(Transfer).new?},
                    {link: transfers_path, label:'View All Transfers', show_if: policy(Transfer).show?}
