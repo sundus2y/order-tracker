@@ -17,7 +17,7 @@ class TransferItem < ActiveRecord::Base
 
     event :submit do
       transitions :from => :draft, :to => :sent, after: :dec_inventory #SALE
-      transitions :from => :sent, :to => :received, after: :inc_inventory #SALE
+      transitions :from => :sent, :to => :received, after: [:inc_inventory, :set_inventory_after] #SALE
     end
 
   end
@@ -30,6 +30,11 @@ class TransferItem < ActiveRecord::Base
 
   def inc_inventory
     item.update_inventory(transfer.to_store,qty,:up).update_location(location)
+  end
+
+  def set_inventory_after
+    inventory = self.item.inventories.where(store: self.transfer.to_store).first
+    self.inventory_after = inventory.qty
   end
 
   def self.import(file,transfer)
