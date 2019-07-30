@@ -263,6 +263,11 @@ var app = app || {};
                                     Qty
                                 </div>
                             </td>
+                            <td width="9%" className={this.props.viewOnly ? '' : 'hidden'}>
+                                <div className="field form-group">
+                                    Inventory After
+                                </div>
+                            </td>
                             <td width="9%">
                                 <div className="field form-group">
                                     Unit Price

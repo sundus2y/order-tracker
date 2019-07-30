@@ -84,6 +84,11 @@ var app = app || {};
                                    disabled={this.props.viewOnly}/>
                         </div>
                     </td>
+                    <td className={this.props.viewOnly ? '' : 'hidden'}>
+                        <div className={"field form-group right-align "+this.props.transferItemData.status+"_item"}>
+                            {this.props.transferItemData.inventory_after}
+                        </div>
+                    </td>
                     <td>
                         <div className="field form-group">
                             <input className={"form-control right-align "+this.props.transferItemData.status+"_item"}
