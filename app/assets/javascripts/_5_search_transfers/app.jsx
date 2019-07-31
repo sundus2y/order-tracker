@@ -5,7 +5,7 @@ window.globalSearchTransferApp = window.globalSearchTransferApp || {};
 
     var Transfer = searchTransferApp.Transfer;
 
-    var SearchTransferApp = React.createClass({
+    var SearchTransferApp = createReactClass({
         getInitialState: function () {
             return {
                 transfers: []

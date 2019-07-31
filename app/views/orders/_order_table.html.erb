@@ -28,7 +28,7 @@
               <%= render 'modals/confirm_order_delete', id: "confirm_order_delete_#{order.id}", obj: order%>
               <button type="button" class="btn btn-sm btn-danger fa fa-trash" data-toggle="modal" data-target="#confirm_order_delete_<%= order.id %>"><%=link_span('Delete')%></button>
           <% elsif order.ready? %>
-              <%= link_to(link_span('Process Order'), '#', class: "btn btn-success") %>
+              <%= link_to(link_span('Process Order'), '#', class: "btn btn-sm btn-success fa fa-truck-loading") %>
           <% end %>
           <%= link_to(link_span('Download'), download_order_path(order,format: "xlsx"), class: "btn btn-sm btn-primary fa fa-download") %>
         </td>

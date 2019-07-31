@@ -40,7 +40,10 @@
                    {link: customers_path, label:'View All Customers', show_if: policy(Customer).show?}
                ]) if policy(Customer).show? %>
       <%= menu('#','Shipments','fa fa-ship') if policy(Order).show? %>
-      <%= menu(users_path,'Users','fa fa-users') if policy(User).manage? %>
+      <%= menu('#','Users','fa fa-users',
+           [
+               {link: users_path, label:'Manage Users', show_if: policy(User).manage?},
+               ]) if policy(User).manage? %>
   <% else %>
       <%= menu(new_user_session_path,'Sign In','fa fa-sign-in') %>
       <%= menu(new_user_registration_path,'Sing Up','fa fa-pencil-square-o') %>

@@ -5,7 +5,7 @@ window.globalSearchCustomerApp = window.globalSearchCustomerApp || {};
 
     var Customer = searchCustomerApp.Customer;
 
-    var SearchCustomerApp = React.createClass({
+    var SearchCustomerApp = createReactClass({
         getInitialState: function () {
             return {
                 result: [],

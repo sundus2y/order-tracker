@@ -2,7 +2,7 @@ var returnSalesApp = returnSalesApp || {};
 
 (function () {
 
-    returnSalesApp.ReturnDialog = React.createClass({
+    returnSalesApp.ReturnDialog = createReactClass({
 
         getInitialState() {
             return {

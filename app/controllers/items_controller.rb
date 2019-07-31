@@ -10,7 +10,7 @@ class ItemsController < ApplicationController
   before_action :set_transaction_log, only: [:show, :edit, :update, :pop_up_edit, :pop_up_show, :new]
   before_action :set_related_items, only: [:show, :edit, :pop_up_edit, :pop_up_show]
 
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :check_authorization
   after_action :verify_authorized
 

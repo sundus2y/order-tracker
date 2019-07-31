@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy, :download]
   before_action :set_orders, only:[:index, :show_all]
 
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :check_authorization
   after_action :verify_authorized
 
@@ -91,7 +91,7 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:title, :notes, :created_by, :status, :brand, order_items_attributes: [:id, :item_id, :qty, :brand])
+      params.require(:order).permit(:title, :notes, :creator_id, :status, :brand, order_items_attributes: [:id, :item_id, :qty, :brand])
     end
 
     def set_orders

@@ -2,7 +2,7 @@ var app = app || {};
 
 (function () {
 
-    app.TransferItemFooter = React.createClass({
+    app.TransferItemFooter = createReactClass({
 
         render: function(){
             return (

@@ -2,7 +2,7 @@ var searchSaleApp = searchSaleApp || {};
 
 (function () {
 
-    searchSaleApp.Sale = React.createClass({
+    searchSaleApp.Sale = createReactClass({
 
         render: function() {
             var edit_action = (

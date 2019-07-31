@@ -2,7 +2,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
 (function () {
 
-    CustomerCarApp.Picker = React.createClass({
+    CustomerCarApp.Picker = createReactClass({
         getInitialState: function () {
             return {
                 data: [],

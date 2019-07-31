@@ -10,7 +10,7 @@ var ProformaItemApp = ProformaItemApp || {};
         $('#search_item_id').val('');
     }
 
-    ProformaItemApp.App = React.createClass({
+    ProformaItemApp.App = createReactClass({
         getInitialState: function () {
             return {
                 data: [],

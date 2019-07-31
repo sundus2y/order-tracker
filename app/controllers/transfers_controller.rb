@@ -3,7 +3,7 @@ class TransfersController < ApplicationController
 
   before_action :set_transfer, except: [:index, :new, :create, :transfer_items]
 
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :check_authorization, except: [:create]
   after_action :verify_authorized
 

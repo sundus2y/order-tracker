@@ -33,7 +33,7 @@ var app = app || {};
         $('#search_item_id').val('');
     }
 
-    var App = React.createClass({
+    var App = createReactClass({
         getInitialState: function () {
             return {
                 data: []

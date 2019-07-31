@@ -2,7 +2,7 @@ var searchItemApp = searchItemApp || {};
 
 (function () {
 
-    searchItemApp.Item = React.createClass({
+    searchItemApp.Item = createReactClass({
 
         cal_dubai_price: function(){
             if (this.props.data.dubai_price) {

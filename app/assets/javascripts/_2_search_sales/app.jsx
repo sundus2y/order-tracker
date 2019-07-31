@@ -5,7 +5,7 @@ window.globalSearchSaleApp = window.globalSearchSaleApp || {};
 
     var Sale = searchSaleApp.Sale;
 
-    var SearchSaleApp = React.createClass({
+    var SearchSaleApp = createReactClass({
         getInitialState: function () {
             return {
                 sales: [],

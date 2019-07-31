@@ -3,9 +3,9 @@ class Sale < ActiveRecord::Base
 
   has_many :sale_items, dependent: :destroy
   belongs_to :customer
-  belongs_to :car
+  belongs_to :car, optional: true
   belongs_to :store
-  belongs_to :proforma
+  belongs_to :proforma, optional: true
   belongs_to :creator, class_name: 'User'
 
   accepts_nested_attributes_for :sale_items, allow_destroy: true

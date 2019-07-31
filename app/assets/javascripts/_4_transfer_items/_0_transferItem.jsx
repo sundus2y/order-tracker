@@ -4,7 +4,7 @@ var app = app || {};
 
 (function () {
 
-    app.TransferItem = React.createClass({
+    app.TransferItem = createReactClass({
 
         handleQtyChange: function(event){
             var updatedTransferItem = this.props.transferItemData;

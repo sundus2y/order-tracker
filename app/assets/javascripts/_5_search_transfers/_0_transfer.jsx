@@ -2,7 +2,7 @@ var searchTransferApp = searchTransferApp || {};
 
 (function () {
 
-    searchTransferApp.Transfer = React.createClass({
+    searchTransferApp.Transfer = createReactClass({
 
         render: function() {
             var edit_action = (

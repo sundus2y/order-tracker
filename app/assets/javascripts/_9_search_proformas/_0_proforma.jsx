@@ -2,7 +2,7 @@ var SearchProformaApp = SearchProformaApp || {};
 
 (function () {
 
-    SearchProformaApp.Proforma = React.createClass({
+    SearchProformaApp.Proforma = createReactClass({
 
         render: function() {
             var edit_action = (

@@ -1,7 +1,7 @@
 class SearchesController < ApplicationController
   impressionist actions: SearchesController.action_methods.to_a - ['item_lookup']
 
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   after_action :verify_authorized, except: [:item_lookup]
 
   def all

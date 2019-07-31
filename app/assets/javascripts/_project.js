@@ -109,6 +109,7 @@ $(document).ready(function (){
         numberOfMonths: 2,
         dateFormat: 'yy-mm-dd'
     });
+    $( "#sale_delivery_date" ).datepicker('setDate', 'today');
 
     $('body').on('click', 'a.btn-group-toggle', function(e){
         $(this).parent().find('.dd-menu').toggleClass('hidden');

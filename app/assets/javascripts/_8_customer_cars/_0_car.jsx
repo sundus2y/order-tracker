@@ -4,7 +4,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
 (function () {
 
-    CustomerCarApp.Car = React.createClass({
+    CustomerCarApp.Car = createReactClass({
         
         handleCarRemove: function(event){
             this.props.onCarRemove(this.props.carData);

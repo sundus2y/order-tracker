@@ -3,7 +3,7 @@ class Proforma < ActiveRecord::Base
 
   has_many :proforma_items, dependent: :destroy
   belongs_to :customer
-  belongs_to :car
+  belongs_to :car, optional: true
   belongs_to :store
   belongs_to :creator, class_name: 'User'
   has_one :sale

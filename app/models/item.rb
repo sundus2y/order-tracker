@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  include PgSearch
+  include PgSearch::Model
   acts_as_paranoid
 
   has_many :order_items
@@ -415,22 +415,22 @@ AND i.made = si.made
   end
 
   def self.fetch_cars
-    @@cars ||= Item.uniq.select(:car).reorder(:car).map(&:car).compact.sort
+    @@cars ||= Item.select(:car).distinct.map(&:car).compact.sort
     @@cars
   end
 
   def self.fetch_part_classes
-    @@part_classes ||= Item.uniq.select(:part_class).map(&:part_class).compact.sort
+    @@part_classes ||= Item.select(:part_class).distinct.map(&:part_class).compact.sort
     @@part_classes
   end
 
   def self.fetch_brands
-    @@brands ||= Item.uniq.select(:brand).map(&:brand).compact.sort
+    @@brands ||= Item.select(:brand).distinct.map(&:brand).compact.sort
     @@brands
   end
 
   def self.fetch_mades
-    @@mades ||= Item.uniq.select(:made).map(&:made).compact.sort
+    @@mades ||= Item.select(:made).distinct.map(&:made).compact.sort
     @@mades
   end
 

@@ -2,7 +2,7 @@ var ProformaItemApp = ProformaItemApp || {};
 
 (function () {
 
-    ProformaItemApp.ProformaItem = React.createClass({
+    ProformaItemApp.ProformaItem = createReactClass({
 
         handleQtyChange: function(event){
             var updatedProformaItem = this.props.proformaItemData;

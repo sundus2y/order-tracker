@@ -2,7 +2,7 @@ var searchCustomerApp = searchCustomerApp || {};
 
 (function () {
 
-    searchCustomerApp.Customer = React.createClass({
+    searchCustomerApp.Customer = createReactClass({
 
         render: function() {
             return (

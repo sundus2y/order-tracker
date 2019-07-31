@@ -2,7 +2,7 @@ var returnSalesApp = returnSalesApp || {};
 
 (function () {
 
-    returnSalesApp.Store = React.createClass({
+    returnSalesApp.Store = createReactClass({
 
         handleStoreSelect: function(event){
             this.props.onStoreSelect(event.target.selectedOptions[0].value);

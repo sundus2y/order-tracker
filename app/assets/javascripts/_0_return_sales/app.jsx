@@ -7,7 +7,7 @@ var returnSalesApp = returnSalesApp || {};
     var Sale = returnSalesApp.Sale;
     var ReturnDialog = returnSalesApp.ReturnDialog;
 
-    var ReturnSalesApp = React.createClass({
+    var ReturnSalesApp = createReactClass({
         getInitialState: function () {
             return {
                 stores: [],

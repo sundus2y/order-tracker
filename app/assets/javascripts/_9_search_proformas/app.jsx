@@ -4,7 +4,7 @@ var SearchProformaApp = SearchProformaApp || {};
 
     var Proforma = SearchProformaApp.Proforma;
 
-    SearchProformaApp.App = React.createClass({
+    SearchProformaApp.App = createReactClass({
         getInitialState: function () {
             return {
                 proformas: [],

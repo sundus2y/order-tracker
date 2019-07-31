@@ -2,7 +2,7 @@ var returnSalesApp = returnSalesApp || {};
 
 (function () {
 
-    returnSalesApp.Item = React.createClass({
+    returnSalesApp.Item = createReactClass({
 
         handleItemSelect: function(){
             var itemId = $('#search_item_id').val();

@@ -4,7 +4,7 @@ var returnSalesApp = returnSalesApp || {};
 
     var ReturnItem = returnSalesApp.ReturnItem;
 
-    returnSalesApp.Sale = React.createClass({
+    returnSalesApp.Sale = createReactClass({
 
         handleReturnSaleItem: function(returnItem){
             this.props.onReturn(returnItem);

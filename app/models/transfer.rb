@@ -2,8 +2,8 @@ class Transfer < ActiveRecord::Base
   acts_as_paranoid
 
   has_many :transfer_items
-  belongs_to :sender, class_name: 'User', foreign_key: :sender_id
-  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
+  belongs_to :sender, class_name: 'User', foreign_key: :sender_id, optional: true
+  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id, optional: true
   belongs_to :from_store, class_name: 'Store', foreign_key: :from_store_id
   belongs_to :to_store, class_name: 'Store', foreign_key: :to_store_id
 

@@ -6,7 +6,7 @@ class CustomersController < ApplicationController
 
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
 
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :set_customer, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit]
   before_action :check_authorization, except: [:index, :new, :create]
   after_action :verify_authorized

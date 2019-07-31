@@ -50,7 +50,7 @@ module ApplicationHelper
         submenu_items.each do |item|
           ul_content << content_tag(:li) do
             content_tag(:a,nil,href: item[:link]) do
-              content_tag(:i,nil,class:'fa fa-circle-o')+item[:label]
+              "#{content_tag(:i,nil,class:'far fa-dot-circle')} #{item[:label]}".html_safe
             end
           end if item[:show_if]
         end

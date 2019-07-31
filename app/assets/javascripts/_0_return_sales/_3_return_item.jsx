@@ -4,7 +4,7 @@ var returnSalesApp = returnSalesApp || {};
 
     var ReturnDialog = returnSalesApp.ReturnDialog;
 
-    returnSalesApp.ReturnItem = React.createClass({
+    returnSalesApp.ReturnItem = createReactClass({
 
         handleReturnSaleItem: function(returnItem){
             this.props.onReturn(returnItem);

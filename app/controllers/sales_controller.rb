@@ -5,7 +5,7 @@ class SalesController < ApplicationController
                                   :print, :pop_up_fs_num_edit, :mark_as_sold,
                                   :submit_to_sold, :submit_to_credited, :submit_to_sampled, :submit_to_ordered]
 
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :check_authorization, except: [:index, :new, :create]
   after_action :verify_authorized
 

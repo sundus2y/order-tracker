@@ -4,7 +4,7 @@ var app = app || {};
 
 (function () {
 
-    app.SaleItem = React.createClass({
+    app.SaleItem = createReactClass({
 
         handleQtyChange: function(event){
             var updatedSaleItem = this.props.saleItemData;

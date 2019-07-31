@@ -3,7 +3,7 @@ class ProformasController < ApplicationController
 
   before_action :set_proforma, only: [:show, :edit, :update, :destroy, :print]
 
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :check_authorization, except: [:index, :new, :create, :submit_to_submitted, :mark_as_sold]
   after_action :verify_authorized
 

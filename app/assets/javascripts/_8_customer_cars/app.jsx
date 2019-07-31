@@ -4,7 +4,7 @@ var CustomerCarApp = CustomerCarApp || {};
 
     var Car = CustomerCarApp.Car;
 
-    CustomerCarApp.App = React.createClass({
+    CustomerCarApp.App = createReactClass({
         getInitialState: function () {
             return {
                 data: [],

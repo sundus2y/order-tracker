@@ -2,7 +2,7 @@ var ProformaItemApp = ProformaItemApp || {};
 
 (function () {
 
-    ProformaItemApp.ProformaItemFooter = React.createClass({
+    ProformaItemApp.ProformaItemFooter = createReactClass({
 
         render: function(){
             return (

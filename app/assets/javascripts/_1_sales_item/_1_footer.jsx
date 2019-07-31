@@ -2,7 +2,7 @@ var app = app || {};
 
 (function () {
 
-    app.SaleItemFooter = React.createClass({
+    app.SaleItemFooter = createReactClass({
 
         render: function(){
             return (
