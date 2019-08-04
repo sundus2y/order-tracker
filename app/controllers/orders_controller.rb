@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(order_params)
+    @order = Order.new(order_params.merge({creator_id: current_user.id}))
     flash[:notice] = 'Order was successfully created.' if @order.save
     respond_to do |format|
       format.html {respond_with(@order,location: orders_path)}
