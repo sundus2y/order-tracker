@@ -5,7 +5,7 @@
   <h4 class="modal-title" id="myModalLabel">Quick Import+Export</h4>
 </div>
 <div class="modal-body">
-  <%= form_tag ip_xp_items_path(format: "xlsx"), multipart: true, method: :get do %>
+  <%= form_tag ip_xp_items_path(format: "xlsx"), multipart: true, method: :post do %>
       <div class="row">
         <div class="col-md-5">
           <div class="input-group">
