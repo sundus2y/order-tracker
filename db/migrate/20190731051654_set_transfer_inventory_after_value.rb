@@ -1,6 +1,6 @@
 class SetTransferInventoryAfterValue < ActiveRecord::Migration[5.2]
   def change
-    transfer_items = TransferItem.where(inventory_after: nil)
+    transfer_items = TransferItem.where(inventory_after: nil).where.not(deleted_at: nil)
     progressbar = ProgressBar.create(:title => "Transfer Inventory After", :starting_at => 0, :total => transfer_items.count, format: "%a %e %P% Processed: %c from %C")
     transfer_items.each do |transfer_item|
       sql = <<-SQL
