@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_051654) do
+ActiveRecord::Schema.define(version: 2019_09_08_051045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -103,6 +103,8 @@ ActiveRecord::Schema.define(version: 2019_07_31_051654) do
     t.decimal "cost_price", precision: 11, scale: 2
     t.decimal "c_price", precision: 11, scale: 2
     t.datetime "deleted_at"
+    t.decimal "hy_price", precision: 11, scale: 2
+    t.decimal "kia_price", precision: 11, scale: 2
     t.index ["deleted_at"], name: "index_items_on_deleted_at"
     t.index ["description"], name: "items_lower_description", opclass: :gin_trgm_ops, using: :gin
     t.index ["item_number"], name: "items_lower_item_number", opclass: :gin_trgm_ops, using: :gin
