@@ -24,6 +24,7 @@ gem 'paranoia'
 gem 'geocoder'
 gem 'timezone'
 gem 'impressionist'
+gem 'postgres-copy'
 
 group :development, :test do
   gem 'byebug'

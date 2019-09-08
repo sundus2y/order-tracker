@@ -160,6 +160,10 @@ GEM
     pg_search (2.3.0)
       activerecord (>= 4.2)
       activesupport (>= 4.2)
+    postgres-copy (1.4.1)
+      activerecord (>= 5.1)
+      pg (>= 0.17)
+      responders
     public_suffix (3.1.1)
     puma (4.0.1)
       nio4r (~> 2.0)
@@ -332,6 +336,7 @@ DEPENDENCIES
   paranoia
   pg
   pg_search
+  postgres-copy
   puma
   pundit
   rabl
