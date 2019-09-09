@@ -110,6 +110,10 @@
             <td>
               <%= f.number_field :cost_price, class:"form-control right-align", step:'0.01' %>
             </td>
+            <td width="12%"><%= f.label :hy_price %></td>
+            <td>
+              <%= f.number_field :hy_price, class:"form-control right-align", step:'0.01' %>
+            </td>
           </tr>
           <tr>
             <td width="12%"><%= f.label :dubai_price %></td>
@@ -120,6 +124,13 @@
             <td>
               <%= f.number_field :korea_price, class:"form-control right-align", step:'0.01' %>
             </td>
+            <td width="12%"><%= f.label :kia_price %></td>
+            <td>
+              <%= f.number_field :kia_price, class:"form-control right-align", step:'0.01' %>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" ></td>
             <td width="12%"><%= f.label :c_price %></td>
             <td>
               <%= f.number_field :c_price, class:"form-control right-align", step:'0.01' %>

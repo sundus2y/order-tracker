@@ -60,7 +60,7 @@ class Order < ActiveRecord::Base
     worksheet = workbook.add_worksheet
     heading_format = workbook.add_format(border: 6,bold: 1,color: 'red',align: 'left')
     table_heading_format = workbook.add_format(bold: 1)
-    worksheet.merge_range('A1:B1',"Order ##{id} - #{title}", heading_format)
+    worksheet.merge_range('A1:D1',"Order ##{id} - #{title}", heading_format)
     worksheet.write(1,0,'No',table_heading_format)
     worksheet.write(1,1,'Item Name',table_heading_format)
     worksheet.write(1,2,'Original Number',table_heading_format)
@@ -71,7 +71,9 @@ class Order < ActiveRecord::Base
     worksheet.write(1,7,'Korea Price',table_heading_format)
     worksheet.write(1,8,'Cost Price',table_heading_format)
     worksheet.write(1,9,'Sale Price',table_heading_format)
-    worksheet.write(1,10,'C Price',table_heading_format)
+    worksheet.write(1,10,'Hy Price',table_heading_format)
+    worksheet.write(1,11,'Kia Price',table_heading_format)
+    worksheet.write(1,12,'C Price',table_heading_format)
 
     order_items.includes(:item).each_with_index do |order_item,index|
       worksheet.write(index+2,0,index+1)
@@ -84,7 +86,9 @@ class Order < ActiveRecord::Base
       worksheet.write(index+2,7,order_item.item.korea_price)
       worksheet.write(index+2,8,order_item.item.cost_price)
       worksheet.write(index+2,9,order_item.item.sale_price)
-      worksheet.write(index+2,10,order_item.item.c_price)
+      worksheet.write(index+2,10,order_item.item.hy_price)
+      worksheet.write(index+2,11,order_item.item.kia_price)
+      worksheet.write(index+2,12,order_item.item.c_price)
     end
     workbook.close
     File.open("tmp/Order ##{id}.xlsx").path
