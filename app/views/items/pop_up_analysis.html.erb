@@ -17,7 +17,8 @@
                   title: {
                       display: true,
                       text: 'Last 12 Months Sales Chart',
-                      position: 'left'
+                      position: 'top',
+                      stacked: false,
                   },
                   scales: {
                       xAxes: [{
@@ -32,31 +33,101 @@
                               labelString: 'Date/Time'
                           }
                       }],
-                      yAxes: [{
-                          scaleLabel: {
+                      yAxes: [
+                          {
+                              id: 'yqty',
+                              type: 'linear',
+                              position: 'left',
                               display: true,
-                              labelString: 'Quantity'
+                              scaleLabel: {
+                                  labelString: 'Quantity'
+                              },
                           },
-                      }]
+                          {
+                              id: 'yavg',
+                              type: 'linear',
+                              display: false,
+                              position: 'right',
+                              scaleLabel: {
+                                  labelString: 'Average Price'
+                              },
+                              gridLines: {
+                                  drawOnChartArea: false
+                              }
+                          },
+                          // {
+                          //     id: 'yrev',
+                          //     type: 'linear',
+                          //     display: true,
+                          //     position: 'right',
+                          //     scaleLabel: {
+                          //         labelString: 'Revenue'
+                          //     },
+                          //     gridLines: {
+                          //         drawOnChartArea: false
+                          //     }
+                          // }
+                      ]
                   },
               }
           };
           var ctx = document.getElementById('myChart').getContext('2d');
           var salesChart = new Chart(ctx, salesChartConfig);
-          var newDataset = {
-              label: 'Sales',
+          var qtyDataset = {
+              label: 'Quantity',
+              borderColor: 'rgba(19,35,255,0.5)',
+              backgroundColor: 'rgba(19,35,255,0.5)',
+              fill: false,
               spanGaps: false,
-              barThickness: '1px',
               data: [
-                  <% @grouped_sales.each_pair do |sold_at, sales| %>
-                  {
-                    x: moment('<%= sold_at %>').format(dateTimeFormat),
-                    y: <%= sales.sum(&:qty) %>
-                  },
+                  <% @grouped_sale_items.each_pair do |sold_at, sale_items| %>
+                    {
+                      x: moment('<%= sold_at %>').format(dateTimeFormat),
+                      y: <%= sale_items.sum(&:qty) %>
+                    },
                   <% end %>
-              ]
+              ],
+              yAxisID: 'yqty'
           };
-          salesChartConfig.data.datasets = [newDataset];
+          var revDataset = {
+              label: 'Revenue',
+              borderColor: 'rgba(255,166,79,0.5)',
+              backgroundColor: 'rgba(255,166,79,0.5)',
+              fill: false,
+              spanGaps: false,
+              data: [
+                  <% @grouped_sale_items.each_pair do |sold_at, sale_items| %>
+                    <% gt = sale_items.inject(0) do |n,sale_item| %>
+                      <% n + (sale_item.qty*sale_item.unit_price) %>
+                    <% end %>
+                    {
+                        x: moment('<%= sold_at %>').format(dateTimeFormat),
+                        y: <%= gt * 1.15 %>
+                    },
+                  <% end %>
+              ],
+              yAxisID: 'yrev'
+          };
+          var avgPriceDataset = {
+              label: 'Average Price',
+              borderColor: 'rgba(23,23,23,0.5)',
+              backgroundColor: 'rgba(23,23,23,0.5)',
+              fill: false,
+              spanGaps: false,
+              data: [
+                  <% @grouped_sale_items.each_pair do |sold_at, sale_items| %>
+                    <% gt = sale_items.inject(0) do |n,sale_item| %>
+                      <% n + (sale_item.qty*sale_item.unit_price) %>
+                    <% end %>
+                    {
+                        x: moment('<%= sold_at %>').format(dateTimeFormat),
+                        y: <%= (gt * 1.15)/sale_items.sum(&:qty) %>
+                    },
+                  <% end %>
+              ],
+              yAxisID: 'yavg'
+          };
+          salesChartConfig.data.datasets = [qtyDataset, avgPriceDataset];
           salesChart.update();
       </script>
     </div>

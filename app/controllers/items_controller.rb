@@ -153,7 +153,7 @@ class ItemsController < ApplicationController
                      .where("sales.status = 'sold' and sales.sold_at > '#{Time.zone.now.end_of_day - 12.months}'")
                      .order("sales.sold_at")
                      .uniq
-    @grouped_sales = sale_items.group_by{|si| si.sale.sold_at.beginning_of_month}
+    @grouped_sale_items = sale_items.group_by{|si| si.sale.sold_at.beginning_of_month}
     render 'pop_up_analysis', layout: false
   end
 
