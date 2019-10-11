@@ -1,0 +1,65 @@
+<% content_for :modal_header, flush: true do %>
+    Item Analysis
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+    <div id="item_analysis" class="chart">
+      <canvas id="myChart" width="400" height="100"></canvas>
+      <script>
+          var dateTimeFormat = 'MM/DD/YYYY HH:mm::ss';
+          var salesChartConfig = {
+              type: 'line',
+              data: {
+                  labels: [],
+                  datasets: []
+              },
+              options: {
+                  title: {
+                      display: true,
+                      text: 'Last 12 Months Sales Chart',
+                      position: 'left'
+                  },
+                  scales: {
+                      xAxes: [{
+                          type: 'time',
+                          time: {
+                              parser: dateTimeFormat,
+                              tooltipFormat: dateTimeFormat,
+                              unit: 'month'
+                          },
+                          scaleLabel: {
+                              display: true,
+                              labelString: 'Date/Time'
+                          }
+                      }],
+                      yAxes: [{
+                          scaleLabel: {
+                              display: true,
+                              labelString: 'Quantity'
+                          },
+                      }]
+                  },
+              }
+          };
+          var ctx = document.getElementById('myChart').getContext('2d');
+          var salesChart = new Chart(ctx, salesChartConfig);
+          var newDataset = {
+              label: 'Sales',
+              spanGaps: false,
+              barThickness: '1px',
+              data: [
+                  <% @grouped_sales.each_pair do |sold_at, sales| %>
+                  {
+                    x: moment('<%= sold_at %>').format(dateTimeFormat),
+                    y: <%= sales.sum(&:qty) %>
+                  },
+                  <% end %>
+              ]
+          };
+          salesChartConfig.data.datasets = [newDataset];
+          salesChart.update();
+      </script>
+    </div>
+<% end %>
+
+<%= render "/modals/base", id: 'pop_up' %>

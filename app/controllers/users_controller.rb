@@ -34,7 +34,17 @@ class UsersController < ApplicationController
   end
 
   def activity_log
-    respond_with(@user)
+    query = <<-SQL
+SELECT DATE(created_at), 
+       COUNT(*) number_of_requests, 
+       MAX(created_at) as last_access_at, 
+       MIN(created_at) as first_access_at,
+       STRING_AGG(DISTINCT ip_address, ' , ') as ips
+FROM impressions
+WHERE user_id = #{@user.id} AND created_at > '#{Time.zone.today - 6.months}'
+GROUP BY DATE(created_at)
+    SQL
+    @impressions = ActiveRecord::Base.connection.select_all(query)
   end
 
   private

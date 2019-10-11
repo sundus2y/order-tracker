@@ -79,7 +79,6 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get :activity_log
-      get :activity_log_data
     end
   end
   resources :items do
@@ -98,6 +97,7 @@ Rails.application.routes.draw do
     post :ip_xp, as: :ip_xp, on: :collection
     get :pop_up_show
     get :pop_up_edit
+    get :pop_up_analysis
     member do
       get :copy
     end

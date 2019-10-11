@@ -8,7 +8,7 @@
   <!--<link rel="preload" as="style" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
   <%= javascript_include_tag 'application'%>
   <script>
-      const valuesPolyfill = function values (object) {
+      var valuesPolyfill = function values (object) {
           return Object.keys(object).map(function(key){return object[key];});
       };
 
@@ -28,6 +28,11 @@
   </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini sidebar-collapse <%=controller_name%>_<%=action_name%>">
+  <div id="loading-overlay">
+    <div id="loading-overlay-inner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+    </div>
+  </div>
   <div class="wrapper">
     <header class="main-header">
       <!-- Logo -->
@@ -123,7 +128,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-              <%= yield :content_footer %></h3>
+              <%= yield :content_footer %>
             </div>
             <!-- /.box-footer-->
           </div>

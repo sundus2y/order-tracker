@@ -62,6 +62,7 @@ class Item < ActiveRecord::Base
     delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
     add_to_order_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.pop_up_add_item_to_order_path(item_id: self.id)}'><i class='fa fa-truck'></i> Add to Order</a></li>"
     copy_action = "<li><a class='btn-primary item-pop-up-menu' target='_blank' href='#{url_helpers.copy_item_path(id: self.id)}'><i class='fa fa-clone'></i> Copy Item</a></li>"
+    analysis_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_analysis_path self}'><i class='fa fa-chart-line'></i> Analysis</a></li>"
     actions_html = <<-HTML
       <div class="btn-group">
         <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -73,6 +74,7 @@ class Item < ActiveRecord::Base
           #{add_to_order_action if type == :admin}
           #{delete_action if type == :admin}
           #{copy_action if type == :admin}
+          #{analysis_action if type == :admin}
         </ul>
       </div>
     HTML

@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   devise :timeoutable
   enum role: [:user, :admin, :vendor, :supplier, :sales]
-  after_initialize :set_default_role, :if => :new_record?
+  after_initialize :set_defaults, :if => :new_record?
 
   has_many :sales, dependent: :destroy
   has_many :orders, dependent: :destroy
@@ -9,8 +9,9 @@ class User < ActiveRecord::Base
   has_many :received_transfers, dependent: :destroy, class_name: 'Transfer', foreign_key: :receiver_id
   belongs_to :default_store, dependent: :destroy, class_name: 'Store', foreign_key: :default_store_id
 
-  def set_default_role
+  def set_defaults
     self.role ||= :user
+    self.default_store_id ||= 14 #First Floor
   end
 
   def is_admin?

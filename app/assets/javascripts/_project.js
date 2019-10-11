@@ -75,6 +75,15 @@ var bindSearchSelectEvent = function() {
     });
 };
 
+var showGlobalLoading = function() {
+    hideGlobalLoading();
+    $('#loading-overlay').show();
+};
+
+var hideGlobalLoading = function() {
+    $('#loading-overlay').hide();
+};
+
 $(document).ready(function (){
     makeFormReadOnly();
     updateFormAction();
@@ -117,11 +126,16 @@ $(document).ready(function (){
     });
 
     $('body').on('click','a.pop_up',function(e){
-        $.get($(this).attr('href'), function(data) {
+        showGlobalLoading();
+        $.get($(this).attr('href')).then(function(data) {
+            hideGlobalLoading();
             $('div#pop_up').remove();
             $('body').append(data);
             $('div#pop_up').modal('show');
             makeFormReadOnly();
+        }, function(e){
+            hideGlobalLoading();
+            alert('Error Loading: '+e);
         });
         e.preventDefault();
     });

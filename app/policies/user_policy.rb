@@ -27,4 +27,8 @@ class UserPolicy
     @current_user.admin?
   end
 
+  def activity_log?
+    @current_user.admin?
+  end
+
 end

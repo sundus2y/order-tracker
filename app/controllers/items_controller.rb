@@ -145,6 +145,18 @@ class ItemsController < ApplicationController
     end
   end
 
+  def pop_up_analysis
+    @item = Item.find(params[:id]||params[:item_id])
+    sale_items = @item.sale_items
+                     .joins(:sale)
+                     .includes(:sale)
+                     .where("sales.status = 'sold' and sales.sold_at > '#{Time.zone.now.end_of_day - 12.months}'")
+                     .order("sales.sold_at")
+                     .uniq
+    @grouped_sales = sale_items.group_by{|si| si.sale.sold_at.beginning_of_month}
+    render 'pop_up_analysis', layout: false
+  end
+
   private
     def set_item
       @item = Item.find(params[:id]||params[:item_id])

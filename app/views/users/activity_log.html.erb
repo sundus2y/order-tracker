@@ -1,7 +1,28 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Access Date</th>
+          <th>Total Number of Requests</th>
+          <th>First Access Date/Time</th>
+          <th>Last Access Date/Time</th>
+          <th>List of IP Addresses</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @impressions.each do |im| %>
+          <tr>
+            <td><%= im['date'] %></td>
+            <td><%= im['number_of_requests'] %></td>
+            <td><%= im['first_access_at'] %></td>
+            <td><%= im['last_access_at'] %></td>
+            <td><%= im['ips'] %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
