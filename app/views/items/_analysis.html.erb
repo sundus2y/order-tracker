@@ -1,0 +1,42 @@
+<input name="id" id="item_id" type="hidden" value="<%= @item.id %>"/>
+<div class="row">
+  <div class="col-xs-3">
+    <div class="input-group">
+      <label for="date_from">Date From</label>
+      <input name="date_from" id="date_from" class="form-control datepicker"/>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <div class="input-group">
+      <label for="date_to">Date To</label>
+      <input name="date_from" id="date_to" class="form-control datepicker"/>
+    </div>
+  </div>
+  <div class="col-xs-4"></div>
+  <div class="col-xs-2">
+    <button type="button" class="btn btn-primary btn-lg" onclick="itemAnalysis.getData()">
+      Reload Data
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4">
+    <h3 id="grand_total"></h3>
+  </div>
+</div>
+<div id="item_analysis" class="chart">
+  <canvas id="salesChart" width="400" height="100"></canvas>
+</div>
+
+<script>
+    $('#date_from').datepicker({
+        changeMonth: true,
+        numberOfMonths: 2
+    });
+    $( "#date_from" ).datepicker('setDate', '-12m');
+    $( "#date_to" ).datepicker({
+        changeMonth: true,
+        numberOfMonths: 2
+    });
+    $( "#date_to" ).datepicker('setDate', '+1d');
+</script>

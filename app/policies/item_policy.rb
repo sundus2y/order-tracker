@@ -104,7 +104,7 @@ class ItemPolicy
     !@current_user.user?
   end
 
-  def pop_up_analysis?
+  def analysis_data?
     edit?
   end
 

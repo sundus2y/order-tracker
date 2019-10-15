@@ -22,6 +22,8 @@ class TransferItem < ActiveRecord::Base
 
   end
 
+  attr_accessor :action
+
   private
 
   def dec_inventory

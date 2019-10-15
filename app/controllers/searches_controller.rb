@@ -25,20 +25,23 @@ class SearchesController < ApplicationController
       authorize Item, :search?
       search_type = :regular_search
     end
-    search_query = Item.build_search_query(params)
-    results = Item.includes({inventories: :store}, :order_items, :proforma_items)
-                  .where(search_query)
-                  .reorder(updated_at: :desc)
-                  .limit(30)
-                  .as_json({type: search_type}) unless params[:inventory].present?
-    results = Item.joins(:inventories, {inventories: :store})
-                  .includes({inventories: :store}, :order_items, :proforma_items)
-                  .where("stores.active = true AND stores.store_type != 'VS'")
-                  .where(search_query)
-                  .reorder(updated_at: :desc)
-                  .limit(30)
-                  .as_json({type: search_type}) if params[:inventory].present?
-    results.map{|item| item.transform_keys!{|key| Item::KEY_MAP[key] || key }}
+    if params_has_value(params)
+      search_query = Item.build_search_query(params)
+      results = Item.includes({inventories: :store}, :order_items, :proforma_items)
+                    .where(search_query)
+                    .reorder(updated_at: :desc)
+                    .limit(30)
+                    .as_json({type: search_type}) unless params[:inventory].present?
+      results = Item.joins(:inventories, {inventories: :store})
+                    .includes({inventories: :store}, :order_items, :proforma_items)
+                    .where("stores.active = true AND stores.store_type != 'VS'")
+                    .where(search_query)
+                    .reorder(updated_at: :desc)
+                    .limit(30)
+                    .as_json({type: search_type}) if params[:inventory].present?
+      results.map{|item| item.transform_keys!{|key| Item::KEY_MAP[key] || key }}
+    end
+
     respond_to do |format|
       format.html {}
       format.js {render json: results}

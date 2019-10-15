@@ -11,6 +11,9 @@
         <li>
           <a href="#related_items" data-toggle="tab">Related Items</a>
         </li>
+        <li>
+          <a href="#item_analysis" data-toggle="tab">Analysis</a>
+        </li>
       </ul>
 
       <div class="tab-content">
@@ -71,6 +74,11 @@
                 <% end %>
               </tbody>
             </table>
+          </div>
+        </div>
+        <div id="item_analysis" class="tab-pane fade in">
+          <div class="container-fluid" style="padding-top: 15px">
+            <%= render 'analysis' %>
           </div>
         </div>
       </div>

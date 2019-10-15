@@ -25,6 +25,7 @@ gem 'geocoder'
 gem 'timezone'
 gem 'impressionist'
 gem 'postgres-copy'
+gem 'paper_trail'
 
 group :development, :test do
   gem 'byebug'

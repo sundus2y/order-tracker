@@ -97,7 +97,7 @@ Rails.application.routes.draw do
     post :ip_xp, as: :ip_xp, on: :collection
     get :pop_up_show
     get :pop_up_edit
-    get :pop_up_analysis
+    get :analysis_data
     member do
       get :copy
     end

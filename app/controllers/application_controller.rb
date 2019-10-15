@@ -67,4 +67,8 @@ users)
     redirect_to(request.referrer || root_path)
   end
 
+  def params_has_value(param)
+    params.keys != %w(controller action)
+  end
+
 end
