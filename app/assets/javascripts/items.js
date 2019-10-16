@@ -18,7 +18,7 @@ $(document).ready(function (){
         }).then(function(data) {
             hideGlobalLoading();
             window.itemAnalysis.renderSalesChart(data.sales_data);
-            window.itemAnalysis.renderGrandTotal(data.grand_total);
+            window.itemAnalysis.renderPeriodTotal(data.period_total_qty);
         }, function(e){
             hideGlobalLoading();
             alert('Error Loading: '+e);
@@ -185,8 +185,8 @@ $(document).ready(function (){
         salesChartObj.update();
     };
 
-    window.itemAnalysis.renderGrandTotal = function(grandTotal) {
-        var gtField = $('#grand_total')[0];
-        gtField.innerHTML = "The Total Revenue is: " + printCurrency(grandTotal);
+    window.itemAnalysis.renderPeriodTotal = function(period_total_qty) {
+        var gtField = $('#period_total_qty')[0];
+        gtField.innerHTML = "Period Total Qty: " + period_total_qty;
     }
 });

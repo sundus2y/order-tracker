@@ -4,7 +4,6 @@
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
           <span class="info-box-icon bg-red"><i class="fa fa-chart-line"></i></span>
-
           <div class="info-box-content">
             <span class="info-box-text">Weekly Sales</span>
             <span class="info-box-number"><%= number_to_currency(Stats::Sale.this_week_sales) %></span>
@@ -22,7 +21,6 @@
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
           <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
-
           <div class="info-box-content">
             <span class="info-box-text">Daily Sales</span>
             <span class="info-box-number"><%= number_to_currency(Stats::Sale.daily_sold_amount) %></span>
@@ -35,7 +33,6 @@
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
           <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
-
           <div class="info-box-content">
             <span class="info-box-text">Daily Customers</span>
             <span class="info-box-number"><%= Stats::Sale.daily_customers %></span>
@@ -47,7 +44,6 @@
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
           <span class="info-box-icon bg-aqua"><i class="fa fa-truck"></i></span>
-
           <div class="info-box-content">
             <span class="info-box-text">Total Open Orders</span>
             <span class="info-box-number"><%= Order.open_orders_count %></span>
@@ -75,7 +71,6 @@
                 <p class="text-center">
                   <strong>Sales: <%= since_beginning_of_year_formatted %></strong>
                 </p>
-
                 <div class="chart">
                   <!-- Sales Chart Canvas -->
                   <canvas id="salesChart" height="250"></canvas>

@@ -148,7 +148,14 @@ class ItemsController < ApplicationController
   def analysis_data
     from = Time.zone.strptime(params[:date_from], '%m/%d/%Y')
     to = Time.zone.strptime(params[:date_to], '%m/%d/%Y')
-    sale_items = @item.sale_items.joins(:sale).includes(:sale).where("sales.status = ? and sales.sold_at > ? and sales.sold_at < ?", 'sold', from, to).order("sales.sold_at").uniq
+    sale_items = @item
+                     .sale_items
+                     .joins(:sale)
+                     .includes(:sale)
+                     .where("sales.status = ? and sales.sold_at > ? and sales.sold_at < ? and sale_items.status not in (?)",
+                            'sold', from, to, ['draft', 'orderd'])
+                     .order("sales.sold_at")
+                     .uniq
     if (to-from)/86400 > 120
       start_date = from.beginning_of_month
       end_date = to.end_of_month
@@ -175,11 +182,15 @@ class ItemsController < ApplicationController
       end
     end
     grand_total = 0
+    period_total_qty = 0
     sales_data = grouped_sale_items.to_a.map do |grouped_sale_item|
       total_qty = grouped_sale_item[1].sum(&:qty)
+      period_total_qty += total_qty
       total_revenue = grouped_sale_item[1].inject(0) do |n,sale_item|
-        n + sale_item.qty * sale_item.unit_price
+        n + (sale_item.qty * sale_item.unit_price)
       end
+      grand_total += total_revenue
+
       store_inventory = @item.inventories.joins(:store).where("stores.store_type = 'ST'").map(&:paper_trail).map do |iv_v|
         iv_v.version_at(grouped_sale_item[0])
       end.sum(&:qty)
@@ -187,7 +198,6 @@ class ItemsController < ApplicationController
         iv_v.version_at(grouped_sale_item[0])
       end.sum(&:qty)
 
-      grand_total += total_revenue
       {
           date: grouped_sale_item[0],
           total_qty: total_qty,
@@ -198,7 +208,7 @@ class ItemsController < ApplicationController
       }
     end
 
-    render json: {sales_data: sales_data, grand_total: grand_total}
+    render json: {sales_data: sales_data, period_total_qty: period_total_qty, grand_total: grand_total}
   end
 
   private
