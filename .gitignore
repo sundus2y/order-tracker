@@ -50,6 +50,7 @@ rerun.txt
 pickle-email-*.html
 .zeus.sock
 ots*.dump*
+versions.csv
 
 /git_stats/
 .byebug_history

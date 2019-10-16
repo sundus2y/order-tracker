@@ -70,6 +70,7 @@ def get_inventories
   iv_sql = <<-SQL
 SELECT *
 FROM inventories
+OFFSET 25400
   SQL
   ActiveRecord::Base.connection.execute(iv_sql)
 end
