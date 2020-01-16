@@ -1,0 +1,1 @@
+ALTER ROLE postgres WITH PASSWORD 'P0$t9res!2019'

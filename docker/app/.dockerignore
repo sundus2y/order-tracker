@@ -1,0 +1,6 @@
+.git
+.idea
+tmp
+docker
+docker-compose.yml
+*.docker

@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  app:
+#    build:
+#      context: .
+#      dockerfile: ./docker/app/Dockerfile
+    image: ots_app
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    restart: always
+  db:
+#    build:
+#      context: .
+#      dockerfile: ./docker/db/Dockerfile
+    image: ots_db
+    volumes:
+      - ~/pg_data/ots/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 'P0$$t9res!2019'
+    ports:
+      - 5432:5432
+    restart: always
+  backup_local:
+    image: ots_backup_local
+    volumes:
+      - ~/pg_data/ots/backups:/backups
+    links:
+      - db:db
+    depends_on:
+      - db
+    ports:
+      - 8081:8081
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 200M
+  web:
+    image: ots_web
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    restart: always

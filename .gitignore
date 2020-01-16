@@ -84,3 +84,6 @@ versions.csv
 # Environment files that may contain sensitive data
 .env
 .powenv
+envfile
+/*.docker
+

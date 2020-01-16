@@ -8,6 +8,9 @@ rackup      DefaultRackup
 port        ENV['PORT']     || 3000
 environment ENV['RACK_ENV'] || 'development'
 
+# app_dir = File.expand_path("../..", __FILE__)
+# bind "unix://#{app_dir}/sockets/puma.sock"
+
 on_worker_boot do
   # Worker specific setup for Rails 4.1+
   # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
