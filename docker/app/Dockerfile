@@ -28,9 +28,10 @@ COPY ./Gemfile $APP_HOME/
 COPY ./Gemfile.lock $APP_HOME/
 
 RUN gem install bundler -v2.0.2
-RUN bundle install --without development test
 
 COPY . $APP_HOME
+
+RUN bundle install --path=vendor/cache --without development test
 RUN bundle exec rake assets:precompile
 
 EXPOSE 3000

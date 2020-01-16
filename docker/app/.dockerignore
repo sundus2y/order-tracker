@@ -4,3 +4,4 @@ tmp
 docker
 docker-compose.yml
 *.docker
+/vendor/cache/
