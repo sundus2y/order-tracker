@@ -1,12 +1,22 @@
 class ItemsController < ApplicationController
-  impressionist actions: ItemsController.action_methods.to_a - ['autocomplete_item_name','autocomplete_item_sale_order','autocomplete_item_sale_price']
+  impressionist actions: ItemsController.action_methods.to_a - ['autocomplete_item_name',
+                                                                'autocomplete_item_sale_order',
+                                                                'autocomplete_item_sale_price',
+                                                                'autocomplete_item_merge_into']
 
-  autocomplete :item, :name, :display_value => :to_s, :extra_data => [:item_number,:item_number,:description], :limit => 20
-  autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
-  autocomplete :item, :sale_order, :display_value => :sale_item_autocomplete_display, :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
+  autocomplete :item, :name, :display_value => :to_s,
+               :extra_data => [:item_number,:item_number,:description], :limit => 20
+  autocomplete :item, :sale_price, :display_value => :sale_item_autocomplete_display,
+               :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
+  autocomplete :item, :sale_order, :display_value => :sale_item_autocomplete_display,
+               :extra_data => [:name,:item_number,:item_number,:description,:sale_price], :limit => 20
+  autocomplete :item, :merge_into, :display_value => :to_s,
+               :extra_data => Item.export_attributes.map{|attr| attr[1]}.push(:inventories), :limit => 20
 
   before_action :set_empty_transaction
-  before_action :set_item, only: [:show, :edit, :update, :destroy, :pop_up_show, :pop_up_edit, :copy, :analysis_data]
+  before_action :set_item, only: [:show, :edit, :update, :destroy,
+                                  :pop_up_show, :pop_up_edit, :copy,
+                                  :analysis_data, :pop_up_merge_into, :merge_item_into]
   before_action :set_transaction_log, only: [:show, :edit, :update, :pop_up_edit, :pop_up_show, :new]
   before_action :set_related_items, only: [:show, :edit, :pop_up_edit, :pop_up_show]
 
@@ -45,6 +55,10 @@ class ItemsController < ApplicationController
 
   def pop_up_edit
     render 'pop_up_edit', layout: false
+  end
+
+  def pop_up_merge_into
+    render 'pop_up_merge_into', layout: false
   end
 
   def create
@@ -211,9 +225,22 @@ class ItemsController < ApplicationController
     render json: {sales_data: sales_data, period_total_qty: period_total_qty, grand_total: grand_total}
   end
 
+  def merge_item_into
+    merge_to_item = Item.active.find(params[:to_item_id])
+    if @item.id == merge_to_item.id
+      @result = flash[:notice] = "Item can't be merged to itself"
+    else
+      @result = @item.merge_item_into(merge_to_item)
+      flash[:notice] = 'Item was successfully merged.'
+      respond_to do |format|
+        format.js
+      end
+    end
+  end
+
   private
     def set_item
-      @item = Item.find(params[:id]||params[:item_id])
+      @item = Item.active.includes(inventories:[:store]).find(params[:id]||params[:item_id])
     end
 
     def item_params
@@ -241,7 +268,7 @@ class ItemsController < ApplicationController
     end
 
     def get_autocomplete_items(parameters)
-      if parameters[:method] == :sale_order
+      if  [:sale_order, :merge_into].include?(parameters[:method])
         result = Item.autocomplete_for_sales(parameters[:term],parameters[:options][:limit])
         ActiveRecord::Associations::Preloader.new.preload(result, :inventories)
         result
@@ -250,7 +277,7 @@ class ItemsController < ApplicationController
         limit = parameters[:options][:limit]
         data = parameters[:options][:extra_data]
         data << parameters[:method]
-        model.where('LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term)', term: "%#{parameters[:term]}%").limit(limit)
+        model.where('disabled = FALSE AND (LOWER(name) like LOWER(:term) or LOWER(item_number) like LOWER(:term))', term: "%#{parameters[:term]}%").limit(limit)
       end
     end
 
@@ -270,7 +297,7 @@ class ItemsController < ApplicationController
     end
 
     def set_related_items
-      @related_items = Item.joins(:inventories, {inventories: :store})
+      @related_items = Item.active.joins(:inventories, {inventories: :store})
                            .includes({inventories: :store}, :order_items, :proforma_items)
                            .where("stores.active = true AND stores.store_type != 'VS'")
                            .where(item_number: @item.related_item_numbers)

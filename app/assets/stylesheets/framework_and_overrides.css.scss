@@ -141,6 +141,7 @@ input[type="number"] {
 
 ul.ui-autocomplete {
   width: 75%;
+  z-index: 5000;
 }
 ul.ui-autocomplete li.ui-menu-item {
   list-style-image: none !important;

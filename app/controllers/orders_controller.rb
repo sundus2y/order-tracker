@@ -69,8 +69,8 @@ class OrdersController < ApplicationController
   end
 
   def pop_up_add_item
-    item = Item.find(params[:item_id])
-    @original_item = Item.where(original_number: item.original_number).first
+    item = Item.active.find(params[:item_id])
+    @original_item = Item.active.where(original_number: item.original_number).first
     @original_item = item if item.original_number == 'NA'
     @order_items = OrderItem.includes(:order).where(item: @original_item).where.not(status: 'delivered').order(updated_at: :desc)
     @open_orders = Order.where(status: 'draft')

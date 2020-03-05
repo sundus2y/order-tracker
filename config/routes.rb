@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     get :autocomplete_item_name, on: :collection
     get :autocomplete_item_sale_price, on: :collection
     get :autocomplete_item_sale_order, on: :collection
+    get :autocomplete_item_merge_into, on: :collection
     post :import, on: :collection
     post :import_non_original, on: :collection
     post :bulk_update, on: :collection
@@ -97,7 +98,9 @@ Rails.application.routes.draw do
     post :ip_xp, as: :ip_xp, on: :collection
     get :pop_up_show
     get :pop_up_edit
+    get :pop_up_merge_into
     get :analysis_data
+    post 'merge_item_into/:to_item_id', action: :merge_item_into #, to:'order_items#check_duplicate'
     member do
       get :copy
     end

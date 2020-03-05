@@ -31,6 +31,8 @@ class Item < ActiveRecord::Base
   validates :original_number, uniqueness: {scope: [:item_number, :brand, :made]}
   validate :item_numbers_cannot_include_special_characters
 
+  scope :active, -> { where.not(disabled: true) }
+
   # INVALID_CHARS = %w(, . - _ : | \\ /)
   # INVALID_CHARS_REGEX = Regexp.new('\W')
 
@@ -62,6 +64,7 @@ class Item < ActiveRecord::Base
     delete_action = "<li><a class='btn-danger item-pop-up-menu' href='#{url_helpers.item_path self}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'><i class='fa fa-trash'></i> Delete</a></li>"
     add_to_order_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.pop_up_add_item_to_order_path(item_id: self.id)}'><i class='fa fa-truck'></i> Add to Order</a></li>"
     copy_action = "<li><a class='btn-primary item-pop-up-menu' target='_blank' href='#{url_helpers.copy_item_path(id: self.id)}'><i class='fa fa-clone'></i> Copy Item</a></li>"
+    merge_into_action = "<li><a class='btn-primary pop_up item-pop-up-menu' href='#{url_helpers.item_pop_up_merge_into_path self}'><i class='fa fa-layer-group'></i> Merge Into</a></li>"
     actions_html = <<-HTML
       <div class="btn-group">
         <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -73,6 +76,7 @@ class Item < ActiveRecord::Base
           #{add_to_order_action if type == :admin}
           #{delete_action if type == :admin}
           #{copy_action if type == :admin}
+          #{merge_into_action if type == :admin}
         </ul>
       </div>
     HTML
@@ -175,7 +179,7 @@ class Item < ActiveRecord::Base
     Rails.logger.debug error_list.to_yaml unless error_list.empty?
     Rails.logger.info "Updates Found" unless update_list.empty?
     Rails.logger.debug update_list.to_yaml unless update_list.empty?
-    new_records = to_import.empty? ? [] : where(original_number: to_import.map{|item| item['original_number']}[1..100])
+    new_records = to_import.empty? ? [] : active.where(original_number: to_import.map{|item| item['original_number']}[1..100])
     return update_list, new_records
   end
 
@@ -206,7 +210,7 @@ class Item < ActiveRecord::Base
       end
     end
     puts '.  Check for Original Items'
-    existing_numbers = where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
+    existing_numbers = active.where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
     puts ".    Found #{existing_numbers.count} Original Items"
     clone_list, create_list = raw_data.partition { |item| existing_numbers.include? item['original_number'] }
     puts ".    Creating #{create_list.count} Items"
@@ -253,6 +257,7 @@ ON i.item_number = si.item_number
 AND i.original_number = si.original_number
 AND i.brand = si.brand
 AND i.made = si.made
+WHERE i.disabled = FALSE
     SQL
     items = Item.find_by_sql(query)
     items.each do |item|
@@ -298,7 +303,7 @@ AND i.made = si.made
       worksheet.write(1,index+Item.export_attributes.length+3, store.short_name, table_heading_format)
     end
     item_number_list.map{|i|i[0].upcase!}
-    items = Item.where(item_number: item_number_list.collect{|i|i[0]}).all
+    items = Item.active.where(item_number: item_number_list.collect{|i|i[0]}).all
     row = 2
     item_number_list.each_with_index do |item, index|
       match_items = items.select{|i| i.item_number == item[0]}
@@ -363,7 +368,7 @@ AND i.made = si.made
       end
     end
     puts '.  Check for Duplicate Items'
-    duplicate_numbers = where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
+    duplicate_numbers = active.where(original_number: raw_data.map { |item| item['original_number'] }).pluck(:original_number)
     puts ".    Found #{duplicate_numbers.count} Duplicate Items"
     to_update, to_import = raw_data.partition { |item| duplicate_numbers.include? item['original_number'] }
     puts ".    Creating #{to_import.count} Items"
@@ -407,7 +412,7 @@ AND i.made = si.made
   end
 
   def self.top_15
-    Item.joins(:sale_items).
+    Item.active.joins(:sale_items).
         group(:item_id,:item_number,:name,:car).
         order('sum_qty desc').
         limit(15).
@@ -477,7 +482,7 @@ AND i.made = si.made
   end
 
   def to_s
-    "#{original_number} |  #{name}"
+    "#{item_number} | #{original_number} |  #{name} | #{brand} | #{made}"
   end
 
   def sale_item_autocomplete_display
@@ -515,6 +520,53 @@ AND i.made = si.made
     new_item
   end
 
+  def merge_item_into(into_item)
+    result = {}
+    self.inventories.each do |inventory|
+      into_inventory = into_item.inventories.select{|iv| iv.store_id == inventory.store_id}.first
+      if into_inventory
+        into_inventory.update_column(:qty, inventory.qty)
+      else
+        attributes = inventory.attributes
+        attributes.delete("id")
+        attributes["item_id"] = into_item.id
+        Inventory.create!(attributes)
+      end
+    end
+
+    sale_item_sql = <<-SQL
+UPDATE sale_items
+SET item_id = #{into_item.id}
+WHERE item_id = #{self.id}
+    SQL
+    result[:updated_sale_item] = ActiveRecord::Base.connection.execute(sale_item_sql).cmd_tuples
+
+    order_item_sql = <<-SQL
+UPDATE order_items
+SET item_id = #{into_item.id}
+WHERE item_id = #{self.id}
+    SQL
+    result[:updated_order_item] = ActiveRecord::Base.connection.execute(order_item_sql).cmd_tuples
+
+    proforma_item_sql = <<-SQL
+UPDATE proforma_items
+SET item_id = #{into_item.id}
+WHERE item_id = #{self.id}
+    SQL
+    result[:updated_proforma_item] = ActiveRecord::Base.connection.execute(proforma_item_sql).cmd_tuples
+
+    transfer_item_sql = <<-SQL
+UPDATE transfer_items
+SET item_id = #{into_item.id}
+WHERE item_id = #{self.id}
+    SQL
+    result[:updated_transfer_item] = ActiveRecord::Base.connection.execute(transfer_item_sql).cmd_tuples
+
+    self.update(disabled: true)
+
+    result
+  end
+
   def related_item_numbers
     related_numbers = self.description.try(:split, ' ') || []
     (related_numbers + [self.prev_number, self.next_number, self.original_number]).uniq.compact
@@ -545,7 +597,7 @@ sale_price dubai_price korea_price cost_price c_price).map{|col| [col.titleize, 
   end
 
   def self.autocomplete_for_sales(term,limit)
-    find_by_sql("SELECT * FROM items WHERE LOWER(item_number) LIKE LOWER('%#{term}%')
+    find_by_sql("SELECT * FROM items WHERE disabled = FALSE AND LOWER(item_number) LIKE LOWER('%#{term}%')
                             ORDER BY CASE
                               WHEN LOWER(item_number) = LOWER('#{term}') THEN CHAR_LENGTH(item_number)
                               WHEN LOWER(item_number) LIKE LOWER('#{term}%') THEN CHAR_LENGTH(item_number) + 50
@@ -553,6 +605,9 @@ sale_price dubai_price korea_price cost_price c_price).map{|col| [col.titleize, 
                               ELSE CHAR_LENGTH(item_number) + 150
                             END
                             LIMIT #{limit}")
+  end
+
+  def merge_into
   end
 
 private
@@ -605,11 +660,11 @@ private
   end
 
   def self.clone_new(clone_records)
-    original_records = where(original_number: clone_records.map { |item| item['original_number'] })
+    original_records = active.where(original_number: clone_records.map { |item| item['original_number'] })
     puts clone_records.count
     clone_records.each_with_index do |clone_record,index|
       puts index
-      found = Item.where(clone_record.slice('item_number','original_number','made','brand'))
+      found = Item.active.where(clone_record.slice('item_number','original_number','made','brand'))
       next unless found.empty?
       cloned = original_records.select{|o_record| o_record.original_number == clone_record['original_number']}.first.dup
       cloned.item_number = clone_record['item_number']
@@ -639,7 +694,7 @@ private
     dup_records.in_groups_of(1000).each_with_index do |group, index|
       group.compact!
       # puts ".      Group #{index+1} - Updating #{group.count} Items "
-      _items = Item.where(original_number: group.map{|i| i['original_number']}).sort_by{|item| item.original_number}
+      _items = Item.active.where(original_number: group.map{|i| i['original_number']}).sort_by{|item| item.original_number}
       group.sort_by!{|item| item['original_number']}
       group.zip(_items).each do |item,_item|
         _item.update_attribute(:dubai_price, item['korea_price'])

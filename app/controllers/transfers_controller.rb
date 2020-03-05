@@ -66,7 +66,7 @@ class TransfersController < ApplicationController
           error_item['made'].to_s.empty?
         @grouped_error_items[:empty_fields] << error_item
       else
-        possible_items = Item.where(item_number: error_item['item_number'])
+        possible_items = Item.active.where(item_number: error_item['item_number'])
         @grouped_error_items[:item_not_found] << {possible_items: possible_items, error_item: error_item}
       end
     end

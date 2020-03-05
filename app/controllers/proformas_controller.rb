@@ -20,7 +20,7 @@ class ProformasController < ApplicationController
   end
 
   def proforma_items
-    @proforma_items = ProformaItem.where(proforma_id: params[:proforma_id])
+    @proforma_items = ProformaItem.includes(:item).where(proforma_id: params[:proforma_id])
   end
 
   def new

@@ -49,7 +49,7 @@ class OrderItem < ActiveRecord::Base
 
   def item_name=(name)
     if name.present?
-      found_item = Item.where(name: name).first
+      found_item = Item.active.where(name: name).first
       found_item ||= Item.create(name: name)
       self.item = found_item
     end

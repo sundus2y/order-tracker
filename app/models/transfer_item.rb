@@ -72,7 +72,7 @@ original_number = '#{item['original_number']}' and
 made = '#{item['made']}' and
 brand = '#{item['brand']}')"
     end
-    items = Item.where(sql.join('or'))
+    items = Item.active.where(sql.join('or'))
     items.each do |item|
       raw_item = raw_data.select{ |i| item.item_number == i['item_number'] && item.original_number == i['original_number'] && item.made == i['made'] && item.brand == i['brand']}[0]
       raw_item['found'] = true

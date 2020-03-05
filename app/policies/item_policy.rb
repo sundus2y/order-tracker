@@ -32,6 +32,10 @@ class ItemPolicy
     edit?
   end
 
+  def pop_up_merge_into?
+    edit?
+  end
+
   def import?
     @current_user.admin?
   end
@@ -84,6 +88,10 @@ class ItemPolicy
     autocomplete_item_sale_price?
   end
 
+  def autocomplete_item_merge_into?
+    @current_user.admin?
+  end
+
   def update?
     @current_user.admin?
   end
@@ -106,6 +114,10 @@ class ItemPolicy
 
   def analysis_data?
     edit?
+  end
+
+  def merge_item_into?
+    @current_user.admin?
   end
 
 end

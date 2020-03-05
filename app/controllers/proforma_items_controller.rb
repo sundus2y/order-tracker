@@ -58,7 +58,7 @@ class ProformaItemsController < ApplicationController
 
   private
     def set_proforma_item
-      @proforma_item = ProformaItem.includes(:item).find(params[:id])
+      @proforma_item = ProformaItem.includes(:item, :proforma).find(params[:id])
     end
 
     def proforma_item_params

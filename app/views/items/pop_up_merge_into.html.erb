@@ -1,0 +1,88 @@
+<% content_for :modal_header, flush: true do %>
+    Merge Item Into
+<% end %>
+
+<% content_for :modal_body, flush: true do %>
+  <input id="search_item_merge_into_field"
+         type="text"
+         class="form-control fa fa-search"
+         data-autocomplete="/items/autocomplete_item_merge_into"
+         data-name-element="#search_item_id"
+         placeholder="Select an item to merge into. . .">
+  <hr>
+  <%= button_tag 'Merge Item', class: "btn btn-primary btn-block", data: {disable_with: 'Please wait...'}, onclick:"submitMergeInto()" %>
+  <hr>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Item - Merge From</th>
+        <th>Item - Merge Into</th>
+        <th>Item - After Merge</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% Store.minus_virtual.each do |store| %>
+      <tr>
+        <td><%= store.name.titleize.upcase %></td>
+        <td id="from_store_id_<%= store.id %>" class="merge_from_inventory" data-store_id="<%= store.id %>">
+          <%= @item.inventories.select{|inv| inv.store_id == store.id}.first.try(:qty) %>
+        </td>
+        <td id="store_id_<%= store.id %>" class="merge_into_fields"></td>
+        <td id="after_store_id_<%= store.id %>" class="merge_into_fields"></td>
+      </tr>
+    <% end %>
+    <% Item.export_attributes.push(%w(ID id)).each do |label, attr| %>
+      <tr>
+        <td><%= label.upcase %></td>
+        <td id="from_attr_<%= attr %>"><%= @item.send(attr) %></td>
+        <td id="attr_<%= attr %>" class="merge_into_fields"></td>
+        <td></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= render "/modals/base", id: 'pop_up' %>
+
+<script>
+    $('#search_item_merge_into_field').on('railsAutocomplete.select', function (event, object) {
+        $('td.merge_into_fields').html('');
+        const from_item_id = $('#from_attr_id').html();
+        if (object.item.id == from_item_id) {
+            alert("Item can't be merged to itself");
+        } else {
+            Object.keys(object.item).forEach(function(key) {
+                if(key !== 'inventories') {
+                    $(`td#attr_${key}`).html(object.item[key]);
+                }
+            });
+            if(object.item.inventories) {
+                object.item.inventories.forEach(function(inv) {
+                    $(`td#store_id_${inv.store_id}`).html(inv.qty);
+                    from_inv = parseInt($(`td#from_store_id_${inv.store_id}`).html()) || 0;
+                    to_inv = parseInt(inv.qty) || 0;
+                    $(`td#after_store_id_${inv.store_id}`).html(from_inv+to_inv);
+                });
+            }
+            $('td.merge_from_inventory').toArray().forEach(function(inv_field) {
+                const store_id = $(inv_field).data('store_id');
+                if(object.item.inventories) {
+                    object.item.inventories.filter(function(inv){return inv.store_id === store_id})
+                }
+            });
+        }
+        event.preventDefault();
+    });
+
+    function submitMergeInto(event) {
+        const from_item_id = $('#from_attr_id').html();
+        const to_item_id = $('#attr_id').html();
+        if (to_item_id === '') {
+            alert('Please first select an item to merge into.');
+        } else {
+            $.post(`/items/${from_item_id}/merge_item_into/${to_item_id}`, 'json');
+        }
+    }
+</script>

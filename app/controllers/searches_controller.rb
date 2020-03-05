@@ -27,12 +27,12 @@ class SearchesController < ApplicationController
     end
     if params_has_value(params)
       search_query = Item.build_search_query(params)
-      results = Item.includes({inventories: :store}, :order_items, :proforma_items)
+      results = Item.active.includes({inventories: :store}, :order_items, :proforma_items)
                     .where(search_query)
                     .reorder(updated_at: :desc)
                     .limit(30)
                     .as_json({type: search_type}) unless params[:inventory].present?
-      results = Item.joins(:inventories, {inventories: :store})
+      results = Item.active.joins(:inventories, {inventories: :store})
                     .includes({inventories: :store}, :order_items, :proforma_items)
                     .where("stores.active = true AND stores.store_type != 'VS'")
                     .where(search_query)
